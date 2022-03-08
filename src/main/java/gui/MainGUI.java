@@ -19,6 +19,8 @@ import javax.swing.SwingConstants;
 
 import businessLogic.BlFacade;
 import domain.Event;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 
 public class MainGUI extends JFrame {
@@ -29,6 +31,7 @@ public class MainGUI extends JFrame {
 	protected JLabel selectOptionLbl;
 	private JButton browseQuestionsBtn;
 	private JButton createQuestionBtn;
+	private JButton createEventBtn;
 	private JPanel localePane;
 	private JRadioButton euskaraRbtn;
 	private JRadioButton castellanoRbtn;
@@ -67,6 +70,25 @@ public class MainGUI extends JFrame {
 
 		this.initializeMainPane();
 		this.setContentPane(mainPane);
+		GroupLayout gl_mainPane = new GroupLayout(mainPane);
+		gl_mainPane.setHorizontalGroup(
+			gl_mainPane.createParallelGroup(Alignment.LEADING)
+				.addComponent(selectOptionLbl, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
+				.addComponent(browseQuestionsBtn, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
+				.addComponent(createQuestionBtn, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
+				.addComponent(createEventBtn, GroupLayout.PREFERRED_SIZE, 219, GroupLayout.PREFERRED_SIZE)
+				.addComponent(localePane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		);
+		gl_mainPane.setVerticalGroup(
+			gl_mainPane.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_mainPane.createSequentialGroup()
+					.addComponent(selectOptionLbl, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addComponent(browseQuestionsBtn, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addComponent(createQuestionBtn, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addComponent(createEventBtn, GroupLayout.PREFERRED_SIZE, 33, GroupLayout.PREFERRED_SIZE)
+					.addComponent(localePane, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		);
+		mainPane.setLayout(gl_mainPane);
 
 		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("MainTitle"));
 		this.pack();
@@ -75,20 +97,16 @@ public class MainGUI extends JFrame {
 
 	private void initializeMainPane() {
 		mainPane = new JPanel();
-		mainPane.setLayout(new GridLayout(4, 1, 0, 0));
 
 		selectOptionLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").
 				getString("SelectUseCase"));
 		selectOptionLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		mainPane.add(selectOptionLbl);
 
 		initializeBrowseQuestionsBtn();
-		mainPane.add(browseQuestionsBtn);
 		initializeCreateQuestionBtn();
-		mainPane.add(createQuestionBtn);
+		initializeCreateEventBtn();
 
 		initializeLocalePane();
-		mainPane.add(localePane);
 	}
 
 	private void initializeBrowseQuestionsBtn() {
@@ -119,6 +137,20 @@ public class MainGUI extends JFrame {
 		});
 	}
 
+	private void initializeCreateEventBtn() {
+		createEventBtn = new JButton();
+		createEventBtn.setText(ResourceBundle.getBundle("Etiquetas").
+				getString("CreateEvent"));
+		createEventBtn.addActionListener(new java.awt.event.ActionListener() {
+			@Override
+			public void actionPerformed(java.awt.event.ActionEvent e) {
+				CreateEventGUI createEventWindow = new CreateEventGUI(businessLogic);
+				createEventWindow.setBusinessLogic(businessLogic);
+				createEventWindow.setVisible(true);
+			}
+		});
+	}
+	
 	private void initializeLocalePane() {
 		localePane = new JPanel();
 
