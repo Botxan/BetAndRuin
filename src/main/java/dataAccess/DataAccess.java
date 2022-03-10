@@ -200,6 +200,16 @@ public class DataAccess  {
 		}
 		return res;
 	}
+	
+	public boolean checkLogin(String username, String password) {
+		TypedQuery<User> query = db.createQuery("SELECT user FROM User user WHERE user.username=?1 AND user.password=?2", 
+				User.class);   
+		query.setParameter(1, username);
+		query.setParameter(2, password);
+		List<User> users = query.getResultList();
+		
+		return !users.isEmpty();
+	}
 
 	/**
 	 * This method retrieves from the database the dates in a month for which there are events
