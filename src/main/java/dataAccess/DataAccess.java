@@ -299,7 +299,11 @@ public class DataAccess  {
 		db.getTransaction().commit();
 		System.out.println(event + " has been saved");
 	}
-	
+	/*
+	public boolean isUserInDB(String username)
+	{
+		
+	}*/
 	public void close(){
 		db.close();
 		System.out.println("DataBase is closed");

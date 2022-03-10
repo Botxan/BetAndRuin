@@ -161,7 +161,6 @@ public class BlFacadeImplementation implements BlFacade {
 		SimpleDateFormat myformat = new SimpleDateFormat("d'-'M'-'yy", Locale.ENGLISH);
 		try {
 			Date birthdate = myformat.parse(day + "-" + month + "-" + year);
-			System.out.println(birthdate);
 			if(UtilDate.isUnderage(birthdate)) throw new UnderageRegistrationException();
 			
 			//Persist:

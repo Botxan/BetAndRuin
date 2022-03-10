@@ -1,15 +1,20 @@
 package configuration;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 import java.util.TimeZone;
+
+import exceptions.InvalidDateException;
+import exceptions.UnderageRegistrationException;
 
 public class UtilDate {
 
@@ -60,6 +65,18 @@ public class UtilDate {
 	}
 	
 	/**
+	 * Returns the last day of the month.
+	 * @param month The integer of month.
+	 * @param year Año en 4 dígitos.
+	 * @return The last day of the month.
+	 */
+	public static int lastDayMonth(int month, int year)
+	{
+		YearMonth yearMonthObject = YearMonth.of(year, month);
+		return yearMonthObject.lengthOfMonth();
+	}
+	
+	/**
 	 * Returns todays date in Date format.
 	 * @return Todays date.
 	 */
@@ -79,7 +96,6 @@ public class UtilDate {
 		LocalDate todaysDateL = getTodaysDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		//Duration diff = Duration.between(birthdate, birthdate);
         int age = (int) ChronoUnit.YEARS.between(birthdateL, todaysDateL);
-        System.out.println("age = " + age + "birthdate = " + birthdateL);
 		return age < 18;
 	}
 }
