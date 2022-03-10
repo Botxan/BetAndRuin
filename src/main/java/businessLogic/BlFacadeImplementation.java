@@ -158,7 +158,11 @@ public class BlFacadeImplementation implements BlFacade {
 		//Check whether password and confirmation password match:
 		if(!password.equals(confirmPassword)) throw new IncorrectPSWConfirmException();
 		//Check whether the username is already in use:
-		if(dbManager.isUserInDB(username)) throw new UsernameAlreadyInDBException();
+		dbManager.open(false);
+		if(dbManager.isUserInDB(username)) {
+			dbManager.close();
+			throw new UsernameAlreadyInDBException();		
+		}
 
 		//Check whether user is underage:
 		SimpleDateFormat myformat = new SimpleDateFormat("d'-'M'-'yy", Locale.ENGLISH);
@@ -170,6 +174,8 @@ public class BlFacadeImplementation implements BlFacade {
 			dbManager.register(username, firstName, lastName, address, email, password, birthdate);
 		} catch (ParseException e) {
 			throw new InvalidDateException();
+		} finally {
+			dbManager.close();
 		}
 	}
 }
