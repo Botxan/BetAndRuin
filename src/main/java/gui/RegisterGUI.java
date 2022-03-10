@@ -27,6 +27,8 @@ import exceptions.InvalidDateException;
 import exceptions.NoMatchingPatternException;
 import exceptions.PswTooShortException;
 import exceptions.UnderageRegistrationException;
+import exceptions.UsernameAlreadyInDBException;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -385,8 +387,7 @@ public class RegisterGUI extends JFrame {
 						} catch(NoMatchingPatternException e5)
 						{
 							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("InvalidEmail") + "</p></html>");
-						}
-						catch (InvalidDateException e1)
+						} catch (InvalidDateException e1)
 						{
 							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("InvalidDate") + "</p></html>");
 						} catch(UnderageRegistrationException e2)
@@ -399,6 +400,9 @@ public class RegisterGUI extends JFrame {
 						} catch(PswTooShortException e4)
 						{
 							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("Psw6") + "</p></html>");
+						} catch(UsernameAlreadyInDBException e6)
+						{
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("UsernameRepeated") + "</p></html>");
 						}
 					}
 				}

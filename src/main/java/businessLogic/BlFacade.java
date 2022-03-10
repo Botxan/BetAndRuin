@@ -15,6 +15,7 @@ import exceptions.NoMatchingPatternException;
 import exceptions.PswTooShortException;
 import exceptions.QuestionAlreadyExist;
 import exceptions.UnderageRegistrationException;
+import exceptions.UsernameAlreadyInDBException;
 
 /**
  * Interface that specifies the business logic.
@@ -69,6 +70,7 @@ public interface BlFacade  {
 	 * @throws IncorrectPSWConfirmException Thrown when the password and the checking confirmPassword do not match. 
 	 * @throws PswTooShortException Thrown when the potential password is shorter than the required minimum (MINIMUM_PSW_LENGHT).
 	 * @throws NoMatchingPatternException Thrown when the email does not match the standard format.
+	 * @throws UsernameAlreadyInDBException Thrown when the chosen username is already in the DB.
 	 */
-	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException;
+	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException;
 }
