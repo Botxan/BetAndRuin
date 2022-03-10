@@ -139,8 +139,7 @@ public class MainGUI extends JFrame {
 
 	private void initializeCreateEventBtn() {
 		createEventBtn = new JButton();
-		createEventBtn.setText(ResourceBundle.getBundle("Etiquetas").
-				getString("CreateEvent"));
+		createEventBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent")); //$NON-NLS-1$ //$NON-NLS-2$
 		createEventBtn.addActionListener(new java.awt.event.ActionListener() {
 			@Override
 			public void actionPerformed(java.awt.event.ActionEvent e) {
