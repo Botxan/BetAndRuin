@@ -367,21 +367,21 @@ public class RegisterGUI extends JFrame {
 							businessLogic.register(username, firstName, lastName, address, email, password, confirmPassword, year, month, day);
 						} catch(NoMatchingPatternException e5)
 						{
-							errorLabel.setText("Invalid email format.");
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("InvalidEmail") + "</p></html>");
 						}
 						catch (InvalidDateException e1)
 						{
-							errorLabel.setText("Insert a valid date.");
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("InvalidDate") + "</p></html>");
 						} catch(UnderageRegistrationException e2)
 						{
-							errorLabel.setText("You must be adult (+18).");
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("AdultRegister") + "</p></html>");
 						} catch(IncorrectPSWConfirmException e3)
 						{
-							errorLabel.setText("<html><p style=\\\"width:200px\\\">The password and confirmation password do not match.</p></html>");
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("PswMatch") + "</p></html>");
 							
 						} catch(PswTooShortException e4)
 						{
-							errorLabel.setText("<html><p style=\\\"width:200px\\\">The password must have 6 characters at least.</p></html>");
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("Psw6") + "</p></html>");
 						}
 					}
 				}
