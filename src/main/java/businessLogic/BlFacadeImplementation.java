@@ -3,6 +3,7 @@ package businessLogic;
 import java.util.Date;
 import java.util.ResourceBundle;
 import java.util.Vector;
+import java.util.regex.Pattern;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -14,6 +15,7 @@ import domain.Question;
 import exceptions.EventFinished;
 import exceptions.IncorrectPSWConfirmException;
 import exceptions.InvalidDateException;
+import exceptions.NoMatchingPatternException;
 import exceptions.PswTooShortException;
 import exceptions.QuestionAlreadyExist;
 import exceptions.UnderageRegistrationException;
@@ -128,10 +130,12 @@ public class BlFacadeImplementation implements BlFacade {
 	 * Method for registering a user, it checks password requirements.
 	 */
 	public void register(String username, String firstName, String lastName, String address, String email,
-			String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException
+			String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException
 	{
-		if(password.length() <= 6) throw new PswTooShortException();
+		if(!Pattern.compile("^\\w+@\\w+\\.[a-z]{2,3}$").matcher(email).matches())
+			throw new NoMatchingPatternException("email");
+		if(password.length() < 6) throw new PswTooShortException();
 		if(!password.equals(confirmPassword)) throw new IncorrectPSWConfirmException();
-		dbManager.register(username, firstName, lastName, address, email, password, year, month, day);		
+		dbManager.register(username, firstName, lastName, address, email, password, year, month, day);
 	}
 }

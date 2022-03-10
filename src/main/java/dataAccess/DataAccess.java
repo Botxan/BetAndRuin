@@ -292,7 +292,7 @@ public class DataAccess  {
 		//Check whether the user is underage:
 		SimpleDateFormat myformat = new SimpleDateFormat("d'-'M'-'yy", Locale.ENGLISH);
 		try {
-			Date birthdate = myformat.parse("27-2-22");
+			Date birthdate = myformat.parse(day + "-" + month + "-" + year);
 			if(UtilDate.isUnderage(birthdate)) throw new UnderageRegistrationException();
 			
 			db.getTransaction().begin();

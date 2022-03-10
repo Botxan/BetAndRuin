@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -76,7 +77,9 @@ public class UtilDate {
 	{
 		LocalDate birthdateL = birthdate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDate todaysDateL = getTodaysDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		Duration diff = Duration.between(todaysDateL, birthdateL);
-		return diff.toDays() < 365 * 18;
+		//Duration diff = Duration.between(birthdate, birthdate);
+        int age = (int) ChronoUnit.YEARS.between(birthdateL, todaysDateL);
+        System.out.println("age = " + age + "birthdate = " + birthdateL);
+		return age < 18;
 	}
 }

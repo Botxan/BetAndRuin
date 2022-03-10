@@ -11,6 +11,7 @@ import domain.Question;
 import exceptions.EventFinished;
 import exceptions.IncorrectPSWConfirmException;
 import exceptions.InvalidDateException;
+import exceptions.NoMatchingPatternException;
 import exceptions.PswTooShortException;
 import exceptions.QuestionAlreadyExist;
 import exceptions.UnderageRegistrationException;
@@ -64,5 +65,5 @@ public interface BlFacade  {
 	 * @param month User's birthday month.
 	 * @param day User's birth day.
 	 */
-	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException;
+	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException;
 }

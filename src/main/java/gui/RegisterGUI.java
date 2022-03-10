@@ -26,6 +26,7 @@ import java.awt.event.ActionEvent;
 import businessLogic.*;
 import exceptions.IncorrectPSWConfirmException;
 import exceptions.InvalidDateException;
+import exceptions.NoMatchingPatternException;
 import exceptions.PswTooShortException;
 import exceptions.UnderageRegistrationException;
 
@@ -54,7 +55,7 @@ public class RegisterGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					RegisterGUI frame = new RegisterGUI(null);
+					RegisterGUI frame = new RegisterGUI(new BlFacadeImplementation());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -336,6 +337,7 @@ public class RegisterGUI extends JFrame {
 					errorLabel.setText("You must accept Conditions and Privacy policy before registering.");
 				else
 				{
+					errorLabel.setText("");
 					String username = usernameField.getText();
 					String firstName = firstNameField.getText();
 					String lastName = lastNameField.getText();
@@ -344,12 +346,16 @@ public class RegisterGUI extends JFrame {
 					String password = new String(passwordField.getPassword());
 					String confirmPassword = new String(confirmPasswordField.getPassword());
 					int year = Integer.parseInt(yearField.getText());
-					int month = Integer.parseInt((String) monthComboBox.getSelectedItem());
-					int day = Integer.parseInt((String) monthComboBox.getSelectedItem());
-					
+					int month = monthComboBox.getSelectedIndex() + 1;
+					int day = dayComboBox.getSelectedIndex() + 1;
+					System.out.println("Mesito = " + month);
 					try {
 						businessLogic.register(username, firstName, lastName, address, email, password, confirmPassword, year, month, day);
-					} catch (InvalidDateException e1)
+					} catch(NoMatchingPatternException e5)
+					{
+						errorLabel.setText("Invalid email format.");
+					}
+					catch (InvalidDateException e1)
 					{
 						errorLabel.setText("Insert a valid date.");
 					} catch(UnderageRegistrationException e2)
