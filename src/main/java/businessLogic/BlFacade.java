@@ -9,6 +9,7 @@ import javax.jws.WebService;
 import domain.Event;
 import domain.Question;
 import exceptions.EventFinished;
+import exceptions.InvalidDateException;
 import exceptions.QuestionAlreadyExist;
 
 /**
@@ -60,5 +61,5 @@ public interface BlFacade  {
 	 * @param month User's birthday month.
 	 * @param day User's birth day.
 	 */
-	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day);
+	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException;
 }

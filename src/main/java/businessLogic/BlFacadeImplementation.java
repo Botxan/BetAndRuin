@@ -12,6 +12,7 @@ import dataAccess.DataAccess;
 import domain.Event;
 import domain.Question;
 import exceptions.EventFinished;
+import exceptions.InvalidDateException;
 import exceptions.QuestionAlreadyExist;
 
 
@@ -121,7 +122,7 @@ public class BlFacadeImplementation implements BlFacade {
 	@Override
 	@WebMethod
 	public void register(String username, String firstName, String lastName, String address, String email,
-			String password, String confirmPassword, int year, int month, int day) {
+			String password, String confirmPassword, int year, int month, int day) throws InvalidDateException{
 		dbManager.register(username, firstName, lastName, address, email, password, confirmPassword, year, month, day);		
 	}
 }
