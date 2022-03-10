@@ -55,6 +55,10 @@ public class UtilDate {
 		return calendar.getTime();
 	}
 	
+	/**
+	 * Returns todays date in Date format.
+	 * @return Todasy date.
+	 */
 	public static Date getTodaysDate(){
 		Calendar cal = Calendar.getInstance();
 		return cal.getTime();
