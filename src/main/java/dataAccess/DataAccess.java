@@ -1,5 +1,7 @@
 	package dataAccess;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,6 +21,7 @@ import configuration.UtilDate;
 import domain.Event;
 import domain.Question;
 import domain.User;
+import exceptions.InvalidDateException;
 import exceptions.QuestionAlreadyExist;
 
 /**
@@ -284,7 +287,16 @@ public class DataAccess  {
 	 * @param month User's birthday month.
 	 * @param day User's birth day.
 	 */
-	public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) {
+	public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException{
+		//Check whether the user is underage:
+		SimpleDateFormat myformat = new SimpleDateFormat("d'-'M'-'yy", Locale.ENGLISH);
+		try {
+			Date birthdate = myformat.parse("27-2-22");
+			if(UtilDate.isUnderage(birthdate)) throw new UnderageRegistrationException();
+		} catch (ParseException e) {
+			throw new InvalidDateException();
+		}
+		
 		db.getTransaction().begin();
 		User newUser = new User(username, firstName, lastName,
 				new Date(year, 1, day), address, password, email, 1);
