@@ -18,6 +18,7 @@ import configuration.ConfigXML;
 import configuration.UtilDate;
 import domain.Event;
 import domain.Question;
+import domain.User;
 import exceptions.QuestionAlreadyExist;
 
 /**
@@ -198,6 +199,16 @@ public class DataAccess  {
 			res.add(ev);
 		}
 		return res;
+	}
+	
+	public boolean checkLogin(String username, String password) {
+		TypedQuery<User> query = db.createQuery("SELECT user FROM User user WHERE user.username=?1 AND user.password=?2", 
+				User.class);   
+		query.setParameter(1, username);
+		query.setParameter(2, password);
+		List<User> users = query.getResultList();
+		
+		return !users.isEmpty();
 	}
 
 	/**
