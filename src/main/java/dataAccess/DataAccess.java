@@ -1,7 +1,5 @@
 	package dataAccess;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -21,9 +19,7 @@ import configuration.UtilDate;
 import domain.Event;
 import domain.Question;
 import domain.User;
-import exceptions.InvalidDateException;
 import exceptions.QuestionAlreadyExist;
-import exceptions.UnderageRegistrationException;
 
 /**
  * Implements the Data Access utility to the objectDb database
@@ -284,31 +280,16 @@ public class DataAccess  {
 	 * @param email User's email.
 	 * @param password User's password
 	 * @param confirmPassword User's confirmation password.
-	 * @param year User's birth year.
-	 * @param month User's birthday month.
-	 * @param day User's birth day.
+	 * @param birthdate The birthday date of the user.
 	 */
-	public void register(String username, String firstName, String lastName, String address, String email, String password, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException{
-		//Check whether the user is underage:
-		SimpleDateFormat myformat = new SimpleDateFormat("d'-'M'-'yy", Locale.ENGLISH);
-		try {
-			Date birthdate = myformat.parse(day + "-" + month + "-" + year);
-			if(UtilDate.isUnderage(birthdate)) throw new UnderageRegistrationException();
-			
+	public void register(String username, String firstName, String lastName, String address, String email, String password, Date birthdate)
+	{
 			db.getTransaction().begin();
 			User newUser = new User(username, firstName, lastName,
 					birthdate, address, password, email, 1);
 			db.persist(newUser);
 			db.getTransaction().commit();
 			System.out.println(newUser + " has been saved");
-		} catch (ParseException e) {
-			throw new InvalidDateException();
-		}
-	}
-
-	public void close(){
-		db.close();
-		System.out.println("DataBase is closed");
 	}
 	
 	public void storeEvent(String description, Date eventDate) {
@@ -317,5 +298,10 @@ public class DataAccess  {
 		db.persist(event);
 		db.getTransaction().commit();
 		System.out.println(event + " has been saved");
+	}
+	
+	public void close(){
+		db.close();
+		System.out.println("DataBase is closed");
 	}
 }

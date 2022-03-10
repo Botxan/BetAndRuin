@@ -1,6 +1,9 @@
 package businessLogic;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.Vector;
 import java.util.regex.Pattern;
@@ -9,16 +12,11 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 import configuration.ConfigXML;
+import configuration.UtilDate;
 import dataAccess.DataAccess;
 import domain.Event;
 import domain.Question;
-import exceptions.EventFinished;
-import exceptions.IncorrectPSWConfirmException;
-import exceptions.InvalidDateException;
-import exceptions.NoMatchingPatternException;
-import exceptions.PswTooShortException;
-import exceptions.QuestionAlreadyExist;
-import exceptions.UnderageRegistrationException;
+import exceptions.*;
 
 
 /**
@@ -29,6 +27,10 @@ public class BlFacadeImplementation implements BlFacade {
 
 	DataAccess dbManager;
 	ConfigXML config = ConfigXML.getInstance();
+	//Regular Expression for checking email format:
+	private String emailRegEx = new String("^\\w+@\\w+\\.[a-z]{2,3}$");
+	//Minum length for password:
+	private final int MINIMUM_PSW_LENGHT = 6;
 
 	public BlFacadeImplementation()  {		
 		System.out.println("Creating BlFacadeImplementation instance");
@@ -124,18 +126,48 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.close();
 	}
 
+	/**
+	 * Registers a standard permit user into the data base (persistance).
+	 * @param username The identification string of the user.
+	 * @param firstName The first name of the user.
+	 * @param lastName The last name of the user.
+	 * @param address The current billing address of the user.
+	 * @param email The contact vinculated email of the user.
+	 * @param password The password of the user.
+	 * @param confirmPassword Additional password for checking original passwords corretness.
+	 * @param year The birth year of the user.
+	 * @param month The month of the birth of the user.
+	 * @param day The birth day of the user.
+	 * @throws InvalidDateException Thrown when the given year, month and year's format is invalid.
+	 * @throws UnderageRegistrationException Thrown when the user is underage; has less than 18 years.
+	 * @throws IncorrectPSWConfirmException Thrown when the password and the checking confirmPassword do not match. 
+	 * @throws PswTooShortException Thrown when the potential password is shorter than the required minimum (MINIMUM_PSW_LENGHT).
+	 * @throws NoMatchingPatternException Thrown when the email does not match the standard format.
+	 */
 	@Override
 	@WebMethod
-	/**
-	 * Method for registering a user, it checks password requirements.
-	 */
 	public void register(String username, String firstName, String lastName, String address, String email,
 			String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException
 	{
-		if(!Pattern.compile("^\\w+@\\w+\\.[a-z]{2,3}$").matcher(email).matches())
+		//Check email format completion (regex):
+		if(!Pattern.compile(emailRegEx).matcher(email).matches())
 			throw new NoMatchingPatternException("email");
-		if(password.length() < 6) throw new PswTooShortException();
+		//Check password lenght:
+		if(password.length() < MINIMUM_PSW_LENGHT) throw new PswTooShortException();
+		//Check whether password and confirmation password match:
 		if(!password.equals(confirmPassword)) throw new IncorrectPSWConfirmException();
-		dbManager.register(username, firstName, lastName, address, email, password, year, month, day);
+
+		//Check whether user is underage:
+		SimpleDateFormat myformat = new SimpleDateFormat("d'-'M'-'yy", Locale.ENGLISH);
+		try {
+			Date birthdate = myformat.parse(day + "-" + month + "-" + year);
+			System.out.println(birthdate);
+			if(UtilDate.isUnderage(birthdate)) throw new UnderageRegistrationException();
+			
+			//Persist:
+			dbManager.register(username, firstName, lastName, address, email, password, birthdate);
+		} catch (ParseException e) {
+			throw new InvalidDateException();
+		}
 	}
 }

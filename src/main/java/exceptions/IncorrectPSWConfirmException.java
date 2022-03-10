@@ -5,6 +5,7 @@ package exceptions;
  * @author Nko
  *
  */
+@SuppressWarnings("serial")
 public class IncorrectPSWConfirmException extends Exception{
 	/**
 	 * Exception constructor without message.

@@ -1,14 +1,10 @@
 package gui;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
-import java.awt.Image;
-
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
@@ -22,6 +18,7 @@ import javax.swing.JButton;
 import java.awt.Color;
 import java.awt.Toolkit;
 import java.awt.event.ActionListener;
+import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 import businessLogic.*;
 import exceptions.IncorrectPSWConfirmException;
@@ -35,6 +32,7 @@ import exceptions.UnderageRegistrationException;
  * @author Josefinator
  *
  */
+@SuppressWarnings("serial")
 public class RegisterGUI extends JFrame {
 
 	private JPanel contentPane;
@@ -46,6 +44,7 @@ public class RegisterGUI extends JFrame {
 	private JPasswordField passwordField;
 	private JPasswordField confirmPasswordField;
 	private JTextField yearField;
+	@SuppressWarnings("unused")
 	private BlFacade businessLogic;
 
 	/**
@@ -73,7 +72,7 @@ public class RegisterGUI extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
 		setTitle("Bet&Ruin - Register");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 486, 505);
+		setBounds(100, 100, 515, 505);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -95,7 +94,7 @@ public class RegisterGUI extends JFrame {
 		gbc_betAndRuinLabel.gridy = 1;
 		contentPane.add(betAndRuinLabel, gbc_betAndRuinLabel);
 		
-		JLabel registerLabel = new JLabel("REGISTER");
+		JLabel registerLabel = new JLabel((ResourceBundle.getBundle("Etiquetas").getString("Register")).toUpperCase());
 		registerLabel.setFont(new Font("Roboto Medium", Font.PLAIN, 16));
 		registerLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_registerLabel = new GridBagConstraints();
@@ -106,7 +105,7 @@ public class RegisterGUI extends JFrame {
 		gbc_registerLabel.gridy = 2;
 		contentPane.add(registerLabel, gbc_registerLabel);
 		
-		JLabel usernameLabel = new JLabel("Username");
+		JLabel usernameLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username"));
 		GridBagConstraints gbc_usernameLabel = new GridBagConstraints();
 		gbc_usernameLabel.anchor = GridBagConstraints.WEST;
 		gbc_usernameLabel.gridwidth = 4;
@@ -125,8 +124,9 @@ public class RegisterGUI extends JFrame {
 		contentPane.add(usernameField, gbc_usernameField);
 		usernameField.setColumns(10);
 		
-		JLabel firstNameLabel = new JLabel("First name");
+		JLabel firstNameLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("FirstName"));
 		GridBagConstraints gbc_firstNameLabel = new GridBagConstraints();
+		gbc_firstNameLabel.gridwidth = 2;
 		gbc_firstNameLabel.anchor = GridBagConstraints.WEST;
 		gbc_firstNameLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_firstNameLabel.fill = GridBagConstraints.VERTICAL;
@@ -134,9 +134,10 @@ public class RegisterGUI extends JFrame {
 		gbc_firstNameLabel.gridy = 6;
 		contentPane.add(firstNameLabel, gbc_firstNameLabel);
 		
-		JLabel lastNameLabel = new JLabel("Last Name");
+		JLabel lastNameLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("LastName"));
 		lastNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_lastNameLabel = new GridBagConstraints();
+		gbc_lastNameLabel.gridwidth = 2;
 		gbc_lastNameLabel.anchor = GridBagConstraints.WEST;
 		gbc_lastNameLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_lastNameLabel.gridx = 3;
@@ -163,8 +164,9 @@ public class RegisterGUI extends JFrame {
 		contentPane.add(lastNameField, gbc_lastNameField);
 		lastNameField.setColumns(10);
 		
-		JLabel addressLabel = new JLabel("Address");
+		JLabel addressLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Address"));
 		GridBagConstraints gbc_addressLabel = new GridBagConstraints();
+		gbc_addressLabel.gridwidth = 4;
 		gbc_addressLabel.anchor = GridBagConstraints.WEST;
 		gbc_addressLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_addressLabel.gridx = 1;
@@ -183,6 +185,7 @@ public class RegisterGUI extends JFrame {
 		
 		JLabel emailLabel = new JLabel("Email");
 		GridBagConstraints gbc_emailLabel = new GridBagConstraints();
+		gbc_emailLabel.gridwidth = 4;
 		gbc_emailLabel.anchor = GridBagConstraints.WEST;
 		gbc_emailLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_emailLabel.gridx = 1;
@@ -199,17 +202,19 @@ public class RegisterGUI extends JFrame {
 		contentPane.add(emailField, gbc_emailField);
 		emailField.setColumns(10);
 		
-		JLabel passwordLabel = new JLabel("Password");
+		JLabel passwordLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password"));
 		GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
+		gbc_passwordLabel.gridwidth = 2;
 		gbc_passwordLabel.anchor = GridBagConstraints.WEST;
 		gbc_passwordLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_passwordLabel.gridx = 1;
 		gbc_passwordLabel.gridy = 12;
 		contentPane.add(passwordLabel, gbc_passwordLabel);
 		
-		JLabel confirmPasswordLabel = new JLabel("Confirm password");
+		JLabel confirmPasswordLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ConfirmPassword"));
 		confirmPasswordLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		GridBagConstraints gbc_confirmPasswordLabel = new GridBagConstraints();
+		gbc_confirmPasswordLabel.gridwidth = 2;
 		gbc_confirmPasswordLabel.anchor = GridBagConstraints.WEST;
 		gbc_confirmPasswordLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_confirmPasswordLabel.gridx = 3;
@@ -234,15 +239,16 @@ public class RegisterGUI extends JFrame {
 		gbc_confirmPasswordField.gridy = 13;
 		contentPane.add(confirmPasswordField, gbc_confirmPasswordField);
 		
-		JLabel birthdateLabel = new JLabel("Birthdate");
+		JLabel birthdateLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Birthdate"));
 		GridBagConstraints gbc_birthdateLabel = new GridBagConstraints();
+		gbc_birthdateLabel.gridwidth = 4;
 		gbc_birthdateLabel.anchor = GridBagConstraints.WEST;
 		gbc_birthdateLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_birthdateLabel.gridx = 1;
 		gbc_birthdateLabel.gridy = 14;
 		contentPane.add(birthdateLabel, gbc_birthdateLabel);
 		
-		JLabel yearLabel = new JLabel("Year");
+		JLabel yearLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Year"));
 		yearLabel.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		GridBagConstraints gbc_yearLabel = new GridBagConstraints();
 		gbc_yearLabel.anchor = GridBagConstraints.WEST;
@@ -251,7 +257,7 @@ public class RegisterGUI extends JFrame {
 		gbc_yearLabel.gridy = 15;
 		contentPane.add(yearLabel, gbc_yearLabel);
 		
-		JLabel monthLabel = new JLabel("Month");
+		JLabel monthLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Month"));
 		monthLabel.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		GridBagConstraints gbc_monthLabel = new GridBagConstraints();
 		gbc_monthLabel.anchor = GridBagConstraints.WEST;
@@ -260,7 +266,7 @@ public class RegisterGUI extends JFrame {
 		gbc_monthLabel.gridy = 15;
 		contentPane.add(monthLabel, gbc_monthLabel);
 		
-		JLabel dayLabel = new JLabel("Day");
+		JLabel dayLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Day"));
 		dayLabel.setFont(new Font("Tahoma", Font.PLAIN, 8));
 		GridBagConstraints gbc_dayLabel = new GridBagConstraints();
 		gbc_dayLabel.anchor = GridBagConstraints.WEST;
@@ -278,13 +284,12 @@ public class RegisterGUI extends JFrame {
 		contentPane.add(yearField, gbc_yearField);
 		yearField.setColumns(10);
 		
-		String [] monthNames = {"January", "February", "March","April", "May",
-				"June", "July", "August", "September", "October", "November",
-				"December"};
+		String [] monthNames = {ResourceBundle.getBundle("Etiquetas").getString("January"), ResourceBundle.getBundle("Etiquetas").getString("February"), ResourceBundle.getBundle("Etiquetas").getString("March"),ResourceBundle.getBundle("Etiquetas").getString("April"), ResourceBundle.getBundle("Etiquetas").getString("May"),
+				ResourceBundle.getBundle("Etiquetas").getString("June"), ResourceBundle.getBundle("Etiquetas").getString("July"), ResourceBundle.getBundle("Etiquetas").getString("August"), ResourceBundle.getBundle("Etiquetas").getString("September"), ResourceBundle.getBundle("Etiquetas").getString("October"), ResourceBundle.getBundle("Etiquetas").getString("November"),
+				ResourceBundle.getBundle("Etiquetas").getString("December")};
 		
 		JComboBox monthComboBox = new JComboBox(monthNames);
 		monthComboBox.setSelectedIndex(-1);
-		monthComboBox.setToolTipText("Month");
 		
 		GridBagConstraints gbc_monthComboBox = new GridBagConstraints();
 		gbc_monthComboBox.gridwidth = 2;
@@ -309,7 +314,7 @@ public class RegisterGUI extends JFrame {
 		gbc_dayComboBox.gridy = 16;
 		contentPane.add(dayComboBox, gbc_dayComboBox);
 		
-		JCheckBox conditionsCheckBox = new JCheckBox("I agree to Bet & Ruin Conditions of Use and Privacy Notice.");
+		JCheckBox conditionsCheckBox = new JCheckBox(ResourceBundle.getBundle("Etiquetas").getString("Terms"));
 		conditionsCheckBox.setFont(new Font("Tahoma", Font.PLAIN, 10));
 		GridBagConstraints gbc_conditionsCheckBox = new GridBagConstraints();
 		gbc_conditionsCheckBox.anchor = GridBagConstraints.WEST;
@@ -330,11 +335,13 @@ public class RegisterGUI extends JFrame {
 		gbc_errorLabel.gridy = 18;
 		contentPane.add(errorLabel, gbc_errorLabel);
 		
-		JButton registerButton = new JButton("Register");
+		JButton registerButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Register"));
 		registerButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!conditionsCheckBox.isSelected())
-					errorLabel.setText("You must accept Conditions and Privacy policy before registering.");
+				{
+					errorLabel.setText("<html><p style=\\\"width:200px\\\">"+ResourceBundle.getBundle("Etiquetas").getString("TermsException")+"</p></html>");
+				}
 				else
 				{
 					errorLabel.setText("");
@@ -345,28 +352,37 @@ public class RegisterGUI extends JFrame {
 					String email = emailField.getText();
 					String password = new String(passwordField.getPassword());
 					String confirmPassword = new String(confirmPasswordField.getPassword());
-					int year = Integer.parseInt(yearField.getText());
+					String yearS = yearField.getText();
 					int month = monthComboBox.getSelectedIndex() + 1;
 					int day = dayComboBox.getSelectedIndex() + 1;
-					System.out.println("Mesito = " + month);
-					try {
-						businessLogic.register(username, firstName, lastName, address, email, password, confirmPassword, year, month, day);
-					} catch(NoMatchingPatternException e5)
+					//Check null:
+					if(username.isEmpty() || firstName.isEmpty() || lastName.isEmpty() ||
+							address.isEmpty() || email.isEmpty() || password.isEmpty() || 
+							confirmPassword.isEmpty() || yearS.isEmpty() || month < 1 || day < 1)
+						errorLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("FieldsCompulsory"));
+					else
 					{
-						errorLabel.setText("Invalid email format.");
-					}
-					catch (InvalidDateException e1)
-					{
-						errorLabel.setText("Insert a valid date.");
-					} catch(UnderageRegistrationException e2)
-					{
-						errorLabel.setText("You must be adult (+18).");
-					} catch(IncorrectPSWConfirmException e3)
-					{
-						errorLabel.setText("The password and confirmation password do not match.");
-					} catch(PswTooShortException e4)
-					{
-						errorLabel.setText("The password must have 6 characters at least.");
+						try {
+							Integer year = Integer.parseInt(yearField.getText());
+							businessLogic.register(username, firstName, lastName, address, email, password, confirmPassword, year, month, day);
+						} catch(NoMatchingPatternException e5)
+						{
+							errorLabel.setText("Invalid email format.");
+						}
+						catch (InvalidDateException e1)
+						{
+							errorLabel.setText("Insert a valid date.");
+						} catch(UnderageRegistrationException e2)
+						{
+							errorLabel.setText("You must be adult (+18).");
+						} catch(IncorrectPSWConfirmException e3)
+						{
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">The password and confirmation password do not match.</p></html>");
+							
+						} catch(PswTooShortException e4)
+						{
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">The password must have 6 characters at least.</p></html>");
+						}
 					}
 				}
 			}

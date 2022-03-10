@@ -53,17 +53,22 @@ public interface BlFacade  {
 	@WebMethod public Vector<Date> getEventsMonth(Date date);
 	
 	/**
-	 * Registers a new user with standard permits.
-	 * @param username User's name.
-	 * @param firstName User's first name.
-	 * @param lastName User's las name.
-	 * @param address User's current bill home address.
-	 * @param email User's email.
-	 * @param password User's password
-	 * @param confirmPassword User's confirmation password.
-	 * @param year User's birth year.
-	 * @param month User's birthday month.
-	 * @param day User's birth day.
+	 * Registers a standard permit user into the data base (persistance).
+	 * @param username The identification string of the user.
+	 * @param firstName The first name of the user.
+	 * @param lastName The last name of the user.
+	 * @param address The current billing address of the user.
+	 * @param email The contact vinculated email of the user.
+	 * @param password The password of the user.
+	 * @param confirmPassword Additional password for checking original passwords corretness.
+	 * @param year The birth year of the user.
+	 * @param month The month of the birth of the user.
+	 * @param day The birth day of the user.
+	 * @throws InvalidDateException Thrown when the given year, month and year's format is invalid.
+	 * @throws UnderageRegistrationException Thrown when the user is underage; has less than 18 years.
+	 * @throws IncorrectPSWConfirmException Thrown when the password and the checking confirmPassword do not match. 
+	 * @throws PswTooShortException Thrown when the potential password is shorter than the required minimum (MINIMUM_PSW_LENGHT).
+	 * @throws NoMatchingPatternException Thrown when the email does not match the standard format.
 	 */
 	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException;
 }
