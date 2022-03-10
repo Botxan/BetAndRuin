@@ -24,6 +24,10 @@ import java.awt.Toolkit;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import businessLogic.*;
+import exceptions.IncorrectPSWConfirmException;
+import exceptions.InvalidDateException;
+import exceptions.PswTooShortException;
+import exceptions.UnderageRegistrationException;
 
 /**
  * Graphic User Interface for registering into Bet & Ruin.
@@ -332,7 +336,32 @@ public class RegisterGUI extends JFrame {
 					errorLabel.setText("You must accept Conditions and Privacy policy before registering.");
 				else
 				{
-					//businessLogic.register(usernameField.getText(), firstNameField.getText(), lastNameField.getText(), addressField.getText(), addressField.getText(), emailField.getText(), passwordField.getPassword(), confirmPasswordField.getPassword(), Integer.parseInt(yearField.getText()), Integer.parseInt((String) monthComboBox.getSelectedItem()), Integer.parseInt((String) dayComboBox.getSelectedItem()));
+					String username = usernameField.getText();
+					String firstName = firstNameField.getText();
+					String lastName = lastNameField.getText();
+					String address = addressField.getText();
+					String email = emailField.getText();
+					String password = new String(passwordField.getPassword());
+					String confirmPassword = new String(confirmPasswordField.getPassword());
+					int year = Integer.parseInt(yearField.getText());
+					int month = Integer.parseInt((String) monthComboBox.getSelectedItem());
+					int day = Integer.parseInt((String) monthComboBox.getSelectedItem());
+					
+					try {
+						businessLogic.register(username, firstName, lastName, address, email, password, confirmPassword, year, month, day);
+					} catch (InvalidDateException e1)
+					{
+						errorLabel.setText("Insert a valid date.");
+					} catch(UnderageRegistrationException e2)
+					{
+						errorLabel.setText("You must be adult (+18).");
+					} catch(IncorrectPSWConfirmException e3)
+					{
+						errorLabel.setText("The password and confirmation password do not match.");
+					} catch(PswTooShortException e4)
+					{
+						errorLabel.setText("The password must have 6 characters at least.");
+					}
 				}
 			}
 		});

@@ -12,8 +12,11 @@ import dataAccess.DataAccess;
 import domain.Event;
 import domain.Question;
 import exceptions.EventFinished;
+import exceptions.IncorrectPSWConfirmException;
 import exceptions.InvalidDateException;
+import exceptions.PswTooShortException;
 import exceptions.QuestionAlreadyExist;
+import exceptions.UnderageRegistrationException;
 
 
 /**
@@ -121,8 +124,14 @@ public class BlFacadeImplementation implements BlFacade {
 
 	@Override
 	@WebMethod
+	/**
+	 * Method for registering a user, it checks password requirements.
+	 */
 	public void register(String username, String firstName, String lastName, String address, String email,
-			String password, String confirmPassword, int year, int month, int day) throws InvalidDateException{
-		dbManager.register(username, firstName, lastName, address, email, password, confirmPassword, year, month, day);		
+			String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException
+	{
+		if(password.length() <= 6) throw new PswTooShortException();
+		if(!password.equals(confirmPassword)) throw new IncorrectPSWConfirmException();
+		dbManager.register(username, firstName, lastName, address, email, password, year, month, day);		
 	}
 }
