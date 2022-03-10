@@ -18,6 +18,7 @@ import configuration.ConfigXML;
 import configuration.UtilDate;
 import domain.Event;
 import domain.Question;
+import domain.User;
 import exceptions.QuestionAlreadyExist;
 
 /**
@@ -258,6 +259,15 @@ public class DataAccess  {
 				" question = " + question);
 		Event ev = db.find(Event.class, event.getEventNumber());
 		return ev.doesQuestionExist(question);
+	}
+	
+	public void storePilot(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) {
+		db.getTransaction().begin();
+		User newUser = new User(username, firstName, lastName,
+				new Date(year, 1, day), address, password, 1);
+		db.persist(newUser);
+		db.getTransaction().commit();
+		System.out.println(newUser + " has been saved");
 	}
 
 	public void close(){
