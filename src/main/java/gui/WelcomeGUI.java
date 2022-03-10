@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -28,29 +26,39 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import javax.swing.JComboBox;
 
+/**
+ * This class represents the welcome page of the application.
+ * From this GUI, an anoymous user can login, register or
+ * browse questions. The language can also be selected.
+ * @author Josefinators
+ * @version v1
+ */
 public class WelcomeGUI extends JFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
 	private BlFacade businessLogic;
 	
-	private JPanel contentPane = new JPanel();	
-	private JLabel logoLabel = new JLabel();
-	private JLabel welcomeLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
-	private JButton browseQuestionsBtn = new JButton(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));	
-	private JButton browseQuestionsBtn_1;
+	private JPanel contentPane;	
+	private JLabel logoLabel;
+	private JLabel welcomeLabel;
+	private JButton browseQuestionsBtn;
 	private JButton loginBtn;
 	private JButton registerBtn;
 	private JComboBox<String> localeCB;
-	
-	public BlFacade getBusinessLogic(){
-		return businessLogic;
-	}
 
+	/**
+	 * Setter for the business logic.
+	 * @param bl the business logic.
+	 */
 	public void setBussinessLogic (BlFacade bl){
 		businessLogic = bl;
 	}
 	
+	/**
+	 * Constructor for the Welcome GUI. Initializes all the components and
+	 * adds the logo to the GUI.
+	 */
 	public WelcomeGUI() {
 		try {
 			jbInit();
@@ -62,6 +70,9 @@ public class WelcomeGUI extends JFrame {
 		}
 	}
 
+	/**
+	 * Initializes all the components.
+	 */
 	private void jbInit() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 354, 339);
@@ -73,6 +84,7 @@ public class WelcomeGUI extends JFrame {
 		// Initialize components
 		initializeWelcomePane();
 		
+		// Group layout code
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -94,7 +106,7 @@ public class WelcomeGUI extends JFrame {
 					.addGap(45))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(81)
-					.addComponent(browseQuestionsBtn_1, GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
+					.addComponent(browseQuestionsBtn, GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE)
 					.addGap(81))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -109,19 +121,29 @@ public class WelcomeGUI extends JFrame {
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(logoLabel, GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(browseQuestionsBtn_1, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addComponent(browseQuestionsBtn, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
 	
+	/**
+	 * This method initializes the welcome pane.
+	 */
 	public void initializeWelcomePane() {
+		contentPane = new JPanel();
+		logoLabel = new JLabel();
+		welcomeLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
+		
 		initializeLocaleCB();
 		initializeLoginBtn();
 		initializeRegisterBtn();
 		initializeBrowseQuestionsBtn();
 	}
 	
+	/**
+	 * This method initializes the combo box with the languages.
+	 */
 	public void initializeLocaleCB() {
 		localeCB = new JComboBox<String>();
 		
@@ -139,6 +161,9 @@ public class WelcomeGUI extends JFrame {
 		});	
 	}
 	
+	/**
+	 * This method initializes the login button.
+	 */
 	public void initializeLoginBtn() {
 		loginBtn = new JButton();
 		loginBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
@@ -153,6 +178,9 @@ public class WelcomeGUI extends JFrame {
 		
 	}
 	
+	/**
+	 * This method initializes the register button.
+	 */
 	public void initializeRegisterBtn() {
 		registerBtn = new JButton();
 		registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));
@@ -166,10 +194,13 @@ public class WelcomeGUI extends JFrame {
 		});
 	}
 	
+	/**
+	 * This method initializes the method for browsing questions.
+	 */
 	public void initializeBrowseQuestionsBtn() {
-		browseQuestionsBtn_1 = new JButton();
-		browseQuestionsBtn_1.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
-		browseQuestionsBtn_1.addActionListener(new ActionListener() {
+		browseQuestionsBtn = new JButton();
+		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
+		browseQuestionsBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				BrowseQuestionsGUI browseQuestionsWindow = new BrowseQuestionsGUI(businessLogic);
@@ -179,8 +210,10 @@ public class WelcomeGUI extends JFrame {
 		});
 	}
 	
+	/**
+	 * This method adds our BetAndRuin logo to the GUI.
+	 */
 	public void addLogo() {
-		// Add the logo
 		BufferedImage logo;
 		try {
 			logo = ImageIO.read(new File("resources/final_logo.png"));
@@ -191,11 +224,15 @@ public class WelcomeGUI extends JFrame {
 		}
 	}
 	
+	/**
+	 * This method refreshes all the text fields in the GUI. It is used when the
+	 * language of the application is switched.
+	 */
 	private void redraw() {
 		loginBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
 		registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));
 		welcomeLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
-		browseQuestionsBtn_1.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
+		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
+		setTitle(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
 	}
 }
