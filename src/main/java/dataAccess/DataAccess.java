@@ -261,10 +261,23 @@ public class DataAccess  {
 		return ev.doesQuestionExist(question);
 	}
 	
-	public void storePilot(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) {
+	/**
+	 * Registers a new user with standard permits.
+	 * @param username User's name.
+	 * @param firstName User's first name.
+	 * @param lastName User's las name.
+	 * @param address User's current bill home address.
+	 * @param email User's email.
+	 * @param password User's password
+	 * @param confirmPassword User's confirmation password.
+	 * @param year User's birth year.
+	 * @param month User's birthday month.
+	 * @param day User's birth day.
+	 */
+	public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) {
 		db.getTransaction().begin();
 		User newUser = new User(username, firstName, lastName,
-				new Date(year, 1, day), address, password, 1);
+				new Date(year, 1, day), address, password, email, 1);
 		db.persist(newUser);
 		db.getTransaction().commit();
 		System.out.println(newUser + " has been saved");
