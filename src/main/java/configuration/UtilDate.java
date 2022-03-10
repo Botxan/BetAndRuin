@@ -2,6 +2,9 @@ package configuration;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
@@ -57,10 +60,23 @@ public class UtilDate {
 	
 	/**
 	 * Returns todays date in Date format.
-	 * @return Todasy date.
+	 * @return Todays date.
 	 */
 	public static Date getTodaysDate(){
 		Calendar cal = Calendar.getInstance();
 		return cal.getTime();
+	}
+	
+	/**
+	 * Given a birthdate returns whether it has more than 18 years or not.
+	 * @param birthdate Birthdate of the user.
+	 * @return true if the user is undrage.
+	 */
+	public static boolean isUnderage(Date birthdate)
+	{
+		LocalDate birthdateL = birthdate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDate todaysDateL = getTodaysDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		Duration diff = Duration.between(todaysDateL, birthdateL);
+		return diff.toDays() < 365 * 18;
 	}
 }
