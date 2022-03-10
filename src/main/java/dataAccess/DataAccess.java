@@ -310,4 +310,12 @@ public class DataAccess  {
 		db.close();
 		System.out.println("DataBase is closed");
 	}
+	
+	public void storeEvent(String description, Date eventDate) {
+		db.getTransaction().begin();
+		Event event = new Event(description, eventDate);
+		db.persist(event);
+		db.getTransaction().commit();
+		System.out.println(event + " has been saved");
+	}
 }
