@@ -1,11 +1,11 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import businessLogic.BlFacade;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JLabel;
@@ -13,38 +13,29 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import javax.swing.JTextArea;
 import javax.swing.JRadioButton;
-import javax.swing.JTextPane;
 import javax.swing.ButtonGroup;
 
 public class LoginGUI extends JFrame {
+	
+	private BlFacade businessLogic;
 
 	private JPanel contentPane;
 	private JTextField textField;
 	private JPasswordField passwordField;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginGUI frame = new LoginGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	
+	public LoginGUI(BlFacade bl) {
+		businessLogic = bl;
+		try {
+			jbInit();
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
-	/**
-	 * Create the frame.
-	 */
-	public LoginGUI() {
+	private void jbInit() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 257, 206);
 		contentPane = new JPanel();

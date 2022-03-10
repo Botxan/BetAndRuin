@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.net.URL;
 import java.util.Locale;
 
@@ -20,11 +19,10 @@ public class ApplicationLauncher {
 
 		Locale.setDefault(new Locale(config.getLocale()));
 		System.out.println("Locale: " + Locale.getDefault());
-		MainGUI initWindow = new MainGUI();
+		WelcomeGUI initWindow = new WelcomeGUI();
 		BlFacade businessLogic;
 
 		try {
-
 			UIManager.setLookAndFeel("javax.swing.plaf.metal.MetalLookAndFeel");
 			// Other possibilities are:
 			// UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel");
@@ -34,7 +32,6 @@ public class ApplicationLauncher {
 				businessLogic = new BlFacadeImplementation();
 
 			else {
-
 				String serviceName= "http://" + config.getBusinessLogicNode() + ":" + 
 						config.getBusinessLogicPort() + "/ws/" + config.getBusinessLogicName() +
 						"?wsdl";
@@ -45,14 +42,17 @@ public class ApplicationLauncher {
 				QName qname = new QName("http://businessLogic/", "BlFacadeImplementationService");
 				Service service = Service.create(url, qname);
 				businessLogic = service.getPort(BlFacade.class);
-			} 
+			}
 			initWindow.setBussinessLogic(businessLogic);
 			initWindow.setVisible(true);
 		}
 		catch (Exception e) {
+			e.printStackTrace();
+			/*
 			initWindow.selectOptionLbl.setText("Error: " + e.toString());
 			initWindow.selectOptionLbl.setForeground(Color.RED);		
 			System.out.println("Error in ApplicationLauncher: " + e.toString());
+			*/
 		}
 	}
 }

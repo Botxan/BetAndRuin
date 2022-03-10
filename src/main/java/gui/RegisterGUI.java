@@ -34,7 +34,7 @@ import java.awt.event.KeyEvent;
 
 /**
  * Graphic User Interface for registering into Bet & Ruin.
- * @author Josefinator
+ * @author Josefinators
  *
  */
 @SuppressWarnings("serial")
@@ -49,30 +49,13 @@ public class RegisterGUI extends JFrame {
 	private JPasswordField passwordField;
 	private JPasswordField confirmPasswordField;
 	private JTextField yearField;
-	@SuppressWarnings("unused")
 	private BlFacade businessLogic;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					RegisterGUI frame = new RegisterGUI(new BlFacadeImplementation());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
 	 */
-	public RegisterGUI(BlFacade businessLogic) {
-		this.businessLogic = (BlFacade) businessLogic;
+	public RegisterGUI(BlFacade bl) {
+		businessLogic = bl;
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
 		setTitle("Bet&Ruin - Register");

@@ -307,7 +307,8 @@ public class DataAccess  {
 	 */
 	public boolean isUserInDB(String username)
 	{
-		TypedQuery<User> u = db.createQuery("SELECT u FROM User u WHERE u.username = \"" + username + "\"", User.class);
+		TypedQuery<User> u = db.createQuery("SELECT u FROM User u WHERE u.username=?1", User.class);
+		u.setParameter(1, username);
 		List<User> query = u.getResultList();
 		return !query.isEmpty();
 	}
