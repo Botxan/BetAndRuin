@@ -1,7 +1,10 @@
 package configuration;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class UtilDate {
@@ -50,5 +53,10 @@ public class UtilDate {
 		calendar.set(Calendar.MINUTE, 0);
 		calendar.set(Calendar.HOUR_OF_DAY, 0);
 		return calendar.getTime();
+	}
+	
+	public static Date getTodaysDate(){
+		Calendar cal = Calendar.getInstance();
+		return cal.getTime();
 	}
 }
