@@ -1,6 +1,6 @@
 package domain;
 
-import java.util.Calendar;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +19,7 @@ public class User {
 	private String username;
 	private String firstName;
 	private String lastName;
-	private Calendar birthdate;
+	private Date birthdate;
 	private String address;
 	private String password;
 	private String email;
@@ -37,14 +37,14 @@ public class User {
 	 * @param userMode user's userMode
 	 */
 	public User(String username, String firstName, String lastName,
-			Calendar birthdate, String address, String password, String email, int userMode) {
+			Date birthdate, String address, String password, String email, int userMode) {
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthdate = birthdate;
 		this.address = address;
 		this.password = password;
-		this.email = email;
+		this.setEmail(email);
 		this.userMode = userMode;
 	}
 
@@ -84,7 +84,7 @@ public class User {
 	 * Getter for user's birth date
 	 * @return user's birth date
 	 */
-	public Calendar getBirthdate() {
+	public Date getBirthdate() {
 		return birthdate;
 	}
 
@@ -162,9 +162,9 @@ public class User {
 
 	/**
 	 * Setter for user's email
-	 * @param email user's email
+	 * @param email user' email.
 	 */
 	public void setEmail(String email) {
 		this.email = email;
-	}	
+	}
 }

@@ -46,4 +46,19 @@ public interface BlFacade  {
 	 * @return collection of dates
 	 */
 	@WebMethod public Vector<Date> getEventsMonth(Date date);
+	
+	/**
+	 * Registers a new user with standard permits.
+	 * @param username User's name.
+	 * @param firstName User's first name.
+	 * @param lastName User's las name.
+	 * @param address User's current bill home address.
+	 * @param email User's email.
+	 * @param password User's password
+	 * @param confirmPassword User's confirmation password.
+	 * @param year User's birth year.
+	 * @param month User's birthday month.
+	 * @param day User's birth day.
+	 */
+	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day);
 }

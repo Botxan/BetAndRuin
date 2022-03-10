@@ -1,15 +1,15 @@
 package exceptions;
 
 /**
- * Exception for Invalid Date creation.
+ * Exception for underage registration banning.
  * @author Nko
  *
  */
-public class InvalidDateException extends Exception{
+public class UnderageRegistrationException extends Exception{
 	/**
 	 * Exception constructor without message.
 	 */
-	public InvalidDateException() {
+	public UnderageRegistrationException() {
 		super();
 	}
 	
@@ -17,7 +17,7 @@ public class InvalidDateException extends Exception{
 	 * Exception constructor with s message.
 	 * @param s Message to show user when exception is raised.
 	 */
-	public InvalidDateException(String s) {
+	public UnderageRegistrationException(String s) {
 		super(s);
 	}
 }

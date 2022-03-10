@@ -117,4 +117,11 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.initializeDB();
 		dbManager.close();
 	}
+
+	@Override
+	@WebMethod
+	public void register(String username, String firstName, String lastName, String address, String email,
+			String password, String confirmPassword, int year, int month, int day) {
+		dbManager.register(username, firstName, lastName, address, email, password, confirmPassword, year, month, day);		
+	}
 }
