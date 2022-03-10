@@ -21,11 +21,16 @@ import java.awt.event.ActionListener;
 import java.util.ResourceBundle;
 import java.awt.event.ActionEvent;
 import businessLogic.*;
+import configuration.UtilDate;
 import exceptions.IncorrectPSWConfirmException;
 import exceptions.InvalidDateException;
 import exceptions.NoMatchingPatternException;
 import exceptions.PswTooShortException;
 import exceptions.UnderageRegistrationException;
+import exceptions.UsernameAlreadyInDBException;
+
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 /**
  * Graphic User Interface for registering into Bet & Ruin.
@@ -276,6 +281,7 @@ public class RegisterGUI extends JFrame {
 		contentPane.add(dayLabel, gbc_dayLabel);
 		
 		yearField = new JTextField();
+		
 		GridBagConstraints gbc_yearField = new GridBagConstraints();
 		gbc_yearField.insets = new Insets(0, 0, 5, 5);
 		gbc_yearField.fill = GridBagConstraints.HORIZONTAL;
@@ -288,7 +294,24 @@ public class RegisterGUI extends JFrame {
 				ResourceBundle.getBundle("Etiquetas").getString("June"), ResourceBundle.getBundle("Etiquetas").getString("July"), ResourceBundle.getBundle("Etiquetas").getString("August"), ResourceBundle.getBundle("Etiquetas").getString("September"), ResourceBundle.getBundle("Etiquetas").getString("October"), ResourceBundle.getBundle("Etiquetas").getString("November"),
 				ResourceBundle.getBundle("Etiquetas").getString("December")};
 		
+		JComboBox<Integer> dayComboBox = new JComboBox<Integer>();
+		dayComboBox.disable();
+		
 		JComboBox monthComboBox = new JComboBox(monthNames);
+
+		yearField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				updateComboBox(dayComboBox, monthComboBox);
+			}
+		});
+		
+		monthComboBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//Choose only the available days for the given month.
+				updateComboBox(dayComboBox, monthComboBox);
+			}
+		});
 		monthComboBox.setSelectedIndex(-1);
 		
 		GridBagConstraints gbc_monthComboBox = new GridBagConstraints();
@@ -299,11 +322,7 @@ public class RegisterGUI extends JFrame {
 		gbc_monthComboBox.gridy = 16;
 		contentPane.add(monthComboBox, gbc_monthComboBox);
 		
-		JComboBox dayComboBox = new JComboBox();
-		dayComboBox.setToolTipText("Day");
-		
-		for(int i = 0; i < 31; i++)
-			dayComboBox.addItem(i + 1);
+		//DayComboBox:
 		
 		dayComboBox.setSelectedIndex(-1);
 		
@@ -367,21 +386,23 @@ public class RegisterGUI extends JFrame {
 							businessLogic.register(username, firstName, lastName, address, email, password, confirmPassword, year, month, day);
 						} catch(NoMatchingPatternException e5)
 						{
-							errorLabel.setText("Invalid email format.");
-						}
-						catch (InvalidDateException e1)
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("InvalidEmail") + "</p></html>");
+						} catch (InvalidDateException e1)
 						{
-							errorLabel.setText("Insert a valid date.");
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("InvalidDate") + "</p></html>");
 						} catch(UnderageRegistrationException e2)
 						{
-							errorLabel.setText("You must be adult (+18).");
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("AdultRegister") + "</p></html>");
 						} catch(IncorrectPSWConfirmException e3)
 						{
-							errorLabel.setText("<html><p style=\\\"width:200px\\\">The password and confirmation password do not match.</p></html>");
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("PswMatch") + "</p></html>");
 							
 						} catch(PswTooShortException e4)
 						{
-							errorLabel.setText("<html><p style=\\\"width:200px\\\">The password must have 6 characters at least.</p></html>");
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("Psw6") + "</p></html>");
+						} catch(UsernameAlreadyInDBException e6)
+						{
+							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("UsernameRepeated") + "</p></html>");
 						}
 					}
 				}
@@ -394,5 +415,22 @@ public class RegisterGUI extends JFrame {
 		gbc_registerButton.gridy = 18;
 		contentPane.add(registerButton, gbc_registerButton);
 	}
-
+	
+	/**
+	 * Updates the day corresponding to the month and year of the combo box.
+	 * @param dayComboBox
+	 * @param monthComboBox
+	 */
+	public void updateComboBox(JComboBox dayComboBox, JComboBox monthComboBox)
+	{
+		if(!yearField.getText().isEmpty() && monthComboBox.getSelectedIndex() >= 0)
+		{
+			dayComboBox.enable();
+			int lastDayMonth = UtilDate.lastDayMonth((monthComboBox.getSelectedIndex()+1), Integer.parseInt(yearField.getText()));
+			System.out.println(lastDayMonth + yearField.getText());
+			dayComboBox.removeAllItems();
+			for(int i = 0; i < lastDayMonth; i++)
+				dayComboBox.addItem(i + 1);
+		}
+	}
 }

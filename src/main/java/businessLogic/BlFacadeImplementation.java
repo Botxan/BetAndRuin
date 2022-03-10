@@ -143,11 +143,12 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @throws IncorrectPSWConfirmException Thrown when the password and the checking confirmPassword do not match. 
 	 * @throws PswTooShortException Thrown when the potential password is shorter than the required minimum (MINIMUM_PSW_LENGHT).
 	 * @throws NoMatchingPatternException Thrown when the email does not match the standard format.
+	 * @throws UsernameAlreadyInDBException Thrown when the chosen username is already in the DB.
 	 */
 	@Override
 	@WebMethod
 	public void register(String username, String firstName, String lastName, String address, String email,
-			String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException
+			String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException
 	{
 		//Check email format completion (regex):
 		if(!Pattern.compile(emailRegEx).matcher(email).matches())
@@ -156,12 +157,13 @@ public class BlFacadeImplementation implements BlFacade {
 		if(password.length() < MINIMUM_PSW_LENGHT) throw new PswTooShortException();
 		//Check whether password and confirmation password match:
 		if(!password.equals(confirmPassword)) throw new IncorrectPSWConfirmException();
+		//Check whether the username is already in use:
+		if(dbManager.isUserInDB(username)) throw new UsernameAlreadyInDBException();
 
 		//Check whether user is underage:
 		SimpleDateFormat myformat = new SimpleDateFormat("d'-'M'-'yy", Locale.ENGLISH);
 		try {
 			Date birthdate = myformat.parse(day + "-" + month + "-" + year);
-			System.out.println(birthdate);
 			if(UtilDate.isUnderage(birthdate)) throw new UnderageRegistrationException();
 			
 			//Persist:

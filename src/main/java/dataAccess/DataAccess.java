@@ -300,6 +300,18 @@ public class DataAccess  {
 		System.out.println(event + " has been saved");
 	}
 	
+	/**
+	 * Returns true if the username is already in the data base.
+	 * @param username
+	 * @return True if the username is already in the data base.
+	 */
+	public boolean isUserInDB(String username)
+	{
+		TypedQuery<User> u = db.createQuery("SELECT username FROM User u WHERE u.username = \"" + username + "\"", User.class);
+		List<User> query = u.getResultList();
+		return !query.isEmpty();
+	}
+	
 	public void close(){
 		db.close();
 		System.out.println("DataBase is closed");
