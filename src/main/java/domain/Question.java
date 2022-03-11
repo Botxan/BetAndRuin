@@ -1,6 +1,7 @@
 package domain;
 
 import java.io.*;
+import java.util.Vector;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -109,8 +110,8 @@ public class Question implements Serializable {
 	 * 
 	 * @return the the query result
 	 */
-	public String getResult() {
-		return result;
+	public Vector<Result> getResult() {
+		return results;
 	}
 
 	/**
@@ -118,8 +119,8 @@ public class Question implements Serializable {
 	 * 
 	 * @param correct result of the query
 	 */
-	public void setResult(String result) {
-		this.result = result;
+	public void setResult(Vector<Result> result) {
+		this.results = result;
 	}
 
 	/**
