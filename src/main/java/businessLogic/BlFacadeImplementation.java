@@ -1,5 +1,9 @@
 package businessLogic;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,9 +31,9 @@ public class BlFacadeImplementation implements BlFacade {
 
 	DataAccess dbManager;
 	ConfigXML config = ConfigXML.getInstance();
-	//Regular Expression for checking email format:
+	// Regular Expression for checking email format:
 	private String emailRegEx = new String("^\\w+@\\w+\\.[a-z]{2,3}$");
-	//Minum length for password:
+	// Minimum length for password:
 	private final int MINIMUM_PSW_LENGHT = 6;
 
 	public BlFacadeImplementation()  {		
@@ -170,12 +174,45 @@ public class BlFacadeImplementation implements BlFacade {
 			Date birthdate = myformat.parse(day + "-" + month + "-" + year);
 			if(UtilDate.isUnderage(birthdate)) throw new UnderageRegistrationException();
 			
-			//Persist:
-			dbManager.register(username, firstName, lastName, address, email, password, birthdate);
+			// Generate a random salt
+			byte[] salt = generateSalt();
+			byte[] hashedPassword = hashPassword(password, salt);
+			
+			dbManager.register(username, firstName, lastName, address, email, hashedPassword, birthdate, salt);
 		} catch (ParseException e) {
 			throw new InvalidDateException();
 		} finally {
 			dbManager.close();
 		}
+	}
+	
+	/**
+	 * Hashes the passed password with the given salt.
+	 * It uses SHA-512 algorithm.
+	 * @param salt the salt used to hash the password.
+	 * @return the hashed password.
+	 */
+	public byte[] hashPassword(String password, byte[] salt) {
+		byte[] hashedPassword = null;
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-512");
+			md.update(salt);
+			hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		
+		return hashedPassword;
+	}
+	
+	/**
+	 * Generates a random salt for later use in password hashing.
+	 * @return a random salt.
+	 */
+	public byte[] generateSalt() {
+		SecureRandom random = new SecureRandom();
+		byte[] salt = new byte[16];
+		random.nextBytes(salt);
+		return salt;
 	}
 }
