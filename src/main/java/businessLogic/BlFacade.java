@@ -8,6 +8,7 @@ import javax.jws.WebService;
 
 import domain.Event;
 import domain.Question;
+import domain.User;
 import exceptions.EventFinished;
 import exceptions.IncorrectPSWConfirmException;
 import exceptions.InvalidDateException;
@@ -15,6 +16,7 @@ import exceptions.NoMatchingPatternException;
 import exceptions.PswTooShortException;
 import exceptions.QuestionAlreadyExist;
 import exceptions.UnderageRegistrationException;
+import exceptions.UserNotFoundException;
 import exceptions.UsernameAlreadyInDBException;
 
 /**
@@ -73,4 +75,12 @@ public interface BlFacade  {
 	 * @throws UsernameAlreadyInDBException Thrown when the chosen username is already in the DB.
 	 */
 	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException;
+
+	/**
+	 * Returns the user with the username passed by parameter.
+	 * @param username The username of the user to retrieve.
+	 * @return The user with the username passed by parameter.
+	 * @throws UserNotFoundException
+	 */
+	@WebMethod public User getUser(String username) throws UserNotFoundException;
 }

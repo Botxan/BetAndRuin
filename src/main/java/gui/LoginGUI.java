@@ -1,110 +1,198 @@
 package gui;
 
+import java.awt.EventQueue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import businessLogic.BlFacade;
-
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
+import businessLogic.BlFacadeImplementation;
+import java.awt.GridBagLayout;
 import javax.swing.JLabel;
-import javax.swing.LayoutStyle.ComponentPlacement;
+import java.awt.GridBagConstraints;
+import java.awt.Font;
+import java.awt.Insets;
+import java.util.ResourceBundle;
+
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
+import java.awt.Color;
 
 public class LoginGUI extends JFrame {
-	
-	private BlFacade businessLogic;
-
+	//Set the serial version:
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField textField;
+	//Business Logic of the Bet & Ruin application:
+	private BlFacade businessLogic;
+	private JLabel betAndRuinLabel;
+	private JTextField usernameField;
+	private JLabel passwordLabel;
 	private JPasswordField passwordField;
-	private final ButtonGroup buttonGroup = new ButtonGroup();
-	
-	public LoginGUI(BlFacade bl) {
-		businessLogic = bl;
-		try {
-			jbInit();
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
+	private JButton registerButton;
+	private JButton loginButton;
+	private JLabel errorLabel;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					LoginGUI frame = new LoginGUI(new BlFacadeImplementation());
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
-	private void jbInit() {
+	/**
+	 * Create the frame.
+	 */
+	public LoginGUI(BlFacade bl) {
+		//Set the business logic:
+		businessLogic = (BlFacade)bl;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 257, 206);
+		setBounds(100, 100, 450, 300);
+		
+		//Initializations:
+		initializeContentPane();
+		initializeBetAndRuinLabel();
+		initializeLoginLabel();
+		initializeUsernameLabel();
+		initializeUsernameField();
+		initializePasswordLabel();
+		initializePasswordField();
+		initializeErrorLabel();
+		initializeRegisterButton();
+		initializeLoginButton();
+	}
+	
+	private void initializeContentPane()
+	{
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
-		JLabel lblNewLabel = new JLabel("Username:");
-		
-		JLabel lblNewLabel_1 = new JLabel("Password:");
-				
-		textField = new JTextField();
-		textField.setColumns(10);
-		
+		GridBagLayout gbl_contentPane = new GridBagLayout();
+		gbl_contentPane.columnWidths = new int[]{6, 149, 143, 0, 0};
+		gbl_contentPane.rowHeights = new int[]{24, 0, 0, 0, 0, 0, 0, 28, 0, 0};
+		gbl_contentPane.columnWeights = new double[]{1.0, 1.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		contentPane.setLayout(gbl_contentPane);
+	}
+
+	public void initializeBetAndRuinLabel()
+	{
+		betAndRuinLabel = new JLabel("Bet & Ruin");
+		betAndRuinLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+		GridBagConstraints gbc_betAndRuinLabel = new GridBagConstraints();
+		gbc_betAndRuinLabel.gridwidth = 2;
+		gbc_betAndRuinLabel.anchor = GridBagConstraints.WEST;
+		gbc_betAndRuinLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_betAndRuinLabel.gridx = 1;
+		gbc_betAndRuinLabel.gridy = 1;
+		contentPane.add(betAndRuinLabel, gbc_betAndRuinLabel);
+	}
+	
+	public void initializeLoginLabel()
+	{
+		JLabel loginLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Login").toUpperCase());
+		loginLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		GridBagConstraints gbc_loginLabel = new GridBagConstraints();
+		gbc_loginLabel.gridwidth = 2;
+		gbc_loginLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_loginLabel.anchor = GridBagConstraints.WEST;
+		gbc_loginLabel.gridx = 1;
+		gbc_loginLabel.gridy = 2;
+		contentPane.add(loginLabel, gbc_loginLabel);
+	}
+	
+	public void initializeUsernameLabel()
+	{
+		JLabel usernameLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username"));
+		GridBagConstraints gbc_usernameLabel = new GridBagConstraints();
+		gbc_usernameLabel.gridwidth = 2;
+		gbc_usernameLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_usernameLabel.anchor = GridBagConstraints.WEST;
+		gbc_usernameLabel.gridx = 1;
+		gbc_usernameLabel.gridy = 3;
+		contentPane.add(usernameLabel, gbc_usernameLabel);
+	}
+	
+	public void initializeUsernameField()
+	{
+		usernameField = new JTextField();
+		GridBagConstraints gbc_usernameField = new GridBagConstraints();
+		gbc_usernameField.gridwidth = 2;
+		gbc_usernameField.insets = new Insets(0, 0, 5, 5);
+		gbc_usernameField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_usernameField.gridx = 1;
+		gbc_usernameField.gridy = 4;
+		contentPane.add(usernameField, gbc_usernameField);
+		usernameField.setColumns(10);
+	}
+	
+	public void initializePasswordLabel()
+	{
+		passwordLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password"));
+		GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
+		gbc_passwordLabel.gridwidth = 2;
+		gbc_passwordLabel.anchor = GridBagConstraints.WEST;
+		gbc_passwordLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_passwordLabel.gridx = 1;
+		gbc_passwordLabel.gridy = 5;
+		contentPane.add(passwordLabel, gbc_passwordLabel);
+	}
+	
+	public void initializePasswordField()
+	{
 		passwordField = new JPasswordField();
-		
-		JButton btnNewButton = new JButton("Log in");
-		
-		JRadioButton rdbtnNewRadioButton = new JRadioButton("User");
-		buttonGroup.add(rdbtnNewRadioButton);
-		
-		JRadioButton rdbtnNewRadioButton_1 = new JRadioButton("Admin");
-		buttonGroup.add(rdbtnNewRadioButton_1);
-		
-		JLabel lblNewLabel_2 = new JLabel("Choose user type:");
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(24)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblNewLabel)
-								.addComponent(lblNewLabel_1))
-							.addGap(18)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(textField)
-								.addComponent(passwordField, GroupLayout.DEFAULT_SIZE, 96, Short.MAX_VALUE)))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(lblNewLabel_2, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(rdbtnNewRadioButton_1, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-								.addComponent(rdbtnNewRadioButton, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_contentPane.createSequentialGroup()
-							.addGap(40)
-							.addComponent(btnNewButton, GroupLayout.PREFERRED_SIZE, 102, GroupLayout.PREFERRED_SIZE))))
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
-						.addComponent(lblNewLabel)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_1)
-						.addComponent(passwordField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNewLabel_2)
-						.addComponent(rdbtnNewRadioButton))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(rdbtnNewRadioButton_1)
-					.addGap(14)
-					.addComponent(btnNewButton)
-					.addGap(69))
-		);
-		contentPane.setLayout(gl_contentPane);
+		GridBagConstraints gbc_passwordField = new GridBagConstraints();
+		gbc_passwordField.gridwidth = 2;
+		gbc_passwordField.insets = new Insets(0, 0, 5, 5);
+		gbc_passwordField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_passwordField.gridx = 1;
+		gbc_passwordField.gridy = 6;
+		contentPane.add(passwordField, gbc_passwordField);
+	}
+	
+	public void initializeErrorLabel()
+	{
+		errorLabel = new JLabel("");
+		errorLabel.setForeground(new Color(204, 0, 0));
+		GridBagConstraints gbc_errorLabel = new GridBagConstraints();
+		gbc_errorLabel.anchor = GridBagConstraints.WEST;
+		gbc_errorLabel.gridwidth = 2;
+		gbc_errorLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_errorLabel.gridx = 1;
+		gbc_errorLabel.gridy = 7;
+		contentPane.add(errorLabel, gbc_errorLabel);
+	}
+	
+	public void initializeRegisterButton()
+	{
+		registerButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Register"));
+		registerButton.setBackground(Color.LIGHT_GRAY);
+		GridBagConstraints gbc_registerButton = new GridBagConstraints();
+		gbc_registerButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_registerButton.insets = new Insets(0, 0, 0, 5);
+		gbc_registerButton.gridx = 1;
+		gbc_registerButton.gridy = 8;
+		contentPane.add(registerButton, gbc_registerButton);
+	}
+	
+	public void initializeLoginButton()
+	{
+		loginButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Login"));
+		GridBagConstraints gbc_loginButton = new GridBagConstraints();
+		gbc_loginButton.fill = GridBagConstraints.HORIZONTAL;
+		gbc_loginButton.insets = new Insets(0, 0, 0, 5);
+		gbc_loginButton.gridx = 2;
+		gbc_loginButton.gridy = 8;
+		contentPane.add(loginButton, gbc_loginButton);
 	}
 }

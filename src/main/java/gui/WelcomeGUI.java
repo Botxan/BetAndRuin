@@ -171,8 +171,7 @@ public class WelcomeGUI extends JFrame {
 		loginBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LoginGUI loginWindow = new LoginGUI();
-				loginWindow.setBusinessLogic(businessLogic);
+				LoginGUI loginWindow = new LoginGUI(businessLogic);
 				loginWindow.setVisible(true);
 				dispose();
 			}

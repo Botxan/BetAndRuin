@@ -20,6 +20,7 @@ import configuration.UtilDate;
 import dataAccess.DataAccess;
 import domain.Event;
 import domain.Question;
+import domain.User;
 import exceptions.*;
 
 
@@ -214,5 +215,19 @@ public class BlFacadeImplementation implements BlFacade {
 		byte[] salt = new byte[16];
 		random.nextBytes(salt);
 		return salt;
+	}
+	
+	@Override
+	/**
+	 * Returns the user with the username passed by parameter.
+	 * @param username The username of the user to retrieve.
+	 * @return The user with the username passed by parameter.
+	 * @throws UserNotFoundException
+	 */
+	public User getUser(String username)
+	{
+		dbManager.open(false);
+		dbManager.close();
+		return null;
 	}
 }
