@@ -24,6 +24,34 @@ public class User {
 	private byte[] password;
 	private String email;
 	private byte[] salt; // salt used in password hashing
+	/**
+	 * @return the userId
+	 */
+	public long getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	/**
+	 * @return the salt
+	 */
+	public byte[] getSalt() {
+		return salt;
+	}
+
+	/**
+	 * @param birthdate the birthdate to set
+	 */
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
+	}
+
 	private int userMode; // 0 => guest, 1 => logged user, 2 => administrator
 	
 	/**

@@ -224,10 +224,30 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @return The user with the username passed by parameter.
 	 * @throws UserNotFoundException
 	 */
-	public User getUser(String username)
+	public User getUser(String username) throws UserNotFoundException
 	{
 		dbManager.open(false);
+		User currentUser = dbManager.getUser(username);
 		dbManager.close();
-		return null;
+		return currentUser;
+	}
+	
+	/**
+	 * Returns whether the user has successfully logged or not.
+	 * @param username Username of the user.
+	 * @param password Password of the user.
+	 * @return True if the user has succesfully logged.
+	 * @throws UserNotFoundException If the user is not registered in the data base.
+	 * @throws InvalidPasswordException If the password is not correct.
+	 */
+	@Override
+	@WebMethod
+	public boolean login(String username, String password) throws UserNotFoundException, InvalidPasswordException
+	{
+		boolean result = false;
+		User potentialUser = getUser(username);
+		byte[] hashedPassword = hashPassword(password, potentialUser.getSalt());
+		
+		return result;
 	}
 }

@@ -20,6 +20,7 @@ import domain.Event;
 import domain.Question;
 import domain.User;
 import exceptions.QuestionAlreadyExist;
+import exceptions.UserNotFoundException;
 
 /**
  * Implements the Data Access utility to the objectDb database
@@ -316,5 +317,20 @@ public class DataAccess  {
 	public void close(){
 		db.close();
 		System.out.println("DataBase is closed");
+	}
+	
+	/**
+	 * Returns the user with the username passed by parameter.
+	 * @param username The username of the user to retrieve.
+	 * @return The user with the username passed by parameter.
+	 * @throws UserNotFoundException
+	 */
+	public User getUser(String username) throws UserNotFoundException
+	{
+		TypedQuery<User> u = db.createQuery("SELECT u FROM User u WHERE u.username=?1", User.class);
+		u.setParameter(1, username);
+		List<User> query = u.getResultList();
+		if(query.size() !=  1) throw new UserNotFoundException();
+		return query.get(0);
 	}
 }
