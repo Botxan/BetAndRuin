@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import businessLogic.BlFacade;
+import businessLogic.BlFacadeImplementation;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -43,7 +44,7 @@ public class MenuGUI extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MenuGUI frame = new MenuGUI();
+					MenuGUI frame = new MenuGUI(new BlFacadeImplementation());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -55,8 +56,8 @@ public class MenuGUI extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public MenuGUI() {
-		
+	public MenuGUI(BlFacade bl) {
+		businessLogic = (BlFacade)bl;
 		initializeMenuPane(); 
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

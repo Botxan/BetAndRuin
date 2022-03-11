@@ -8,6 +8,9 @@ import javax.swing.border.EmptyBorder;
 
 import businessLogic.BlFacade;
 import businessLogic.BlFacadeImplementation;
+import exceptions.InvalidPasswordException;
+import exceptions.UserNotFoundException;
+
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
@@ -19,6 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.Color;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class LoginGUI extends JFrame {
 	//Set the serial version:
@@ -85,7 +90,7 @@ public class LoginGUI extends JFrame {
 		contentPane.setLayout(gbl_contentPane);
 	}
 
-	public void initializeBetAndRuinLabel()
+	private void initializeBetAndRuinLabel()
 	{
 		betAndRuinLabel = new JLabel("Bet & Ruin");
 		betAndRuinLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
@@ -98,7 +103,7 @@ public class LoginGUI extends JFrame {
 		contentPane.add(betAndRuinLabel, gbc_betAndRuinLabel);
 	}
 	
-	public void initializeLoginLabel()
+	private void initializeLoginLabel()
 	{
 		JLabel loginLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Login").toUpperCase());
 		loginLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
@@ -111,7 +116,7 @@ public class LoginGUI extends JFrame {
 		contentPane.add(loginLabel, gbc_loginLabel);
 	}
 	
-	public void initializeUsernameLabel()
+	private void initializeUsernameLabel()
 	{
 		JLabel usernameLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username"));
 		GridBagConstraints gbc_usernameLabel = new GridBagConstraints();
@@ -123,7 +128,7 @@ public class LoginGUI extends JFrame {
 		contentPane.add(usernameLabel, gbc_usernameLabel);
 	}
 	
-	public void initializeUsernameField()
+	private void initializeUsernameField()
 	{
 		usernameField = new JTextField();
 		GridBagConstraints gbc_usernameField = new GridBagConstraints();
@@ -136,7 +141,7 @@ public class LoginGUI extends JFrame {
 		usernameField.setColumns(10);
 	}
 	
-	public void initializePasswordLabel()
+	private void initializePasswordLabel()
 	{
 		passwordLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password"));
 		GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
@@ -148,7 +153,7 @@ public class LoginGUI extends JFrame {
 		contentPane.add(passwordLabel, gbc_passwordLabel);
 	}
 	
-	public void initializePasswordField()
+	private void initializePasswordField()
 	{
 		passwordField = new JPasswordField();
 		GridBagConstraints gbc_passwordField = new GridBagConstraints();
@@ -160,7 +165,7 @@ public class LoginGUI extends JFrame {
 		contentPane.add(passwordField, gbc_passwordField);
 	}
 	
-	public void initializeErrorLabel()
+	private void initializeErrorLabel()
 	{
 		errorLabel = new JLabel("");
 		errorLabel.setForeground(new Color(204, 0, 0));
@@ -173,9 +178,19 @@ public class LoginGUI extends JFrame {
 		contentPane.add(errorLabel, gbc_errorLabel);
 	}
 	
-	public void initializeRegisterButton()
+	/**
+	 * Button for redirectioning to registering GUI.
+	 */
+	private void initializeRegisterButton()
 	{
 		registerButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Register"));
+		registerButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				RegisterGUI fromLoginToRegister = new RegisterGUI(businessLogic);
+				fromLoginToRegister.setVisible(true);
+				dispose();
+			}
+		});
 		registerButton.setBackground(Color.LIGHT_GRAY);
 		GridBagConstraints gbc_registerButton = new GridBagConstraints();
 		gbc_registerButton.fill = GridBagConstraints.HORIZONTAL;
@@ -185,9 +200,27 @@ public class LoginGUI extends JFrame {
 		contentPane.add(registerButton, gbc_registerButton);
 	}
 	
-	public void initializeLoginButton()
+	/**
+	 * Login button which when pressed logs the user (currentUser of business logic) or outputs error message.
+	 */
+	private void initializeLoginButton()
 	{
 		loginButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Login"));
+		loginButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					errorLabel.setText("");
+					businessLogic.login(usernameField.getText(), new String(passwordField.getPassword()));
+					MenuGUI fromLoginToMenu = new MenuGUI(businessLogic);
+					fromLoginToMenu.setVisible(true);
+					dispose();
+				} catch (UserNotFoundException e1) {
+					errorLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("IncorrectUser"));
+				} catch (InvalidPasswordException e2) {
+					errorLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("IncorrectPassword"));
+				}
+			}
+		});
 		GridBagConstraints gbc_loginButton = new GridBagConstraints();
 		gbc_loginButton.fill = GridBagConstraints.HORIZONTAL;
 		gbc_loginButton.insets = new Insets(0, 0, 0, 5);

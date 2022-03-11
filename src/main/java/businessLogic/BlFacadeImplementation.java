@@ -6,6 +6,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -43,6 +44,7 @@ public class BlFacadeImplementation implements BlFacade {
 		System.out.println("Creating BlFacadeImplementation instance");
 		boolean initialize = config.getDataBaseOpenMode().equals("initialize");
 		dbManager = new DataAccess(initialize);
+		currentUser = null;
 		if (initialize)
 			dbManager.initializeDB();
 		dbManager.close();
@@ -55,6 +57,7 @@ public class BlFacadeImplementation implements BlFacade {
 			dam.initializeDB();
 			dam.close();
 		}
+		currentUser = null;
 		dbManager = dam;		
 	}
 
@@ -248,8 +251,9 @@ public class BlFacadeImplementation implements BlFacade {
 	{
 		User potentialUser = getUser(username);
 		byte[] hashedPassword = hashPassword(password, potentialUser.getSalt());
-		
-		return null;
+		if(!Arrays.equals(hashedPassword, potentialUser.getPassword())) throw new InvalidPasswordException();
+		currentUser = potentialUser;
+		return potentialUser;
 	}
 
 	/**
