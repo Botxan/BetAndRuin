@@ -74,15 +74,16 @@ public class WelcomeGUI extends JFrame {
 	 * Initializes all the components.
 	 */
 	private void jbInit() {
+		
+		// Initialize components
+		initializeWelcomePane();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 354, 339);
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		welcomeLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
-		
-		// Initialize components
-		initializeWelcomePane();
 		
 		// Group layout code
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);

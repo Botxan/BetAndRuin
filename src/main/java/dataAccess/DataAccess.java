@@ -278,18 +278,18 @@ public class DataAccess  {
 	 * @param lastName User's las name.
 	 * @param address User's current bill home address.
 	 * @param email User's email.
-	 * @param password User's password
-	 * @param confirmPassword User's confirmation password.
+	 * @param password User's hashed password.
 	 * @param birthdate The birthday date of the user.
+	 * @param salt The salt used in password hashing.
 	 */
-	public void register(String username, String firstName, String lastName, String address, String email, String password, Date birthdate)
+	public void register(String username, String firstName, String lastName, String address, String email, byte[] hashedPassword, Date birthdate, byte[] salt)
 	{
-			db.getTransaction().begin();
-			User newUser = new User(username, firstName, lastName,
-					birthdate, address, password, email, 1);
-			db.persist(newUser);
-			db.getTransaction().commit();
-			System.out.println(newUser + " has been saved");
+		db.getTransaction().begin();
+		User newUser = new User(username, firstName, lastName,
+				birthdate, address, hashedPassword, email, salt, 1);
+		db.persist(newUser);
+		db.getTransaction().commit();
+		System.out.println(newUser + " has been saved");
 	}
 	
 	public void storeEvent(String description, Date eventDate) {

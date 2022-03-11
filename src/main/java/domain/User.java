@@ -21,8 +21,9 @@ public class User {
 	private String lastName;
 	private Date birthdate;
 	private String address;
-	private String password;
+	private byte[] password;
 	private String email;
+	private byte[] salt; // salt used in password hashing
 	private int userMode; // 0 => guest, 1 => logged user, 2 => administrator
 	
 	/**
@@ -32,19 +33,21 @@ public class User {
 	 * @param lastName user's last name.
 	 * @param birthdate user's birth date.
 	 * @param address user's address.
-	 * @param password user's password.
+	 * @param password user's password hashed.
 	 * @param email user's email.
+	 * @param salt the salt used in password hashing.
 	 * @param userMode user's userMode
 	 */
 	public User(String username, String firstName, String lastName,
-			Date birthdate, String address, String password, String email, int userMode) {
+			Date birthdate, String address, byte[] password, String email, byte[] salt, int userMode) {
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthdate = birthdate;
 		this.address = address;
 		this.password = password;
-		this.setEmail(email);
+		this.email = email;
+		this.salt = salt;
 		this.userMode = userMode;
 	}
 
@@ -108,7 +111,7 @@ public class User {
 	 * Getter for user's password.
 	 * @return user's password.
 	 */
-	public String getPassword() {
+	public byte[] getPassword() {
 		return password;
 	}
 
@@ -116,7 +119,7 @@ public class User {
 	 * Setter for user's password.
 	 * @param password user's password.
 	 */
-	public void setPassword(String password) {
+	public void setPassword(byte[] password) {
 		this.password = password;
 	}
 
