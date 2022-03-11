@@ -86,12 +86,12 @@ public interface BlFacade  {
 	@WebMethod public User getUser(String username) throws UserNotFoundException;
 	
 	/**
-	 * Returns whether the user has successfully logged or not.
+	 * Returns the user if successfully logged, otherwise an exception is raised.
 	 * @param username Username of the user.
 	 * @param password Password of the user.
 	 * @return True if the user has succesfully logged.
 	 * @throws UserNotFoundException If the user is not registered in the data base.
 	 * @throws InvalidPasswordException If the password is not correct.
 	 */
-	@WebMethod public boolean login(String username, String password) throws UserNotFoundException, InvalidPasswordException;
+	@WebMethod public User login(String username, String password) throws UserNotFoundException, InvalidPasswordException;
 }
