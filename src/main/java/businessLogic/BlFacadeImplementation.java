@@ -36,6 +36,8 @@ public class BlFacadeImplementation implements BlFacade {
 	private String emailRegEx = new String("^\\w+@\\w+\\.[a-z]{2,3}$");
 	// Minimum length for password:
 	private final int MINIMUM_PSW_LENGHT = 6;
+	// Current user in the application 
+	private User currentUser; 
 
 	public BlFacadeImplementation()  {		
 		System.out.println("Creating BlFacadeImplementation instance");
@@ -229,5 +231,21 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.open(false);
 		dbManager.close();
 		return null;
+	}
+
+	/**
+	 * It returns the current user 
+	 * @return currentUser 
+	 */
+	public User getCurrentUser() {
+		return currentUser;
+	}
+
+	/**
+	 * It sets the current user of the application 
+	 * @param currentUser
+	 */
+	public void setCurrentUser(User currentUser) {
+		this.currentUser = currentUser;
 	}
 }
