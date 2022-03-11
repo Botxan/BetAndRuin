@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
@@ -11,6 +10,8 @@ import java.awt.Insets;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.Font;
+import java.awt.FontFormatException;
+
 import javax.swing.JPasswordField;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -31,6 +32,9 @@ import exceptions.UsernameAlreadyInDBException;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Graphic User Interface for registering into Bet & Ruin.
@@ -50,7 +54,22 @@ public class RegisterGUI extends JFrame {
 	private JPasswordField confirmPasswordField;
 	private JTextField yearField;
 	private BlFacade businessLogic;
+	
+	private File fontFile = new File("./resources/Roboto-Regular.ttf");
+	private Font fontBlack;
 
+	public void setFont()
+	{
+		try {
+			fontBlack = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+		} catch (FontFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * Create the frame.
 	 */
@@ -72,6 +91,7 @@ public class RegisterGUI extends JFrame {
 		contentPane.setLayout(gbl_contentPane);
 		
 		JLabel betAndRuinLabel = new JLabel("Bet & Ruin");
+		betAndRuinLabel.setFont(fontBlack);
 		betAndRuinLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		betAndRuinLabel.setFont(new Font("Roboto Black", Font.PLAIN, 20));
 		GridBagConstraints gbc_betAndRuinLabel = new GridBagConstraints();
