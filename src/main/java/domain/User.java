@@ -170,4 +170,32 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	/**
+	 * @return the userId
+	 */
+	public long getUserId() {
+		return userId;
+	}
+
+	/**
+	 * @param userId the userId to set
+	 */
+	public void setUserId(long userId) {
+		this.userId = userId;
+	}
+
+	/**
+	 * @return the salt
+	 */
+	public byte[] getSalt() {
+		return salt;
+	}
+
+	/**
+	 * @param birthdate the birthdate to set
+	 */
+	public void setBirthdate(Date birthdate) {
+		this.birthdate = birthdate;
+	}
 }

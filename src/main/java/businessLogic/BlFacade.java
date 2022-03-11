@@ -12,6 +12,7 @@ import domain.User;
 import exceptions.EventFinished;
 import exceptions.IncorrectPSWConfirmException;
 import exceptions.InvalidDateException;
+import exceptions.InvalidPasswordException;
 import exceptions.NoMatchingPatternException;
 import exceptions.PswTooShortException;
 import exceptions.QuestionAlreadyExist;
@@ -83,4 +84,14 @@ public interface BlFacade  {
 	 * @throws UserNotFoundException
 	 */
 	@WebMethod public User getUser(String username) throws UserNotFoundException;
+	
+	/**
+	 * Returns the user if successfully logged, otherwise an exception is raised.
+	 * @param username Username of the user.
+	 * @param password Password of the user.
+	 * @return True if the user has succesfully logged.
+	 * @throws UserNotFoundException If the user is not registered in the data base.
+	 * @throws InvalidPasswordException If the password is not correct.
+	 */
+	@WebMethod public User login(String username, String password) throws UserNotFoundException, InvalidPasswordException;
 }
