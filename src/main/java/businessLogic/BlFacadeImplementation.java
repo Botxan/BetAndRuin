@@ -120,6 +120,21 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.close();
 		return dates;
 	}
+	
+	/**
+	 * This method invokes the data access to store a given forecast
+	 * 
+	 * @param The question of the given forecast.
+	 * @param The result of the given forecast.
+	 * @param The fee of the given forecast.
+	 */
+	@Override
+	@WebMethod
+	public void addForecast(Question question, String result, int fee) {
+		dbManager.open(false);
+		dbManager.addForecast(question, result, fee);
+		dbManager.close();
+	}
 
 	public void close() {
 		dbManager.close();

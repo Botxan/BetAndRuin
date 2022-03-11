@@ -76,6 +76,14 @@ public interface BlFacade  {
 	 * @throws UsernameAlreadyInDBException Thrown when the chosen username is already in the DB.
 	 */
 	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException;
+	
+	/**
+	 * Calls a data access method in order to store a given forecast in the database.
+	 * @param question The question for which the forecast is going to be created.
+	 * @param result The result of the forecast.
+	 * @param fee The fee of the forecast.
+	 */
+	@WebMethod public void addForecast(Question question, String result, int fee);
 
 	/**
 	 * Returns the user with the username passed by parameter.

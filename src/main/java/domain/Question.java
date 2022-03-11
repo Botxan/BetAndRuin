@@ -23,7 +23,7 @@ public class Question implements Serializable {
 	private String question; 
 	private float betMinimum;
 	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	private Vector<Result> results = new Vector<Result>(); 
+	private Vector<Forecast> results = new Vector<Forecast>(); 
 
 	@XmlIDREF
 	private Event event;
@@ -110,7 +110,7 @@ public class Question implements Serializable {
 	 * 
 	 * @return the the query result
 	 */
-	public Vector<Result> getResult() {
+	public Vector<Forecast> getResult() {
 		return results;
 	}
 
@@ -119,7 +119,7 @@ public class Question implements Serializable {
 	 * 
 	 * @param correct result of the query
 	 */
-	public void setResult(Vector<Result> result) {
+	public void setResult(Vector<Forecast> result) {
 		this.results = result;
 	}
 
@@ -143,6 +143,6 @@ public class Question implements Serializable {
 
 	@Override
 	public String toString(){
-		return questionNumber + ";" + question + ";" + Float.toString(betMinimum);
+		return question;
 	}	
 }

@@ -79,7 +79,7 @@ public class Event implements Serializable {
 
 	@Override
 	public String toString(){
-		return eventNumber+";"+description;
+		return description;
 	}
 
 	/**

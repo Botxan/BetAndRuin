@@ -18,6 +18,7 @@ import configuration.ConfigXML;
 import configuration.UtilDate;
 import domain.Event;
 import domain.Question;
+import domain.Forecast;
 import domain.User;
 import exceptions.QuestionAlreadyExist;
 import exceptions.UserNotFoundException;
@@ -200,6 +201,19 @@ public class DataAccess  {
 			res.add(ev);
 		}
 		return res;
+	}
+	
+	/**
+	 * This methods inserts the given forecast in the database.
+	 * @param question The question of the forecast.
+	 * @param result The result of the forecast.
+	 * @param fee The fee of the forecast.
+	 */
+	public void addForecast(Question question, String result, int fee) {
+		db.getTransaction().begin();
+		Forecast forecast = new Forecast(result, fee, question);
+		db.persist(forecast);
+		db.getTransaction().commit();
 	}
 	
 	public boolean checkLogin(String username, String password) {

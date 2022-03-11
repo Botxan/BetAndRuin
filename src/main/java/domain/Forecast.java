@@ -12,7 +12,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @Entity
-public class Result implements Serializable{
+public class Forecast implements Serializable{
 
 	@Id 
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
@@ -25,14 +25,15 @@ public class Result implements Serializable{
 	@XmlIDREF
 	private Question question;
 	
-	public Result(){
+	public Forecast(){
 		super();
 	}
 	
-	public Result(String result, int fee) {
+	public Forecast(String result, int fee, Question question) {
 		super();
 		this.result = result;
 		this.fee = fee;
+		this.question = question;
 	}
 
 	public String getResult() {
@@ -49,6 +50,14 @@ public class Result implements Serializable{
 
 	public void setFee(int fee) {
 		this.fee = fee;
+	}
+	
+	public Question getQuestion() {
+		return question;
+	}
+	
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 	
 }
