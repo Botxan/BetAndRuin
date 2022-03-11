@@ -169,7 +169,6 @@ public class WelcomeGUI extends JFrame {
 		loginBtn = new JButton();
 		loginBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
 		loginBtn.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				LoginGUI loginWindow = new LoginGUI(businessLogic);
 				loginWindow.setVisible(true);
@@ -186,7 +185,6 @@ public class WelcomeGUI extends JFrame {
 		registerBtn = new JButton();
 		registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));
 		registerBtn.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				RegisterGUI registerWindow = new RegisterGUI(businessLogic);
 				registerWindow.setVisible(true);
@@ -202,7 +200,6 @@ public class WelcomeGUI extends JFrame {
 		browseQuestionsBtn = new JButton();
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 		browseQuestionsBtn.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				BrowseQuestionsGUI browseQuestionsWindow = new BrowseQuestionsGUI(businessLogic);
 				browseQuestionsWindow.setVisible(true);
