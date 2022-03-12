@@ -8,6 +8,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -22,7 +23,7 @@ public class Event implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@XmlID
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
-	@Id @GeneratedValue
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer eventNumber;
 	private String description; 
 	private Date eventDate;
