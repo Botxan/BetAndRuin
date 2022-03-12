@@ -202,10 +202,12 @@ public class CreateQuestionGUI extends JFrame {
 		});
 	}
 
-	public static void paintDaysWithEvents(JCalendar jCalendar, 
-			Vector<Date> datesWithEventsCurrentMonth) {
-		// For each day with events in current month, the background color for that day is changed.
-
+	/**
+	 * For each day with events in current month, the background color for that day is changed.
+	 * @param jCalendar the calendar.
+	 * @param datesWithEventsCurrentMonth a vector with all the days with events of the current month.
+	 */
+	public static void paintDaysWithEvents(JCalendar jCalendar, Vector<Date> datesWithEventsCurrentMonth) {
 		Calendar calendar = jCalendar.getCalendar();
 
 		int month = calendar.get(Calendar.MONTH);
@@ -213,27 +215,13 @@ public class CreateQuestionGUI extends JFrame {
 		int year = calendar.get(Calendar.YEAR);
 
 		calendar.set(Calendar.DAY_OF_MONTH, 1);
-		int offset = calendar.get(Calendar.DAY_OF_WEEK);
-
-		if (Locale.getDefault().equals(new Locale("es")))
-			offset += 4;
-		else
-			offset += 5;
+		int offset = calendar.get(Calendar.DAY_OF_WEEK) + 5;
 
 		for (Date d:datesWithEventsCurrentMonth){
 			calendar.setTime(d);
 			System.out.println(d);
-
-			// Obtain the component of the day in the panel of the DayChooser of the
-			// JCalendar.
-			// The component is located after the decorator buttons of "Sun", "Mon",... or
-			// "Lun", "Mar"...,
-			// the empty days before day 1 of month, and all the days previous to each day.
-			// That number of components is calculated with "offset" and is different in
-			// English and Spanish
-
-			Component o = jCalendar.getDayChooser().getDayPanel()
-					.getComponent(calendar.get(Calendar.DAY_OF_MONTH) + offset);
+			
+			Component o = jCalendar.getDayChooser().getDayPanel().getComponent(calendar.get(Calendar.DAY_OF_MONTH) + offset);
 			o.setBackground(Color.CYAN);
 		}
 
