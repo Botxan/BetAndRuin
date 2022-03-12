@@ -1,11 +1,9 @@
 package gui;
 
 import java.awt.Color;
-import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -21,21 +19,18 @@ import javax.swing.text.NumberFormatter;
 import com.toedter.calendar.JCalendar;
 
 import businessLogic.BlFacade;
-import businessLogic.BlFacadeImplementation;
 import configuration.UtilDate;
 import domain.Event;
 import domain.Question;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JComboBox;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JSpinner;
 import javax.swing.JFormattedTextField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -67,22 +62,6 @@ public class CreateForecastGUI extends JFrame {
 	NumberFormat feeFormat = NumberFormat.getIntegerInstance();
 	NumberFormatter numberFormatter = new NumberFormatter(feeFormat);
 	private JLabel forecastStatusLabel;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					CreateForecastGUI frame = new CreateForecastGUI(new BlFacadeImplementation());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 	
 	public CreateForecastGUI(BlFacade bl) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
@@ -231,7 +210,7 @@ public class CreateForecastGUI extends JFrame {
 				else if (propertyChangeEvent.getPropertyName().equals("calendar")) {
 					previousCalendar = (Calendar) propertyChangeEvent.getOldValue();
 					currentCalendar = (Calendar) propertyChangeEvent.getNewValue();
-					DateFormat dateformat1 = DateFormat.getDateInstance(1, calendar.getLocale());
+					// DateFormat dateformat1 = DateFormat.getDateInstance(1, calendar.getLocale());
 					Date firstDay = UtilDate.trim(new Date(calendar.getCalendar().getTime().getTime()));
 
 					int previousMonth = previousCalendar.get(Calendar.MONTH);

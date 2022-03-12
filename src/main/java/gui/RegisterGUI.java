@@ -10,7 +10,6 @@ import java.awt.Insets;
 import javax.swing.SwingConstants;
 import javax.swing.JTextField;
 import java.awt.Font;
-import java.awt.FontFormatException;
 
 import javax.swing.JPasswordField;
 import javax.swing.JCheckBox;
@@ -32,9 +31,6 @@ import exceptions.UsernameAlreadyInDBException;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 
 /**
  * Graphic User Interface for registering into Bet & Ruin.
@@ -285,6 +281,7 @@ public class RegisterGUI extends JFrame {
 		JComboBox<Integer> dayComboBox = new JComboBox<Integer>();
 		dayComboBox.setEnabled(false);
 		
+		@SuppressWarnings({ "rawtypes", "unchecked" })
 		JComboBox monthComboBox = new JComboBox(monthNames);
 
 		yearField.addKeyListener(new KeyAdapter() {
@@ -409,6 +406,7 @@ public class RegisterGUI extends JFrame {
 	 * @param dayComboBox
 	 * @param monthComboBox
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void updateComboBox(JComboBox dayComboBox, JComboBox monthComboBox)
 	{
 		if(!yearField.getText().isEmpty() && monthComboBox.getSelectedIndex() >= 0)

@@ -1,7 +1,5 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,7 +16,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import businessLogic.BlFacade;
-import businessLogic.BlFacadeImplementation;
 
 public class UserMenuGUI extends JFrame {
 	
@@ -29,22 +26,6 @@ public class UserMenuGUI extends JFrame {
 	private JPanel contentPane;
 	private JComboBox<String> localeCB;
 	private JButton browseQuestionsBtn;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UserMenuGUI frame = new UserMenuGUI(new BlFacadeImplementation());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.

@@ -1,13 +1,10 @@
 package gui;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import businessLogic.BlFacade;
-import businessLogic.BlFacadeImplementation;
 import domain.User;
 import exceptions.InvalidPasswordException;
 import exceptions.UserNotFoundException;
@@ -42,22 +39,6 @@ public class LoginGUI extends JFrame {
 	private JPasswordField passwordField;
 	private JButton loginButton;
 	private JButton registerButton;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					LoginGUI frame = new LoginGUI(new BlFacadeImplementation());
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
