@@ -8,6 +8,7 @@ import javax.swing.border.EmptyBorder;
 
 import businessLogic.BlFacade;
 import businessLogic.BlFacadeImplementation;
+import domain.User;
 import exceptions.InvalidPasswordException;
 import exceptions.UserNotFoundException;
 
@@ -210,10 +211,18 @@ public class LoginGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					errorLabel.setText("");
-					businessLogic.login(usernameField.getText(), new String(passwordField.getPassword()));
-					MenuGUI fromLoginToMenu = new MenuGUI(businessLogic);
-					fromLoginToMenu.setVisible(true);
+					User logedUser = businessLogic.login(usernameField.getText(), new String(passwordField.getPassword()));
+					
+					// Redirect user depending on the user mode
+					if (logedUser.getUserMode() == 1) {
+						// UserMenuGUI userMenuGUI = new UserMenuGUI(businessLogic);
+						// userMenuGUI.setVisible(true);
+					} else if (logedUser.getUserMode() == 2) {
+						AdminMenuGUI adminMenuGUI = new AdminMenuGUI(businessLogic);
+						adminMenuGUI.setVisible(true);
+					}
 					dispose();
+					
 				} catch (UserNotFoundException e1) {
 					errorLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("IncorrectUser"));
 				} catch (InvalidPasswordException e2) {

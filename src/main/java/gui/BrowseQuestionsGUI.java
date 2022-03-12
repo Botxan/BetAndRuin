@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JCalendar;
 
 import businessLogic.BlFacade;
+import businessLogic.BlFacadeImplementation;
 import configuration.UtilDate;
 import domain.Question;
 
@@ -68,6 +69,11 @@ public class BrowseQuestionsGUI extends JFrame {
 			ResourceBundle.getBundle("Etiquetas").getString("QuestionN"), 
 			ResourceBundle.getBundle("Etiquetas").getString("Question")
 	};
+	
+	public static void main(String[] args) {
+		BrowseQuestionsGUI gui = new BrowseQuestionsGUI(new BlFacadeImplementation());
+		gui.setVisible(true);
+	}
 
 
 	public void setBusinessLogic(BlFacade bl) {

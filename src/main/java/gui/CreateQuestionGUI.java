@@ -68,16 +68,16 @@ public class CreateQuestionGUI extends JFrame {
 		businessLogic = bl;		
 	}
 
-	public CreateQuestionGUI(BlFacade bl, Vector<domain.Event> v) {
+	public CreateQuestionGUI(BlFacade bl) {
 		businessLogic = bl;
 		try {
-			jbInit(v);
+			jbInit();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void jbInit(Vector<domain.Event> v) throws Exception {
+	private void jbInit() throws Exception {
 
 		this.getContentPane().setLayout(null);
 		this.setSize(new Dimension(604, 370));
