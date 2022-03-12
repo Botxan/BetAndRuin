@@ -68,6 +68,14 @@ public interface BlFacade  {
 			throws EventFinished, QuestionAlreadyExist;
 	
 	/**
+	 * Calls a data access method in order to store a given forecast in the database.
+	 * @param question The question for which the forecast is going to be created.
+	 * @param result The result of the forecast.
+	 * @param fee The fee of the forecast.
+	 */
+	@WebMethod public void addForecast(Question question, String result, int fee);
+	
+	/**
 	 * Registers a standard permit user into the data base (persistance).
 	 * @param username The identification string of the user.
 	 * @param firstName The first name of the user.
@@ -87,22 +95,7 @@ public interface BlFacade  {
 	 * @throws UsernameAlreadyInDBException Thrown when the chosen username is already in the DB.
 	 */
 	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException;	
-	/**
-	 * Calls a data access method in order to store a given forecast in the database.
-	 * @param question The question for which the forecast is going to be created.
-	 * @param result The result of the forecast.
-	 * @param fee The fee of the forecast.
-	 */
-	@WebMethod public void addForecast(Question question, String result, int fee);
 
-	/**
-	 * Returns the user with the username passed by parameter.
-	 * @param username The username of the user to retrieve.
-	 * @return The user with the username passed by parameter.
-	 * @throws UserNotFoundException
-	 */
-	@WebMethod public User getUser(String username) throws UserNotFoundException;
-	
 	/**
 	 * Returns the user if successfully logged, otherwise an exception is raised.
 	 * @param username Username of the user.
@@ -112,4 +105,36 @@ public interface BlFacade  {
 	 * @throws InvalidPasswordException If the password is not correct.
 	 */
 	@WebMethod public User login(String username, String password) throws UserNotFoundException, InvalidPasswordException;
+	
+	/**
+	 * Returns the user with the username passed by parameter.
+	 * @param username The username of the user to retrieve.
+	 * @return The user with the username passed by parameter.
+	 * @throws UserNotFoundException
+	 */
+	@WebMethod public User getUserByUsername(String username) throws UserNotFoundException;
+	
+	/**
+	 * It returns the current user 
+	 * @return currentUser 
+	 */
+	@WebMethod public User getCurrentUser();
+	
+	/**
+	 * It sets the current user of the application
+	 * @param currentUser
+	 */
+	@WebMethod public void setCurrentUser(User currentUser);	
+	
+	/**
+	 * This method invokes the data access to initialize the database with some events and questions.
+	 * It is invoked only when the option "initialize" is declared in the tag dataBaseOpenMode of resources/config.xml file
+	 */
+	@WebMethod public void initializeBD();
+	
+	/**
+	 * This method is used to close the database.
+	 */
+	@WebMethod public void close();
+
 }
