@@ -117,7 +117,7 @@ public class CreateEventGUI extends JFrame {
 	/**
 	 * This method initializes the majority of the components in the GUI.
 	 */
-	public void initializeMainPane() {
+	private void initializeMainPane() {
 		// Content Panel
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -149,7 +149,7 @@ public class CreateEventGUI extends JFrame {
 	/**
 	 * This method initializes the event description input.
 	 */
-	public void initializeEventDescriptionInput() {
+	private void initializeEventDescriptionInput() {
 		eventDescriptionInput = new JTextField();
 		eventDescriptionInput.addKeyListener(new KeyAdapter() {
 			@Override
@@ -163,7 +163,7 @@ public class CreateEventGUI extends JFrame {
 	/**
 	 * This method initializes the calendar
 	 */
-	public void initializeCalendar() {
+	private void initializeCalendar() {
 		calendar = new JCalendar();
 	}
 	
@@ -171,7 +171,7 @@ public class CreateEventGUI extends JFrame {
 	 * This method initializes the create event button.
 	 * It will store the new event in the database if all the data is correct.
 	 */
-	public void initializeCreateEventBtn() {
+	private void initializeCreateEventBtn() {
 		createEventBtn = new JButton();
 		createEventBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
 		createEventBtn.setEnabled(false);
@@ -203,7 +203,7 @@ public class CreateEventGUI extends JFrame {
 	/**
 	 * This method initializes the close event button.
 	 */
-	public void initializeCloseBtn() {
+	private void initializeCloseBtn() {
 		closeBtn = new JButton();
 		closeBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Close"));	
 	}
@@ -212,7 +212,7 @@ public class CreateEventGUI extends JFrame {
 	 * This method enables the create event button when the event to be
 	 * created is valid. In the meantime, it disables the button.
 	 */
-	public void enableCreateEventBtn() {
+	private void enableCreateEventBtn() {
 		if (eventDescriptionInput.getText().isEmpty()) createEventBtn.setEnabled(false);
 		else createEventBtn.setEnabled(true);
 	}

@@ -422,7 +422,7 @@ public class RegisterGUI extends JFrame {
 	 * @param dayComboBox
 	 * @param monthComboBox
 	 */
-	public void updateComboBox(JComboBox dayComboBox, JComboBox monthComboBox)
+	private void updateComboBox(JComboBox dayComboBox, JComboBox monthComboBox)
 	{
 		if(!yearField.getText().isEmpty() && monthComboBox.getSelectedIndex() >= 0)
 		{

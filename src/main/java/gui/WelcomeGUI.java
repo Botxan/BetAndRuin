@@ -124,7 +124,7 @@ public class WelcomeGUI extends JFrame {
 	/**
 	 * This method initializes the welcome pane.
 	 */
-	public void initializeWelcomePane() {
+	private void initializeWelcomePane() {
 		contentPane = new JPanel();
 		logoLabel = new JLabel();
 		welcomeLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
@@ -138,7 +138,7 @@ public class WelcomeGUI extends JFrame {
 	/**
 	 * This method initializes the combo box with the languages.
 	 */
-	public void initializeLocaleCB() {
+	private void initializeLocaleCB() {
 		localeCB = new JComboBox<String>();
 		
 		localeCB.addItem("EN");
@@ -158,7 +158,7 @@ public class WelcomeGUI extends JFrame {
 	/**
 	 * This method initializes the login button.
 	 */
-	public void initializeLoginBtn() {
+	private void initializeLoginBtn() {
 		loginBtn = new JButton();
 		loginBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
 		loginBtn.addActionListener(new ActionListener() {
@@ -174,7 +174,7 @@ public class WelcomeGUI extends JFrame {
 	/**
 	 * This method initializes the register button.
 	 */
-	public void initializeRegisterBtn() {
+	private void initializeRegisterBtn() {
 		registerBtn = new JButton();
 		registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));
 		registerBtn.addActionListener(new ActionListener() {
@@ -189,7 +189,7 @@ public class WelcomeGUI extends JFrame {
 	/**
 	 * This method initializes the method for browsing questions.
 	 */
-	public void initializeBrowseQuestionsBtn() {
+	private void initializeBrowseQuestionsBtn() {
 		browseQuestionsBtn = new JButton();
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 		browseQuestionsBtn.addActionListener(new ActionListener() {
@@ -204,7 +204,7 @@ public class WelcomeGUI extends JFrame {
 	/**
 	 * This method adds our BetAndRuin logo to the GUI.
 	 */
-	public void addLogo() {
+	private void addLogo() {
 		BufferedImage logo;
 		try {
 			logo = ImageIO.read(new File("resources/final_logo.png"));

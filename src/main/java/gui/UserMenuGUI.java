@@ -78,7 +78,7 @@ public class UserMenuGUI extends JFrame {
 		getContentPane().setLayout(groupLayout);
 	}
 	
-	public void initializeMenuPane() {
+	private void initializeMenuPane() {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -90,7 +90,7 @@ public class UserMenuGUI extends JFrame {
 	/**
 	 * This method initializes the combo box with the languages.
 	 */
-	public void initializeLocaleCB() {
+	private void initializeLocaleCB() {
 		localeCB = new JComboBox<String>();
 		
 		localeCB.addItem("EN");
@@ -110,7 +110,7 @@ public class UserMenuGUI extends JFrame {
 	/**
 	 * This method initializes the method for browsing questions.
 	 */
-	public void initializeBrowseQuestionsBtn() {
+	private void initializeBrowseQuestionsBtn() {
 		browseQuestionsBtn = new JButton();
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 		

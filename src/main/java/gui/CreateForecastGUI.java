@@ -39,8 +39,10 @@ import javax.swing.JFormattedTextField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-@SuppressWarnings("serial")
+
 public class CreateForecastGUI extends JFrame {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private BlFacade businessLogic;
 
@@ -171,7 +173,7 @@ public class CreateForecastGUI extends JFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 	
-	public void initMainPane() {
+	private void initMainPane() {
 		// Labels
 		eventLabel = new JLabel("Event");
 		eventLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Event"));
@@ -210,7 +212,7 @@ public class CreateForecastGUI extends JFrame {
 		initCloseBtn();
 	}
 	
-	public void initCalendar() {
+	private void initCalendar() {
 		calendar = new JCalendar();
 		
 		// Code for JCalendar
@@ -265,7 +267,7 @@ public class CreateForecastGUI extends JFrame {
 		});
 	}
 	
-	public void initResultInput() {
+	private void initResultInput() {
 		resultInput.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -275,7 +277,7 @@ public class CreateForecastGUI extends JFrame {
 		});
 	}
 	
-	public void initFeeInput() {
+	private void initFeeInput() {
 		feeInput.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -285,7 +287,7 @@ public class CreateForecastGUI extends JFrame {
 		});
 	}
 	
-	public void initEventCB() {
+	private void initEventCB() {
 		eventCB = new JComboBox<Event>();
 		
 		eventCB.addActionListener(new ActionListener() {
@@ -304,7 +306,7 @@ public class CreateForecastGUI extends JFrame {
 		});
 	}
 	
-	public void initQuestionCB() {
+	private void initQuestionCB() {
 		questionCB = new JComboBox<Question>();
 		
 		questionCB.addActionListener(new ActionListener() {
@@ -315,7 +317,7 @@ public class CreateForecastGUI extends JFrame {
 		});
 	}
 	
-	public void initSetForecastBtn() {
+	private void initSetForecastBtn() {
 		setForecastBtn = new JButton("Set forecast");
 		setForecastBtn.setEnabled(false);
 		
@@ -332,11 +334,11 @@ public class CreateForecastGUI extends JFrame {
 		});		
 	}
 	
-	public void initCloseBtn() {
+	private void initCloseBtn() {
 		closeBtn = new JButton("Close");
 	}
 	
-	public void enableFeeBtn() {
+	private void enableFeeBtn() {
 		if (eventCB.getSelectedItem() == null || questionCB.getSelectedItem() == null
 				|| resultInput.getText().isEmpty() || feeInput.getText().isEmpty()) 
 			setForecastBtn.setEnabled(false);

@@ -88,7 +88,7 @@ public class AdminMenuGUI extends JFrame {
 	/**
 	 * This method initializes the menu pane.
 	 */
-	public void initializeMenuPane() {
+	private void initializeMenuPane() {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -103,7 +103,7 @@ public class AdminMenuGUI extends JFrame {
 	/**
 	 * This method initializes the combo box with the languages.
 	 */
-	public void initializeLocaleCB() {
+	private void initializeLocaleCB() {
 		comboBox = new JComboBox<String>();
 		
 		comboBox.addItem("EN");
@@ -123,7 +123,7 @@ public class AdminMenuGUI extends JFrame {
 	/**
 	 * This methods initializes the button for creating events.
 	 */
-	public void initializeCreateEventBtn() {
+	private void initializeCreateEventBtn() {
 		createEventBtn = new JButton();	
 		createEventBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
 		
@@ -139,7 +139,7 @@ public class AdminMenuGUI extends JFrame {
 	/**
 	 * This method initialized the button for creating questions.
 	 */
-	public void initializeCreateQuestionBtn() {
+	private void initializeCreateQuestionBtn() {
 		createQuestionBtn = new JButton();
 		createQuestionBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
 		
@@ -155,7 +155,7 @@ public class AdminMenuGUI extends JFrame {
 	/**
 	 * This method initializes the button for browsing questions.
 	 */
-	public void initializeAddForecastBtn() {
+	private void initializeAddForecastBtn() {
 		addForecastBtn = new JButton();
 		addForecastBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("AddForecast"));
 		
@@ -171,7 +171,7 @@ public class AdminMenuGUI extends JFrame {
 	/**
 	 * This method initializes the method for browsing questions.
 	 */
-	public void initializeBrowseQuestionsBtn() {
+	private void initializeBrowseQuestionsBtn() {
 		browseQuestionsBtn = new JButton();
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 		
