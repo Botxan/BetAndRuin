@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Locale;
@@ -51,10 +52,12 @@ public class AdminMenuGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public AdminMenuGUI(BlFacade bl) {
-		businessLogic = (BlFacade)bl;
+		businessLogic = (BlFacade) bl;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 398, 261);
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
+		setTitle(ResourceBundle.getBundle("Etiquetas").getString("AdminMenu"));
 	
 		initializeMenuPane(); 
 		

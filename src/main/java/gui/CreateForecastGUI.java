@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Color;
 import java.awt.EventQueue;
+import java.awt.Toolkit;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
@@ -84,6 +85,9 @@ public class CreateForecastGUI extends JFrame {
 	}
 	
 	public CreateForecastGUI(BlFacade bl) {
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
+		setTitle(ResourceBundle.getBundle("Etiquetas").getString("AddForecast"));
+		
 		businessLogic = bl;
 		try {
 			jbInit();
@@ -216,7 +220,7 @@ public class CreateForecastGUI extends JFrame {
 		calendar = new JCalendar();
 		
 		// Code for JCalendar
-		this.calendar.addPropertyChangeListener(new PropertyChangeListener() {
+		calendar.addPropertyChangeListener(new PropertyChangeListener() {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent propertyChangeEvent) {

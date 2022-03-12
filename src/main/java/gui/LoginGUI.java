@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
+import java.awt.Toolkit;
 import java.util.ResourceBundle;
 
 import javax.swing.JTextField;
@@ -66,6 +67,8 @@ public class LoginGUI extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
+		setTitle(ResourceBundle.getBundle("Etiquetas").getString("Login"));
 		
 		//Initializations:
 		initializeContentPane();

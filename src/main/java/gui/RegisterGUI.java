@@ -55,29 +55,17 @@ public class RegisterGUI extends JFrame {
 	private JTextField yearField;
 	private BlFacade businessLogic;
 	
-	private File fontFile = new File("./resources/Roboto-Regular.ttf");
-	private Font fontBlack;
-
-	public void setFont() {
-		try {
-			fontBlack = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-		} catch (FontFormatException | IOException e) {
-			e.printStackTrace();
-		}
-	}
-	
 	/**
 	 * Create the frame.
 	 */
-	public RegisterGUI(BlFacade bl) {
-		setFont();
-		
+	public RegisterGUI(BlFacade bl) {	
 		businessLogic = bl;
 		
-		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
-		setTitle("Bet&Ruin - Register");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 515, 505);
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
+		setTitle(ResourceBundle.getBundle("Etiquetas").getString("Register"));
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -89,7 +77,6 @@ public class RegisterGUI extends JFrame {
 		contentPane.setLayout(gbl_contentPane);
 		
 		JLabel betAndRuinLabel = new JLabel("Bet & Ruin");
-		betAndRuinLabel.setFont(fontBlack);
 		betAndRuinLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		betAndRuinLabel.setFont(new Font("Roboto Black", Font.PLAIN, 20));
 		GridBagConstraints gbc_betAndRuinLabel = new GridBagConstraints();

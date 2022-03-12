@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -75,9 +76,10 @@ public class CreateQuestionGUI extends JFrame {
 
 	private void jbInit() throws Exception {
 
-		this.getContentPane().setLayout(null);
-		this.setSize(new Dimension(604, 370));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
+		getContentPane().setLayout(null);
+		setSize(new Dimension(604, 370));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
+		setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
 
 		eventComboBox.setModel(eventModel);
 		eventComboBox.setBounds(new Rectangle(275, 47, 250, 20));
@@ -114,20 +116,20 @@ public class CreateQuestionGUI extends JFrame {
 		errorLbl.setBounds(new Rectangle(175, 240, 305, 20));
 		errorLbl.setForeground(Color.red);
 
-		this.getContentPane().add(msgLbl, null);
-		this.getContentPane().add(errorLbl, null);
+		getContentPane().add(msgLbl, null);
+		getContentPane().add(errorLbl, null);
 
-		this.getContentPane().add(closeBtn, null);
-		this.getContentPane().add(createBtn, null);
-		this.getContentPane().add(queryText, null);
-		this.getContentPane().add(queryLbl, null);
-		this.getContentPane().add(priceText, null);
+		getContentPane().add(closeBtn, null);
+		getContentPane().add(createBtn, null);
+		getContentPane().add(queryText, null);
+		getContentPane().add(queryLbl, null);
+		getContentPane().add(priceText, null);
 
-		this.getContentPane().add(minBetLbl, null);
-		this.getContentPane().add(listOfEventsLbl, null);
-		this.getContentPane().add(eventComboBox, null);
+		getContentPane().add(minBetLbl, null);
+		getContentPane().add(listOfEventsLbl, null);
+		getContentPane().add(eventComboBox, null);
 
-		this.getContentPane().add(calendar, null);
+		getContentPane().add(calendar, null);
 
 		datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
 		paintDaysWithEvents(calendar,datesWithEventsInCurrentMonth);
@@ -138,7 +140,7 @@ public class CreateQuestionGUI extends JFrame {
 
 
 		// Code for JCalendar
-		this.calendar.addPropertyChangeListener(new PropertyChangeListener() {
+		calendar.addPropertyChangeListener(new PropertyChangeListener() {
 			@Override
 			public void propertyChange(PropertyChangeEvent propertychangeevent) {
 				if (propertychangeevent.getPropertyName().equals("locale")) {

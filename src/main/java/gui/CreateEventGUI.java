@@ -23,6 +23,8 @@ import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
+import java.awt.Toolkit;
+
 import javax.swing.SwingConstants;
 
 /**
@@ -64,8 +66,11 @@ public class CreateEventGUI extends JFrame {
 	 * Creates the main frame
 	 */
 	private void jbInit() {
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 459, 341);
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
+		setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
 
 		initializeMainPane();
 		

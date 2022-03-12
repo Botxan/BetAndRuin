@@ -2,6 +2,7 @@ package gui;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -87,17 +88,18 @@ public class BrowseQuestionsGUI extends JFrame {
 
 	private void jbInit() throws Exception {
 
-		this.getContentPane().setLayout(null);
-		this.setSize(new Dimension(700, 500));
-		this.setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
+		getContentPane().setLayout(null);
+		setSize(new Dimension(700, 500));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
+		setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 
 		eventDateLbl.setBounds(new Rectangle(40, 15, 140, 25));
 		questionLbl.setBounds(138, 248, 406, 14);
 		eventLbl.setBounds(295, 19, 259, 16);
 
-		this.getContentPane().add(eventDateLbl, null);
-		this.getContentPane().add(questionLbl);
-		this.getContentPane().add(eventLbl);
+		getContentPane().add(eventDateLbl, null);
+		getContentPane().add(questionLbl);
+		getContentPane().add(eventLbl);
 
 		closeBtn.setBounds(new Rectangle(274, 419, 130, 30));
 
@@ -108,7 +110,7 @@ public class BrowseQuestionsGUI extends JFrame {
 			}
 		});
 
-		this.getContentPane().add(closeBtn, null);
+		getContentPane().add(closeBtn, null);
 
 		calendar.setBounds(new Rectangle(40, 50, 225, 150));
 
@@ -116,7 +118,7 @@ public class BrowseQuestionsGUI extends JFrame {
 		CreateQuestionGUI.paintDaysWithEvents(calendar, datesWithEventsInCurrentMonth);
 
 		// Code for JCalendar
-		this.calendar.addPropertyChangeListener(new PropertyChangeListener() {
+		calendar.addPropertyChangeListener(new PropertyChangeListener() {
 
 			@Override
 			public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
@@ -182,7 +184,7 @@ public class BrowseQuestionsGUI extends JFrame {
 			} 
 		});
 
-		this.getContentPane().add(calendar, null);
+		getContentPane().add(calendar, null);
 
 		eventScrollPane.setBounds(new Rectangle(292, 50, 346, 150));
 		questionScrollPane.setBounds(new Rectangle(138, 274, 406, 116));
@@ -228,11 +230,11 @@ public class BrowseQuestionsGUI extends JFrame {
 		questionTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 		questionTable.getColumnModel().getColumn(1).setPreferredWidth(268);
 
-		this.getContentPane().add(eventScrollPane, null);
-		this.getContentPane().add(questionScrollPane, null);
+		getContentPane().add(eventScrollPane, null);
+		getContentPane().add(questionScrollPane, null);
 	}
 
 	private void jButton2_actionPerformed(ActionEvent e) {
-		this.setVisible(false);
+		setVisible(false);
 	}
 }
