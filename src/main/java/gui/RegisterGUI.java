@@ -296,7 +296,7 @@ public class RegisterGUI extends JFrame {
 				ResourceBundle.getBundle("Etiquetas").getString("December")};
 		
 		JComboBox<Integer> dayComboBox = new JComboBox<Integer>();
-		dayComboBox.disable();
+		dayComboBox.setEnabled(false);
 		
 		JComboBox monthComboBox = new JComboBox(monthNames);
 
@@ -426,7 +426,7 @@ public class RegisterGUI extends JFrame {
 	{
 		if(!yearField.getText().isEmpty() && monthComboBox.getSelectedIndex() >= 0)
 		{
-			dayComboBox.enable();
+			dayComboBox.setEnabled(true);;
 			int lastDayMonth = UtilDate.lastDayMonth((monthComboBox.getSelectedIndex()+1), Integer.parseInt(yearField.getText()));
 			System.out.println(lastDayMonth + yearField.getText());
 			dayComboBox.removeAllItems();
