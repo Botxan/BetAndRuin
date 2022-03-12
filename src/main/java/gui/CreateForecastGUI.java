@@ -172,25 +172,40 @@ public class CreateForecastGUI extends JFrame {
 	}
 	
 	public void initMainPane() {
-		resultLabel = new JLabel("Result:");
-		feeLabel = new JLabel("Fee:");
-		
+		// Labels
 		eventLabel = new JLabel("Event");
-		questionLabel = new JLabel("Question");
+		eventLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Event"));
 		
+		questionLabel = new JLabel("Question");
+		questionLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Question"));
+		
+		resultLabel = new JLabel();
+		resultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Result"));
+		
+		feeLabel = new JLabel();
+		feeLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee"));
+		
+		
+		forecastStatusLabel = new JLabel();
+		
+		// Text fields
 		resultInput = new JFormattedTextField();
 		resultInput.setColumns(10);
 		
 		feeInput = new JFormattedTextField(numberFormatter);
 		feeInput.setColumns(10);	
 		
-		forecastStatusLabel = new JLabel("");
-			
-		initCalendar();
 		initResultInput();
 		initFeeInput();
+		
+		//Calendar
+		initCalendar();
+		
+		// Combo boxes
 		initEventCB();
 		initQuestionCB();
+		
+		// Buttons
 		initSetForecastBtn();
 		initCloseBtn();
 	}

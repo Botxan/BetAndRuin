@@ -15,7 +15,6 @@ import javax.swing.JLabel;
 import com.toedter.calendar.JCalendar;
 
 import businessLogic.BlFacade;
-import businessLogic.BlFacadeImplementation;
 import exceptions.EventAlreadyExistException;
 
 import java.awt.event.KeyAdapter;

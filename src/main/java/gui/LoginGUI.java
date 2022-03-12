@@ -27,18 +27,20 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class LoginGUI extends JFrame {
+	
 	//Set the serial version:
 	private static final long serialVersionUID = 1L;
-	private JPanel contentPane;
-	//Business Logic of the Bet & Ruin application:
+	
 	private BlFacade businessLogic;
+	
+	private JPanel contentPane;
 	private JLabel betAndRuinLabel;
-	private JTextField usernameField;
 	private JLabel passwordLabel;
-	private JPasswordField passwordField;
-	private JButton registerButton;
-	private JButton loginButton;
 	private JLabel errorLabel;
+	private JTextField usernameField;
+	private JPasswordField passwordField;
+	private JButton loginButton;
+	private JButton registerButton;
 
 	/**
 	 * Launch the application.
