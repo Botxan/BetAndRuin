@@ -215,8 +215,8 @@ public class LoginGUI extends JFrame {
 					
 					// Redirect user depending on the user mode
 					if (logedUser.getUserMode() == 1) {
-						// UserMenuGUI userMenuGUI = new UserMenuGUI(businessLogic);
-						// userMenuGUI.setVisible(true);
+						UserMenuGUI userMenuGUI = new UserMenuGUI(businessLogic);
+						userMenuGUI.setVisible(true);
 					} else if (logedUser.getUserMode() == 2) {
 						AdminMenuGUI adminMenuGUI = new AdminMenuGUI(businessLogic);
 						adminMenuGUI.setVisible(true);
