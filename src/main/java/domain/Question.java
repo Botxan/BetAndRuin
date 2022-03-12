@@ -15,9 +15,9 @@ public class Question implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	@Id 
+	 
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
-	@GeneratedValue
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer questionNumber;
 
 	private String question; 

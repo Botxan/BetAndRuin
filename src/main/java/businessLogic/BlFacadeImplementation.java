@@ -69,7 +69,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return event;
 	}
 	
-	@Override
 	@WebMethod	
 	public Vector<Event> getEvents(Date date)  {
 		dbManager.open(false);
@@ -78,7 +77,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return events;
 	}
 
-	@Override
 	@WebMethod
 	public Vector<Date> getEventsMonth(Date date) {
 		dbManager.open(false);
@@ -87,7 +85,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return dates;
 	}
 
-	@Override
 	@WebMethod
 	public Question createQuestion(Event event, String question, float betMinimum) 
 			throws EventFinished, QuestionAlreadyExist {
@@ -104,8 +101,7 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.close();
 		return qry;
 	}
-	
-	@Override
+
 	@WebMethod
 	public void addForecast(Question question, String result, int fee) {
 		dbManager.open(false);
@@ -113,7 +109,6 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.close();
 	}
 
-	@Override
 	@WebMethod
 	public void register(String username, String firstName, String lastName, String address, String email,
 			String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException
@@ -215,6 +210,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * Generates a random salt for later use in password hashing.
 	 * @return a random salt.
 	 */
+	@WebMethod
 	public static byte[] generateSalt() {
 		SecureRandom random = new SecureRandom();
 		byte[] salt = new byte[16];

@@ -4,9 +4,11 @@ import java.io.Serializable;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlID;
 import javax.xml.bind.annotation.XmlIDREF;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -14,14 +16,14 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 @Entity
 public class Forecast implements Serializable{
 
-	@Id 
+	private static final long serialVersionUID = 1L;
+	
+	@XmlID
 	@XmlJavaTypeAdapter(IntegerAdapter.class)
-	@GeneratedValue
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer resultNumber;
-	
 	private String result;
-	private int fee;
-	
+	private int fee;	
 	@XmlIDREF
 	private Question question;
 	
