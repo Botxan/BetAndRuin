@@ -64,10 +64,6 @@ public class CreateQuestionGUI extends JFrame {
 
 	private Vector<Date> datesWithEventsInCurrentMonth = new Vector<Date>();
 
-	public void setBusinessLogic(BlFacade bl) {
-		businessLogic = bl;		
-	}
-
 	public CreateQuestionGUI(BlFacade bl) {
 		businessLogic = bl;
 		try {

@@ -75,11 +75,6 @@ public class BrowseQuestionsGUI extends JFrame {
 		gui.setVisible(true);
 	}
 
-
-	public void setBusinessLogic(BlFacade bl) {
-		businessLogic = bl;
-	}
-
 	public BrowseQuestionsGUI(BlFacade bl) {
 		businessLogic = bl;
 		try {
@@ -89,7 +84,6 @@ public class BrowseQuestionsGUI extends JFrame {
 			e.printStackTrace();
 		}
 	}
-
 
 	private void jbInit() throws Exception {
 

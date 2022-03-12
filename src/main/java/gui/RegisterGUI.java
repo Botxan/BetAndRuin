@@ -58,22 +58,20 @@ public class RegisterGUI extends JFrame {
 	private File fontFile = new File("./resources/Roboto-Regular.ttf");
 	private Font fontBlack;
 
-	public void setFont()
-	{
+	public void setFont() {
 		try {
 			fontBlack = Font.createFont(Font.TRUETYPE_FONT, fontFile);
-		} catch (FontFormatException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
+		} catch (FontFormatException | IOException e) {
 			e.printStackTrace();
 		}
 	}
+	
 	/**
 	 * Create the frame.
 	 */
 	public RegisterGUI(BlFacade bl) {
+		setFont();
+		
 		businessLogic = bl;
 		
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));

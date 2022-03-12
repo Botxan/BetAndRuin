@@ -62,8 +62,8 @@ public class LoginGUI extends JFrame {
 	 * Create the frame.
 	 */
 	public LoginGUI(BlFacade bl) {
-		//Set the business logic:
 		businessLogic = (BlFacade)bl;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		

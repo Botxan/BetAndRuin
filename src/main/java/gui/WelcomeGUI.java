@@ -46,21 +46,14 @@ public class WelcomeGUI extends JFrame {
 	private JButton loginBtn;
 	private JButton registerBtn;
 	private JComboBox<String> localeCB;
-
-	/**
-	 * Setter for the business logic.
-	 * @param bl the business logic.
-	 */
-	public void setBussinessLogic (BlFacade bl){
-		businessLogic = bl;
-	}
 	
 	/**
 	 * Constructor for the Welcome GUI. Initializes all the components and
 	 * adds the logo to the GUI.
 	 */
-	public WelcomeGUI() {
+	public WelcomeGUI(BlFacade bl) {
 		try {
+			businessLogic = bl;
 			jbInit();
 			pack();
 			addLogo();

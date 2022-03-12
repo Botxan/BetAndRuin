@@ -19,7 +19,8 @@ public class ApplicationLauncher {
 
 		Locale.setDefault(new Locale(config.getLocale()));
 		System.out.println("Locale: " + Locale.getDefault());
-		WelcomeGUI initWindow = new WelcomeGUI();
+		
+		WelcomeGUI initWindow;
 		BlFacade businessLogic;
 
 		try {
@@ -43,7 +44,8 @@ public class ApplicationLauncher {
 				Service service = Service.create(url, qname);
 				businessLogic = service.getPort(BlFacade.class);
 			}
-			initWindow.setBussinessLogic(businessLogic);
+			
+			initWindow = new WelcomeGUI(businessLogic);
 			initWindow.setVisible(true);
 		}
 		catch (Exception e) {
