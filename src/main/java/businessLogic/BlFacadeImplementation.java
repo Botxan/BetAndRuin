@@ -30,7 +30,7 @@ import exceptions.*;
  */
 @WebService(endpointInterface = "businessLogic.BlFacade")
 public class BlFacadeImplementation implements BlFacade {
-
+	
 	DataAccess dbManager;
 	ConfigXML config = ConfigXML.getInstance();
 	// Regular Expression for checking email format:
@@ -60,36 +60,22 @@ public class BlFacadeImplementation implements BlFacade {
 		currentUser = null;
 		dbManager = dam;		
 	}
-
-
+	
 	/**
-	 * This method creates a question for an event, with a question text and the minimum bet
-	 * 
-	 * @param event to which question is added
-	 * @param question text of the question
-	 * @param betMinimum minimum quantity of the bet
-	 * @return the created question, or null, or an exception
-	 * @throws EventFinished if current data is after data of the event
-	 * @throws QuestionAlreadyExist if the same question already exists for the event
+	 * This method invokes the data access to insert a new event in
+	 * the database
+	 * @return the new event.
+	 * @throws EventAlreadyExistException if the event already exist in the database.
 	 */
 	@Override
 	@WebMethod
-	public Question createQuestion(Event event, String question, float betMinimum) 
-			throws EventFinished, QuestionAlreadyExist {
-
-		//The minimum bid must be greater than 0
+	public Event createEvent(String name, Date date) throws EventAlreadyExistException {
 		dbManager.open(false);
-		Question qry = null;
-
-		if (new Date().compareTo(event.getEventDate()) > 0)
-			throw new EventFinished(ResourceBundle.getBundle("Etiquetas").
-					getString("ErrorEventHasFinished"));
-
-		qry = dbManager.createQuestion(event, question, betMinimum);		
+		Event event = dbManager.createEvent(name, date);
 		dbManager.close();
-		return qry;
+		return event;
 	}
-
+	
 	/**
 	 * This method invokes the data access to retrieve the events of a given date 
 	 * 
@@ -119,6 +105,34 @@ public class BlFacadeImplementation implements BlFacade {
 		Vector<Date>  dates = dbManager.getEventsMonth(date);
 		dbManager.close();
 		return dates;
+	}
+
+	/**
+	 * This method creates a question for an event, with a question text and the minimum bet
+	 * 
+	 * @param event to which question is added
+	 * @param question text of the question
+	 * @param betMinimum minimum quantity of the bet
+	 * @return the created question, or null, or an exception
+	 * @throws EventFinished if current data is after data of the event
+	 * @throws QuestionAlreadyExist if the same question already exists for the event
+	 */
+	@Override
+	@WebMethod
+	public Question createQuestion(Event event, String question, float betMinimum) 
+			throws EventFinished, QuestionAlreadyExist {
+
+		//The minimum bid must be greater than 0
+		dbManager.open(false);
+		Question qry = null;
+
+		if (new Date().compareTo(event.getEventDate()) > 0)
+			throw new EventFinished(ResourceBundle.getBundle("Etiquetas").
+					getString("ErrorEventHasFinished"));
+
+		qry = dbManager.createQuestion(event, question, betMinimum);		
+		dbManager.close();
+		return qry;
 	}
 	
 	/**

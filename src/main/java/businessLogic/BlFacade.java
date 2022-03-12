@@ -9,6 +9,7 @@ import javax.jws.WebService;
 import domain.Event;
 import domain.Question;
 import domain.User;
+import exceptions.EventAlreadyExistException;
 import exceptions.EventFinished;
 import exceptions.IncorrectPSWConfirmException;
 import exceptions.InvalidDateException;
@@ -25,21 +26,17 @@ import exceptions.UsernameAlreadyInDBException;
  */
 @WebService
 public interface BlFacade  {
-
+	
 	/**
-	 * This method creates a question for an event, with a question text and the minimum bet
-	 * 
-	 * @param event to which question is added
-	 * @param question text of the question
-	 * @param betMinimum minimum quantity of the bet
-	 * @return the created question, or null, or an exception
-	 * @throws EventFinished if current data is after data of the event
- 	 * @throws QuestionAlreadyExist if the same question already exists for the event
+	 * This method creates an event, with the event name and the date.
+	 * @param name The name of the event.
+	 * @param date The date of the event.
+	 * @return The new event.
+	 * @throws EventAlreadyExistException if the exception already exist in the database.
 	 */
 	@WebMethod
-	Question createQuestion(Event event, String question, float betMinimum) 
-			throws EventFinished, QuestionAlreadyExist;
-		
+	public Event createEvent(String name, Date date) throws EventAlreadyExistException;
+	
 	/**
 	 * This method retrieves all the events of a given date 
 	 * 
@@ -55,6 +52,20 @@ public interface BlFacade  {
 	 * @return collection of dates
 	 */
 	@WebMethod public Vector<Date> getEventsMonth(Date date);
+
+	/**
+	 * This method creates a question for an event, with a question text and the minimum bet
+	 * 
+	 * @param event to which question is added
+	 * @param question text of the question
+	 * @param betMinimum minimum quantity of the bet
+	 * @return the created question, or null, or an exception
+	 * @throws EventFinished if current data is after data of the event
+ 	 * @throws QuestionAlreadyExist if the same question already exists for the event
+	 */
+	@WebMethod
+	public Question createQuestion(Event event, String question, float betMinimum) 
+			throws EventFinished, QuestionAlreadyExist;
 	
 	/**
 	 * Registers a standard permit user into the data base (persistance).
@@ -75,8 +86,7 @@ public interface BlFacade  {
 	 * @throws NoMatchingPatternException Thrown when the email does not match the standard format.
 	 * @throws UsernameAlreadyInDBException Thrown when the chosen username is already in the DB.
 	 */
-	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException;
-	
+	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException;	
 	/**
 	 * Calls a data access method in order to store a given forecast in the database.
 	 * @param question The question for which the forecast is going to be created.
