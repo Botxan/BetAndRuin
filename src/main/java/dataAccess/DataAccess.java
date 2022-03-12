@@ -1,6 +1,8 @@
 	package dataAccess;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -16,6 +18,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
+import businessLogic.BlFacadeImplementation;
 import configuration.ConfigXML;
 import configuration.UtilDate;
 import domain.Event;
@@ -120,7 +123,15 @@ public class DataAccess  {
 				q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1);
 				q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
 			}
-
+			
+			// Create dummy user and admin
+			byte [] salt = BlFacadeImplementation.generateSalt();
+			byte[] password = BlFacadeImplementation.hashPassword("123123", salt);
+			User user1 = new User("user1", "userFirstName", "userLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
+					"userAddress", password, "user@email.com", salt, 1);
+			User admin1 = new User("admin1", "adminFirstName", "adminLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
+					"adminAddress", password, "admin@email.com", salt, 2);
+			
 			db.persist(q1);
 			db.persist(q2);
 			db.persist(q3);
@@ -147,7 +158,10 @@ public class DataAccess  {
 			db.persist(ev17);
 			db.persist(ev18);
 			db.persist(ev19);
-			db.persist(ev20);			
+			db.persist(ev20);
+			
+			db.persist(user1);
+			db.persist(admin1);
 
 			db.getTransaction().commit();
 			System.out.println("The database has been initialized");

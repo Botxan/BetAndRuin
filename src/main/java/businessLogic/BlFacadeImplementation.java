@@ -227,7 +227,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param salt the salt used to hash the password.
 	 * @return the hashed password.
 	 */
-	public byte[] hashPassword(String password, byte[] salt) {
+	public static byte[] hashPassword(String password, byte[] salt) {
 		byte[] hashedPassword = null;
 		try {
 			MessageDigest md = MessageDigest.getInstance("SHA-512");
@@ -244,7 +244,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * Generates a random salt for later use in password hashing.
 	 * @return a random salt.
 	 */
-	public byte[] generateSalt() {
+	public static byte[] generateSalt() {
 		SecureRandom random = new SecureRandom();
 		byte[] salt = new byte[16];
 		random.nextBytes(salt);
