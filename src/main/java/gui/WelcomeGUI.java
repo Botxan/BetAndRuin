@@ -41,8 +41,8 @@ public class WelcomeGUI extends JFrame {
 	private BlFacade businessLogic;
 	
 	private JPanel contentPane;	
-	private JLabel logoLabel;
-	private JLabel welcomeLabel;
+	private JLabel logoLbl;
+	private JLabel welcomeLbl;
 	private JButton browseQuestionsBtn;
 	private JButton loginBtn;
 	private JButton registerBtn;
@@ -80,7 +80,7 @@ public class WelcomeGUI extends JFrame {
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
 		
 		setContentPane(contentPane);
-		welcomeLabel.setFont(new Font("Tahoma", Font.PLAIN, 24));
+		welcomeLbl.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
 		// Group layout code
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
@@ -96,11 +96,11 @@ public class WelcomeGUI extends JFrame {
 					.addContainerGap(5, Short.MAX_VALUE))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(24)
-					.addComponent(welcomeLabel)
+					.addComponent(welcomeLbl)
 					.addContainerGap(207, Short.MAX_VALUE))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(42)
-					.addComponent(logoLabel, GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
+					.addComponent(logoLbl, GroupLayout.DEFAULT_SIZE, 241, Short.MAX_VALUE)
 					.addGap(45))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(81)
@@ -115,9 +115,9 @@ public class WelcomeGUI extends JFrame {
 						.addComponent(registerBtn)
 						.addComponent(loginBtn))
 					.addGap(8)
-					.addComponent(welcomeLabel, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
+					.addComponent(welcomeLbl, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(logoLabel, GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+					.addComponent(logoLbl, GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(browseQuestionsBtn, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap())
@@ -130,8 +130,8 @@ public class WelcomeGUI extends JFrame {
 	 */
 	private void initializeWelcomePane() {
 		contentPane = new JPanel();
-		logoLabel = new JLabel();
-		welcomeLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
+		logoLbl = new JLabel();
+		welcomeLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
 		
 		initializeLocaleCB();
 		initializeLoginBtn();
@@ -212,8 +212,8 @@ public class WelcomeGUI extends JFrame {
 		BufferedImage logo;
 		try {
 			logo = ImageIO.read(new File("resources/final_logo.png"));
-			Image dlogo = logo.getScaledInstance(logoLabel.getWidth(), logoLabel.getHeight(), Image.SCALE_SMOOTH);
-			logoLabel.setIcon(new ImageIcon(dlogo));
+			Image dlogo = logo.getScaledInstance(logoLbl.getWidth(), logoLbl.getHeight(), Image.SCALE_SMOOTH);
+			logoLbl.setIcon(new ImageIcon(dlogo));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -226,7 +226,7 @@ public class WelcomeGUI extends JFrame {
 	private void redraw() {
 		loginBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
 		registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));
-		welcomeLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
+		welcomeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
 	}

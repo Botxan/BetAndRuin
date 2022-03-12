@@ -72,36 +72,36 @@ public class RegisterGUI extends JFrame {
 		gbl_contentPane.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		contentPane.setLayout(gbl_contentPane);
 		
-		JLabel betAndRuinLabel = new JLabel("Bet & Ruin");
-		betAndRuinLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		betAndRuinLabel.setFont(new Font("Roboto Black", Font.PLAIN, 20));
-		GridBagConstraints gbc_betAndRuinLabel = new GridBagConstraints();
-		gbc_betAndRuinLabel.anchor = GridBagConstraints.WEST;
-		gbc_betAndRuinLabel.gridwidth = 2;
-		gbc_betAndRuinLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_betAndRuinLabel.gridx = 1;
-		gbc_betAndRuinLabel.gridy = 1;
-		contentPane.add(betAndRuinLabel, gbc_betAndRuinLabel);
+		JLabel betAndRuinLbl = new JLabel("Bet & Ruin");
+		betAndRuinLbl.setHorizontalAlignment(SwingConstants.LEFT);
+		betAndRuinLbl.setFont(new Font("Roboto Black", Font.PLAIN, 20));
+		GridBagConstraints gbc_betAndRuinLbl = new GridBagConstraints();
+		gbc_betAndRuinLbl.anchor = GridBagConstraints.WEST;
+		gbc_betAndRuinLbl.gridwidth = 2;
+		gbc_betAndRuinLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_betAndRuinLbl.gridx = 1;
+		gbc_betAndRuinLbl.gridy = 1;
+		contentPane.add(betAndRuinLbl, gbc_betAndRuinLbl);
 		
-		JLabel registerLabel = new JLabel((ResourceBundle.getBundle("Etiquetas").getString("Register")).toUpperCase());
-		registerLabel.setFont(new Font("Roboto Medium", Font.PLAIN, 16));
-		registerLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_registerLabel = new GridBagConstraints();
-		gbc_registerLabel.anchor = GridBagConstraints.WEST;
-		gbc_registerLabel.gridwidth = 2;
-		gbc_registerLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_registerLabel.gridx = 1;
-		gbc_registerLabel.gridy = 2;
-		contentPane.add(registerLabel, gbc_registerLabel);
+		JLabel registerLbl = new JLabel((ResourceBundle.getBundle("Etiquetas").getString("Register")).toUpperCase());
+		registerLbl.setFont(new Font("Roboto Medium", Font.PLAIN, 16));
+		registerLbl.setHorizontalAlignment(SwingConstants.LEFT);
+		GridBagConstraints gbc_registerLbl = new GridBagConstraints();
+		gbc_registerLbl.anchor = GridBagConstraints.WEST;
+		gbc_registerLbl.gridwidth = 2;
+		gbc_registerLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_registerLbl.gridx = 1;
+		gbc_registerLbl.gridy = 2;
+		contentPane.add(registerLbl, gbc_registerLbl);
 		
-		JLabel usernameLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username"));
-		GridBagConstraints gbc_usernameLabel = new GridBagConstraints();
-		gbc_usernameLabel.anchor = GridBagConstraints.WEST;
-		gbc_usernameLabel.gridwidth = 4;
-		gbc_usernameLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_usernameLabel.gridx = 1;
-		gbc_usernameLabel.gridy = 4;
-		contentPane.add(usernameLabel, gbc_usernameLabel);
+		JLabel usernameLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username"));
+		GridBagConstraints gbc_usernameLbl = new GridBagConstraints();
+		gbc_usernameLbl.anchor = GridBagConstraints.WEST;
+		gbc_usernameLbl.gridwidth = 4;
+		gbc_usernameLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_usernameLbl.gridx = 1;
+		gbc_usernameLbl.gridy = 4;
+		contentPane.add(usernameLbl, gbc_usernameLbl);
 		
 		usernameField = new JTextField();
 		GridBagConstraints gbc_usernameField = new GridBagConstraints();
@@ -113,25 +113,25 @@ public class RegisterGUI extends JFrame {
 		contentPane.add(usernameField, gbc_usernameField);
 		usernameField.setColumns(10);
 		
-		JLabel firstNameLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("FirstName"));
-		GridBagConstraints gbc_firstNameLabel = new GridBagConstraints();
-		gbc_firstNameLabel.gridwidth = 2;
-		gbc_firstNameLabel.anchor = GridBagConstraints.WEST;
-		gbc_firstNameLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_firstNameLabel.fill = GridBagConstraints.VERTICAL;
-		gbc_firstNameLabel.gridx = 1;
-		gbc_firstNameLabel.gridy = 6;
-		contentPane.add(firstNameLabel, gbc_firstNameLabel);
+		JLabel firstNameLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("FirstName"));
+		GridBagConstraints gbc_firstNameLbl = new GridBagConstraints();
+		gbc_firstNameLbl.gridwidth = 2;
+		gbc_firstNameLbl.anchor = GridBagConstraints.WEST;
+		gbc_firstNameLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_firstNameLbl.fill = GridBagConstraints.VERTICAL;
+		gbc_firstNameLbl.gridx = 1;
+		gbc_firstNameLbl.gridy = 6;
+		contentPane.add(firstNameLbl, gbc_firstNameLbl);
 		
-		JLabel lastNameLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("LastName"));
-		lastNameLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_lastNameLabel = new GridBagConstraints();
-		gbc_lastNameLabel.gridwidth = 2;
-		gbc_lastNameLabel.anchor = GridBagConstraints.WEST;
-		gbc_lastNameLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_lastNameLabel.gridx = 3;
-		gbc_lastNameLabel.gridy = 6;
-		contentPane.add(lastNameLabel, gbc_lastNameLabel);
+		JLabel lastNameLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("LastName"));
+		lastNameLbl.setHorizontalAlignment(SwingConstants.LEFT);
+		GridBagConstraints gbc_lastNameLbl = new GridBagConstraints();
+		gbc_lastNameLbl.gridwidth = 2;
+		gbc_lastNameLbl.anchor = GridBagConstraints.WEST;
+		gbc_lastNameLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_lastNameLbl.gridx = 3;
+		gbc_lastNameLbl.gridy = 6;
+		contentPane.add(lastNameLbl, gbc_lastNameLbl);
 		
 		firstNameField = new JTextField();
 		GridBagConstraints gbc_firstNameField = new GridBagConstraints();
@@ -153,14 +153,14 @@ public class RegisterGUI extends JFrame {
 		contentPane.add(lastNameField, gbc_lastNameField);
 		lastNameField.setColumns(10);
 		
-		JLabel addressLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Address"));
-		GridBagConstraints gbc_addressLabel = new GridBagConstraints();
-		gbc_addressLabel.gridwidth = 4;
-		gbc_addressLabel.anchor = GridBagConstraints.WEST;
-		gbc_addressLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_addressLabel.gridx = 1;
-		gbc_addressLabel.gridy = 8;
-		contentPane.add(addressLabel, gbc_addressLabel);
+		JLabel addressLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Address"));
+		GridBagConstraints gbc_addressLbl = new GridBagConstraints();
+		gbc_addressLbl.gridwidth = 4;
+		gbc_addressLbl.anchor = GridBagConstraints.WEST;
+		gbc_addressLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_addressLbl.gridx = 1;
+		gbc_addressLbl.gridy = 8;
+		contentPane.add(addressLbl, gbc_addressLbl);
 		
 		addressField = new JTextField();
 		GridBagConstraints gbc_addressField = new GridBagConstraints();
@@ -172,14 +172,14 @@ public class RegisterGUI extends JFrame {
 		contentPane.add(addressField, gbc_addressField);
 		addressField.setColumns(10);
 		
-		JLabel emailLabel = new JLabel("Email");
-		GridBagConstraints gbc_emailLabel = new GridBagConstraints();
-		gbc_emailLabel.gridwidth = 4;
-		gbc_emailLabel.anchor = GridBagConstraints.WEST;
-		gbc_emailLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_emailLabel.gridx = 1;
-		gbc_emailLabel.gridy = 10;
-		contentPane.add(emailLabel, gbc_emailLabel);
+		JLabel emailLbl = new JLabel("Email");
+		GridBagConstraints gbc_emailLbl = new GridBagConstraints();
+		gbc_emailLbl.gridwidth = 4;
+		gbc_emailLbl.anchor = GridBagConstraints.WEST;
+		gbc_emailLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_emailLbl.gridx = 1;
+		gbc_emailLbl.gridy = 10;
+		contentPane.add(emailLbl, gbc_emailLbl);
 		
 		emailField = new JTextField();
 		GridBagConstraints gbc_emailField = new GridBagConstraints();
@@ -191,24 +191,24 @@ public class RegisterGUI extends JFrame {
 		contentPane.add(emailField, gbc_emailField);
 		emailField.setColumns(10);
 		
-		JLabel passwordLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password"));
-		GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
-		gbc_passwordLabel.gridwidth = 2;
-		gbc_passwordLabel.anchor = GridBagConstraints.WEST;
-		gbc_passwordLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_passwordLabel.gridx = 1;
-		gbc_passwordLabel.gridy = 12;
-		contentPane.add(passwordLabel, gbc_passwordLabel);
+		JLabel passwordLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password"));
+		GridBagConstraints gbc_passwordLbl = new GridBagConstraints();
+		gbc_passwordLbl.gridwidth = 2;
+		gbc_passwordLbl.anchor = GridBagConstraints.WEST;
+		gbc_passwordLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_passwordLbl.gridx = 1;
+		gbc_passwordLbl.gridy = 12;
+		contentPane.add(passwordLbl, gbc_passwordLbl);
 		
-		JLabel confirmPasswordLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ConfirmPassword"));
-		confirmPasswordLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		GridBagConstraints gbc_confirmPasswordLabel = new GridBagConstraints();
-		gbc_confirmPasswordLabel.gridwidth = 2;
-		gbc_confirmPasswordLabel.anchor = GridBagConstraints.WEST;
-		gbc_confirmPasswordLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_confirmPasswordLabel.gridx = 3;
-		gbc_confirmPasswordLabel.gridy = 12;
-		contentPane.add(confirmPasswordLabel, gbc_confirmPasswordLabel);
+		JLabel confirmPasswordLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("ConfirmPassword"));
+		confirmPasswordLbl.setHorizontalAlignment(SwingConstants.LEFT);
+		GridBagConstraints gbc_confirmPasswordLbl = new GridBagConstraints();
+		gbc_confirmPasswordLbl.gridwidth = 2;
+		gbc_confirmPasswordLbl.anchor = GridBagConstraints.WEST;
+		gbc_confirmPasswordLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_confirmPasswordLbl.gridx = 3;
+		gbc_confirmPasswordLbl.gridy = 12;
+		contentPane.add(confirmPasswordLbl, gbc_confirmPasswordLbl);
 		
 		passwordField = new JPasswordField();
 		GridBagConstraints gbc_passwordField = new GridBagConstraints();
@@ -228,41 +228,41 @@ public class RegisterGUI extends JFrame {
 		gbc_confirmPasswordField.gridy = 13;
 		contentPane.add(confirmPasswordField, gbc_confirmPasswordField);
 		
-		JLabel birthdateLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Birthdate"));
-		GridBagConstraints gbc_birthdateLabel = new GridBagConstraints();
-		gbc_birthdateLabel.gridwidth = 4;
-		gbc_birthdateLabel.anchor = GridBagConstraints.WEST;
-		gbc_birthdateLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_birthdateLabel.gridx = 1;
-		gbc_birthdateLabel.gridy = 14;
-		contentPane.add(birthdateLabel, gbc_birthdateLabel);
+		JLabel birthdateLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Birthdate"));
+		GridBagConstraints gbc_birthdateLbl = new GridBagConstraints();
+		gbc_birthdateLbl.gridwidth = 4;
+		gbc_birthdateLbl.anchor = GridBagConstraints.WEST;
+		gbc_birthdateLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_birthdateLbl.gridx = 1;
+		gbc_birthdateLbl.gridy = 14;
+		contentPane.add(birthdateLbl, gbc_birthdateLbl);
 		
-		JLabel yearLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Year"));
-		yearLabel.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		GridBagConstraints gbc_yearLabel = new GridBagConstraints();
-		gbc_yearLabel.anchor = GridBagConstraints.WEST;
-		gbc_yearLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_yearLabel.gridx = 1;
-		gbc_yearLabel.gridy = 15;
-		contentPane.add(yearLabel, gbc_yearLabel);
+		JLabel yearLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Year"));
+		yearLbl.setFont(new Font("Tahoma", Font.PLAIN, 8));
+		GridBagConstraints gbc_yearLbl = new GridBagConstraints();
+		gbc_yearLbl.anchor = GridBagConstraints.WEST;
+		gbc_yearLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_yearLbl.gridx = 1;
+		gbc_yearLbl.gridy = 15;
+		contentPane.add(yearLbl, gbc_yearLbl);
 		
-		JLabel monthLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Month"));
-		monthLabel.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		GridBagConstraints gbc_monthLabel = new GridBagConstraints();
-		gbc_monthLabel.anchor = GridBagConstraints.WEST;
-		gbc_monthLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_monthLabel.gridx = 2;
-		gbc_monthLabel.gridy = 15;
-		contentPane.add(monthLabel, gbc_monthLabel);
+		JLabel monthLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Month"));
+		monthLbl.setFont(new Font("Tahoma", Font.PLAIN, 8));
+		GridBagConstraints gbc_monthLbl = new GridBagConstraints();
+		gbc_monthLbl.anchor = GridBagConstraints.WEST;
+		gbc_monthLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_monthLbl.gridx = 2;
+		gbc_monthLbl.gridy = 15;
+		contentPane.add(monthLbl, gbc_monthLbl);
 		
-		JLabel dayLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Day"));
-		dayLabel.setFont(new Font("Tahoma", Font.PLAIN, 8));
-		GridBagConstraints gbc_dayLabel = new GridBagConstraints();
-		gbc_dayLabel.anchor = GridBagConstraints.WEST;
-		gbc_dayLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_dayLabel.gridx = 4;
-		gbc_dayLabel.gridy = 15;
-		contentPane.add(dayLabel, gbc_dayLabel);
+		JLabel dayLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Day"));
+		dayLbl.setFont(new Font("Tahoma", Font.PLAIN, 8));
+		GridBagConstraints gbc_dayLbl = new GridBagConstraints();
+		gbc_dayLbl.anchor = GridBagConstraints.WEST;
+		gbc_dayLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_dayLbl.gridx = 4;
+		gbc_dayLbl.gridy = 15;
+		contentPane.add(dayLbl, gbc_dayLbl);
 		
 		yearField = new JTextField();
 		
@@ -282,30 +282,30 @@ public class RegisterGUI extends JFrame {
 		dayComboBox.setEnabled(false);
 		
 		@SuppressWarnings({ "rawtypes", "unchecked" })
-		JComboBox monthComboBox = new JComboBox(monthNames);
+		JComboBox monthCB = new JComboBox(monthNames);
 
 		yearField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
-				updateComboBox(dayComboBox, monthComboBox);
+				updateComboBox(dayComboBox, monthCB);
 			}
 		});
 		
-		monthComboBox.addActionListener(new ActionListener() {
+		monthCB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				//Choose only the available days for the given month.
-				updateComboBox(dayComboBox, monthComboBox);
+				updateComboBox(dayComboBox, monthCB);
 			}
 		});
-		monthComboBox.setSelectedIndex(-1);
+		monthCB.setSelectedIndex(-1);
 		
-		GridBagConstraints gbc_monthComboBox = new GridBagConstraints();
-		gbc_monthComboBox.gridwidth = 2;
-		gbc_monthComboBox.insets = new Insets(0, 0, 5, 5);
-		gbc_monthComboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_monthComboBox.gridx = 2;
-		gbc_monthComboBox.gridy = 16;
-		contentPane.add(monthComboBox, gbc_monthComboBox);
+		GridBagConstraints gbc_monthCB = new GridBagConstraints();
+		gbc_monthCB.gridwidth = 2;
+		gbc_monthCB.insets = new Insets(0, 0, 5, 5);
+		gbc_monthCB.fill = GridBagConstraints.HORIZONTAL;
+		gbc_monthCB.gridx = 2;
+		gbc_monthCB.gridy = 16;
+		contentPane.add(monthCB, gbc_monthCB);
 		
 		//DayComboBox:
 		
@@ -328,27 +328,27 @@ public class RegisterGUI extends JFrame {
 		gbc_conditionsCheckBox.gridy = 17;
 		contentPane.add(conditionsCheckBox, gbc_conditionsCheckBox);
 		
-		JLabel errorLabel = new JLabel("");
-		errorLabel.setForeground(new Color(220, 20, 60));
-		errorLabel.setBackground(new Color(220, 20, 60));
-		GridBagConstraints gbc_errorLabel = new GridBagConstraints();
-		gbc_errorLabel.anchor = GridBagConstraints.WEST;
-		gbc_errorLabel.gridwidth = 3;
-		gbc_errorLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_errorLabel.gridx = 1;
-		gbc_errorLabel.gridy = 18;
-		contentPane.add(errorLabel, gbc_errorLabel);
+		JLabel errorLbl = new JLabel("");
+		errorLbl.setForeground(new Color(220, 20, 60));
+		errorLbl.setBackground(new Color(220, 20, 60));
+		GridBagConstraints gbc_errorLbl = new GridBagConstraints();
+		gbc_errorLbl.anchor = GridBagConstraints.WEST;
+		gbc_errorLbl.gridwidth = 3;
+		gbc_errorLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_errorLbl.gridx = 1;
+		gbc_errorLbl.gridy = 18;
+		contentPane.add(errorLbl, gbc_errorLbl);
 		
-		JButton registerButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Register"));
-		registerButton.addActionListener(new ActionListener() {
+		JButton registerBtn = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Register"));
+		registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(!conditionsCheckBox.isSelected())
 				{
-					errorLabel.setText("<html><p style=\\\"width:200px\\\">"+ResourceBundle.getBundle("Etiquetas").getString("TermsException")+"</p></html>");
+					errorLbl.setText("<html><p style=\\\"width:200px\\\">"+ResourceBundle.getBundle("Etiquetas").getString("TermsException")+"</p></html>");
 				}
 				else
 				{
-					errorLabel.setText("");
+					errorLbl.setText("");
 					String username = usernameField.getText();
 					String firstName = firstNameField.getText();
 					String lastName = lastNameField.getText();
@@ -357,13 +357,13 @@ public class RegisterGUI extends JFrame {
 					String password = new String(passwordField.getPassword());
 					String confirmPassword = new String(confirmPasswordField.getPassword());
 					String yearS = yearField.getText();
-					int month = monthComboBox.getSelectedIndex() + 1;
+					int month = monthCB.getSelectedIndex() + 1;
 					int day = dayComboBox.getSelectedIndex() + 1;
 					//Check null:
 					if(username.isEmpty() || firstName.isEmpty() || lastName.isEmpty() ||
 							address.isEmpty() || email.isEmpty() || password.isEmpty() || 
 							confirmPassword.isEmpty() || yearS.isEmpty() || month < 1 || day < 1)
-						errorLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("FieldsCompulsory"));
+						errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("FieldsCompulsory"));
 					else
 					{
 						try {
@@ -371,34 +371,34 @@ public class RegisterGUI extends JFrame {
 							businessLogic.register(username, firstName, lastName, address, email, password, confirmPassword, year, month, day);
 						} catch(NoMatchingPatternException e5)
 						{
-							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("InvalidEmail") + "</p></html>");
+							errorLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("InvalidEmail") + "</p></html>");
 						} catch (InvalidDateException e1)
 						{
-							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("InvalidDate") + "</p></html>");
+							errorLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("InvalidDate") + "</p></html>");
 						} catch(UnderageRegistrationException e2)
 						{
-							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("AdultRegister") + "</p></html>");
+							errorLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("AdultRegister") + "</p></html>");
 						} catch(IncorrectPSWConfirmException e3)
 						{
-							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("PswMatch") + "</p></html>");
+							errorLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("PswMatch") + "</p></html>");
 							
 						} catch(PswTooShortException e4)
 						{
-							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("Psw6") + "</p></html>");
+							errorLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("Psw6") + "</p></html>");
 						} catch(UsernameAlreadyInDBException e6)
 						{
-							errorLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("UsernameRepeated") + "</p></html>");
+							errorLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("UsernameRepeated") + "</p></html>");
 						}
 					}
 				}
 			}
 		});
-		GridBagConstraints gbc_registerButton = new GridBagConstraints();
-		gbc_registerButton.insets = new Insets(0, 0, 5, 5);
-		gbc_registerButton.anchor = GridBagConstraints.EAST;
-		gbc_registerButton.gridx = 4;
-		gbc_registerButton.gridy = 18;
-		contentPane.add(registerButton, gbc_registerButton);
+		GridBagConstraints gbc_registerBtn = new GridBagConstraints();
+		gbc_registerBtn.insets = new Insets(0, 0, 5, 5);
+		gbc_registerBtn.anchor = GridBagConstraints.EAST;
+		gbc_registerBtn.gridx = 4;
+		gbc_registerBtn.gridy = 18;
+		contentPane.add(registerBtn, gbc_registerBtn);
 	}
 	
 	/**

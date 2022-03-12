@@ -28,7 +28,7 @@ public class AdminMenuGUI extends JFrame {
 	private JButton createQuestionBtn;
 	private JButton addForecastBtn;
 	private JButton browseQuestionsBtn;
-	private JComboBox<String> comboBox;
+	private JComboBox<String> localeCB;
 
 	/**
 	 * Create the frame.
@@ -52,12 +52,12 @@ public class AdminMenuGUI extends JFrame {
 				.addComponent(createEventBtn, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addContainerGap()
-					.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE))
+					.addComponent(localeCB, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(Alignment.TRAILING, gl_contentPane.createSequentialGroup()
-					.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addComponent(localeCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
 					.addComponent(createEventBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
@@ -89,15 +89,15 @@ public class AdminMenuGUI extends JFrame {
 	 * This method initializes the combo box with the languages.
 	 */
 	private void initializeLocaleCB() {
-		comboBox = new JComboBox<String>();
+		localeCB = new JComboBox<String>();
 		
-		comboBox.addItem("EN");
-		comboBox.addItem("EUS");
-		comboBox.addItem("ES");
+		localeCB.addItem("EN");
+		localeCB.addItem("EUS");
+		localeCB.addItem("ES");
 		
-		comboBox.addActionListener(new ActionListener() {
+		localeCB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String language = comboBox.getSelectedItem().toString();
+				String language = localeCB.getSelectedItem().toString();
 				Locale.setDefault(new Locale(language));
 				System.out.println("Locale: " + Locale.getDefault());
 				redraw();

@@ -32,8 +32,8 @@ public class LoginGUI extends JFrame {
 	private BlFacade businessLogic;
 	
 	private JPanel contentPane;
-	private JLabel betAndRuinLabel;
-	private JLabel passwordLabel;
+	private JLabel betAndRuinLbl;
+	private JLabel passwordLbl;
 	private JLabel errorLabel;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
@@ -79,40 +79,40 @@ public class LoginGUI extends JFrame {
 
 	private void initializeBetAndRuinLabel()
 	{
-		betAndRuinLabel = new JLabel("Bet & Ruin");
-		betAndRuinLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		GridBagConstraints gbc_betAndRuinLabel = new GridBagConstraints();
-		gbc_betAndRuinLabel.gridwidth = 2;
-		gbc_betAndRuinLabel.anchor = GridBagConstraints.WEST;
-		gbc_betAndRuinLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_betAndRuinLabel.gridx = 1;
-		gbc_betAndRuinLabel.gridy = 1;
-		contentPane.add(betAndRuinLabel, gbc_betAndRuinLabel);
+		betAndRuinLbl = new JLabel("Bet & Ruin");
+		betAndRuinLbl.setFont(new Font("Tahoma", Font.BOLD, 20));
+		GridBagConstraints gbc_betAndRuinLbl = new GridBagConstraints();
+		gbc_betAndRuinLbl.gridwidth = 2;
+		gbc_betAndRuinLbl.anchor = GridBagConstraints.WEST;
+		gbc_betAndRuinLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_betAndRuinLbl.gridx = 1;
+		gbc_betAndRuinLbl.gridy = 1;
+		contentPane.add(betAndRuinLbl, gbc_betAndRuinLbl);
 	}
 	
 	private void initializeLoginLabel()
 	{
-		JLabel loginLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Login").toUpperCase());
-		loginLabel.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		GridBagConstraints gbc_loginLabel = new GridBagConstraints();
-		gbc_loginLabel.gridwidth = 2;
-		gbc_loginLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_loginLabel.anchor = GridBagConstraints.WEST;
-		gbc_loginLabel.gridx = 1;
-		gbc_loginLabel.gridy = 2;
-		contentPane.add(loginLabel, gbc_loginLabel);
+		JLabel loginLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Login").toUpperCase());
+		loginLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
+		GridBagConstraints gbc_loginLbl = new GridBagConstraints();
+		gbc_loginLbl.gridwidth = 2;
+		gbc_loginLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_loginLbl.anchor = GridBagConstraints.WEST;
+		gbc_loginLbl.gridx = 1;
+		gbc_loginLbl.gridy = 2;
+		contentPane.add(loginLbl, gbc_loginLbl);
 	}
 	
 	private void initializeUsernameLabel()
 	{
-		JLabel usernameLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username"));
-		GridBagConstraints gbc_usernameLabel = new GridBagConstraints();
-		gbc_usernameLabel.gridwidth = 2;
-		gbc_usernameLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_usernameLabel.anchor = GridBagConstraints.WEST;
-		gbc_usernameLabel.gridx = 1;
-		gbc_usernameLabel.gridy = 3;
-		contentPane.add(usernameLabel, gbc_usernameLabel);
+		JLabel usernameLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username"));
+		GridBagConstraints gbc_usernameLbl = new GridBagConstraints();
+		gbc_usernameLbl.gridwidth = 2;
+		gbc_usernameLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_usernameLbl.anchor = GridBagConstraints.WEST;
+		gbc_usernameLbl.gridx = 1;
+		gbc_usernameLbl.gridy = 3;
+		contentPane.add(usernameLbl, gbc_usernameLbl);
 	}
 	
 	private void initializeUsernameField()
@@ -130,14 +130,14 @@ public class LoginGUI extends JFrame {
 	
 	private void initializePasswordLabel()
 	{
-		passwordLabel = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password"));
-		GridBagConstraints gbc_passwordLabel = new GridBagConstraints();
-		gbc_passwordLabel.gridwidth = 2;
-		gbc_passwordLabel.anchor = GridBagConstraints.WEST;
-		gbc_passwordLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_passwordLabel.gridx = 1;
-		gbc_passwordLabel.gridy = 5;
-		contentPane.add(passwordLabel, gbc_passwordLabel);
+		passwordLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password"));
+		GridBagConstraints gbc_passwordLbl = new GridBagConstraints();
+		gbc_passwordLbl.gridwidth = 2;
+		gbc_passwordLbl.anchor = GridBagConstraints.WEST;
+		gbc_passwordLbl.insets = new Insets(0, 0, 5, 5);
+		gbc_passwordLbl.gridx = 1;
+		gbc_passwordLbl.gridy = 5;
+		contentPane.add(passwordLbl, gbc_passwordLbl);
 	}
 	
 	private void initializePasswordField()

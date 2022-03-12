@@ -38,7 +38,7 @@ public class CreateQuestionGUI extends JFrame {
 
 	private BlFacade businessLogic;
 
-	private JComboBox<Event> eventComboBox = new JComboBox<Event>();
+	private JComboBox<Event> eventCB = new JComboBox<Event>();
 	DefaultComboBoxModel<Event> eventModel = new DefaultComboBoxModel<Event>();
 
 	private JLabel listOfEventsLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").
@@ -50,8 +50,8 @@ public class CreateQuestionGUI extends JFrame {
 	private JLabel eventDateLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").
 			getString("EventDate"));
 
-	private JTextField queryText = new JTextField();
-	private JTextField priceText = new JTextField();
+	private JTextField queryField = new JTextField();
+	private JTextField priceField = new JTextField();
 	private JCalendar calendar = new JCalendar();
 	private Calendar previousCalendar = null;
 	private Calendar currentCalendar = null;
@@ -81,13 +81,13 @@ public class CreateQuestionGUI extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
 
-		eventComboBox.setModel(eventModel);
-		eventComboBox.setBounds(new Rectangle(275, 47, 250, 20));
+		eventCB.setModel(eventModel);
+		eventCB.setBounds(new Rectangle(275, 47, 250, 20));
 		listOfEventsLbl.setBounds(new Rectangle(290, 18, 277, 20));
 		queryLbl.setBounds(new Rectangle(25, 211, 75, 20));
-		queryText.setBounds(new Rectangle(100, 211, 429, 20));
+		queryField.setBounds(new Rectangle(100, 211, 429, 20));
 		minBetLbl.setBounds(new Rectangle(25, 243, 75, 20));
-		priceText.setBounds(new Rectangle(100, 243, 60, 20));
+		priceField.setBounds(new Rectangle(100, 243, 60, 20));
 
 		calendar.setBounds(new Rectangle(40, 50, 225, 150));
 		eventScrollPane.setBounds(new Rectangle(25, 44, 346, 116));
@@ -121,13 +121,13 @@ public class CreateQuestionGUI extends JFrame {
 
 		getContentPane().add(closeBtn, null);
 		getContentPane().add(createBtn, null);
-		getContentPane().add(queryText, null);
+		getContentPane().add(queryField, null);
 		getContentPane().add(queryLbl, null);
-		getContentPane().add(priceText, null);
+		getContentPane().add(priceField, null);
 
 		getContentPane().add(minBetLbl, null);
 		getContentPane().add(listOfEventsLbl, null);
-		getContentPane().add(eventComboBox, null);
+		getContentPane().add(eventCB, null);
 
 		getContentPane().add(calendar, null);
 
@@ -183,12 +183,12 @@ public class CreateQuestionGUI extends JFrame {
 							listOfEventsLbl.setText(ResourceBundle.getBundle("Etiquetas").
 									getString("Events") + " : " + dateformat1.
 									format(previousCalendar.getTime()));
-						eventComboBox.removeAllItems();
+						eventCB.removeAllItems();
 						System.out.println("Events " + events);
 
 						for (domain.Event ev : events)
 							eventModel.addElement(ev);
-						eventComboBox.repaint();
+						eventCB.repaint();
 
 						if (events.size() == 0)
 							createBtn.setEnabled(false);
@@ -233,19 +233,19 @@ public class CreateQuestionGUI extends JFrame {
 	}
 
 	private void jButtonCreate_actionPerformed(ActionEvent e) {
-		domain.Event event = ((domain.Event) eventComboBox.getSelectedItem());
+		domain.Event event = ((domain.Event) eventCB.getSelectedItem());
 
 		try {
 			errorLbl.setText("");
 			msgLbl.setText("");
 
 			// Displays an exception if the query field is empty
-			String inputQuestion = queryText.getText();
+			String inputQuestion = queryField.getText();
 
 			if (inputQuestion.length() > 0) {
 
 				// It could be to trigger an exception if the introduced string is not a number
-				float inputPrice = Float.parseFloat(priceText.getText());
+				float inputPrice = Float.parseFloat(priceField.getText());
 
 				if (inputPrice <= 0)
 					errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));

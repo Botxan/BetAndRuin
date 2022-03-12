@@ -43,12 +43,12 @@ public class CreateForecastGUI extends JFrame {
 	private BlFacade businessLogic;
 
 	private JPanel contentPane;
-	private JLabel resultLabel;
-	private JLabel questionLabel;
-	private JLabel eventLabel;
-	private JLabel feeLabel;
-	private JFormattedTextField resultInput;
-	private JFormattedTextField feeInput;
+	private JLabel resultLbl;
+	private JLabel questionLbl;
+	private JLabel eventLbl;
+	private JLabel feeLbl;
+	private JFormattedTextField resultField;
+	private JFormattedTextField feeField;
 	private JComboBox<Event> eventCB;
 	private JComboBox<Question> questionCB;
 	private JButton setForecastBtn;
@@ -61,7 +61,7 @@ public class CreateForecastGUI extends JFrame {
 	// Number formatter
 	NumberFormat feeFormat = NumberFormat.getIntegerInstance();
 	NumberFormatter numberFormatter = new NumberFormatter(feeFormat);
-	private JLabel forecastStatusLabel;
+	private JLabel forecastStatusLbl;
 	
 	public CreateForecastGUI(BlFacade bl) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
@@ -102,22 +102,22 @@ public class CreateForecastGUI extends JFrame {
 							.addComponent(calendar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(questionLabel)
-								.addComponent(eventLabel)
+								.addComponent(questionLbl)
+								.addComponent(eventLbl)
 								.addComponent(eventCB, 0, 282, Short.MAX_VALUE)
 								.addComponent(questionCB, 0, 282, Short.MAX_VALUE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-								.addComponent(resultLabel)
-								.addComponent(feeLabel))
+								.addComponent(resultLbl)
+								.addComponent(feeLbl))
 							.addGap(18)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
-								.addComponent(feeInput)
-								.addComponent(resultInput, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)))
+								.addComponent(feeField)
+								.addComponent(resultField, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addComponent(setForecastBtn)
 							.addGap(18)
-							.addComponent(forecastStatusLabel, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE)
+							.addComponent(forecastStatusLbl, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
 							.addComponent(closeBtn)))
 					.addContainerGap())
@@ -131,26 +131,26 @@ public class CreateForecastGUI extends JFrame {
 							.addComponent(calendar, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(resultInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(resultLabel))
+								.addComponent(resultField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(resultLbl))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-								.addComponent(feeInput, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(feeLabel)))
+								.addComponent(feeField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(feeLbl)))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addGap(41)
-							.addComponent(eventLabel)
+							.addComponent(eventLbl)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(eventCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(questionLabel)
+							.addComponent(questionLbl)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(questionCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
 						.addComponent(setForecastBtn)
 						.addComponent(closeBtn)
-						.addComponent(forecastStatusLabel))
+						.addComponent(forecastStatusLbl))
 					.addContainerGap(23, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
@@ -158,27 +158,27 @@ public class CreateForecastGUI extends JFrame {
 	
 	private void initMainPane() {
 		// Labels
-		eventLabel = new JLabel("Event");
-		eventLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Event"));
+		eventLbl = new JLabel("Event");
+		eventLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Event"));
 		
-		questionLabel = new JLabel("Question");
-		questionLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Question"));
+		questionLbl = new JLabel("Question");
+		questionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Question"));
 		
-		resultLabel = new JLabel();
-		resultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Result"));
+		resultLbl = new JLabel();
+		resultLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Result"));
 		
-		feeLabel = new JLabel();
-		feeLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee"));
+		feeLbl = new JLabel();
+		feeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee"));
 		
 		
-		forecastStatusLabel = new JLabel();
+		forecastStatusLbl = new JLabel();
 		
 		// Text fields
-		resultInput = new JFormattedTextField();
-		resultInput.setColumns(10);
+		resultField = new JFormattedTextField();
+		resultField.setColumns(10);
 		
-		feeInput = new JFormattedTextField(numberFormatter);
-		feeInput.setColumns(10);	
+		feeField = new JFormattedTextField(numberFormatter);
+		feeField.setColumns(10);	
 		
 		initResultInput();
 		initFeeInput();
@@ -251,7 +251,7 @@ public class CreateForecastGUI extends JFrame {
 	}
 	
 	private void initResultInput() {
-		resultInput.addKeyListener(new KeyAdapter() {
+		resultField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// Enable setFeeBtn if a correct fee is created
@@ -261,7 +261,7 @@ public class CreateForecastGUI extends JFrame {
 	}
 	
 	private void initFeeInput() {
-		feeInput.addKeyListener(new KeyAdapter() {
+		feeField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				// Enable setFeeBtn if a correct fee is created
@@ -308,11 +308,11 @@ public class CreateForecastGUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				// Save the forecast in the database
 				businessLogic.addForecast((Question)questionCB.getSelectedItem(), 
-						resultInput.getText(), Integer.parseInt(feeInput.getText()));
+						resultField.getText(), Integer.parseInt(feeField.getText()));
 				
 				// Print success message
-				forecastStatusLabel.setForeground(new Color(46, 204, 113));
-				forecastStatusLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("FeeAddedSuccessfully") + "</p></html>");
+				forecastStatusLbl.setForeground(new Color(46, 204, 113));
+				forecastStatusLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("FeeAddedSuccessfully") + "</p></html>");
 			}
 		});		
 	}
@@ -323,7 +323,7 @@ public class CreateForecastGUI extends JFrame {
 	
 	private void enableFeeBtn() {
 		if (eventCB.getSelectedItem() == null || questionCB.getSelectedItem() == null
-				|| resultInput.getText().isEmpty() || feeInput.getText().isEmpty()) 
+				|| resultField.getText().isEmpty() || feeField.getText().isEmpty()) 
 			setForecastBtn.setEnabled(false);
 		 else 
 			setForecastBtn.setEnabled(true);

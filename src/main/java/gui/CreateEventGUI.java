@@ -39,11 +39,11 @@ public class CreateEventGUI extends JFrame {
 	private BlFacade businessLogic;
 	
 	private JPanel contentPane;
-	private JTextField eventDescriptionInput;
+	private JTextField eventDescriptionField;
 	private JButton createEventBtn;
 	private JButton closeBtn;
-	private JLabel eventDescriptionLabel;
-	private JLabel createEventLabel;
+	private JLabel eventDescriptionLbl;
+	private JLabel createEventLbl;
 	private JLabel eventStatusLabel;
 	private JCalendar calendar;
 	
@@ -87,25 +87,25 @@ public class CreateEventGUI extends JFrame {
 							.addComponent(closeBtn))
 						.addGroup(gl_contentPane.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(eventDescriptionLabel, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+							.addComponent(eventDescriptionLbl, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(eventDescriptionInput, GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
+							.addComponent(eventDescriptionField, GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
 						.addComponent(calendar, GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE))
 					.addGap(45))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(151)
-					.addComponent(createEventLabel, GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
+					.addComponent(createEventLbl, GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
 					.addGap(147))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(15)
-					.addComponent(createEventLabel)
+					.addComponent(createEventLbl)
 					.addGap(18)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(eventDescriptionInput, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-						.addComponent(eventDescriptionLabel, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
+						.addComponent(eventDescriptionField, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+						.addComponent(eventDescriptionLbl, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 131, Short.MAX_VALUE)
 					.addGap(11)
@@ -129,13 +129,13 @@ public class CreateEventGUI extends JFrame {
 		setContentPane(contentPane);
 		
 		// Labels
-		createEventLabel = new JLabel();
-		createEventLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		createEventLabel.setFont(new Font("Tahoma", Font.BOLD, 16));
-		createEventLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
+		createEventLbl = new JLabel();
+		createEventLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		createEventLbl.setFont(new Font("Tahoma", Font.BOLD, 16));
+		createEventLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
 		
-		eventDescriptionLabel = new JLabel();
-		eventDescriptionLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
+		eventDescriptionLbl = new JLabel();
+		eventDescriptionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
 
 		eventStatusLabel = new JLabel();
 		eventStatusLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -155,14 +155,14 @@ public class CreateEventGUI extends JFrame {
 	 * This method initializes the event description input.
 	 */
 	private void initializeEventDescriptionInput() {
-		eventDescriptionInput = new JTextField();
-		eventDescriptionInput.addKeyListener(new KeyAdapter() {
+		eventDescriptionField = new JTextField();
+		eventDescriptionField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				enableCreateEventBtn();
 			}
 		});
-		eventDescriptionInput.setColumns(10);
+		eventDescriptionField.setColumns(10);
 	}
 	
 	/**
@@ -191,7 +191,7 @@ public class CreateEventGUI extends JFrame {
 				} else {					
 					try {
 						// Save the event in the database
-						businessLogic.createEvent(eventDescriptionInput.getText(), calendar.getDate());
+						businessLogic.createEvent(eventDescriptionField.getText(), calendar.getDate());
 						// Print success message
 						eventStatusLabel.setForeground(new Color(46, 204, 113));
 						eventStatusLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("EventAddedSuccessfully") + "</p></html>");
@@ -218,7 +218,7 @@ public class CreateEventGUI extends JFrame {
 	 * created is valid. In the meantime, it disables the button.
 	 */
 	private void enableCreateEventBtn() {
-		if (eventDescriptionInput.getText().isEmpty()) createEventBtn.setEnabled(false);
+		if (eventDescriptionField.getText().isEmpty()) createEventBtn.setEnabled(false);
 		else createEventBtn.setEnabled(true);
 	}
 }
