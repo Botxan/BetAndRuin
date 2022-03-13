@@ -10,14 +10,20 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-
 /**
- * Provides the configuration data from the resources/config.xml file
+ * This class provides the configuration data from the resources/config.xml file 
+ * @author Josefinators team
+ * @version first iteration
+ *
  */
 public class ConfigXML {
 
 	private static final String CONFIGURATION_FILENAME = "resources/config.xml";
 
+	/**
+	 * It gets an instance
+	 * @return an instance 
+	 */
 	public static ConfigXML getInstance() {
 		return theInstance;
 	}
@@ -50,56 +56,105 @@ public class ConfigXML {
 	private String dataBaseUser;
 	private String dataBasePassword;
 
-
+	/**
+	 * Getter for locale
+	 * @return locale 
+	 */
 	public String getLocale() {
 		return locale;
 	}
 
+	/**
+	 * Getter for business logic node 
+	 * @return business logic node  
+	 */
 	public String getBusinessLogicNode() {
 		return businessLogicNode;
 	}
 
+	/**
+	 * Getter for business logic port 
+	 * @return business logic port 
+	 */
 	public String getBusinessLogicPort() {
 		return businessLogicPort;
 	}
 
+	/**
+	 * Getter for business logic name 
+	 * @return business logic name 
+	 */
 	public String getBusinessLogicName() {
 		return businessLogicName;
 	}
 
+	/**
+	 * Getter for business logic local 
+	 * @return business logic local 
+	 */
 	public boolean isBusinessLogicLocal() {
 		return businessLogicIsLocal;
 	}
 
+	/**
+	 * Getter for data access node 
+	 * @return data access node 
+	 */
 	public String getDataAccessNode() {
 		return dataAccessNode;
 	}
 
+	/**
+	 * Getter for data access port 
+	 * @return data access port 
+	 */
 	public int getDataAccessPort() {
 		return dataAccessPort;
 	}
 
+	/**
+	 * Getter for data access local 
+	 * @return data access local 
+	 */
 	public boolean isDataAccessLocal() {
 		return dataAccessIsLocal;
 	}
 
+	/**
+	 * Getter for database filename 
+	 * @return database filename 
+	 */
 	public String getDataBaseFilename(){
 		return dataBaseFilename;
 	}
 
+	/**
+	 * Getter for database open mode 
+	 * @return database open mode 
+	 */
 	public String getDataBaseOpenMode(){
 		return dataBaseOpenMode;
 	}
 
+	/**
+	 * Getter for database user 
+	 * @return databaser user 
+	 */
 	public String getDataBaseUser() {
 		return dataBaseUser;
 	}
 
+	/**
+	 * Getter for database password 
+	 * @return database passoword 
+	 */
 	public String getDataBasePassword() {
 		return dataBasePassword;
 	}
 
-
+	/**
+	 * It configures data from the resources/config.xml file 
+	 */
 	private ConfigXML(){
 
 		try {
@@ -146,6 +201,12 @@ public class ConfigXML {
 		}
 	}
 
+	/**
+	 * Getter for tag value 
+	 * @param sTag tag 
+	 * @param eElement element 
+	 * @return tag value 
+	 */
 	private static String getTagValue(String sTag, Element eElement) {
 		NodeList nlList = eElement.getElementsByTagName(sTag).item(0).getChildNodes();
 		Node nValue = nlList.item(0);

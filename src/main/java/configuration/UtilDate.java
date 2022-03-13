@@ -8,8 +8,19 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * This class implements the date utility of the application 
+ * @author Josefinators team
+ * @version first iteration
+ *
+ */
 public class UtilDate {
 
+	/**
+	 * It trims the date 
+	 * @param date an instance of date 
+	 * @return trimmed date 
+	 */
 	public static Date trim(Date date) {
 
 		Calendar calendar = Calendar.getInstance();
@@ -22,6 +33,13 @@ public class UtilDate {
 		return calendar.getTime();
 	}
 
+	/**
+	 * It sets a new date 
+	 * @param year an instance of year 
+	 * @param month an instance of month 
+	 * @param day an instance of day 
+	 * @return a new date 
+	 */
 	public static Date newDate(int year, int month, int day) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTimeZone(TimeZone.getTimeZone("CET"));
@@ -31,6 +49,11 @@ public class UtilDate {
 		return calendar.getTime();
 	}
 
+	/**
+	 * It sets the first day of the month 
+	 * @param date an instance of date 
+	 * @return first day of the month 
+	 */
 	public static Date firstDayMonth(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
@@ -43,6 +66,11 @@ public class UtilDate {
 		return calendar.getTime();
 	}
 
+	/**
+	 * It sets the last day of the month 
+	 * @param date an instance of date 
+	 * @return last day of the month 
+	 */
 	public static Date lastDayMonth(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
@@ -57,10 +85,10 @@ public class UtilDate {
 	}
 	
 	/**
-	 * Returns the last day of the month.
-	 * @param month The integer of month.
-	 * @param year Año en 4 dígitos.
-	 * @return The last day of the month.
+	 * It returns the last day of the month.
+	 * @param month an instance of month 
+	 * @param year an instance of year 
+	 * @return last day of the month
 	 */
 	public static int lastDayMonth(int month, int year)
 	{
@@ -69,8 +97,8 @@ public class UtilDate {
 	}
 	
 	/**
-	 * Returns todays date in Date format.
-	 * @return Todays date.
+	 * It returns today's date in appropriate format
+	 * @return today's date
 	 */
 	public static Date getTodaysDate(){
 		Calendar cal = Calendar.getInstance();
@@ -78,9 +106,9 @@ public class UtilDate {
 	}
 	
 	/**
-	 * Given a birthdate returns whether it has more than 18 years or not.
-	 * @param birthdate Birthdate of the user.
-	 * @return true if the user is undrage.
+	 * It returns whether a given user is 18 years old or not 
+	 * @param birthdate an instance of the birthdate of the user 
+	 * @return true if the user is underage 
 	 */
 	public static boolean isUnderage(Date birthdate)
 	{
