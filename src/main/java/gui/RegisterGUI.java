@@ -84,7 +84,7 @@ public class RegisterGUI extends JFrame implements DynamicJFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 515, 550);
-		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/favicon.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("Register"));
 		
 		contentPane = new JPanel();

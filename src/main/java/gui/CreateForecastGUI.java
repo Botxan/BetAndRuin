@@ -73,7 +73,7 @@ public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 	 * @param bl an instance of the business logic layer 
 	 */
 	public CreateForecastGUI(BlFacade bl) {
-		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/favicon.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("AddForecast"));
 		
 		businessLogic = bl;
