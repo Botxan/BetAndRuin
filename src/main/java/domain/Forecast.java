@@ -32,6 +32,12 @@ public class Forecast implements Serializable{
 		super();
 	}
 	
+	/**
+	 * Constructor that instantiates the Forecast class
+	 * @param result an instance of result 
+	 * @param fee an instance of fee 
+	 * @param question an instance of question
+	 */
 	public Forecast(String result, int fee, Question question) {
 		super();
 		this.result = result;
@@ -39,26 +45,50 @@ public class Forecast implements Serializable{
 		this.question = question;
 	}
 
+	/**
+	 * Getter for result 
+	 * @return result 
+	 */
 	public String getResult() {
 		return result;
 	}
 
+	/**
+	 * Setter for result 
+	 * @param result result 
+	 */
 	public void setResult(String result) {
 		this.result = result;
 	}
 
+	/**
+	 * Getter for fee
+	 * @return fee 
+	 */
 	public int getFee() {
 		return fee;
 	}
 
+	/**
+	 * Setter for fee 
+	 * @param fee fee 
+	 */
 	public void setFee(int fee) {
 		this.fee = fee;
 	}
 	
+	/**
+	 * Getter for question 
+	 * @return question 
+	 */
 	public Question getQuestion() {
 		return question;
 	}
 	
+	/**
+	 * Setter for question 
+	 * @param question an instance of question  
+	 */
 	public void setQuestion(Question question) {
 		this.question = question;
 	}

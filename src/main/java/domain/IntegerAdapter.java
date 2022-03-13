@@ -2,6 +2,12 @@ package domain;
 
 import javax.xml.bind.annotation.adapters.XmlAdapter;
 
+/**
+ * This class has not been used in this iteration 
+ * @author Josefinators team
+ * @version first iteration
+ *
+ */
 public class IntegerAdapter extends XmlAdapter<String, Integer> {
 
 	@Override
