@@ -9,7 +9,7 @@
 	<dataAccessNode>0.0.0.0</dataAccessNode>
 	<dataAccessPort>6136</dataAccessPort>
 	<dataBaseFilename>db/bets.temp</dataBaseFilename>
-	<dataBaseOpenMode>open</dataBaseOpenMode>
+	<dataBaseOpenMode>initialize</dataBaseOpenMode>
 	<dataBaseUser>admin</dataBaseUser>
 	<dataBasePassword>admin</dataBasePassword>
   </dataAccess>
