@@ -2,7 +2,6 @@ package gui;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import businessLogic.BlFacade;
 import businessLogic.DynamicJFrame;
@@ -27,7 +26,6 @@ import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.Color;
 import javax.swing.SwingConstants;
 
 /**
@@ -162,6 +160,7 @@ public class WelcomeGUI extends JFrame implements DynamicJFrame {
 		loginBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
 		loginBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				MenuBar.saveToHistorial(new WelcomeGUI(businessLogic));
 				LoginGUI loginWindow = new LoginGUI(businessLogic);
 				loginWindow.setVisible(true);
 				dispose();
@@ -178,6 +177,7 @@ public class WelcomeGUI extends JFrame implements DynamicJFrame {
 		registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));
 		registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				MenuBar.saveToHistorial(new WelcomeGUI(businessLogic));
 				RegisterGUI registerWindow = new RegisterGUI(businessLogic);
 				registerWindow.setVisible(true);
 				dispose();
@@ -193,6 +193,7 @@ public class WelcomeGUI extends JFrame implements DynamicJFrame {
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 		browseQuestionsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				MenuBar.saveToHistorial(new WelcomeGUI(businessLogic));
 				BrowseQuestionsGUI browseQuestionsWindow = new BrowseQuestionsGUI(businessLogic);
 				browseQuestionsWindow.setVisible(true);
 				dispose();

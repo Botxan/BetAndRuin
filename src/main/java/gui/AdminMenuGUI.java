@@ -36,8 +36,7 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 	 */
 	public AdminMenuGUI(BlFacade bl) {
 		businessLogic = (BlFacade) bl;
-		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
 		setBounds(100, 100, 398, 251);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("AdminMenu"));
@@ -94,6 +93,7 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 		
 		createEventBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				MenuBar.saveToHistorial(new AdminMenuGUI(businessLogic));
 				CreateEventGUI createEventWindow = new CreateEventGUI(businessLogic);
 				createEventWindow.setVisible(true);
 				dispose();
@@ -110,6 +110,7 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 		
 		createQuestionBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				MenuBar.saveToHistorial(new AdminMenuGUI(businessLogic));
 				CreateQuestionGUI createQuestionWindow = new CreateQuestionGUI(businessLogic);
 				createQuestionWindow.setVisible(true);
 				dispose();
@@ -126,6 +127,7 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 		
 		addForecastBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				MenuBar.saveToHistorial(new AdminMenuGUI(businessLogic));
 				CreateForecastGUI createForecastWindow = new CreateForecastGUI(businessLogic);
 				createForecastWindow.setVisible(true);
 				dispose();
@@ -142,6 +144,7 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 		
 		browseQuestionsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				MenuBar.saveToHistorial(new AdminMenuGUI(businessLogic));
 				BrowseQuestionsGUI browseQuestionsWindow = new BrowseQuestionsGUI(businessLogic);
 				browseQuestionsWindow.setVisible(true);
 				dispose();

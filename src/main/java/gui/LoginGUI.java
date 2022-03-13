@@ -184,6 +184,7 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 		registerBtn = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Register"));
 		registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				MenuBar.saveToHistorial(new LoginGUI(businessLogic));
 				RegisterGUI fromLoginToRegister = new RegisterGUI(businessLogic);
 				fromLoginToRegister.setVisible(true);
 				dispose();
@@ -210,6 +211,7 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 					errorLabel.setText("");
 					User logedUser = businessLogic.login(usernameField.getText(), new String(passwordField.getPassword()));
 					
+					MenuBar.saveToHistorial(new LoginGUI(businessLogic));
 					// Redirect user depending on the user mode
 					if (logedUser.getUserMode() == 1) {
 						UserMenuGUI userMenuGUI = new UserMenuGUI(businessLogic);

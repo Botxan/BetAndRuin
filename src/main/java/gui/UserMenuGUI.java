@@ -78,6 +78,7 @@ public class UserMenuGUI extends JFrame implements DynamicJFrame {
 		
 		browseQuestionsBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				MenuBar.saveToHistorial(new UserMenuGUI(businessLogic));
 				BrowseQuestionsGUI browseQuestionsWindow = new BrowseQuestionsGUI(businessLogic);
 				browseQuestionsWindow.setVisible(true);
 				dispose();

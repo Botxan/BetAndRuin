@@ -396,6 +396,11 @@ public class RegisterGUI extends JFrame implements DynamicJFrame {
 						try {
 							Integer year = Integer.parseInt(yearField.getText());
 							businessLogic.register(username, firstName, lastName, address, email, password, confirmPassword, year, month, day);
+							
+							MenuBar.saveToHistorial(new RegisterGUI(businessLogic));
+							UserMenuGUI userMenuGUI = new UserMenuGUI(businessLogic);
+							userMenuGUI.setVisible(true);
+							dispose();
 						} catch(NoMatchingPatternException e5)
 						{
 							errorLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("InvalidEmail") + "</p></html>");
