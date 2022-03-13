@@ -21,6 +21,7 @@ import com.toedter.calendar.JCalendar;
 
 import businessLogic.BlFacade;
 import businessLogic.DynamicJFrame;
+import configuration.UtilDate;
 import exceptions.EventAlreadyExistException;
 import gui.components.MenuBar;
 
@@ -144,7 +145,6 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 		
 		// Buttons
 		initializeCreateEventBtn();
-		initializeCloseBtn();
 	}
 	
 	/**
@@ -203,7 +203,7 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 				} else {					
 					// Save the event in the database
 					try {
-						businessLogic.createEvent(eventDescriptionField.getText(), calendar.getDate());
+						businessLogic.createEvent(eventDescriptionField.getText(), UtilDate.trim(calendar.getDate()));
 						// Print success message
 						eventStatusLabel.setForeground(new Color(46, 204, 113));
 						eventStatusLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("EventAddedSuccessfully") + "</p></html>");
@@ -215,12 +215,6 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 				}
 			}
 		});
-	}
-	
-	/**
-	 * This method initializes the close event button.
-	 */
-	private void initializeCloseBtn() {
 	}
 	
 	/**
