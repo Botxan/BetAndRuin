@@ -78,6 +78,7 @@ public class CreateQuestionGUI extends JFrame {
 
 	private void jbInit() throws Exception {
 
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setSize(new Dimension(604, 370));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));

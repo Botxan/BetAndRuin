@@ -66,15 +66,11 @@ public class BrowseQuestionsGUI extends JFrame {
 			ResourceBundle.getBundle("Etiquetas").getString("Event"), 
 
 	};
+	
 	private String[] questionColumnNames = new String[] {
 			ResourceBundle.getBundle("Etiquetas").getString("QuestionN"), 
 			ResourceBundle.getBundle("Etiquetas").getString("Question")
 	};
-	
-	public static void main(String[] args) {
-		BrowseQuestionsGUI gui = new BrowseQuestionsGUI(new BlFacadeImplementation());
-		gui.setVisible(true);
-	}
 
 	public BrowseQuestionsGUI(BlFacade bl) {
 		businessLogic = bl;
@@ -86,8 +82,9 @@ public class BrowseQuestionsGUI extends JFrame {
 		}
 	}
 
-	private void jbInit() throws Exception {
+	private void jbInit() {
 
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		getContentPane().setLayout(null);
 		setSize(new Dimension(700, 500));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
