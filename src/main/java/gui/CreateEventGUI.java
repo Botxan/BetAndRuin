@@ -15,10 +15,14 @@ import javax.swing.JButton;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+
 import com.toedter.calendar.JCalendar;
 
 import businessLogic.BlFacade;
+import businessLogic.DynamicJFrame;
 import exceptions.EventAlreadyExistException;
+import gui.components.MenuBar;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -36,7 +40,7 @@ import javax.swing.SwingConstants;
  * @author Josefinators
  * @version v1
  */
-public class CreateEventGUI extends JFrame {
+public class CreateEventGUI extends JFrame implements DynamicJFrame {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -45,10 +49,10 @@ public class CreateEventGUI extends JFrame {
 	private JPanel contentPane;
 	private JTextField eventDescriptionField;
 	private JButton createEventBtn;
-	private JButton closeBtn;
 	private JLabel eventDescriptionLbl;
 	private JLabel eventStatusLabel;
 	private JCalendar calendar;
+	private JMenuBar menuBar;
 	
 	/**
 	 * Constructor for the CreateEventGUI. Sets the business logic passed
@@ -71,7 +75,7 @@ public class CreateEventGUI extends JFrame {
 	private void jbInit() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 459, 293);
+		setBounds(100, 100, 459, 352);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
 
@@ -79,20 +83,21 @@ public class CreateEventGUI extends JFrame {
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(43)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(createEventBtn)
-							.addPreferredGap(ComponentPlacement.RELATED, 189, Short.MAX_VALUE)
-							.addComponent(closeBtn))
-						.addComponent(calendar, GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+							.addContainerGap()
+							.addComponent(createEventBtn))
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(eventDescriptionLbl, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(eventDescriptionField, GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
-						.addComponent(eventStatusLabel, GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE))
+							.addGap(43)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(eventStatusLabel, GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+								.addComponent(calendar, GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(eventDescriptionLbl, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(eventDescriptionField, GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)))))
 					.addGap(45))
 		);
 		gl_contentPane.setVerticalGroup(
@@ -104,13 +109,11 @@ public class CreateEventGUI extends JFrame {
 						.addComponent(eventDescriptionField, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
 					.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 157, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE, false)
-						.addComponent(createEventBtn)
-						.addComponent(closeBtn))
-					.addGap(62)
-					.addComponent(eventStatusLabel, GroupLayout.DEFAULT_SIZE, 11, Short.MAX_VALUE)
-					.addContainerGap())
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(createEventBtn)
+					.addGap(16)
+					.addComponent(eventStatusLabel, GroupLayout.PREFERRED_SIZE, 17, GroupLayout.PREFERRED_SIZE)
+					.addGap(34))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -123,6 +126,9 @@ public class CreateEventGUI extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
+		
+		menuBar = MenuBar.getMenuBar(this);	
+	    setJMenuBar(menuBar);
 		
 		eventDescriptionLbl = new JLabel();
 		eventDescriptionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
@@ -215,8 +221,6 @@ public class CreateEventGUI extends JFrame {
 	 * This method initializes the close event button.
 	 */
 	private void initializeCloseBtn() {
-		closeBtn = new JButton();
-		closeBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Close"));	
 	}
 	
 	/**
@@ -226,5 +230,12 @@ public class CreateEventGUI extends JFrame {
 	private void enableCreateEventBtn() {
 		if (eventDescriptionField.getText().isEmpty()) createEventBtn.setEnabled(false);
 		else createEventBtn.setEnabled(true);
+	}
+
+	public void redraw() {
+		eventDescriptionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
+		createEventBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
+		calendar.setLocale(Locale.getDefault());
+		setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
 	}
 }

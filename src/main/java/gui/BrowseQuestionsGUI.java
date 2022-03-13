@@ -18,6 +18,7 @@ import java.util.Vector;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -25,12 +26,15 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JCalendar;
 
 import businessLogic.BlFacade;
+import businessLogic.DynamicJFrame;
 import configuration.UtilDate;
 import domain.Question;
+import gui.components.MenuBar;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
-public class BrowseQuestionsGUI extends JFrame {
+public class BrowseQuestionsGUI extends JFrame implements DynamicJFrame {
 
 	private static final long serialVersionUID = 1L;
 
@@ -42,9 +46,6 @@ public class BrowseQuestionsGUI extends JFrame {
 			getString("Questions")); 
 	private final JLabel eventLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").
 			getString("Events")); 
-
-	private JButton closeBtn = new JButton(ResourceBundle.getBundle("Etiquetas").
-			getString("Close"));
 
 	// Code for JCalendar
 	private JCalendar calendar = new JCalendar();
@@ -71,6 +72,8 @@ public class BrowseQuestionsGUI extends JFrame {
 			ResourceBundle.getBundle("Etiquetas").getString("QuestionN"), 
 			ResourceBundle.getBundle("Etiquetas").getString("Question")
 	};
+	
+	private JMenuBar menuBar;
 
 	public BrowseQuestionsGUI(BlFacade bl) {
 		businessLogic = bl;
@@ -89,12 +92,8 @@ public class BrowseQuestionsGUI extends JFrame {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 
-		closeBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				jButton2_actionPerformed(e);
-			}
-		});
+		menuBar = MenuBar.getMenuBar(this);	
+	    setJMenuBar(menuBar);
 
 		datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
 		CreateQuestionGUI.paintDaysWithEvents(calendar, datesWithEventsInCurrentMonth);
@@ -208,18 +207,11 @@ public class BrowseQuestionsGUI extends JFrame {
 		questionTable.getColumnModel().getColumn(1).setPreferredWidth(268);
 		GroupLayout groupLayout = new GroupLayout(getContentPane());
 		groupLayout.setHorizontalGroup(
-			groupLayout.createParallelGroup(Alignment.LEADING)
+			groupLayout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(138)
 					.addComponent(questionLbl, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE))
 				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(138)
-					.addComponent(questionScrollPane, GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
-					.addGap(140))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(274)
-					.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE))
-				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
 					.addGap(40)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
@@ -228,13 +220,17 @@ public class BrowseQuestionsGUI extends JFrame {
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(eventDateLbl, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
 							.addGap(112)))
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+					.addGroup(groupLayout.createParallelGroup(Alignment.TRAILING)
 						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(eventLbl, GroupLayout.PREFERRED_SIZE, 259, GroupLayout.PREFERRED_SIZE)
 							.addGap(133))
-						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+						.addGroup(groupLayout.createSequentialGroup()
 							.addComponent(eventScrollPane, GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
 							.addGap(46))))
+				.addGroup(Alignment.LEADING, groupLayout.createSequentialGroup()
+					.addGap(138)
+					.addComponent(questionScrollPane, GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
+					.addGap(140))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -250,15 +246,17 @@ public class BrowseQuestionsGUI extends JFrame {
 					.addGap(48)
 					.addComponent(questionLbl)
 					.addGap(12)
-					.addComponent(questionScrollPane, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
-					.addGap(29)
-					.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-					.addGap(12))
+					.addComponent(questionScrollPane, GroupLayout.PREFERRED_SIZE, 148, GroupLayout.PREFERRED_SIZE)
+					.addGap(39))
 		);
 		getContentPane().setLayout(groupLayout);
 	}
 
-	private void jButton2_actionPerformed(ActionEvent e) {
-		setVisible(false);
+	public void redraw() {
+		eventDateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
+		eventLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Events"));
+		questionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Questions"));
+		calendar.setLocale(Locale.getDefault());
+		setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 	}
 }

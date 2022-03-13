@@ -5,12 +5,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import businessLogic.BlFacade;
+import businessLogic.DynamicJFrame;
+import gui.components.MenuBar;
 
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -19,13 +23,11 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.Locale;
 import java.util.ResourceBundle;
 
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
-import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 
 /**
@@ -35,7 +37,7 @@ import javax.swing.SwingConstants;
  * @author Josefinators
  * @version v1
  */
-public class WelcomeGUI extends JFrame {
+public class WelcomeGUI extends JFrame implements DynamicJFrame {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -47,7 +49,7 @@ public class WelcomeGUI extends JFrame {
 	private JButton browseQuestionsBtn;
 	private JButton loginBtn;
 	private JButton registerBtn;
-	private JComboBox<String> localeCB;
+	private JMenuBar menuBar;
 	
 	protected JLabel errorLbl; // Used for error handling from ApplicationLauncher
 	
@@ -76,53 +78,45 @@ public class WelcomeGUI extends JFrame {
 		initializeWelcomePane();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 349, 421);
-		contentPane.setBackground(Color.WHITE);
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setBounds(100, 100, 326, 445);
+		
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
-		
-		setContentPane(contentPane);
-		welcomeLbl.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
 		errorLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
+			gl_contentPane.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(83)
-					.addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
-					.addComponent(registerBtn, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
-					.addGap(6)
-					.addComponent(localeCB, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(24)
-					.addComponent(welcomeLbl))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(81)
-					.addComponent(browseQuestionsBtn, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(42)
-					.addComponent(logoLbl, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
-					.addGap(35))
-				.addComponent(errorLbl, GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
+					.addGap(36)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+						.addComponent(errorLbl, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+						.addComponent(browseQuestionsBtn, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
+						.addComponent(loginBtn, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
+						.addComponent(logoLbl, Alignment.LEADING, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
+						.addComponent(registerBtn, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE))
+					.addGap(36))
+				.addGroup(Alignment.LEADING, gl_contentPane.createSequentialGroup()
+					.addGap(51)
+					.addComponent(welcomeLbl, GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
+					.addGap(66))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(loginBtn)
-						.addComponent(registerBtn)
-						.addComponent(localeCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(8)
+					.addGap(16)
 					.addComponent(welcomeLbl)
-					.addGap(6)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(logoLbl, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE)
-					.addGap(11)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(loginBtn)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(registerBtn)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(browseQuestionsBtn)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(errorLbl, GroupLayout.DEFAULT_SIZE, 11, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(errorLbl, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(23, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -131,17 +125,18 @@ public class WelcomeGUI extends JFrame {
 	 * This method initializes the welcome pane.
 	 */
 	private void initializeWelcomePane() {
-		// Panels
+		// Panel
 		contentPane = new JPanel();
+		setContentPane(contentPane);
+		
+		// MenuBar
+		menuBar = MenuBar.getMenuBar(this);	
+	    setJMenuBar(menuBar);
 		
 		// Labels
 		logoLbl = new JLabel();
 		errorLbl = new JLabel();
-		welcomeLbl = new JLabel();
-		welcomeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
-		
-		// Combo boxes
-		initializeLocaleCB();
+		initializeWelcomeLbl();
 		
 		// Buttons
 		initializeLoginBtn();
@@ -150,23 +145,13 @@ public class WelcomeGUI extends JFrame {
 	}
 	
 	/**
-	 * This method initializes the combo box with the languages.
+	 * This method initializes the welcome label
 	 */
-	private void initializeLocaleCB() {
-		localeCB = new JComboBox<String>();
-		
-		localeCB.addItem("EN");
-		localeCB.addItem("EUS");
-		localeCB.addItem("ES");
-		
-		localeCB.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String language = localeCB.getSelectedItem().toString();
-				Locale.setDefault(new Locale(language));
-				System.out.println("Locale: " + Locale.getDefault());
-				redraw();
-			}
-		});	
+	public void initializeWelcomeLbl() {
+		welcomeLbl = new JLabel();
+		welcomeLbl.setHorizontalAlignment(SwingConstants.CENTER);
+		welcomeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
+		welcomeLbl.setFont(new Font("Tahoma", Font.PLAIN, 24));
 	}
 	
 	/**
@@ -228,12 +213,8 @@ public class WelcomeGUI extends JFrame {
 			e.printStackTrace();
 		}
 	}
-	
-	/**
-	 * This method refreshes all the text fields in the GUI. It is used when the
-	 * language of the application is switched.
-	 */
-	private void redraw() {
+
+	public void redraw() {
 		loginBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
 		registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));
 		welcomeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));

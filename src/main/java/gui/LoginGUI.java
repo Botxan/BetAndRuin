@@ -5,12 +5,16 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import businessLogic.BlFacade;
+import businessLogic.DynamicJFrame;
 import domain.User;
 import exceptions.InvalidPasswordException;
 import exceptions.UserNotFoundException;
+import gui.components.MenuBar;
 
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
+
 import java.awt.GridBagConstraints;
 import java.awt.Font;
 import java.awt.Insets;
@@ -24,7 +28,7 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class LoginGUI extends JFrame {
+public class LoginGUI extends JFrame implements DynamicJFrame {
 	
 	//Set the serial version:
 	private static final long serialVersionUID = 1L;
@@ -33,12 +37,16 @@ public class LoginGUI extends JFrame {
 	
 	private JPanel contentPane;
 	private JLabel betAndRuinLbl;
+	private JLabel loginLbl;
+	private JLabel usernameLbl;
 	private JLabel passwordLbl;
 	private JLabel errorLabel;
 	private JTextField usernameField;
 	private JPasswordField passwordField;
-	private JButton loginButton;
-	private JButton registerButton;
+	private JButton loginBtn;
+	private JButton registerBtn;
+	
+	private JMenuBar menuBar;
 
 	/**
 	 * Create the frame.
@@ -47,9 +55,12 @@ public class LoginGUI extends JFrame {
 		businessLogic = (BlFacade)bl;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 335);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("Login"));
+		
+		menuBar = MenuBar.getMenuBar(this);	
+	    setJMenuBar(menuBar);
 		
 		//Initializations:
 		initializeContentPane();
@@ -92,7 +103,7 @@ public class LoginGUI extends JFrame {
 	
 	private void initializeLoginLabel()
 	{
-		JLabel loginLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Login").toUpperCase());
+		loginLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Login").toUpperCase());
 		loginLbl.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		GridBagConstraints gbc_loginLbl = new GridBagConstraints();
 		gbc_loginLbl.gridwidth = 2;
@@ -105,7 +116,7 @@ public class LoginGUI extends JFrame {
 	
 	private void initializeUsernameLabel()
 	{
-		JLabel usernameLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username"));
+		usernameLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username"));
 		GridBagConstraints gbc_usernameLbl = new GridBagConstraints();
 		gbc_usernameLbl.gridwidth = 2;
 		gbc_usernameLbl.insets = new Insets(0, 0, 5, 5);
@@ -170,21 +181,21 @@ public class LoginGUI extends JFrame {
 	 */
 	private void initializeRegisterButton()
 	{
-		registerButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Register"));
-		registerButton.addActionListener(new ActionListener() {
+		registerBtn = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Register"));
+		registerBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				RegisterGUI fromLoginToRegister = new RegisterGUI(businessLogic);
 				fromLoginToRegister.setVisible(true);
 				dispose();
 			}
 		});
-		registerButton.setBackground(Color.LIGHT_GRAY);
-		GridBagConstraints gbc_registerButton = new GridBagConstraints();
-		gbc_registerButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_registerButton.insets = new Insets(0, 0, 0, 5);
-		gbc_registerButton.gridx = 1;
-		gbc_registerButton.gridy = 8;
-		contentPane.add(registerButton, gbc_registerButton);
+		registerBtn.setBackground(Color.LIGHT_GRAY);
+		GridBagConstraints gbc_registerBtn = new GridBagConstraints();
+		gbc_registerBtn.fill = GridBagConstraints.HORIZONTAL;
+		gbc_registerBtn.insets = new Insets(0, 0, 0, 5);
+		gbc_registerBtn.gridx = 1;
+		gbc_registerBtn.gridy = 8;
+		contentPane.add(registerBtn, gbc_registerBtn);
 	}
 	
 	/**
@@ -192,8 +203,8 @@ public class LoginGUI extends JFrame {
 	 */
 	private void initializeLoginButton()
 	{
-		loginButton = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Login"));
-		loginButton.addActionListener(new ActionListener() {
+		loginBtn = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Login"));
+		loginBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					errorLabel.setText("");
@@ -216,11 +227,20 @@ public class LoginGUI extends JFrame {
 				}
 			}
 		});
-		GridBagConstraints gbc_loginButton = new GridBagConstraints();
-		gbc_loginButton.fill = GridBagConstraints.HORIZONTAL;
-		gbc_loginButton.insets = new Insets(0, 0, 0, 5);
-		gbc_loginButton.gridx = 2;
-		gbc_loginButton.gridy = 8;
-		contentPane.add(loginButton, gbc_loginButton);
+		GridBagConstraints gbc_loginBtn = new GridBagConstraints();
+		gbc_loginBtn.fill = GridBagConstraints.HORIZONTAL;
+		gbc_loginBtn.insets = new Insets(0, 0, 0, 5);
+		gbc_loginBtn.gridx = 2;
+		gbc_loginBtn.gridy = 8;
+		contentPane.add(loginBtn, gbc_loginBtn);
+	}
+
+	public void redraw() {
+		loginLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Login").toUpperCase());
+		usernameLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Username"));
+		passwordLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Password"));
+		registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));
+		loginBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
+		setTitle(ResourceBundle.getBundle("Etiquetas").getString("Login"));
 	}
 }

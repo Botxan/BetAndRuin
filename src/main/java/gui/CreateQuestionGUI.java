@@ -21,22 +21,27 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenuBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import com.toedter.calendar.JCalendar;
 
 import businessLogic.BlFacade;
+import businessLogic.DynamicJFrame;
 import configuration.UtilDate;
 import domain.Event;
 import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
+import gui.components.MenuBar;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
-public class CreateQuestionGUI extends JFrame {
+public class CreateQuestionGUI extends JFrame implements DynamicJFrame {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -63,11 +68,12 @@ public class CreateQuestionGUI extends JFrame {
 	private JScrollPane eventScrollPane = new JScrollPane();
 
 	private JButton createQuestionBtn = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
-	private JButton closeBtn = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
 	private JLabel msgLbl = new JLabel();
 	private JLabel errorLbl = new JLabel();
 
 	private Vector<Date> datesWithEventsInCurrentMonth = new Vector<Date>();
+	
+	private JMenuBar menuBar;
 
 	public CreateQuestionGUI(BlFacade bl) {
 		businessLogic = bl;
@@ -81,9 +87,12 @@ public class CreateQuestionGUI extends JFrame {
 	private void jbInit() throws Exception {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(new Dimension(604, 370));
+		setSize(new Dimension(587, 397));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
+		
+		menuBar = MenuBar.getMenuBar(this);	
+	    setJMenuBar(menuBar);
 
 		eventCB.setModel(eventModel);
 		queryField.addKeyListener(new KeyAdapter() {
@@ -107,12 +116,6 @@ public class CreateQuestionGUI extends JFrame {
 				jButtonCreate_actionPerformed(e);
 			}
 		});
-		closeBtn.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				jButtonClose_actionPerformed(e);
-			}
-		});
 		errorLbl.setForeground(Color.red);
 
 		datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
@@ -127,7 +130,7 @@ public class CreateQuestionGUI extends JFrame {
 					.addComponent(listOfEventsLbl, GroupLayout.PREFERRED_SIZE, 277, GroupLayout.PREFERRED_SIZE))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(40)
-					.addComponent(calendar, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+					.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 225, GroupLayout.PREFERRED_SIZE)
 					.addGap(10)
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(groupLayout.createSequentialGroup()
@@ -142,16 +145,16 @@ public class CreateQuestionGUI extends JFrame {
 					.addGap(59))
 				.addGroup(groupLayout.createSequentialGroup()
 					.addGap(25)
-					.addComponent(minBetLbl, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-					.addComponent(priceField, GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
-					.addGap(15)
-					.addComponent(errorLbl, GroupLayout.PREFERRED_SIZE, 305, GroupLayout.PREFERRED_SIZE)
-					.addGap(108))
-				.addGroup(groupLayout.createSequentialGroup()
-					.addGap(100)
-					.addComponent(createQuestionBtn, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
-					.addGap(45)
-					.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(createQuestionBtn, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(minBetLbl, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+							.addComponent(priceField, GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+							.addGap(15)
+							.addComponent(errorLbl, GroupLayout.PREFERRED_SIZE, 305, GroupLayout.PREFERRED_SIZE)
+							.addGap(108))))
 		);
 		groupLayout.setVerticalGroup(
 			groupLayout.createParallelGroup(Alignment.LEADING)
@@ -185,11 +188,9 @@ public class CreateQuestionGUI extends JFrame {
 							.addGap(3)
 							.addComponent(priceField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 						.addComponent(errorLbl, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
-					.addGap(12)
-					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
-						.addComponent(createQuestionBtn, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
-						.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
-					.addGap(26))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(createQuestionBtn, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addGap(54))
 		);
 		getContentPane().setLayout(groupLayout);
 
@@ -326,15 +327,21 @@ public class CreateQuestionGUI extends JFrame {
 			e1.printStackTrace();
 		}
 	}
-
-	private void jButtonClose_actionPerformed(ActionEvent e) {
-		this.setVisible(false);
-	}
 	
 	private void enableCreateQuestionBtn() {
 		if (calendar.getDate().before(Calendar.getInstance().getTime()) ||
 				eventCB.getSelectedItem() == null || queryField.getText().isEmpty() ||
 				priceField.getText().isEmpty()) createQuestionBtn.setEnabled(false);
 		else createQuestionBtn.setEnabled(true);
+	}
+
+	public void redraw() {
+		eventDateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
+		listOfEventsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ListEvents"));
+		queryLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Question"));
+		minBetLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("MinimumBetPrice"));
+		createQuestionBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
+		calendar.setLocale(Locale.getDefault());
+		setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
 	}
 }
