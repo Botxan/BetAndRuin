@@ -300,7 +300,7 @@ public class CreateForecastGUI extends JFrame {
 
 						// Print success message
 						forecastStatusLbl.setForeground(new Color(46, 204, 113));
-						forecastStatusLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("FeeAddedSuccessfully") + "</p></html>");
+						forecastStatusLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("ForecastAddedSuccessfully") + "</p></html>");
 					} catch (ForecastAlreadyExistException e1) {
 						// Print error message
 						forecastStatusLbl.setForeground(new Color(220, 20, 60));
