@@ -35,13 +35,13 @@ public class MenuBar {
 		JMenu menu = new JMenu("Language");
 		menu.setMnemonic(KeyEvent.VK_L);
 		
-		ButtonGroup langGroup = new ButtonGroup();
+		ButtonGroup localeGroup = new ButtonGroup();
 
 		// EN
 		enItem = new JRadioButtonMenuItem("EN");
-		langGroup.add(enItem);
-	    menu.add(enItem);
-	    enItem.setSelected(true);
+		enItem.setSelected(Locale.getDefault().equals(new Locale("EN")));
+		localeGroup.add(enItem);
+	    menu.add(enItem);  
 	    
 	    enItem.addActionListener(new ActionListener() {
 	    	@Override
@@ -52,7 +52,8 @@ public class MenuBar {
 
 	    // ES
 	    esItem = new JRadioButtonMenuItem("ES");
-	    langGroup.add(esItem);
+	    localeGroup.add(esItem);
+	    esItem.setSelected(Locale.getDefault().equals(new Locale("ES")));
 	    menu.add(esItem);
 	    
 	    esItem.addActionListener(new ActionListener() {
@@ -64,7 +65,8 @@ public class MenuBar {
 
 	    // EUS
 	    eusItem = new JRadioButtonMenuItem("EUS");
-	    langGroup.add(eusItem);
+	    localeGroup.add(eusItem);
+	    eusItem.setSelected(Locale.getDefault().equals(new Locale("EUS")));
 	    menu.add(eusItem);
 	    
 	    eusItem.addActionListener(new ActionListener() {
