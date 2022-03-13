@@ -1,5 +1,6 @@
 package gui;
 
+import java.awt.Color;
 import java.net.URL;
 import java.util.Locale;
 
@@ -20,7 +21,7 @@ public class ApplicationLauncher {
 		Locale.setDefault(new Locale(config.getLocale()));
 		System.out.println("Locale: " + Locale.getDefault());
 		
-		WelcomeGUI initWindow;
+		WelcomeGUI initWindow = null;
 		BlFacade businessLogic;
 
 		try {
@@ -49,12 +50,11 @@ public class ApplicationLauncher {
 			initWindow.setVisible(true);
 		}
 		catch (Exception e) {
-			e.printStackTrace();
-			/*
-			initWindow.selectOptionLbl.setText("Error: " + e.toString());
-			initWindow.selectOptionLbl.setForeground(Color.RED);		
+			e.printStackTrace();		
+			initWindow.errorLbl.setText("Error: " + e.toString());
+			initWindow.errorLbl.setForeground(Color.RED);		
 			System.out.println("Error in ApplicationLauncher: " + e.toString());
-			*/
+			
 		}
 	}
 }

@@ -26,6 +26,7 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import java.awt.Color;
 import javax.swing.JComboBox;
+import javax.swing.SwingConstants;
 
 /**
  * This class represents the welcome page of the application.
@@ -47,6 +48,8 @@ public class WelcomeGUI extends JFrame {
 	private JButton loginBtn;
 	private JButton registerBtn;
 	private JComboBox<String> localeCB;
+	
+	protected JLabel errorLbl; // Used for error handling from ApplicationLauncher
 	
 	/**
 	 * Constructor for the Welcome GUI. Initializes all the components and
@@ -73,7 +76,7 @@ public class WelcomeGUI extends JFrame {
 		initializeWelcomePane();
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 354, 339);
+		setBounds(100, 100, 349, 421);
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
@@ -82,45 +85,44 @@ public class WelcomeGUI extends JFrame {
 		setContentPane(contentPane);
 		welcomeLbl.setFont(new Font("Tahoma", Font.PLAIN, 24));
 		
-		// Group layout code
+		errorLbl.setHorizontalAlignment(SwingConstants.CENTER);
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addContainerGap(83, Short.MAX_VALUE)
+					.addGap(83)
 					.addComponent(loginBtn, GroupLayout.PREFERRED_SIZE, 67, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
+					.addGap(6)
 					.addComponent(registerBtn, GroupLayout.PREFERRED_SIZE, 107, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(localeCB, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+					.addGap(6)
+					.addComponent(localeCB, GroupLayout.PREFERRED_SIZE, 54, GroupLayout.PREFERRED_SIZE))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(24)
-					.addComponent(welcomeLbl)
-					.addContainerGap(212, Short.MAX_VALUE))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(42)
-					.addComponent(logoLbl, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE)
-					.addGap(45))
+					.addComponent(welcomeLbl))
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(81)
-					.addComponent(browseQuestionsBtn, GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-					.addGap(81))
+					.addComponent(browseQuestionsBtn, GroupLayout.PREFERRED_SIZE, 171, GroupLayout.PREFERRED_SIZE))
+				.addGroup(gl_contentPane.createSequentialGroup()
+					.addGap(42)
+					.addComponent(logoLbl, GroupLayout.PREFERRED_SIZE, 246, GroupLayout.PREFERRED_SIZE)
+					.addGap(35))
+				.addComponent(errorLbl, GroupLayout.DEFAULT_SIZE, 323, Short.MAX_VALUE)
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(localeCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addComponent(loginBtn)
 						.addComponent(registerBtn)
-						.addComponent(loginBtn))
+						.addComponent(localeCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(8)
-					.addComponent(welcomeLbl, GroupLayout.PREFERRED_SIZE, 29, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(logoLbl, GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE)
+					.addComponent(welcomeLbl)
+					.addGap(6)
+					.addComponent(logoLbl, GroupLayout.PREFERRED_SIZE, 234, GroupLayout.PREFERRED_SIZE)
+					.addGap(11)
+					.addComponent(browseQuestionsBtn)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(browseQuestionsBtn, GroupLayout.PREFERRED_SIZE, 23, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap())
+					.addComponent(errorLbl, GroupLayout.DEFAULT_SIZE, 11, Short.MAX_VALUE))
 		);
 		contentPane.setLayout(gl_contentPane);
 	}
@@ -129,11 +131,19 @@ public class WelcomeGUI extends JFrame {
 	 * This method initializes the welcome pane.
 	 */
 	private void initializeWelcomePane() {
+		// Panels
 		contentPane = new JPanel();
-		logoLbl = new JLabel();
-		welcomeLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
 		
+		// Labels
+		logoLbl = new JLabel();
+		errorLbl = new JLabel();
+		welcomeLbl = new JLabel();
+		welcomeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Welcome"));
+		
+		// Combo boxes
 		initializeLocaleCB();
+		
+		// Buttons
 		initializeLoginBtn();
 		initializeRegisterBtn();
 		initializeBrowseQuestionsBtn();
