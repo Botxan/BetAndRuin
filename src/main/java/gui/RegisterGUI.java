@@ -36,9 +36,9 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /**
- * Graphic User Interface for registering into BetAndRuin.
- * @author Josefinators
- *
+ * This class represents the GUI to register a certain user in the application
+ * @author Josefinators team
+ * @version first iteration
  */
 public class RegisterGUI extends JFrame implements DynamicJFrame {
 	
@@ -76,7 +76,7 @@ public class RegisterGUI extends JFrame implements DynamicJFrame {
 	private JMenuBar menuBar;
 	
 	/**
-	 * Create the frame.
+	 * It creates the frame
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" }) // Otherwise WindowBuilder crashes
 	public RegisterGUI(BlFacade bl) {	
@@ -434,9 +434,9 @@ public class RegisterGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * Updates the day corresponding to the month and year of the combo box.
-	 * @param dayComboBox
-	 * @param monthComboBox
+	 * It updates the matching day, month and year in the combo box
+	 * @param dayComboBox an instance of the combo box for day
+	 * @param monthComboBox an instance of the combo box for month
 	 */
 	@SuppressWarnings({ "rawtypes", "unchecked" })
 	private void updateComboBox(JComboBox dayComboBox, JComboBox monthComboBox)
@@ -452,6 +452,9 @@ public class RegisterGUI extends JFrame implements DynamicJFrame {
 		}
 	}
 
+	/**
+	 * It updates issues related to language options
+	 */
 	public void redraw() {
 		registerLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Register").toUpperCase());
 		usernameLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Username"));
