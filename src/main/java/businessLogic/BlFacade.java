@@ -11,6 +11,7 @@ import domain.Question;
 import domain.User;
 import exceptions.EventAlreadyExistException;
 import exceptions.EventFinished;
+import exceptions.ForecastAlreadyExistException;
 import exceptions.IncorrectPSWConfirmException;
 import exceptions.InvalidDateException;
 import exceptions.InvalidPasswordException;
@@ -72,8 +73,9 @@ public interface BlFacade  {
 	 * @param question The question for which the forecast is going to be created.
 	 * @param result The result of the forecast.
 	 * @param fee The fee of the forecast.
+	 * @throws ForecastAlreadyExistException 
 	 */
-	@WebMethod public void addForecast(Question question, String result, int fee);
+	@WebMethod public void addForecast(Question question, String result, int fee) throws ForecastAlreadyExistException;
 	
 	/**
 	 * Registers a standard permit user into the data base (persistance).

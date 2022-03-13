@@ -31,6 +31,8 @@ import configuration.UtilDate;
 import domain.Event;
 import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class CreateQuestionGUI extends JFrame {
 	
@@ -58,7 +60,7 @@ public class CreateQuestionGUI extends JFrame {
 
 	private JScrollPane eventScrollPane = new JScrollPane();
 
-	private JButton createBtn = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
+	private JButton createQuestionBtn = new JButton(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
 	private JButton closeBtn = new JButton(ResourceBundle.getBundle("Etiquetas").getString("Close"));
 	private JLabel msgLbl = new JLabel();
 	private JLabel errorLbl = new JLabel();
@@ -85,17 +87,29 @@ public class CreateQuestionGUI extends JFrame {
 		eventCB.setBounds(new Rectangle(275, 47, 250, 20));
 		listOfEventsLbl.setBounds(new Rectangle(290, 18, 277, 20));
 		queryLbl.setBounds(new Rectangle(25, 211, 75, 20));
+		queryField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				enableCreateQuestionBtn();
+			}
+		});
 		queryField.setBounds(new Rectangle(100, 211, 429, 20));
 		minBetLbl.setBounds(new Rectangle(25, 243, 75, 20));
+		priceField.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				enableCreateQuestionBtn();
+			}
+		});
 		priceField.setBounds(new Rectangle(100, 243, 60, 20));
 
 		calendar.setBounds(new Rectangle(40, 50, 225, 150));
 		eventScrollPane.setBounds(new Rectangle(25, 44, 346, 116));
 
-		createBtn.setBounds(new Rectangle(100, 275, 130, 30));
-		createBtn.setEnabled(false);
+		createQuestionBtn.setBounds(new Rectangle(100, 275, 130, 30));
+		createQuestionBtn.setEnabled(false);
 
-		createBtn.addActionListener(new ActionListener() {
+		createQuestionBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				jButtonCreate_actionPerformed(e);
@@ -110,7 +124,6 @@ public class CreateQuestionGUI extends JFrame {
 		});
 
 		msgLbl.setBounds(new Rectangle(275, 182, 305, 20));
-		msgLbl.setForeground(Color.red);
 		// jLabelMsg.setSize(new Dimension(305, 20));
 
 		errorLbl.setBounds(new Rectangle(175, 240, 305, 20));
@@ -120,7 +133,7 @@ public class CreateQuestionGUI extends JFrame {
 		getContentPane().add(errorLbl, null);
 
 		getContentPane().add(closeBtn, null);
-		getContentPane().add(createBtn, null);
+		getContentPane().add(createQuestionBtn, null);
 		getContentPane().add(queryField, null);
 		getContentPane().add(queryLbl, null);
 		getContentPane().add(priceField, null);
@@ -191,16 +204,17 @@ public class CreateQuestionGUI extends JFrame {
 						eventCB.repaint();
 
 						if (events.size() == 0)
-							createBtn.setEnabled(false);
+							createQuestionBtn.setEnabled(false);
 						else
-							createBtn.setEnabled(true);
+							createQuestionBtn.setEnabled(true);
 
 					} catch (Exception e1) {
 
 						errorLbl.setText(e1.getMessage());
 					}
 				}
-			}
+				enableCreateQuestionBtn();
+			}		
 		});
 	}
 
@@ -241,24 +255,28 @@ public class CreateQuestionGUI extends JFrame {
 
 			// Displays an exception if the query field is empty
 			String inputQuestion = queryField.getText();
-
 			if (inputQuestion.length() > 0) {
-
 				// It could be to trigger an exception if the introduced string is not a number
 				float inputPrice = Float.parseFloat(priceField.getText());
 
 				if (inputPrice <= 0)
 					errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
 				else {
+					msgLbl.setForeground(Color.green);
 					businessLogic.createQuestion(event, inputQuestion, inputPrice);
 					msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("QuestionCreated"));
 				}
-			} else
+				
+			} else {				
+				msgLbl.setForeground(Color.red);
 				msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorQuestion"));
+			}
 		} catch (EventFinished e1) {
+			msgLbl.setForeground(Color.red);
 			msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventHasFinished") + 
 					" : " + event.getDescription());
 		} catch (QuestionAlreadyExist e1) {
+			msgLbl.setForeground(Color.red);
 			msgLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorQuestionAlreadyExist"));
 		} catch (java.lang.NumberFormatException e1) {
 			errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
@@ -269,5 +287,12 @@ public class CreateQuestionGUI extends JFrame {
 
 	private void jButtonClose_actionPerformed(ActionEvent e) {
 		this.setVisible(false);
+	}
+	
+	private void enableCreateQuestionBtn() {
+		if (calendar.getDate().before(Calendar.getInstance().getTime()) ||
+				eventCB.getSelectedItem() == null || queryField.getText().isEmpty() ||
+				priceField.getText().isEmpty()) createQuestionBtn.setEnabled(false);
+		else createQuestionBtn.setEnabled(true);
 	}
 }

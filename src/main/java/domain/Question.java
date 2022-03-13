@@ -40,7 +40,7 @@ public class Question implements Serializable {
 		this.event = event;
 	}
 
-	public Question(String query, float betMinimum,  Event event) {
+	public Question(String query, float betMinimum, Event event) {
 		super();
 		this.question = query;
 		this.betMinimum=betMinimum;
@@ -110,7 +110,7 @@ public class Question implements Serializable {
 	 * 
 	 * @return the the query result
 	 */
-	public Vector<Forecast> getResult() {
+	public Vector<Forecast> getResults() {
 		return results;
 	}
 
@@ -119,7 +119,7 @@ public class Question implements Serializable {
 	 * 
 	 * @param correct result of the query
 	 */
-	public void setResult(Vector<Forecast> result) {
+	public void setResults(Vector<Forecast> result) {
 		this.results = result;
 	}
 
@@ -141,8 +141,36 @@ public class Question implements Serializable {
 		this.event = event;
 	}
 
+	/**
+	 * This method creates a forecast with a given result and fee.
+	 * 
+	 * @param result the result of that forecast.
+	 * @param fee the fee of that forecast.
+	 * @return the new forecast.
+	 */
+	public Forecast addQuestion(String result, int fee)  {
+		Forecast f = new Forecast(result, fee, this);
+		results.add(f);
+		return f;
+	}
+	
+	/**
+	 * Checks if a forecast with same name exist already for
+	 * this question.
+	 * @param result the result of the forecast.
+	 * @return true if the forecast exist. Otherwise false.
+	 */
+	public boolean doesForecastExist(String result) {
+		for (Forecast f: getResults()) 
+			if (f.getResult().equals(result)) 
+				return true;
+		
+		return false;
+	}
+	
 	@Override
 	public String toString(){
 		return question;
-	}	
+	}
+	
 }

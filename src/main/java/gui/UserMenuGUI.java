@@ -81,6 +81,8 @@ public class UserMenuGUI extends JFrame {
 		localeCB.addItem("EUS");
 		localeCB.addItem("ES");
 		
+		localeCB.setSelectedItem(Locale.getDefault().toString().toUpperCase());
+		
 		localeCB.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String language = localeCB.getSelectedItem().toString();
@@ -89,6 +91,7 @@ public class UserMenuGUI extends JFrame {
 				redraw();
 			}
 		});	
+		System.out.println("Localo: " + Locale.getDefault());
 	}
 	
 	/**

@@ -22,6 +22,7 @@ import businessLogic.BlFacade;
 import configuration.UtilDate;
 import domain.Event;
 import domain.Question;
+import exceptions.ForecastAlreadyExistException;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -54,9 +55,6 @@ public class CreateForecastGUI extends JFrame {
 	private JButton setForecastBtn;
 	private JButton closeBtn;
 	private JCalendar calendar;
-	private Calendar previousCalendar;
-	private Calendar currentCalendar;
-	private Vector<Date> datesWithEventsInCurrentMonth = new Vector<Date>();
 	
 	// Number formatter
 	NumberFormat feeFormat = NumberFormat.getIntegerInstance();
@@ -208,28 +206,10 @@ public class CreateForecastGUI extends JFrame {
 					calendar.setLocale((Locale) propertyChangeEvent.getNewValue());
 				}
 				else if (propertyChangeEvent.getPropertyName().equals("calendar")) {
-					previousCalendar = (Calendar) propertyChangeEvent.getOldValue();
-					currentCalendar = (Calendar) propertyChangeEvent.getNewValue();
 					// DateFormat dateformat1 = DateFormat.getDateInstance(1, calendar.getLocale());
 					Date firstDay = UtilDate.trim(new Date(calendar.getCalendar().getTime().getTime()));
-
-					int previousMonth = previousCalendar.get(Calendar.MONTH);
-					int currentMonth = currentCalendar.get(Calendar.MONTH);
-
-					if (currentMonth != previousMonth) {
-						if (currentMonth == previousMonth + 2) {
-							// Si en JCalendar está 30 de enero y se avanza al mes siguiente, 
-							// devolvería 2 de marzo (se toma como equivalente a 30 de febrero)
-							// Con este código se dejará como 1 de febrero en el JCalendar
-							currentCalendar.set(Calendar.MONTH, previousMonth + 1);
-							currentCalendar.set(Calendar.DAY_OF_MONTH, 1);
-						}						
-
-						calendar.setCalendar(currentCalendar);
-						datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
-						System.out.println(datesWithEventsInCurrentMonth);
-					}
-
+				
+					Vector<Date> datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
 					CreateQuestionGUI.paintDaysWithEvents(calendar,datesWithEventsInCurrentMonth);
 					
 					// Get events
@@ -301,24 +281,38 @@ public class CreateForecastGUI extends JFrame {
 	}
 	
 	private void initSetForecastBtn() {
-		setForecastBtn = new JButton("Set forecast");
+		setForecastBtn = new JButton();
+		setForecastBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("AddForecast"));
 		setForecastBtn.setEnabled(false);
 		
 		setForecastBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Save the forecast in the database
-				businessLogic.addForecast((Question)questionCB.getSelectedItem(), 
-						resultField.getText(), Integer.parseInt(feeField.getText()));
-				
-				// Print success message
-				forecastStatusLbl.setForeground(new Color(46, 204, 113));
-				forecastStatusLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("FeeAddedSuccessfully") + "</p></html>");
+				if (calendar.getDate().before(Calendar.getInstance().getTime())) {
+					// Print error message
+					forecastStatusLbl.setForeground(new Color(220, 20, 60));
+					forecastStatusLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("ErrorInvalidDate") + "</p></html>");
+				} else {					
+					// Save the forecast in the database
+					try {
+						businessLogic.addForecast((Question)questionCB.getSelectedItem(), 
+								resultField.getText(), Integer.parseInt(feeField.getText()));
+
+						// Print success message
+						forecastStatusLbl.setForeground(new Color(46, 204, 113));
+						forecastStatusLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("FeeAddedSuccessfully") + "</p></html>");
+					} catch (ForecastAlreadyExistException e1) {
+						// Print error message
+						forecastStatusLbl.setForeground(new Color(220, 20, 60));
+						forecastStatusLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("ErrorForecastAlreadyExist") + "</p></html>");
+					}
+				}
 			}
 		});		
 	}
 	
 	private void initCloseBtn() {
-		closeBtn = new JButton("Close");
+		closeBtn = new JButton();
+		closeBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Close"));
 	}
 	
 	private void enableFeeBtn() {

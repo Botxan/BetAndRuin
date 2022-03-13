@@ -1,8 +1,6 @@
 	package dataAccess;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,7 +12,6 @@ import java.util.Vector;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.NoResultException;
 import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 
@@ -26,6 +23,7 @@ import domain.Question;
 import domain.Forecast;
 import domain.User;
 import exceptions.EventAlreadyExistException;
+import exceptions.ForecastAlreadyExistException;
 import exceptions.QuestionAlreadyExist;
 import exceptions.UserNotFoundException;
 
@@ -253,12 +251,22 @@ public class DataAccess  {
 	 * @param question The question of the forecast.
 	 * @param result The result of the forecast.
 	 * @param fee The fee of the forecast.
+	 * @throws ForecastAlreadyExistException 
 	 */
-	public void addForecast(Question question, String result, int fee) {
+	public Forecast addForecast(Question question, String result, int fee) throws ForecastAlreadyExistException {
+		// Check if the forecast already exist
+		Question q = db.find(Question.class, question.getQuestionNumber());
+		
+		if (q.doesForecastExist(result)) throw new ForecastAlreadyExistException (
+				ResourceBundle.getBundle("Etiquetas").getString("ErrorForecastAlreadyExist")); 
+		
+		// Add the new forecast
 		db.getTransaction().begin();
-		Forecast forecast = new Forecast(result, fee, question);
-		db.persist(forecast);
+		Forecast forecast = q.addQuestion(result, fee);
+		db.persist(q); // CascadeType.PERSIST, so persist(forecast) not needed
 		db.getTransaction().commit();
+		
+		return forecast;
 	}
 	
 	public boolean checkLogin(String username, String password) {

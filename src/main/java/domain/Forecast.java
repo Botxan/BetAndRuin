@@ -23,7 +23,8 @@ public class Forecast implements Serializable{
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer resultNumber;
 	private String result;
-	private int fee;	
+	private int fee;
+	
 	@XmlIDREF
 	private Question question;
 	

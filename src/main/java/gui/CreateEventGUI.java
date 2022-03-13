@@ -1,7 +1,10 @@
 package gui;
 
 import java.util.ResourceBundle;
+import java.util.Vector;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -19,6 +22,8 @@ import exceptions.EventAlreadyExistException;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -170,6 +175,22 @@ public class CreateEventGUI extends JFrame {
 	 */
 	private void initializeCalendar() {
 		calendar = new JCalendar();
+		
+		// Code for JCalendar
+			calendar.addPropertyChangeListener(new PropertyChangeListener() {
+
+				@Override
+				public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
+
+					if (propertyChangeEvent.getPropertyName().equals("locale")) {
+						calendar.setLocale((Locale) propertyChangeEvent.getNewValue());
+					}
+					else if (propertyChangeEvent.getPropertyName().equals("calendar")) {						
+						Vector<Date> datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
+						CreateQuestionGUI.paintDaysWithEvents(calendar,datesWithEventsInCurrentMonth);
+					}
+				}
+			});
 	}
 	
 	/**
@@ -189,8 +210,8 @@ public class CreateEventGUI extends JFrame {
 					eventStatusLabel.setForeground(new Color(220, 20, 60));
 					eventStatusLabel.setText("<html><p style=\\\"width:200px\\\">"+ResourceBundle.getBundle("Etiquetas").getString("ErrorInvalidDate")+"</p></html>");
 				} else {					
+					// Save the event in the database
 					try {
-						// Save the event in the database
 						businessLogic.createEvent(eventDescriptionField.getText(), calendar.getDate());
 						// Print success message
 						eventStatusLabel.setForeground(new Color(46, 204, 113));
