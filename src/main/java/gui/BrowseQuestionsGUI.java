@@ -80,7 +80,7 @@ public class BrowseQuestionsGUI extends JFrame implements DynamicJFrame {
 
 	/**
 	 * Constructor that instantiates the BrowseQuestionsGUI class
-	 * @param bl an instance of the business logic
+	 * @param bl an instance of the business logic layer 
 	 */
 	public BrowseQuestionsGUI(BlFacade bl) {
 		businessLogic = bl;

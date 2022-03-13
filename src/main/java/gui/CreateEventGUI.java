@@ -37,7 +37,7 @@ import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 
 /**
- * This class represents the creating new events GUI of the application
+ * This class represents the create new events GUI of the application
  * @author Josefinators team
  * @version first iteration
  */
@@ -57,7 +57,7 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 	
 	/**
 	 * Constructor that instantiates the CreateEventGUI class 
-	 * @param bl an instance of the business logic
+	 * @param bl an instance of the business logic layer 
 	 */
 	public CreateEventGUI(BlFacade bl) {
 		businessLogic = bl;
@@ -119,7 +119,7 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * It initializes the most of the components in the GUI
+	 * It initializes most of the components in the GUI
 	 */
 	private void initializeMainPane() {
 		// Content Panel

@@ -39,7 +39,11 @@ import javax.swing.JFormattedTextField;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-
+/**
+ * This class represents the create forecast GUI of the application
+ * @author Josefinators team
+ * @version first iteration
+ */
 public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 	
 	private static final long serialVersionUID = 1L;
@@ -64,6 +68,10 @@ public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 	NumberFormatter numberFormatter = new NumberFormatter(feeFormat);
 	private JLabel forecastStatusLbl;
 	
+	/**
+	 * Constructor that instantiates the CreateForecastGUI class
+	 * @param bl an instance of the business logic layer 
+	 */
 	public CreateForecastGUI(BlFacade bl) {
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("AddForecast"));
@@ -77,6 +85,9 @@ public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 		}
 	}
 
+	/**
+	 * It creates the main frame 
+	 */
 	private void jbInit() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 570, 388);
@@ -155,6 +166,9 @@ public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 		contentPane.setLayout(gl_contentPane);
 	}
 	
+	/**
+	 * It initializes most of the components in the GUI
+	 */
 	private void initMainPane() {
 		// Menu
 		menuBar = MenuBar.getMenuBar(this);	
@@ -195,16 +209,17 @@ public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 		
 		// Buttons
 		initSetForecastBtn();
-		initCloseBtn();
 	}
 	
+	/**
+	 * It initializes the calendar 
+	 */
 	private void initCalendar() {
 		calendar = new JCalendar();
 		
 		// Code for JCalendar
 		calendar.addPropertyChangeListener(new PropertyChangeListener() {
 
-			@Override
 			public void propertyChange(PropertyChangeEvent propertyChangeEvent) {
 
 				if (propertyChangeEvent.getPropertyName().equals("locale")) {
@@ -235,6 +250,9 @@ public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 		});
 	}
 	
+	/**
+	 * It initializes the result input 
+	 */
 	private void initResultInput() {
 		resultField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -245,6 +263,9 @@ public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 		});
 	}
 	
+	/**
+	 * It initializes the fee input 
+	 */
 	private void initFeeInput() {
 		feeField.addKeyListener(new KeyAdapter() {
 			@Override
@@ -255,6 +276,9 @@ public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 		});
 	}
 	
+	/**
+	 * It initializes the event combo box 
+	 */
 	private void initEventCB() {
 		eventCB = new JComboBox<Event>();
 		
@@ -274,6 +298,9 @@ public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 		});
 	}
 	
+	/**
+	 * It initializes the question combo box 
+	 */
 	private void initQuestionCB() {
 		questionCB = new JComboBox<Question>();
 		
@@ -285,6 +312,9 @@ public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 		});
 	}
 	
+	/**
+	 * It initializes the set forecast button 
+	 */
 	private void initSetForecastBtn() {
 		setForecastBtn = new JButton();
 		setForecastBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("AddForecast"));
@@ -315,9 +345,9 @@ public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 		});		
 	}
 	
-	private void initCloseBtn() {
-	}
-	
+	/**
+	 * It enables the fee button 
+	 */
 	private void enableFeeBtn() {
 		if (eventCB.getSelectedItem() == null || questionCB.getSelectedItem() == null
 				|| resultField.getText().isEmpty() || feeField.getText().isEmpty()) 
@@ -326,6 +356,9 @@ public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 			setForecastBtn.setEnabled(true);
 	}
 
+	/**
+	 * It updates issues related to language options
+	 */
 	public void redraw() {
 		eventLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Event"));
 		questionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Question"));

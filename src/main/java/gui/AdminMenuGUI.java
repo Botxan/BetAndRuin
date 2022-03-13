@@ -39,7 +39,7 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 
 	/**
 	 * It creates the frame 
-	 * @param bl an instance of the business logic 
+	 * @param bl an instance of the business logic layer
 	 */
 	public AdminMenuGUI(BlFacade bl) {
 		businessLogic = (BlFacade) bl;
