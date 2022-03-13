@@ -27,7 +27,6 @@ import java.beans.PropertyChangeListener;
 import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
-import java.awt.Font;
 import java.awt.Toolkit;
 
 import javax.swing.SwingConstants;

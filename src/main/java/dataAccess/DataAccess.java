@@ -170,6 +170,8 @@ public class DataAccess  {
 	}
 	
 	public Event createEvent(String description, Date date) throws EventAlreadyExistException {	
+		System.out.println(">> DataAccess: createEvent => description = " + description + " date = " + date);
+		
 		// Check if the event exist
 		TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.description=?1", Event.class);
 		query.setParameter(1, description);
@@ -254,6 +256,8 @@ public class DataAccess  {
 	 * @throws ForecastAlreadyExistException 
 	 */
 	public Forecast addForecast(Question question, String result, int fee) throws ForecastAlreadyExistException {
+		System.out.println(">> DataAccess: addForecast => question = " + question + " result = " + result + " fee = " + fee);
+		
 		// Check if the forecast already exist
 		Question q = db.find(Question.class, question.getQuestionNumber());
 		
@@ -270,8 +274,9 @@ public class DataAccess  {
 	}
 	
 	public boolean checkLogin(String username, String password) {
-		TypedQuery<User> query = db.createQuery("SELECT user FROM User user WHERE user.username=?1 AND user.password=?2", 
-				User.class);   
+		System.out.println(">> DataAccess: checkLogin => username = " + username + " password = " + password);
+		
+		TypedQuery<User> query = db.createQuery("SELECT user FROM User user WHERE user.username=?1 AND user.password=?2", User.class);   
 		query.setParameter(1, username);
 		query.setParameter(2, password);
 		List<User> users = query.getResultList();
@@ -333,8 +338,7 @@ public class DataAccess  {
 	}
 
 	public boolean existQuestion(Event event, String question) {
-		System.out.println(">> DataAccess: existQuestion => event = " + event + 
-				" question = " + question);
+		System.out.println(">> DataAccess: existQuestion => event = " + event + " question = " + question);
 		Event ev = db.find(Event.class, event.getEventNumber());
 		return ev.doesQuestionExist(question);
 	}
@@ -352,6 +356,10 @@ public class DataAccess  {
 	 */
 	public void register(String username, String firstName, String lastName, String address, String email, byte[] hashedPassword, Date birthdate, byte[] salt)
 	{
+		System.out.println(">> DataAccess: register => username = " + username + " firstName = " +
+				firstName + " lastName = " + lastName + " address = " + address + " email = " + email + 
+				" hashedPassword = " + hashedPassword + " birthdate = " + birthdate + " salt = " + salt);
+		
 		db.getTransaction().begin();
 		User newUser = new User(username, firstName, lastName,
 				birthdate, address, hashedPassword, email, salt, 1);
@@ -367,15 +375,12 @@ public class DataAccess  {
 	 */
 	public boolean isUserInDB(String username)
 	{
+		System.out.println(">> DataAccess: isUserInDB => username = " + username);
+		
 		TypedQuery<User> u = db.createQuery("SELECT u FROM User u WHERE u.username=?1", User.class);
 		u.setParameter(1, username);
 		List<User> query = u.getResultList();
 		return !query.isEmpty();
-	}
-	
-	public void close(){
-		db.close();
-		System.out.println("DataBase is closed");
 	}
 	
 	/**
@@ -386,10 +391,17 @@ public class DataAccess  {
 	 */
 	public User getUser(String username) throws UserNotFoundException
 	{
+		System.out.println(">> DataAccess: getUser => username = " + username);
+		
 		TypedQuery<User> u = db.createQuery("SELECT u FROM User u WHERE u.username=?1", User.class);
 		u.setParameter(1, username);
 		List<User> query = u.getResultList();
 		if(query.size() !=  1) throw new UserNotFoundException();
 		return query.get(0);
+	}
+	
+	public void close(){
+		db.close();
+		System.out.println("DataBase is closed");
 	}
 }

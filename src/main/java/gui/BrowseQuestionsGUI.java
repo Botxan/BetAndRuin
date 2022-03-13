@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.Dimension;
-import java.awt.Rectangle;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -26,7 +25,6 @@ import javax.swing.table.DefaultTableModel;
 import com.toedter.calendar.JCalendar;
 
 import businessLogic.BlFacade;
-import businessLogic.BlFacadeImplementation;
 import configuration.UtilDate;
 import domain.Question;
 import javax.swing.GroupLayout;
