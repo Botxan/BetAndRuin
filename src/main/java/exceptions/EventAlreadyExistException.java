@@ -7,7 +7,8 @@ public class EventAlreadyExistException extends Exception {
 		super();
 	}
 
-	/**This exception is triggered if the forecast already exists 
+	/**
+	 * This exception is triggered if the forecast already exists 
 	 *@param s String of the exception
 	 */
 	public EventAlreadyExistException(String s) {
