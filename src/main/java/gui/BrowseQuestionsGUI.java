@@ -78,6 +78,10 @@ public class BrowseQuestionsGUI extends JFrame implements DynamicJFrame {
 	
 	private JMenuBar menuBar;
 
+	/**
+	 * Constructor that instantiates the BrowseQuestionsGUI class
+	 * @param bl an instance of the business logic
+	 */
 	public BrowseQuestionsGUI(BlFacade bl) {
 		businessLogic = bl;
 		try {
@@ -88,6 +92,9 @@ public class BrowseQuestionsGUI extends JFrame implements DynamicJFrame {
 		}
 	}
 
+	/**
+	 * It creates the main frame 
+	 */
 	private void jbInit() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

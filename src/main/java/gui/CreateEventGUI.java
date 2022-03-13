@@ -37,9 +37,9 @@ import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 
 /**
- * This class represents the GUI for creating new events.
- * @author Josefinators
- * @version v1
+ * This class represents the creating new events GUI of the application
+ * @author Josefinators team
+ * @version first iteration
  */
 public class CreateEventGUI extends JFrame implements DynamicJFrame {
 
@@ -56,9 +56,8 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 	private JMenuBar menuBar;
 	
 	/**
-	 * Constructor for the CreateEventGUI. Sets the business logic passed
-	 * by parameter and initializes the main frame.
-	 * @param bl The business logic.
+	 * Constructor that instantiates the CreateEventGUI class 
+	 * @param bl an instance of the business logic
 	 */
 	public CreateEventGUI(BlFacade bl) {
 		businessLogic = bl;
@@ -71,7 +70,7 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * Creates the main frame
+	 * It creates the main frame
 	 */
 	private void jbInit() {
 		
@@ -120,7 +119,7 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initializes the majority of the components in the GUI.
+	 * It initializes the most of the components in the GUI
 	 */
 	private void initializeMainPane() {
 		// Content Panel
@@ -148,7 +147,7 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initializes the event description input.
+	 *  It initializes the event description input
 	 */
 	private void initializeEventDescriptionInput() {
 		eventDescriptionField = new JTextField();
@@ -162,7 +161,7 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initializes the calendar
+	 * It initializes the calendar
 	 */
 	private void initializeCalendar() {
 		calendar = new JCalendar();
@@ -185,8 +184,7 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initializes the create event button.
-	 * It will store the new event in the database if all the data is correct.
+	 * It initializes the create event button to store the new event in the database 
 	 */
 	private void initializeCreateEventBtn() {
 		createEventBtn = new JButton();
@@ -218,14 +216,16 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method enables the create event button when the event to be
-	 * created is valid. In the meantime, it disables the button.
+	 * It enables the create event button when the event is valid
 	 */
 	private void enableCreateEventBtn() {
 		if (eventDescriptionField.getText().isEmpty()) createEventBtn.setEnabled(false);
 		else createEventBtn.setEnabled(true);
 	}
 
+	/**
+	 * It updates issues related to language options
+	 */
 	public void redraw() {
 		eventDescriptionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
 		createEventBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
