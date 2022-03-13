@@ -23,31 +23,33 @@ import exceptions.UserNotFoundException;
 import exceptions.UsernameAlreadyInDBException;
 
 /**
- * Interface that specifies the business logic.
+ * Interface that specifies the business logic layer 
+ * @author Josefinators team
+ * @version first iteration
  */
 @WebService
 public interface BlFacade  {
 	
 	/**
-	 * This method creates an event, with the event name and the date.
-	 * @param name The name of the event.
-	 * @param date The date of the event.
-	 * @return The new event.
+	 * It creates an event with its corresponding name and date
+	 * @param name an instance of the event name
+	 * @param date an instance of the date of the event 
+	 * @return it returns a new event 
 	 * @throws EventAlreadyExistException if the exception already exist in the database.
 	 */
 	@WebMethod
 	public Event createEvent(String name, Date date) throws EventAlreadyExistException;
 	
 	/**
-	 * This method retrieves all the events of a given date 
+	 * It retrieves all events that take place on a given date 
 	 * 
-	 * @param date in which events are retrieved
-	 * @return collection of events
+	 * @param date an instance of the event date
+	 * @return it returns a collection of events
 	 */
 	@WebMethod public Vector<Event> getEvents(Date date);
 	
 	/**
-	 * This method retrieves from the database the dates in a month for which there are events
+	 * It retrieves the dates in a month for which there are events from the database 
 	 * 
 	 * @param date of the month for which days with events want to be retrieved 
 	 * @return collection of dates
@@ -55,7 +57,7 @@ public interface BlFacade  {
 	@WebMethod public Vector<Date> getEventsMonth(Date date);
 
 	/**
-	 * This method creates a question for an event, with a question text and the minimum bet
+	 * It creates a question for an event with a question text and the minimum bet
 	 * 
 	 * @param event to which question is added
 	 * @param question text of the question
@@ -69,73 +71,72 @@ public interface BlFacade  {
 			throws EventFinished, QuestionAlreadyExist;
 	
 	/**
-	 * Calls a data access method in order to store a given forecast in the database.
-	 * @param question The question for which the forecast is going to be created.
-	 * @param result The result of the forecast.
-	 * @param fee The fee of the forecast.
+	 * It calls a data access method in order to store a given forecast in the database
+	 * @param question question for which the forecast is going to be created
+	 * @param result result of the forecast
+	 * @param fee fee of the forecast
 	 * @throws ForecastAlreadyExistException 
 	 */
 	@WebMethod public void addForecast(Question question, String result, int fee) throws ForecastAlreadyExistException;
 	
 	/**
-	 * Registers a standard permit user into the data base (persistance).
-	 * @param username The identification string of the user.
-	 * @param firstName The first name of the user.
-	 * @param lastName The last name of the user.
-	 * @param address The current billing address of the user.
-	 * @param email The contact vinculated email of the user.
-	 * @param password The password of the user.
-	 * @param confirmPassword Additional password for checking original passwords corretness.
-	 * @param year The birth year of the user.
-	 * @param month The month of the birth of the user.
-	 * @param day The birth day of the user.
-	 * @throws InvalidDateException Thrown when the given year, month and year's format is invalid.
-	 * @throws UnderageRegistrationException Thrown when the user is underage; has less than 18 years.
-	 * @throws IncorrectPSWConfirmException Thrown when the password and the checking confirmPassword do not match. 
-	 * @throws PswTooShortException Thrown when the potential password is shorter than the required minimum (MINIMUM_PSW_LENGHT).
-	 * @throws NoMatchingPatternException Thrown when the email does not match the standard format.
-	 * @throws UsernameAlreadyInDBException Thrown when the chosen username is already in the DB.
+	 * It registers a user into the database
+	 * @param username an instance of the username 
+	 * @param firstName an instance of the first name of the user 
+	 * @param lastName an instance of the last name of the user 
+	 * @param address current billing address of the user
+	 * @param email email of the user
+	 * @param password password of the user
+	 * @param confirmPassword additional password query to check the original password
+	 * @param year birth year of the user
+	 * @param month month of birth of the user
+	 * @param day birth day of the user
+	 * @throws InvalidDateException format for year and month is invalid
+	 * @throws UnderageRegistrationException the user is under age (less than 18 years)
+	 * @throws IncorrectPSWConfirmException password and checking confirmPassword do not match
+	 * @throws PswTooShortException potential password is shorter than the required minimum
+	 * @throws NoMatchingPatternException email does not match the required format
+	 * @throws UsernameAlreadyInDBException chosen username is already in the database
 	 */
 	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException;	
 
 	/**
-	 * Returns the user if successfully logged, otherwise an exception is raised.
-	 * @param username Username of the user.
-	 * @param password Password of the user.
-	 * @return True if the user has succesfully logged.
-	 * @throws UserNotFoundException If the user is not registered in the data base.
-	 * @throws InvalidPasswordException If the password is not correct.
+	 * It returns the user if successfully logged
+	 * @param username an instance of the username 
+	 * @param password an instance of the password 
+	 * @return it returns true if the user has logged in successfully 
+	 * @throws UserNotFoundException the user is not registered in the database
+	 * @throws InvalidPasswordException the password is not correct
 	 */
 	@WebMethod public User login(String username, String password) throws UserNotFoundException, InvalidPasswordException;
 	
 	/**
-	 * Returns the user with the username passed by parameter.
-	 * @param username The username of the user to retrieve.
-	 * @return The user with the username passed by parameter.
+	 * It returns the user with a username passed by parameter
+	 * @param username an instance of the username 
+	 * @return it returns the user that matches the username passed by parameter 
 	 * @throws UserNotFoundException
 	 */
 	@WebMethod public User getUserByUsername(String username) throws UserNotFoundException;
 	
 	/**
 	 * It returns the current user 
-	 * @return currentUser 
+	 * @return currentUser an instance of the current user 
 	 */
 	@WebMethod public User getCurrentUser();
 	
 	/**
 	 * It sets the current user of the application
-	 * @param currentUser
+	 * @param currentUser an instance of the current user 
 	 */
 	@WebMethod public void setCurrentUser(User currentUser);	
 	
 	/**
-	 * This method invokes the data access to initialize the database with some events and questions.
-	 * It is invoked only when the option "initialize" is declared in the tag dataBaseOpenMode of resources/config.xml file
+	 * It initializes the database with some events and questions
 	 */
 	@WebMethod public void initializeBD();
 	
 	/**
-	 * This method is used to close the database.
+	 * It closes the database
 	 */
 	@WebMethod public void close();
 
