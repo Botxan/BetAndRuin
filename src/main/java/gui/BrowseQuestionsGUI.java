@@ -31,6 +31,12 @@ import gui.components.MenuBar;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
+/**
+ * This class represents the browse questions GUI of the application
+ * @author Josefinators team
+ * @version first iteration
+ *
+ */
 public class BrowseQuestionsGUI extends JFrame implements DynamicJFrame {
 
 	private static final long serialVersionUID = 1L;
@@ -249,6 +255,9 @@ public class BrowseQuestionsGUI extends JFrame implements DynamicJFrame {
 		getContentPane().setLayout(groupLayout);
 	}
 
+	/**
+	 * It updates issues related to language options
+	 */
 	public void redraw() {
 		eventDateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
 		eventLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Events"));
