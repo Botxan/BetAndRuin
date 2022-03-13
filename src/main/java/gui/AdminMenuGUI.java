@@ -45,7 +45,7 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 		businessLogic = (BlFacade) bl;
 
 		setBounds(100, 100, 398, 251);
-		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/favicon.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("AdminMenu"));
 	
 		initializeMenuPane(); 

@@ -99,7 +99,7 @@ public class BrowseQuestionsGUI extends JFrame implements DynamicJFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(new Dimension(700, 500));
-		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/favicon.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
 
 		menuBar = MenuBar.getMenuBar(this);	

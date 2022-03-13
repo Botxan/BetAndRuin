@@ -101,7 +101,7 @@ public class CreateQuestionGUI extends JFrame implements DynamicJFrame {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(new Dimension(587, 397));
-		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
+		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/favicon.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
 		
 		menuBar = MenuBar.getMenuBar(this);	
