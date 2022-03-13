@@ -98,7 +98,7 @@ public class Question implements Serializable {
 	/**
 	 * Gets the minimum amount allowed for the bet
 	 * 
-	 * @param  minimum amount to be set
+	 * @param  betMinimum minimum amount to be set
 	 */
 	public void setBetMinimum(float betMinimum) {
 		this.betMinimum = betMinimum;
@@ -117,7 +117,7 @@ public class Question implements Serializable {
 	/**
 	 * Sets the correct result of the  query
 	 * 
-	 * @param correct result of the query
+	 * @param result result of the query
 	 */
 	public void setResults(Vector<Forecast> result) {
 		this.results = result;

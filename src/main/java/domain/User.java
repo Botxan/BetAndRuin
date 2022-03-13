@@ -28,7 +28,7 @@ public class User {
 	
 	/**
 	 * User class constructor.
-	 * @param USERNAME the name with which the user is identified in the app.
+	 * @param username the name with which the user is identified in the app.
 	 * @param firstName user's first name.
 	 * @param lastName user's last name.
 	 * @param birthdate user's birth date.

@@ -1,0 +1,7 @@
+businessLogic
+configuration
+dataAccess
+domain
+exceptions
+gui
+gui.components

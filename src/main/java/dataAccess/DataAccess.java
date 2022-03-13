@@ -350,7 +350,7 @@ public class DataAccess  {
 	 * @param lastName User's las name.
 	 * @param address User's current bill home address.
 	 * @param email User's email.
-	 * @param password User's hashed password.
+	 * @param hashedPassword User's hashed password.
 	 * @param birthdate The birthday date of the user.
 	 * @param salt The salt used in password hashing.
 	 */

@@ -36,7 +36,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /**
- * Graphic User Interface for registering into Bet & Ruin.
+ * Graphic User Interface for registering into BetAndRuin.
  * @author Josefinators
  *
  */
