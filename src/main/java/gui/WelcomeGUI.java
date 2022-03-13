@@ -29,11 +29,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 
 /**
- * This class represents the welcome page of the application.
- * From this GUI, an anoymous user can login, register or
- * browse questions. The language can also be selected.
- * @author Josefinators
- * @version v1
+ * This class represents the GUI corresponding to the welcome page in the application
+ * @author Josefinators team
+ * @version first iteration
  */
 public class WelcomeGUI extends JFrame implements DynamicJFrame {
 	
@@ -52,8 +50,7 @@ public class WelcomeGUI extends JFrame implements DynamicJFrame {
 	protected JLabel errorLbl; // Used for error handling from ApplicationLauncher
 	
 	/**
-	 * Constructor for the Welcome GUI. Initializes all the components and
-	 * adds the logo to the GUI.
+	 * Constructor that instantiates the WelcomeGUI class 
 	 */
 	public WelcomeGUI(BlFacade bl) {
 		try {
@@ -68,7 +65,7 @@ public class WelcomeGUI extends JFrame implements DynamicJFrame {
 	}
 
 	/**
-	 * Initializes all the components.
+	 * It initializes all components of the GUI
 	 */
 	private void jbInit() {
 		
@@ -120,7 +117,7 @@ public class WelcomeGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initializes the welcome pane.
+	 * It initializes the welcome pane
 	 */
 	private void initializeWelcomePane() {
 		// Panel
@@ -143,7 +140,7 @@ public class WelcomeGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initializes the welcome label
+	 * It initializes the welcome label
 	 */
 	public void initializeWelcomeLbl() {
 		welcomeLbl = new JLabel();
@@ -153,7 +150,7 @@ public class WelcomeGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initializes the login button.
+	 * It initializes the login button
 	 */
 	private void initializeLoginBtn() {
 		loginBtn = new JButton();
@@ -170,7 +167,7 @@ public class WelcomeGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initializes the register button.
+	 * It initializes the register button
 	 */
 	private void initializeRegisterBtn() {
 		registerBtn = new JButton();
@@ -186,7 +183,7 @@ public class WelcomeGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initializes the method for browsing questions.
+	 * It initializes the method to browse questions
 	 */
 	private void initializeBrowseQuestionsBtn() {
 		browseQuestionsBtn = new JButton();
@@ -202,7 +199,7 @@ public class WelcomeGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method adds our BetAndRuin logo to the GUI.
+	 * It adds our BetAndRuin logo to the GUI.
 	 */
 	private void addLogo() {
 		BufferedImage logo;
@@ -215,6 +212,9 @@ public class WelcomeGUI extends JFrame implements DynamicJFrame {
 		}
 	}
 
+	/**
+	 * It updates issues related to several options of the GUI
+	 */
 	public void redraw() {
 		loginBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
 		registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));

@@ -18,6 +18,11 @@ import gui.components.MenuBar;
 
 import javax.swing.JMenuBar;
 
+/**
+ * This class represents the GUI corresponding to the user menu in the application
+ * @author Josefinators team
+ * @version first iteration
+ */
 public class UserMenuGUI extends JFrame implements DynamicJFrame {
 	
 	private static final long serialVersionUID = 1L;
@@ -29,7 +34,7 @@ public class UserMenuGUI extends JFrame implements DynamicJFrame {
 	private JMenuBar menuBar;
 
 	/**
-	 * Create the frame.
+	 * It creates the frame
 	 */
 	public UserMenuGUI(BlFacade bl) {
 		businessLogic = (BlFacade) bl;
@@ -58,6 +63,9 @@ public class UserMenuGUI extends JFrame implements DynamicJFrame {
 		getContentPane().setLayout(groupLayout);
 	}
 	
+	/**
+	 * It initializes the menu pane 
+	 */
 	private void initializeMenuPane() {
 		menuBar = MenuBar.getMenuBar(this);	
 	    setJMenuBar(menuBar);		
@@ -70,7 +78,7 @@ public class UserMenuGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initializes the method for browsing questions.
+	 * It initializes the method to browse questions
 	 */
 	private void initializeBrowseQuestionsBtn() {
 		browseQuestionsBtn = new JButton();
@@ -86,6 +94,9 @@ public class UserMenuGUI extends JFrame implements DynamicJFrame {
 		});
 	}
 	
+	/**
+	 * It updates issues related to several options of the GUI
+	 */
 	public void redraw() {
 		browseQuestionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));		
 	}

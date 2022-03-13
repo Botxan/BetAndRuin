@@ -453,7 +453,7 @@ public class RegisterGUI extends JFrame implements DynamicJFrame {
 	}
 
 	/**
-	 * It updates issues related to language options
+	 * It updates issues related to several options of the GUI
 	 */
 	public void redraw() {
 		registerLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Register").toUpperCase());

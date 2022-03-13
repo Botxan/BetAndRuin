@@ -224,7 +224,7 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 	}
 
 	/**
-	 * It updates issues related to language options
+	 * It updates issues related to several options of the GUI
 	 */
 	public void redraw() {
 		eventDescriptionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
