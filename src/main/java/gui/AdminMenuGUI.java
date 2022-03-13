@@ -20,7 +20,7 @@ import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 /**
- * This class represents the administrator menu of the application
+ * This class represents the GUI of the administrator menu in the application
  * @author Josefinators team
  * @version first iteration
  *

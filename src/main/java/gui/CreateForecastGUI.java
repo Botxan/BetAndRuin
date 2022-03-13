@@ -40,7 +40,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
 /**
- * This class represents the create forecast GUI of the application
+ * This class represents the GUI to create forecast in the application
  * @author Josefinators team
  * @version first iteration
  */

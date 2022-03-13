@@ -28,6 +28,11 @@ import java.awt.Color;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+/**
+ * This class represents the GUI to log in the application
+ * @author Josefinators team
+ * @version first iteration
+ */
 public class LoginGUI extends JFrame implements DynamicJFrame {
 	
 	//Set the serial version:
@@ -49,7 +54,7 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 	private JMenuBar menuBar;
 
 	/**
-	 * Create the frame.
+	 * It creates the frame
 	 */
 	public LoginGUI(BlFacade bl) {
 		businessLogic = (BlFacade)bl;
@@ -75,6 +80,9 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 		initializeLoginButton();
 	}
 	
+	/**
+	 * It initializes the content pane 
+	 */
 	private void initializeContentPane()
 	{
 		contentPane = new JPanel();
@@ -88,6 +96,9 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 		contentPane.setLayout(gbl_contentPane);
 	}
 
+	/**
+	 * It initializes the BetAndRuin label 
+	 */
 	private void initializeBetAndRuinLabel()
 	{
 		betAndRuinLbl = new JLabel("Bet & Ruin");
@@ -101,6 +112,9 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 		contentPane.add(betAndRuinLbl, gbc_betAndRuinLbl);
 	}
 	
+	/**
+	 * It initializes the login label 
+	 */
 	private void initializeLoginLabel()
 	{
 		loginLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Login").toUpperCase());
@@ -114,6 +128,9 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 		contentPane.add(loginLbl, gbc_loginLbl);
 	}
 	
+	/**
+	 * It initializes the username label 
+	 */
 	private void initializeUsernameLabel()
 	{
 		usernameLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Username"));
@@ -126,6 +143,9 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 		contentPane.add(usernameLbl, gbc_usernameLbl);
 	}
 	
+	/**
+	 * It initializes the username field
+	 */
 	private void initializeUsernameField()
 	{
 		usernameField = new JTextField();
@@ -139,6 +159,9 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 		usernameField.setColumns(10);
 	}
 	
+	/**
+	 * It initializes the password label 
+	 */
 	private void initializePasswordLabel()
 	{
 		passwordLbl = new JLabel(ResourceBundle.getBundle("Etiquetas").getString("Password"));
@@ -151,6 +174,9 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 		contentPane.add(passwordLbl, gbc_passwordLbl);
 	}
 	
+	/**
+	 * It initializes the password field 
+	 */
 	private void initializePasswordField()
 	{
 		passwordField = new JPasswordField();
@@ -163,6 +189,9 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 		contentPane.add(passwordField, gbc_passwordField);
 	}
 	
+	/**
+	 * It initializes the error label 
+	 */
 	private void initializeErrorLabel()
 	{
 		errorLabel = new JLabel("");
@@ -177,7 +206,7 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * Button for redirectioning to registering GUI.
+	 * It initializes the register button 
 	 */
 	private void initializeRegisterButton()
 	{
@@ -200,7 +229,7 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * Login button which when pressed logs the user (currentUser of business logic) or outputs error message.
+	 * It initializes the login button 
 	 */
 	private void initializeLoginButton()
 	{
@@ -237,6 +266,9 @@ public class LoginGUI extends JFrame implements DynamicJFrame {
 		contentPane.add(loginBtn, gbc_loginBtn);
 	}
 
+	/**
+	 * It updates issues related to language options
+	 */
 	public void redraw() {
 		loginLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Login").toUpperCase());
 		usernameLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Username"));

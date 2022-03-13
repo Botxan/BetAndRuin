@@ -32,7 +32,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
 /**
- * This class represents the browse questions GUI of the application
+ * This class represents the GUI to browse questions in the application
  * @author Josefinators team
  * @version first iteration
  *

@@ -41,6 +41,11 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+/**
+ * This class represents the GUI to create questions in the application
+ * @author Josefinators team
+ * @version first iteration
+ */
 public class CreateQuestionGUI extends JFrame implements DynamicJFrame {
 	
 	private static final long serialVersionUID = 1L;
@@ -75,6 +80,10 @@ public class CreateQuestionGUI extends JFrame implements DynamicJFrame {
 	
 	private JMenuBar menuBar;
 
+	/**
+	 * Constructor that instantiates the CreateQuestionGUI class
+	 * @param bl an instance of the business logic layer 
+	 */
 	public CreateQuestionGUI(BlFacade bl) {
 		businessLogic = bl;
 		try {
@@ -84,6 +93,10 @@ public class CreateQuestionGUI extends JFrame implements DynamicJFrame {
 		}
 	}
 
+	/**
+	 * It creates the main frame 
+	 * @throws Exception exception
+	 */
 	private void jbInit() throws Exception {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -262,9 +275,9 @@ public class CreateQuestionGUI extends JFrame implements DynamicJFrame {
 	}
 
 	/**
-	 * For each day with events in current month, the background color for that day is changed.
-	 * @param jCalendar the calendar.
-	 * @param datesWithEventsCurrentMonth a vector with all the days with events of the current month.
+	 * It changes the background color for each day with events
+	 * @param jCalendar an instance of the calendar
+	 * @param datesWithEventsCurrentMonth an array with all days with events of the current month
 	 */
 	public static void paintDaysWithEvents(JCalendar jCalendar, Vector<Date> datesWithEventsCurrentMonth) {
 		Calendar calendar = jCalendar.getCalendar();
@@ -289,6 +302,10 @@ public class CreateQuestionGUI extends JFrame implements DynamicJFrame {
 		calendar.set(Calendar.YEAR, year);
 	}
 
+	/**
+	 * It creates an action event performed over the CreateQuestionGUI
+	 * @param e an instance of an action event 
+	 */
 	private void jButtonCreate_actionPerformed(ActionEvent e) {
 		domain.Event event = ((domain.Event) eventCB.getSelectedItem());
 
@@ -328,6 +345,9 @@ public class CreateQuestionGUI extends JFrame implements DynamicJFrame {
 		}
 	}
 	
+	/**
+	 * It enables the button to create questions 
+	 */
 	private void enableCreateQuestionBtn() {
 		if (calendar.getDate().before(Calendar.getInstance().getTime()) ||
 				eventCB.getSelectedItem() == null || queryField.getText().isEmpty() ||
@@ -335,6 +355,9 @@ public class CreateQuestionGUI extends JFrame implements DynamicJFrame {
 		else createQuestionBtn.setEnabled(true);
 	}
 
+	/**
+	 * It updates issues related to language options
+	 */
 	public void redraw() {
 		eventDateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
 		listOfEventsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ListEvents"));

@@ -37,7 +37,7 @@ import java.awt.Toolkit;
 import javax.swing.SwingConstants;
 
 /**
- * This class represents the create new events GUI of the application
+ * This class represents the GUI to create new events in the application
  * @author Josefinators team
  * @version first iteration
  */
