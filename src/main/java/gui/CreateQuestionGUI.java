@@ -33,6 +33,8 @@ import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class CreateQuestionGUI extends JFrame {
 	
@@ -79,35 +81,24 @@ public class CreateQuestionGUI extends JFrame {
 	private void jbInit() throws Exception {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getContentPane().setLayout(null);
 		setSize(new Dimension(604, 370));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
 
 		eventCB.setModel(eventModel);
-		eventCB.setBounds(new Rectangle(275, 47, 250, 20));
-		listOfEventsLbl.setBounds(new Rectangle(290, 18, 277, 20));
-		queryLbl.setBounds(new Rectangle(25, 211, 75, 20));
 		queryField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				enableCreateQuestionBtn();
 			}
 		});
-		queryField.setBounds(new Rectangle(100, 211, 429, 20));
-		minBetLbl.setBounds(new Rectangle(25, 243, 75, 20));
 		priceField.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				enableCreateQuestionBtn();
 			}
 		});
-		priceField.setBounds(new Rectangle(100, 243, 60, 20));
-
-		calendar.setBounds(new Rectangle(40, 50, 225, 150));
 		eventScrollPane.setBounds(new Rectangle(25, 44, 346, 116));
-
-		createQuestionBtn.setBounds(new Rectangle(100, 275, 130, 30));
 		createQuestionBtn.setEnabled(false);
 
 		createQuestionBtn.addActionListener(new ActionListener() {
@@ -116,41 +107,91 @@ public class CreateQuestionGUI extends JFrame {
 				jButtonCreate_actionPerformed(e);
 			}
 		});
-		closeBtn.setBounds(new Rectangle(275, 275, 130, 30));
 		closeBtn.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				jButtonClose_actionPerformed(e);
 			}
 		});
-
-		msgLbl.setBounds(new Rectangle(275, 182, 305, 20));
-		// jLabelMsg.setSize(new Dimension(305, 20));
-
-		errorLbl.setBounds(new Rectangle(175, 240, 305, 20));
 		errorLbl.setForeground(Color.red);
-
-		getContentPane().add(msgLbl, null);
-		getContentPane().add(errorLbl, null);
-
-		getContentPane().add(closeBtn, null);
-		getContentPane().add(createQuestionBtn, null);
-		getContentPane().add(queryField, null);
-		getContentPane().add(queryLbl, null);
-		getContentPane().add(priceField, null);
-
-		getContentPane().add(minBetLbl, null);
-		getContentPane().add(listOfEventsLbl, null);
-		getContentPane().add(eventCB, null);
-
-		getContentPane().add(calendar, null);
 
 		datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
 		paintDaysWithEvents(calendar,datesWithEventsInCurrentMonth);
-
-		eventDateLbl.setBounds(new Rectangle(40, 15, 140, 25));
-		eventDateLbl.setBounds(40, 16, 140, 25);
-		getContentPane().add(eventDateLbl);
+		GroupLayout groupLayout = new GroupLayout(getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(40)
+					.addComponent(eventDateLbl, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+					.addGap(110)
+					.addComponent(listOfEventsLbl, GroupLayout.PREFERRED_SIZE, 277, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(40)
+					.addComponent(calendar, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+					.addGap(10)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(eventCB, 0, 250, Short.MAX_VALUE)
+							.addGap(55))
+						.addComponent(msgLbl, GroupLayout.PREFERRED_SIZE, 305, GroupLayout.PREFERRED_SIZE))
+					.addGap(8))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(25)
+					.addComponent(queryLbl, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+					.addComponent(queryField, GroupLayout.DEFAULT_SIZE, 429, Short.MAX_VALUE)
+					.addGap(59))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(25)
+					.addComponent(minBetLbl, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+					.addComponent(priceField, GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
+					.addGap(15)
+					.addComponent(errorLbl, GroupLayout.PREFERRED_SIZE, 305, GroupLayout.PREFERRED_SIZE)
+					.addGap(108))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(100)
+					.addComponent(createQuestionBtn, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE)
+					.addGap(45)
+					.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(16)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(eventDateLbl, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(2)
+							.addComponent(listOfEventsLbl, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
+					.addGap(6)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(3)
+							.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 150, Short.MAX_VALUE)
+							.addGap(2))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(eventCB, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+							.addGap(115)
+							.addComponent(msgLbl, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)))
+					.addGap(9)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(queryLbl, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE)
+						.addComponent(queryField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(9)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(3)
+							.addComponent(minBetLbl, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addGap(3)
+							.addComponent(priceField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(errorLbl, GroupLayout.PREFERRED_SIZE, 20, GroupLayout.PREFERRED_SIZE))
+					.addGap(12)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(createQuestionBtn, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+						.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE))
+					.addGap(26))
+		);
+		getContentPane().setLayout(groupLayout);
 
 
 		// Code for JCalendar

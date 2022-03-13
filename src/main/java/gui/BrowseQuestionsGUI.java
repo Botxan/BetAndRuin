@@ -29,6 +29,8 @@ import businessLogic.BlFacade;
 import businessLogic.BlFacadeImplementation;
 import configuration.UtilDate;
 import domain.Question;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class BrowseQuestionsGUI extends JFrame {
 
@@ -85,20 +87,9 @@ public class BrowseQuestionsGUI extends JFrame {
 	private void jbInit() {
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		getContentPane().setLayout(null);
 		setSize(new Dimension(700, 500));
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("BrowseQuestions"));
-
-		eventDateLbl.setBounds(new Rectangle(40, 15, 140, 25));
-		questionLbl.setBounds(138, 248, 406, 14);
-		eventLbl.setBounds(295, 19, 259, 16);
-
-		getContentPane().add(eventDateLbl, null);
-		getContentPane().add(questionLbl);
-		getContentPane().add(eventLbl);
-
-		closeBtn.setBounds(new Rectangle(274, 419, 130, 30));
 
 		closeBtn.addActionListener(new ActionListener() {
 			@Override
@@ -106,10 +97,6 @@ public class BrowseQuestionsGUI extends JFrame {
 				jButton2_actionPerformed(e);
 			}
 		});
-
-		getContentPane().add(closeBtn, null);
-
-		calendar.setBounds(new Rectangle(40, 50, 225, 150));
 
 		datesWithEventsInCurrentMonth = businessLogic.getEventsMonth(calendar.getDate());
 		CreateQuestionGUI.paintDaysWithEvents(calendar, datesWithEventsInCurrentMonth);
@@ -181,11 +168,6 @@ public class BrowseQuestionsGUI extends JFrame {
 			} 
 		});
 
-		getContentPane().add(calendar, null);
-
-		eventScrollPane.setBounds(new Rectangle(292, 50, 346, 150));
-		questionScrollPane.setBounds(new Rectangle(138, 274, 406, 116));
-
 		eventTable.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -226,9 +208,56 @@ public class BrowseQuestionsGUI extends JFrame {
 		questionTable.setModel(questionTableModel);
 		questionTable.getColumnModel().getColumn(0).setPreferredWidth(25);
 		questionTable.getColumnModel().getColumn(1).setPreferredWidth(268);
-
-		getContentPane().add(eventScrollPane, null);
-		getContentPane().add(questionScrollPane, null);
+		GroupLayout groupLayout = new GroupLayout(getContentPane());
+		groupLayout.setHorizontalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(138)
+					.addComponent(questionLbl, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(138)
+					.addComponent(questionScrollPane, GroupLayout.DEFAULT_SIZE, 406, Short.MAX_VALUE)
+					.addGap(140))
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(274)
+					.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE))
+				.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+					.addGap(40)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(calendar, GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+							.addGap(27))
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(eventDateLbl, GroupLayout.PREFERRED_SIZE, 140, GroupLayout.PREFERRED_SIZE)
+							.addGap(112)))
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(groupLayout.createSequentialGroup()
+							.addComponent(eventLbl, GroupLayout.PREFERRED_SIZE, 259, GroupLayout.PREFERRED_SIZE)
+							.addGap(133))
+						.addGroup(Alignment.TRAILING, groupLayout.createSequentialGroup()
+							.addComponent(eventScrollPane, GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE)
+							.addGap(46))))
+		);
+		groupLayout.setVerticalGroup(
+			groupLayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(groupLayout.createSequentialGroup()
+					.addGap(15)
+					.addGroup(groupLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(eventDateLbl, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
+						.addComponent(eventLbl, GroupLayout.PREFERRED_SIZE, 16, GroupLayout.PREFERRED_SIZE))
+					.addGap(10)
+					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 150, Short.MAX_VALUE)
+						.addComponent(eventScrollPane, GroupLayout.DEFAULT_SIZE, 150, Short.MAX_VALUE))
+					.addGap(48)
+					.addComponent(questionLbl)
+					.addGap(12)
+					.addComponent(questionScrollPane, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
+					.addGap(29)
+					.addComponent(closeBtn, GroupLayout.PREFERRED_SIZE, 30, GroupLayout.PREFERRED_SIZE)
+					.addGap(12))
+		);
+		getContentPane().setLayout(groupLayout);
 	}
 
 	private void jButton2_actionPerformed(ActionEvent e) {

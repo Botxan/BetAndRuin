@@ -48,7 +48,6 @@ public class CreateEventGUI extends JFrame {
 	private JButton createEventBtn;
 	private JButton closeBtn;
 	private JLabel eventDescriptionLbl;
-	private JLabel createEventLbl;
 	private JLabel eventStatusLabel;
 	private JCalendar calendar;
 	
@@ -73,7 +72,7 @@ public class CreateEventGUI extends JFrame {
 	private void jbInit() {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 459, 341);
+		setBounds(100, 100, 459, 293);
 		setIconImage(Toolkit.getDefaultToolkit().getImage("./resources/final_logo.png"));
 		setTitle(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
 
@@ -81,44 +80,37 @@ public class CreateEventGUI extends JFrame {
 		
 		GroupLayout gl_contentPane = new GroupLayout(contentPane);
 		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.TRAILING)
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
 					.addGap(43)
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-						.addComponent(eventStatusLabel, GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addComponent(createEventBtn, GroupLayout.DEFAULT_SIZE, 112, Short.MAX_VALUE)
-							.addGap(174)
+							.addComponent(createEventBtn)
+							.addPreferredGap(ComponentPlacement.RELATED, 189, Short.MAX_VALUE)
 							.addComponent(closeBtn))
+						.addComponent(calendar, GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE)
 						.addGroup(gl_contentPane.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(eventDescriptionLbl, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(eventDescriptionField, GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE))
-						.addComponent(calendar, GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE))
+						.addComponent(eventStatusLabel, GroupLayout.DEFAULT_SIZE, 345, Short.MAX_VALUE))
 					.addGap(45))
-				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(151)
-					.addComponent(createEventLbl, GroupLayout.DEFAULT_SIZE, 135, Short.MAX_VALUE)
-					.addGap(147))
 		);
 		gl_contentPane.setVerticalGroup(
 			gl_contentPane.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_contentPane.createSequentialGroup()
-					.addGap(15)
-					.addComponent(createEventLbl)
-					.addGap(18)
+					.addContainerGap()
 					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(eventDescriptionField, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
-						.addComponent(eventDescriptionLbl, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE))
+						.addComponent(eventDescriptionLbl, GroupLayout.DEFAULT_SIZE, 21, Short.MAX_VALUE)
+						.addComponent(eventDescriptionField, GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE))
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 131, Short.MAX_VALUE)
-					.addGap(11)
-					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
-						.addComponent(createEventBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-						.addComponent(closeBtn, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(eventStatusLabel, GroupLayout.DEFAULT_SIZE, 18, Short.MAX_VALUE)
+					.addComponent(calendar, GroupLayout.PREFERRED_SIZE, 157, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE, false)
+						.addComponent(createEventBtn)
+						.addComponent(closeBtn))
+					.addGap(62)
+					.addComponent(eventStatusLabel, GroupLayout.DEFAULT_SIZE, 11, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		contentPane.setLayout(gl_contentPane);
@@ -132,12 +124,6 @@ public class CreateEventGUI extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		
-		// Labels
-		createEventLbl = new JLabel();
-		createEventLbl.setHorizontalAlignment(SwingConstants.CENTER);
-		createEventLbl.setFont(new Font("Tahoma", Font.BOLD, 16));
-		createEventLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
 		
 		eventDescriptionLbl = new JLabel();
 		eventDescriptionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));

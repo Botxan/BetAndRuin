@@ -121,7 +121,7 @@ public class LoginGUI extends JFrame {
 		GridBagConstraints gbc_usernameField = new GridBagConstraints();
 		gbc_usernameField.gridwidth = 2;
 		gbc_usernameField.insets = new Insets(0, 0, 5, 5);
-		gbc_usernameField.fill = GridBagConstraints.HORIZONTAL;
+		gbc_usernameField.fill = GridBagConstraints.BOTH;
 		gbc_usernameField.gridx = 1;
 		gbc_usernameField.gridy = 4;
 		contentPane.add(usernameField, gbc_usernameField);

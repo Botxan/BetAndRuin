@@ -47,7 +47,7 @@ public class UserMenuGUI extends JFrame {
 					.addContainerGap()
 					.addGroup(groupLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(localeCB, Alignment.TRAILING, GroupLayout.PREFERRED_SIZE, 56, GroupLayout.PREFERRED_SIZE)
-						.addComponent(browseQuestionsBtn, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 362, Short.MAX_VALUE))
+						.addComponent(browseQuestionsBtn, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		groupLayout.setVerticalGroup(
@@ -56,8 +56,8 @@ public class UserMenuGUI extends JFrame {
 					.addGap(9)
 					.addComponent(localeCB, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(browseQuestionsBtn, GroupLayout.PREFERRED_SIZE, 40, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(140, Short.MAX_VALUE))
+					.addComponent(browseQuestionsBtn, GroupLayout.DEFAULT_SIZE, 40, Short.MAX_VALUE)
+					.addGap(15))
 		);
 		getContentPane().setLayout(groupLayout);
 	}
