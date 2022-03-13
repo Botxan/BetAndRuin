@@ -21,7 +21,7 @@ import businessLogic.BlFacadeImplementation;
 public class ApplicationLauncher {
 
 	/**
-	 * It represents the method to launch the whole application
+	 * It represents the main method to launch the whole application
 	 * @param args no arguments required 
 	 */
 	public static void main(String[] args) {

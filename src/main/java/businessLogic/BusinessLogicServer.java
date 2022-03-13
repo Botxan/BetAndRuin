@@ -16,7 +16,9 @@ import javax.xml.ws.Endpoint;
 import configuration.ConfigXML;
 
 /**
- * Runs the Business Logic node as a separate, possibly remote process.
+ * This class runs the business logic layer as a separate process 
+ * @author Josefinators team
+ * @version first iteration
  */
 public class BusinessLogicServer extends JDialog {
 
@@ -29,7 +31,11 @@ public class BusinessLogicServer extends JDialog {
 	BlFacade server;
 	String service;
 
-	public BusinessLogicServer() {
+	/**
+	 * Constructor that instantiates the BusinessLogicServer class
+	 * @throws Exception 
+	 */
+	public BusinessLogicServer() throws Exception {
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 		setTitle("Business Logic Server");
@@ -49,7 +55,6 @@ public class BusinessLogicServer extends JDialog {
 		JButton okButton = new JButton("Stop BUSINESS LOGIC");
 		okButton.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				textArea.append("\nClosing the server... ");	
 				System.exit(1);
@@ -86,6 +91,10 @@ public class BusinessLogicServer extends JDialog {
 		}
 	}
 
+	/**
+	 * It represents the main method to launch the business logic server 
+	 * @param args no arguments required 
+	 */
 	public static void main(String[] args) {
 		try {
 			BusinessLogicServer dialog = new BusinessLogicServer();

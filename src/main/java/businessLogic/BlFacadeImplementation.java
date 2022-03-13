@@ -24,9 +24,11 @@ import domain.Question;
 import domain.User;
 import exceptions.*;
 
-
 /**
- * Implements the business logic as a web service.
+ * This class implements the business logic layer as a web service 
+ * @author Josefinators team
+ * @version first iteration
+ *
  */
 @WebService(endpointInterface = "businessLogic.BlFacade")
 public class BlFacadeImplementation implements BlFacade {
@@ -40,6 +42,9 @@ public class BlFacadeImplementation implements BlFacade {
 	// Current user in the application 
 	private User currentUser; 
 
+	/**
+	 * Constructor that instantiates the BIFacadeImplementation class
+	 */
 	public BlFacadeImplementation()  {		
 		System.out.println("Creating BlFacadeImplementation instance");
 		boolean initialize = config.getDataBaseOpenMode().equals("initialize");
@@ -49,7 +54,11 @@ public class BlFacadeImplementation implements BlFacade {
 			dbManager.initializeDB();
 		dbManager.close();
 	}
-
+	
+	/**
+	 * Constructor that instantiates the BIFacadeImplementation class
+	 * @param dam an instance of data access 
+	 */
 	public BlFacadeImplementation(DataAccess dam)  {
 		System.out.println("Creating BlFacadeImplementation instance with DataAccess parameter");
 		if (config.getDataBaseOpenMode().equals("initialize")) {
@@ -206,10 +215,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return hashedPassword;
 	}
 	
-	/**
-	 * Generates a random salt for later use in password hashing.
-	 * @return a random salt.
-	 */
 	@WebMethod
 	public static byte[] generateSalt() {
 		SecureRandom random = new SecureRandom();
