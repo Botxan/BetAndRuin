@@ -28,7 +28,10 @@ import exceptions.QuestionAlreadyExist;
 import exceptions.UserNotFoundException;
 
 /**
- * Implements the Data Access utility to the objectDb database
+ * This class implements the Data Access utility to the objectDb database
+ * @author Josefinators team
+ * @version first iteration
+ *
  */
 public class DataAccess  {
 
@@ -37,20 +40,27 @@ public class DataAccess  {
 
 	ConfigXML config = ConfigXML.getInstance();
 
+	/**
+	 * Constructor that instantiates the DataAccess class
+	 * @param initializeMode boolean value to initialize de database 
+	 */
 	public DataAccess(boolean initializeMode)  {
 		System.out.println("Creating DataAccess instance => isDatabaseLocal: " + 
 				config.isDataAccessLocal() + " getDatabBaseOpenMode: " + config.getDataBaseOpenMode());
 		open(initializeMode);
 	}
 
+	/**
+	 * Constructor that instantiates the DataAccess class
+	 */
 	public DataAccess()  {	
 		this(false);
 	}
 
 
 	/**
-	 * This method initializes the database with some trial events and questions. 
-	 * It is invoked by the business logic when the option "initialize" is used 
+	 * It initializes the database with some trial events and questions
+	 * It is invoked by the business logic layer when the option "initialize" is used 
 	 * in the tag dataBaseOpenMode of resources/config.xml file
 	 */	
 	public void initializeDB(){
@@ -169,6 +179,13 @@ public class DataAccess  {
 		}
 	}
 	
+	/**
+	 * It creates an event in the database 
+	 * @param description an instance of description
+	 * @param date an instance of date 
+	 * @return it returns an event 
+	 * @throws EventAlreadyExistException
+	 */
 	public Event createEvent(String description, Date date) throws EventAlreadyExistException {	
 		System.out.println(">> DataAccess: createEvent => description = " + description + " date = " + date);
 		
@@ -200,13 +217,12 @@ public class DataAccess  {
 	}
 
 	/**
-	 * This method creates a question for an event, with a question text and the minimum bet
-	 * 
-	 * @param event to which question is added
-	 * @param question text of the question
+	 * It creates a question for an event with a question text and the minimum bet
+	 * @param event an instance of the event to which the question is added
+	 * @param question  an instance of the question text
 	 * @param betMinimum minimum quantity of the bet
-	 * @return the created question, or null, or an exception
-	 * @throws QuestionAlreadyExist if the same question already exists for the event
+	 * @return it returns the question created, null or an exception
+	 * @throws QuestionAlreadyExist the same question already exists for the event
 	 */
 	public Question createQuestion(Event event, String question, float betMinimum) 
 			throws QuestionAlreadyExist {
@@ -229,9 +245,8 @@ public class DataAccess  {
 	}
 
 	/**
-	 * This method retrieves from the database the events of a given date 
-	 * 
-	 * @param date in which events are retrieved
+	 * It retrieves from the database the events of a given date 
+	 * @param date an instance of date 
 	 * @return collection of events
 	 */
 	public Vector<Event> getEvents(Date date) {
@@ -249,10 +264,10 @@ public class DataAccess  {
 	}
 	
 	/**
-	 * This methods inserts the given forecast in the database.
-	 * @param question The question of the forecast.
-	 * @param result The result of the forecast.
-	 * @param fee The fee of the forecast.
+	 * It inserts the given forecast in the database
+	 * @param question an instance of the question of the forecast
+	 * @param result result of the forecast
+	 * @param fee fee of the forecast
 	 * @throws ForecastAlreadyExistException 
 	 */
 	public Forecast addForecast(Question question, String result, int fee) throws ForecastAlreadyExistException {
@@ -273,6 +288,12 @@ public class DataAccess  {
 		return forecast;
 	}
 	
+	/**
+	 * It checks the login utility with a given username and password to grant access
+	 * @param username an instance of username 
+	 * @param password an instance of password 
+	 * @return access granted or not!
+	 */
 	public boolean checkLogin(String username, String password) {
 		System.out.println(">> DataAccess: checkLogin => username = " + username + " password = " + password);
 		
@@ -285,9 +306,8 @@ public class DataAccess  {
 	}
 
 	/**
-	 * This method retrieves from the database the dates in a month for which there are events
-	 * 
-	 * @param date of the month for which days with events want to be retrieved 
+	 * It retrieves from the database the dates in a month for which there are events
+	 * @param date date of the month for which days with events want to be retrieved 
 	 * @return collection of dates
 	 */
 	public Vector<Date> getEventsMonth(Date date) {
@@ -310,7 +330,10 @@ public class DataAccess  {
 		return res;
 	}
 
-
+	/**
+	 * It opens the database 
+	 * @param initializeMode initialize mode of the database 
+	 */
 	public void open(boolean initializeMode){
 
 		System.out.println("Opening DataAccess instance => isDatabaseLocal: " + 
@@ -337,6 +360,12 @@ public class DataAccess  {
 		}
 	}
 
+	/**
+	 * 
+	 * @param event an instance of a given event 
+	 * @param question an instance of a given question
+	 * @return 
+	 */
 	public boolean existQuestion(Event event, String question) {
 		System.out.println(">> DataAccess: existQuestion => event = " + event + " question = " + question);
 		Event ev = db.find(Event.class, event.getEventNumber());
@@ -344,15 +373,15 @@ public class DataAccess  {
 	}
 	
 	/**
-	 * Registers a new user with standard permits.
-	 * @param username User's name.
-	 * @param firstName User's first name.
-	 * @param lastName User's las name.
-	 * @param address User's current bill home address.
-	 * @param email User's email.
-	 * @param hashedPassword User's hashed password.
-	 * @param birthdate The birthday date of the user.
-	 * @param salt The salt used in password hashing.
+	 * It registers a new user with standard permits
+	 * @param username an instance of username 
+	 * @param firstName an instance of the first name of the user 
+	 * @param lastName an instance of the last name of the user 
+	 * @param address current bill home address
+	 * @param email email of a given user 
+	 * @param hashedPassword hashed password
+	 * @param birthdate birthday date of the user
+	 * @param salt salt used in password hashing
 	 */
 	public void register(String username, String firstName, String lastName, String address, String email, byte[] hashedPassword, Date birthdate, byte[] salt)
 	{
@@ -369,9 +398,9 @@ public class DataAccess  {
 	}
 	
 	/**
-	 * Returns true if the username is already in the data base.
-	 * @param username
-	 * @return True if the username is already in the data base.
+	 * It returns true if the username is already in the database
+	 * @param username an instance of username 
+	 * @return it returns true if the username is already in the database
 	 */
 	public boolean isUserInDB(String username)
 	{
@@ -400,6 +429,9 @@ public class DataAccess  {
 		return query.get(0);
 	}
 	
+	/**
+	 * It closes the database 
+	 */
 	public void close(){
 		db.close();
 		System.out.println("DataBase is closed");

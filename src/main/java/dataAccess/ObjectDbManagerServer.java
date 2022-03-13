@@ -17,7 +17,10 @@ import javax.swing.border.EmptyBorder;
 import configuration.ConfigXML;
 
 /**
- * Runs the Data Access node as a separate, possibly remote process.
+ * This class runs the Data Access node as a separate process 
+ * @author Josefinators team
+ * @version first iteration
+ * 
  */
 public class ObjectDbManagerServer extends JDialog {
 
@@ -28,7 +31,9 @@ public class ObjectDbManagerServer extends JDialog {
 	private final JPanel contentPanel;
 	private JTextArea textArea;
 
-
+	/**
+	 * Constructor that instantiates the ObjectDbManagerServer class
+	 */
 	public ObjectDbManagerServer() {
 		
 		setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -92,7 +97,10 @@ public class ObjectDbManagerServer extends JDialog {
 		}
 	}
 
-
+	/**
+	 * It represents the main method 
+	 * @param args no required arguments 
+	 */
 	public static void main(String[] args) {
 		try {
 			ObjectDbManagerServer dialog = new ObjectDbManagerServer();
