@@ -16,6 +16,12 @@ import javax.swing.JRadioButtonMenuItem;
 
 import businessLogic.DynamicJFrame;
 
+/**
+ * This class represents the menu bar of the application
+ * @author Josefinators team
+ * @version first iteration
+ *
+ */
 public class MenuBar {
 	
 	private static JButton backBtn;
@@ -33,9 +39,9 @@ public class MenuBar {
 	}
 	
 	/**
-	 * This method initializes the language menu of the JMenuBar.
-	 * @param f the JFrame.
-	 * @param bar the JMenuBar.
+	 * It initializes the language menu on the JMenuBar
+	 * @param f an instance of the JFrame
+	 * @param bar an instance of the JMenuBar
 	 */
 	private static void initializeLanguageMenu(DynamicJFrame f, JMenuBar bar) {
 		// Language menu
@@ -87,6 +93,11 @@ public class MenuBar {
 		bar.add(menu);
 	}
 	
+	/**
+	 * It initializes the Go Back button
+	 * @param f an instance of the the JFrame 
+	 * @param bar an instance of the the JMenuBar
+	 */
 	private static void initializeBackBtn(DynamicJFrame f, JMenuBar bar) {
 		// Back button
 		backBtn = new JButton("<");	
@@ -102,19 +113,27 @@ public class MenuBar {
 	}
 	
 	/**
-	 * This method changes the locale and redraws the JFrmae
-	 * @param locale the locale.
-	 * @param f the JFrame.
+	 * It changes the locale and redraws the JFrmae
+	 * @param locale an instance of the language selected
+	 * @param f an instance of the JFrame
 	 */
 	private static void changeLocale(String locale, DynamicJFrame f) {
 		Locale.setDefault(new Locale(locale));
 		f.redraw();
 	}
 	
+	/**
+	 * It saves a given GUI in the history 
+	 * @param window an instance of a given GUI
+	 */
 	public static void saveToHistorial(JFrame window) {
 		historial.add(window);
 	}
 	
+	/**
+	 * It moves to a previous GUI by selecting the Go Back button
+	 * @param j an instance of the JFrame 
+	 */
 	private static void moveToPreviousWindow(JFrame j) {
 		JFrame previousWindow = historial.pop();
 		previousWindow.setVisible(true);
