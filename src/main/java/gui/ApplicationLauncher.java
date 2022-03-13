@@ -12,8 +12,18 @@ import configuration.ConfigXML;
 import businessLogic.BlFacade;
 import businessLogic.BlFacadeImplementation;
 
+/**
+ * This class represents the application launcher 
+ * @author Josefinators team
+ * @version first iteration
+ *
+ */
 public class ApplicationLauncher {
 
+	/**
+	 * It represents the method to launch the whole application
+	 * @param args no arguments required 
+	 */
 	public static void main(String[] args) {
 
 		ConfigXML config = ConfigXML.getInstance();
