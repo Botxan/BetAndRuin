@@ -19,6 +19,12 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+/**
+ * This class represents the administrator menu of the application
+ * @author Josefinators team
+ * @version first iteration
+ *
+ */
 public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 	private static final long serialVersionUID = 1L;
 
@@ -32,7 +38,8 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 	private JMenuBar menuBar;
 
 	/**
-	 * Create the frame.
+	 * It creates the frame 
+	 * @param bl an instance of the business logic 
 	 */
 	public AdminMenuGUI(BlFacade bl) {
 		businessLogic = (BlFacade) bl;
@@ -68,7 +75,7 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initializes the menu pane.
+	 * It initializes the menu pane 
 	 */
 	private void initializeMenuPane() {
 		contentPane = new JPanel();
@@ -85,7 +92,7 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This methods initializes the button for creating events.
+	 * It initializes the button to create events
 	 */
 	private void initializeCreateEventBtn() {
 		createEventBtn = new JButton();	
@@ -102,7 +109,7 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initialized the button for creating questions.
+	 * It initializes the button to create questions
 	 */
 	private void initializeCreateQuestionBtn() {
 		createQuestionBtn = new JButton();
@@ -119,7 +126,7 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initializes the button for browsing questions.
+	 * It initializes the button to browse questions
 	 */
 	private void initializeAddForecastBtn() {
 		addForecastBtn = new JButton();
@@ -136,7 +143,7 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 	}
 	
 	/**
-	 * This method initializes the method for browsing questions.
+	 * It initializes the method to browse questions
 	 */
 	private void initializeBrowseQuestionsBtn() {
 		browseQuestionsBtn = new JButton();
@@ -152,6 +159,9 @@ public class AdminMenuGUI extends JFrame implements DynamicJFrame {
 		});
 	}
 
+	/**
+	 * It updates issues related to language options
+	 */
 	public void redraw() {
 		createEventBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
 		createQuestionBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
