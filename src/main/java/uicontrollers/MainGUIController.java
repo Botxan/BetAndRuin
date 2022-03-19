@@ -47,10 +47,7 @@ public class MainGUIController implements Controller{
 
 
     @FXML
-    void initialize() {
-
-
-    }
+    void initialize() {}
 
     @Override
     public void setMainApp(MainGUI mainGUI) {

@@ -1,19 +1,14 @@
 package ui;
 
 import businessLogic.BlFacade;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.Border;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
-import uicontrollers.BrowseQuestionsController;
-import uicontrollers.Controller;
-import uicontrollers.CreateQuestionController;
-import uicontrollers.MainGUIController;
+import uicontrollers.*;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -23,7 +18,7 @@ public class MainGUI {
 
     private BorderPane mainWrapper;
 
-    private Window navBar, mainLag, createQuestionLag, browseQuestionsLag;
+    private Window navBar, loginLag, registerLag, mainLag, createQuestionLag, browseQuestionsLag;
 
     private BlFacade businessLogic;
     private Stage stage;
@@ -72,11 +67,16 @@ public class MainGUI {
         FXMLLoader loader = new FXMLLoader(MainGUI.class.getResource(fxmlfile), ResourceBundle.getBundle("Etiquetas", Locale.getDefault()));
         loader.setControllerFactory(controllerClass -> {
 
-            if (controllerClass == BrowseQuestionsController.class) {
+            if (controllerClass == NavBarController.class) {
+                return new NavBarController(businessLogic);
+            } else if (controllerClass == BrowseQuestionsController.class) {
                 return new BrowseQuestionsController(businessLogic);
-            }
-            if (controllerClass == CreateQuestionController.class) {
+            } else if (controllerClass == CreateQuestionController.class) {
                 return new CreateQuestionController(businessLogic);
+            } else if (controllerClass == LoginController.class) {
+                return new LoginController(businessLogic);
+            } else if (controllerClass == RegisterController.class) {
+                return new RegisterController(businessLogic);
             } else {
                 // default behavior for controllerFactory:
                 try {
@@ -101,7 +101,9 @@ public class MainGUI {
     public void init(Stage stage) throws IOException {
         this.stage = stage;
 
-        navBar = load("/NavBar.fxml");
+        navBar = load("/NavBarGUI.fxml");
+        loginLag = load("/LoginGUI.fxml");
+        registerLag = load("/RegisterGUI.fxml");
         mainLag = load("/MainGUI.fxml");
         browseQuestionsLag = load("/BrowseQuestions.fxml");
         createQuestionLag = load("/CreateQuestion.fxml");
@@ -146,6 +148,14 @@ public class MainGUI {
 
     public void showCreateQuestion() {
         showScene(createQuestionLag.ui, "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
+    }
+
+    public void showRegister() {
+        showScene(registerLag.ui, "Register", SCENE_WIDTH, SCENE_HEIGHT);
+    }
+
+    public void showLogin() {
+        showScene(loginLag.ui, "Login", SCENE_WIDTH, SCENE_HEIGHT);
     }
 
     class Window {
