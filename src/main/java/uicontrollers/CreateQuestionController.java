@@ -64,7 +64,7 @@ public class CreateQuestionController implements Controller {
   @FXML
   void closeClick(ActionEvent event) {
     clearErrorLabels();
-    mainGUI.showMain();
+    mainGUI.goForward("MainTitle");
   }
 
   private void clearErrorLabels() {

@@ -9,6 +9,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import uicontrollers.*;
+import utils.History;
+import utils.Window;
 
 import java.io.IOException;
 import java.util.Locale;
@@ -25,9 +27,12 @@ public class MainGUI {
     private Scene scene;
 
     // Default scene resolution
-    private final int NAVBAR_HEIGHT = 64;
-    private final int SCENE_WIDTH = 1280;
-    private final int SCENE_HEIGHT = 720-NAVBAR_HEIGHT;
+    public static final int NAVBAR_HEIGHT = 64;
+    public static final int SCENE_WIDTH = 1280;
+    public static final int SCENE_HEIGHT = 720-NAVBAR_HEIGHT;
+
+    // The history
+    private History history;
 
 
     public BlFacade getBusinessLogic() {
@@ -48,6 +53,7 @@ public class MainGUI {
         Platform.startup(() -> {
             try {
                 setBusinessLogic(bl);
+                history = new History();
                 init(new Stage());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -56,17 +62,16 @@ public class MainGUI {
     }
 
     /**
-     * Creates a new window and assigns its corresponding
+     * Creates a new window and assigns its corresponding value
      * UI and Controller
      * @param fxmlfile the name of the fxml file
      * @return the new window
      * @throws IOException in case de load.loader() fails.
      */
-    private Window load(String fxmlfile) throws IOException {
-        Window window = new Window();
+    private Window load(String fxmlfile, String title, int width, int height) throws IOException {
+        Window window = new Window(title, width, height);
         FXMLLoader loader = new FXMLLoader(MainGUI.class.getResource(fxmlfile), ResourceBundle.getBundle("Etiquetas", Locale.getDefault()));
         loader.setControllerFactory(controllerClass -> {
-
             if (controllerClass == NavBarController.class) {
                 return new NavBarController(businessLogic);
             } else if (controllerClass == BrowseQuestionsController.class) {
@@ -87,9 +92,9 @@ public class MainGUI {
                 }
             }
         });
-        window.ui = loader.load();
+        window.setUi(loader.load());
         ((Controller) loader.getController()).setMainApp(this);
-        window.c = loader.getController();
+        window.setController(loader.getController());
         return window;
     }
 
@@ -101,15 +106,16 @@ public class MainGUI {
     public void init(Stage stage) throws IOException {
         this.stage = stage;
 
-        navBar = load("/NavBarGUI.fxml");
-        loginLag = load("/LoginGUI.fxml");
-        registerLag = load("/RegisterGUI.fxml");
-        mainLag = load("/MainGUI.fxml");
-        browseQuestionsLag = load("/BrowseQuestions.fxml");
-        createQuestionLag = load("/CreateQuestion.fxml");
+        navBar = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
+        loginLag = load("/LoginGUI.fxml", "Login", SCENE_WIDTH, SCENE_HEIGHT);
+        registerLag = load("/RegisterGUI.fxml", "Register", SCENE_WIDTH, SCENE_HEIGHT);
+        mainLag = load("/MainGUI.fxml", "MainTitle", SCENE_WIDTH, SCENE_HEIGHT);
+        browseQuestionsLag = load("/BrowseQuestions.fxml", "BrowseQuestions", SCENE_WIDTH, SCENE_HEIGHT);
+        createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
 
         setupScene();
-        showMain();
+        history.setCurrentWindow(mainLag);
+        showScene(mainLag);
     }
 
     /**
@@ -117,49 +123,89 @@ public class MainGUI {
      * to navigate between windows without removing the navigation bar.
      */
     private void setupScene() {
-        // Create the initial scene structure
+        // Initialize the wrapper for the navbar and the content
         mainWrapper = new BorderPane();
-        mainWrapper.setTop(navBar.ui);
+        mainWrapper.setTop(navBar.getUi());
 
+        // Initialize the scene
         scene = new Scene(mainWrapper, SCENE_WIDTH, SCENE_HEIGHT);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
         scene.setRoot(mainWrapper);
 
+        // Add the scene to the root
         stage.setScene(scene);
     }
 
-    private void showScene(Parent ui, String title, int width, int height) {
-        stage.setTitle(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString(title));
-        stage.setWidth(width);
-        stage.setHeight(height);
-        stage.setTitle(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString(title));
+    /**
+     * Displays the given window in the scene.
+     * @param window the window.
+     */
+    private void showScene(Window window) {
+        stage.setTitle(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString(window.getTitle()));
+        stage.setWidth(window.getWidth());
+        stage.setHeight(window.getHeight());
 
-        mainWrapper.setCenter(ui);
+        mainWrapper.setCenter(window.getUi());
         stage.show();
     }
 
-    public void showMain() {
-        showScene(mainLag.ui, "MainTitle", SCENE_WIDTH, SCENE_HEIGHT);
+    /**
+     * Changes the stage to the last visited window.
+     */
+    public void goBack() {
+        Window previousWindow = history.moveToPrevious();
+        ((NavBarController) navBar.getController()).enableHistoryBtns();
+        if (previousWindow != null) showScene(previousWindow);
     }
 
-    public void showBrowseQuestions() {
-        showScene(browseQuestionsLag.ui, "BrowseQuestions", SCENE_WIDTH, SCENE_HEIGHT);
+    /**
+     * Stores the current window in the history and displays
+     * the next window
+     */
+    public void goForward() {
+        Window nextWindow = history.moveToNext();
+        ((NavBarController) navBar.getController()).enableHistoryBtns();
+        if (nextWindow != null) showScene(nextWindow);
+    }
+    /**
+     * Stores the current window in the history and displays
+     * the window with the given title.
+     * @param title the title of the window.
+     */
+    public void goForward(String title) {
+        // Get the new window
+        Window newWindow = getWindow(title);
+        // Move to the requested window and store the old one
+        history.moveToWindow(newWindow);
+
+        ((NavBarController) navBar.getController()).enableHistoryBtns();
+        showScene(newWindow);
     }
 
-    public void showCreateQuestion() {
-        showScene(createQuestionLag.ui, "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
+    /**
+     * Returns the window with the given title
+     * @param title the title of the window.
+     */
+    public Window getWindow(String title) {
+        return switch(title) {
+            case "Login":
+                yield loginLag;
+            case "Register":
+                yield registerLag;
+            case "BrowseQuestions":
+                yield browseQuestionsLag;
+            case "CreateQuestion":
+                yield createQuestionLag;
+            default: // get the initial window
+                yield mainLag;
+        };
     }
 
-    public void showRegister() {
-        showScene(registerLag.ui, "Register", SCENE_WIDTH, SCENE_HEIGHT);
-    }
-
-    public void showLogin() {
-        showScene(loginLag.ui, "Login", SCENE_WIDTH, SCENE_HEIGHT);
-    }
-
-    class Window {
-        Controller c;
-        Parent ui;
+    /**
+     * Returns the history.
+     * @return the history.
+     */
+    public History getHistory() {
+        return history;
     }
 }

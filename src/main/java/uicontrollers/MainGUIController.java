@@ -37,12 +37,12 @@ public class MainGUIController implements Controller{
 
     @FXML
     void browseQuestions(ActionEvent event) {
-        mainGUI.showBrowseQuestions();
+        mainGUI.goForward("BrowseQuestions");
     }
 
     @FXML
     void createQuestion(ActionEvent event) {
-        mainGUI.showCreateQuestion();
+        mainGUI.goForward("CreateQuestion");
     }
 
 

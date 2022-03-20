@@ -5,10 +5,11 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
 <AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="64" prefWidth="1280" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.NavBarController">
    <children>
-      <ImageView fitHeight="117.0" fitWidth="109.0" layoutX="14.0" layoutY="-22.0" pickOnBounds="true" preserveRatio="true" style="overflow: scroll;">
+      <ImageView fitHeight="117.0" fitWidth="109.0" layoutX="109.0" layoutY="-22.0" pickOnBounds="true" preserveRatio="true" style="overflow: scroll;">
          <image>
             <Image url="@img/final_logo.png" />
          </image>
@@ -18,5 +19,18 @@
       </ImageView>
       <Button fx:id="registerBtn" layoutX="1206.0" layoutY="20.0" mnemonicParsing="false" onAction="#showRegister" text="Register" />
       <Button fx:id="loginBtn" layoutX="1147.0" layoutY="20.0" mnemonicParsing="false" onAction="#showLogin" text="Login" />
+      <Button fx:id="backBtn" disable="true" mnemonicParsing="false" onAction="#goBack" prefHeight="64.0" prefWidth="52.0" style="-fx-font-size: 2em;" text="&lt;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+         <font>
+            <Font size="26.0" />
+         </font>
+      </Button>
+      <Button fx:id="nextBtn" disable="true" layoutX="52.0" mnemonicParsing="false" onAction="#goForward" prefHeight="64.0" prefWidth="52.0" style="-fx-font-size: 2em;" text="&gt;">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </Button>
    </children>
 </AnchorPane>
