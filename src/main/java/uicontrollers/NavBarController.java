@@ -2,13 +2,16 @@ package uicontrollers;
 
 import businessLogic.BlFacade;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
+import javafx.scene.input.KeyCombination;
+import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import ui.MainGUI;
 
-import javax.swing.text.html.ImageView;
-import java.net.URL;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
@@ -20,12 +23,17 @@ public class NavBarController implements Controller {
     private BlFacade businessLogic;
     private MainGUI mainGUI;
 
+    private double x, y;
+
     @FXML private Button backBtn;
     @FXML private Button nextBtn;
-    @FXML private Button loginBtn;
-    @FXML private Button registerBtn;
+    @FXML private Button esBtn;
+    @FXML private Button enBtn;
+    @FXML private Button eusBtn;
+    @FXML private Button maximizeBtn;
+    @FXML private Button minimizeBtn;
+    @FXML private Button closeBtn;
     @FXML private ResourceBundle resources;
-    @FXML private URL location;
 
     /**
      * Constructor for the NavBarController.
@@ -34,6 +42,27 @@ public class NavBarController implements Controller {
      */
     public NavBarController(BlFacade bl) {
         businessLogic = bl;
+    }
+
+    @FXML
+    void initialize() {
+        backBtn.setDisable(true);
+        nextBtn.setDisable(true);
+    }
+
+    @FXML
+    void pressed(MouseEvent e) {
+        x = e.getSceneX();
+        y = e.getSceneY();
+    }
+
+    @FXML
+    void dragged(MouseEvent e) {
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        if (x > 4 && y > 4 && !stage.isFullScreen()) {
+            stage.setX(e.getScreenX() - x);
+            stage.setY(e.getScreenY() - y);
+        }
     }
 
     /**
@@ -55,6 +84,25 @@ public class NavBarController implements Controller {
     }
 
     /**
+     * Enables or disables navigation buttons depending on history status
+     */
+    public void enableHistoryBtns() {
+        backBtn.setDisable(mainGUI.getHistory().getPreviousWindow() == null);
+        nextBtn.setDisable(mainGUI.getHistory().getNextWindow() == null);
+    }
+
+    /**
+     * Setter for the mainGUI.
+     * @param mainGUI the mainGUI.
+     */
+    @Override
+    public void setMainApp(MainGUI mainGUI) {
+        this.mainGUI = mainGUI;
+    }
+
+    /* -------------------------------- LEFT SIDE BUTTONS -------------------------------- */
+
+    /**
      * Changes to last visited window.
      */
     @FXML
@@ -70,20 +118,51 @@ public class NavBarController implements Controller {
         mainGUI.goForward();
     }
 
+
+    /* -------------------------------- MIDDLE BUTTONS -------------------------------- */
+
     /**
-     * Enables or disables navigation buttons depending on history status
+     * Changes the default locale to the one provided by the button
+     * @param e the button click event.
      */
-    public void enableHistoryBtns() {
-        backBtn.setDisable(mainGUI.getHistory().getPreviousWindow() == null);
-        nextBtn.setDisable(mainGUI.getHistory().getNextWindow() == null);
+    @FXML
+    void setLocale(ActionEvent e) {
+        String locale = ((Button) e.getSource()).getText();
+        Locale.setDefault(new Locale(locale));
+    }
+
+
+    /* -------------------------------- RIGHT SIDE BUTTONS -------------------------------- */
+
+    /**
+     * Miniminizes (iconizes) the window.
+     * @param e the mouse press event.
+     */
+    @FXML
+    void minimize(MouseEvent e) {
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        stage.setIconified(true);
     }
 
     /**
-     * Setter for the mainGUI.
-     * @param mainGUI the mainGUI.
+     * Sets the window to full screen. If it is already
+     * in full screen, its exits from it.
+     * @param e the mouse press event.
      */
-    @Override
-    public void setMainApp(MainGUI mainGUI) {
-        this.mainGUI = mainGUI;
+    @FXML
+    void maximize(MouseEvent e) {
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        stage.setFullScreenExitKeyCombination(KeyCombination.NO_MATCH);
+        stage.setFullScreen(!stage.isFullScreen());
+    }
+
+    /**
+     * Exits the application.
+     * @param e the mouse press event.
+     */
+    @FXML
+    void close(MouseEvent e) {
+        Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
+        stage.close();
     }
 }

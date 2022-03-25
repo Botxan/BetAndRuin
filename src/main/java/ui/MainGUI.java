@@ -3,10 +3,10 @@ package ui;
 import businessLogic.BlFacade;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import uicontrollers.*;
 import utils.History;
@@ -33,7 +33,6 @@ public class MainGUI {
 
     // The history
     private History history;
-
 
     public BlFacade getBusinessLogic() {
         return businessLogic;
@@ -105,6 +104,7 @@ public class MainGUI {
      */
     public void init(Stage stage) throws IOException {
         this.stage = stage;
+        this.stage.initStyle(StageStyle.UNDECORATED);
 
         navBar = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
         loginLag = load("/LoginGUI.fxml", "Login", SCENE_WIDTH, SCENE_HEIGHT);
@@ -114,6 +114,7 @@ public class MainGUI {
         createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
 
         setupScene();
+        ResizeHelper.addResizeListener(this.stage);
         history.setCurrentWindow(mainLag);
         showScene(mainLag);
     }

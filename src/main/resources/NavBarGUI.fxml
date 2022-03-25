@@ -1,36 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.shape.Line?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="64" prefWidth="1280" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.NavBarController">
+<AnchorPane prefHeight="84.0" prefWidth="1280.0" stylesheets="@css/navbar.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.NavBarController">
    <children>
-      <ImageView fitHeight="117.0" fitWidth="109.0" layoutX="109.0" layoutY="-22.0" pickOnBounds="true" preserveRatio="true" style="overflow: scroll;">
-         <image>
-            <Image url="@img/final_logo.png" />
-         </image>
-         <cursor>
-            <Cursor fx:constant="DEFAULT" />
-         </cursor>
-      </ImageView>
-      <Button fx:id="registerBtn" layoutX="1206.0" layoutY="20.0" mnemonicParsing="false" onAction="#showRegister" text="Register" />
-      <Button fx:id="loginBtn" layoutX="1147.0" layoutY="20.0" mnemonicParsing="false" onAction="#showLogin" text="Login" />
-      <Button fx:id="backBtn" disable="true" mnemonicParsing="false" onAction="#goBack" prefHeight="64.0" prefWidth="52.0" style="-fx-font-size: 2em;" text="&lt;">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-         <font>
-            <Font size="26.0" />
-         </font>
-      </Button>
-      <Button fx:id="nextBtn" disable="true" layoutX="52.0" mnemonicParsing="false" onAction="#goForward" prefHeight="64.0" prefWidth="52.0" style="-fx-font-size: 2em;" text="&gt;">
-         <cursor>
-            <Cursor fx:constant="HAND" />
-         </cursor>
-      </Button>
+      <HBox alignment="CENTER_LEFT" blendMode="SRC_ATOP" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="30.0" prefWidth="1280.0" style="-fx-background-color: #202020;" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Button fx:id="backBtn" mnemonicParsing="false" onAction="#goBack" prefWidth="40.0">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="CHEVRON_RIGHT" selectionEnd="1" selectionStart="0" size="28" text="" />
+               </graphic>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="edgeBtn" />
+                  <String fx:value="navigationBtn" />
+               </styleClass>
+            </Button>
+            <Button fx:id="nextBtn" mnemonicParsing="false" onAction="#goForward" prefHeight="30.0" prefWidth="40.0">
+               <graphic>
+                  <FontAwesomeIconView fill="RED" glyphName="CHEVRON_LEFT" selectionEnd="1" selectionStart="0" size="28" text="" />
+               </graphic>
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="edgeBtn" />
+                  <String fx:value="navigationBtn" />
+               </styleClass>
+            </Button>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="esBtn" mnemonicParsing="false" onAction="#setLocale" prefHeight="34.0" prefWidth="52.0" text="ES" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="localeBtn" />
+               </styleClass>
+            </Button>
+            <Line endX="-99.99999237060547" endY="15.0" startX="-100.0001220703125" stroke="WHITE" />
+            <Button fx:id="eusBtn" mnemonicParsing="false" onAction="#setLocale" prefHeight="33.0" prefWidth="52.0" text="EUS">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="localeBtn" />
+               </styleClass>
+            </Button>
+            <Line endX="100.0" endY="15.0" startX="100.0" stroke="WHITE" />
+            <Button fx:id="enBtn" mnemonicParsing="false" onAction="#setLocale" prefHeight="32.0" prefWidth="52.0" text="EN">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="localeBtn" />
+               </styleClass>
+            </Button>
+            <Region prefHeight="200.0" prefWidth="200.0" HBox.hgrow="ALWAYS" />
+            <Button fx:id="minimizeBtn" mnemonicParsing="false" onMouseClicked="#minimize" prefHeight="30.0" prefWidth="40.0">
+               <graphic>
+                  <FontAwesomeIconView glyphName="MINUS" />
+               </graphic>
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="edgeBtn" />
+                  <String fx:value="minimizeBtn" />
+               </styleClass>
+            </Button>
+            <Button fx:id="maximizeBtn" mnemonicParsing="false" onMouseClicked="#maximize" prefHeight="30.0" prefWidth="40.0">
+               <graphic>
+                  <FontAwesomeIconView glyphName="SQUARE_ALT" />
+               </graphic>
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="edgeBtn" />
+                  <String fx:value="maximizeBtn" />
+               </styleClass>
+            </Button>
+            <Button fx:id="closeBtn" mnemonicParsing="false" onMouseClicked="#close" prefHeight="30.0" prefWidth="40.0">
+               <graphic>
+                  <FontAwesomeIconView glyphName="CLOSE" />
+               </graphic>
+               <styleClass>
+                  <String fx:value="btn" />
+                  <String fx:value="edgeBtn" />
+                  <String fx:value="closeBtn" />
+               </styleClass>
+            </Button>
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

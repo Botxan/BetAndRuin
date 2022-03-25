@@ -1,0 +1,43 @@
+.btn {
+    -fx-background-color: transparent;
+    -fx-background-radius: 0;
+    -fx-text-fill: #ffffff;
+    -fx-min-height: 30px;
+    -fx-max-height: 30px;
+    -fx-pref-height: 30px;
+}
+
+.btn:hover {
+    -fx-text-fill: #ffffff;
+}
+
+.btn > .glyph-icon {
+    -fx-fill: white;
+}
+
+.localeBtn {
+    -fx-min-width: 70px;
+    -fx-max-width: 70px;
+    -fx-pref-width: 70px;
+    -fx-cursor: hand;
+}
+
+.edgeBtn {
+    -fx-min-width: 40px;
+    -fx-max-width: 40px;
+    -fx-pref-width: 40px;
+}
+
+.maximizeBtn:hover, .minimizeBtn:hover {
+    -fx-background-color: #404040;
+}
+
+.closeBtn:hover {
+    -fx-background-color: #CB4335;
+}
+
+.navigationBtn:hover .glyph-icon {
+    -fx-fill: #404040;
+}
+
+
