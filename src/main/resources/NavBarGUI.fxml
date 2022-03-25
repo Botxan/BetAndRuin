@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.shape.Line?>
 
-<AnchorPane prefHeight="84.0" prefWidth="1280.0" stylesheets="@css/navbar.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.NavBarController">
+<AnchorPane prefHeight="0.0" prefWidth="1280.0" stylesheets="@css/navbar.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.NavBarController">
    <children>
-      <HBox alignment="CENTER_LEFT" blendMode="SRC_ATOP" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="30.0" prefWidth="1280.0" style="-fx-background-color: #202020;" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER_LEFT" blendMode="SRC_ATOP" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="30.0" prefWidth="1280.0" style="-fx-background-color: #202020;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button fx:id="backBtn" mnemonicParsing="false" onAction="#goBack" prefWidth="40.0">
                <graphic>
@@ -48,7 +48,7 @@
                </styleClass>
             </Button>
             <Line endX="-99.99999237060547" endY="15.0" startX="-100.0001220703125" stroke="WHITE" />
-            <Button fx:id="eusBtn" mnemonicParsing="false" onAction="#setLocale" prefHeight="33.0" prefWidth="52.0" text="EUS">
+            <Button fx:id="eusBtn" mnemonicParsing="false" onAction="#setLocale" prefHeight="33.0" prefWidth="52.0" text="EUS" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -58,7 +58,7 @@
                </styleClass>
             </Button>
             <Line endX="100.0" endY="15.0" startX="100.0" stroke="WHITE" />
-            <Button fx:id="enBtn" mnemonicParsing="false" onAction="#setLocale" prefHeight="32.0" prefWidth="52.0" text="EN">
+            <Button fx:id="enBtn" mnemonicParsing="false" onAction="#setLocale" prefHeight="32.0" prefWidth="52.0" text="EN" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

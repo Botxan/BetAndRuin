@@ -1,4 +1,4 @@
-.btn {
+.btn, .btn {
     -fx-background-color: transparent;
     -fx-background-radius: 0;
     -fx-text-fill: #ffffff;
@@ -20,6 +20,15 @@
     -fx-max-width: 70px;
     -fx-pref-width: 70px;
     -fx-cursor: hand;
+}
+
+.localeBtn:hover {
+    -fx-text-fill: #B3CF00;
+}
+
+.selectedLang, .selectedLang:focused {
+    -fx-text-fill: #11AA00;
+    -fx-underline: true;
 }
 
 .edgeBtn {

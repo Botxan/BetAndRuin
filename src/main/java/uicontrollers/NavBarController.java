@@ -129,6 +129,17 @@ public class NavBarController implements Controller {
     void setLocale(ActionEvent e) {
         String locale = ((Button) e.getSource()).getText();
         Locale.setDefault(new Locale(locale));
+
+        // Highlight selected button
+        if (eusBtn.getStyleClass().contains("selectedLang")) {
+            eusBtn.getStyleClass().remove("selectedLang");
+        } else if (esBtn.getStyleClass().contains("selectedLang")) {
+            esBtn.getStyleClass().remove("selectedLang");
+        } else if (enBtn.getStyleClass().contains("selectedLang")) {
+            enBtn.getStyleClass().remove("selectedLang");
+        }
+
+        ((Button) e.getSource()).getStyleClass().add("selectedLang");
     }
 
 
