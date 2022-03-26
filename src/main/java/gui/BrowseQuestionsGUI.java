@@ -17,6 +17,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
 import java.util.*;
+import java.util.List;
 
 /**
  * This class represents the GUI to browse questions in the application
@@ -144,7 +145,7 @@ public class BrowseQuestionsGUI extends JFrame implements DynamicJFrame {
 						for (domain.Event ev : events){
 							Vector<Object> row = new Vector<Object>();
 							System.out.println("Events " + ev);
-							row.add(ev.getEventNumber());
+							row.add(ev.getEventID());
 							row.add(ev.getDescription());
 							row.add(ev); 	// ev object added in order to obtain it with 
 							// tableModelEvents.getValueAt(i,2)
@@ -167,7 +168,7 @@ public class BrowseQuestionsGUI extends JFrame implements DynamicJFrame {
 			public void mouseClicked(MouseEvent e) {
 				int i = eventTable.getSelectedRow();
 				domain.Event ev = (domain.Event)eventTableModel.getValueAt(i,2); // obtain ev object
-				Vector<Question> queries = ev.getQuestions();
+				List<Question> queries = ev.getQuestions();
 
 				questionTableModel.setDataVector(null, questionColumnNames);
 
@@ -180,7 +181,7 @@ public class BrowseQuestionsGUI extends JFrame implements DynamicJFrame {
 
 				for (Question q : queries) {
 					Vector<Object> row = new Vector<Object>();
-					row.add(q.getQuestionNumber());
+					row.add(q.getQuestionID());
 					row.add(q.getQuestion());
 					questionTableModel.addRow(row);	
 				}

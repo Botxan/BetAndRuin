@@ -176,7 +176,7 @@
          * @param description an instance of description
          * @param date an instance of date
          * @return it returns an event
-         * @throws EventAlreadyExistException
+         * @throws EventAlreadyExistException if the event already exists
          */
         public Event createEvent(String description, Date date) throws EventAlreadyExistException {
             System.out.println(">> DataAccess: createEvent => description = " + description + " date = " + date);
@@ -221,7 +221,7 @@
             System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " +
                     question + " minimum bet = " + betMinimum);
 
-            Event ev = db.find(Event.class, event.getEventNumber());
+            Event ev = db.find(Event.class, event.getEventID());
 
             if (ev.doesQuestionExist(question)) throw new QuestionAlreadyExist(
                     ResourceBundle.getBundle("Etiquetas").getString("ErrorQuestionAlreadyExist"));
@@ -260,13 +260,13 @@
          * @param question an instance of the question of the forecast
          * @param result result of the forecast
          * @param fee fee of the forecast
-         * @throws ForecastAlreadyExistException
+         * @throws ForecastAlreadyExistException if the forecast already exists
          */
         public Forecast addForecast(Question question, String result, int fee) throws ForecastAlreadyExistException {
             System.out.println(">> DataAccess: addForecast => question = " + question + " result = " + result + " fee = " + fee);
 
             // Check if the forecast already exist
-            Question q = db.find(Question.class, question.getQuestionNumber());
+            Question q = db.find(Question.class, question.getQuestionID());
 
             if (q.doesForecastExist(result)) throw new ForecastAlreadyExistException (
                     ResourceBundle.getBundle("Etiquetas").getString("ErrorForecastAlreadyExist"));
@@ -356,11 +356,11 @@
          *
          * @param event an instance of a given event
          * @param question an instance of a given question
-         * @return
+         * @return true if the question exist
          */
         public boolean existQuestion(Event event, String question) {
             System.out.println(">> DataAccess: existQuestion => event = " + event + " question = " + question);
-            Event ev = db.find(Event.class, event.getEventNumber());
+            Event ev = db.find(Event.class, event.getEventID());
             return ev.doesQuestionExist(question);
         }
 
@@ -408,7 +408,7 @@
          * Returns the user with the username passed by parameter.
          * @param username The username of the user to retrieve.
          * @return The user with the username passed by parameter.
-         * @throws UserNotFoundException
+         * @throws UserNotFoundException if the user does not exist
          */
         public User getUser(String username) throws UserNotFoundException
         {

@@ -136,10 +136,10 @@ public class BrowseQuestionsController implements Controller {
     });
 
     // Bind columns to Event attributes
-    ec1.setCellValueFactory(new PropertyValueFactory<>("eventNumber"));
+    ec1.setCellValueFactory(new PropertyValueFactory<>("eventID"));
     ec2.setCellValueFactory(new PropertyValueFactory<>("description"));
     // Bind columns to Question attributes
-    qc1.setCellValueFactory(new PropertyValueFactory<>("questionNumber"));
+    qc1.setCellValueFactory(new PropertyValueFactory<>("questionID"));
     qc2.setCellValueFactory(new PropertyValueFactory<>("question"));
 
   }

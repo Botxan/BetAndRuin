@@ -1,42 +1,39 @@
 package domain;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlID;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Vector;
+import java.util.List;
 
-@XmlAccessorType(XmlAccessType.FIELD)
+/**
+ * This class represents an event in which the administrator can create
+ * questions and bet on them.
+ * @author Josefinators team
+ */
 @Entity
-public class Event implements Serializable {
+public class Event {
 
-	private static final long serialVersionUID = 1L;
-	
-	@XmlID
-	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer eventNumber;
+	private Integer eventID;
 	private String description; 
 	private Date eventDate;
-	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	private Vector<Question> questions = new Vector<Question>();
+
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	private List<Question> questions = new ArrayList<Question>();
 
 	/**
-	 * Getter for questions
+	 * Getter for questions.
 	 * @return it returns an array of questions
 	 */
-	public Vector<Question> getQuestions() {
+	public List<Question> getQuestions() {
 		return questions;
 	}
 
 	/**
-	 * Setter for questions
+	 * Setter for questions.
 	 * @param questions an array of questions
 	 */
-	public void setQuestions(Vector<Question> questions) {
+	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
 	}
 
@@ -48,19 +45,19 @@ public class Event implements Serializable {
 	}
 
 	/**
-	 * Constructor that instantiates the Event class
+	 * Constructor that instantiates the Event class.
 	 * @param eventNumber an instance of event number 
 	 * @param description an instance of description
 	 * @param eventDate an instance of event date 
 	 */
 	public Event(Integer eventNumber, String description,Date eventDate) {
-		this.eventNumber = eventNumber;
+		this.eventID = eventNumber;
 		this.description = description;
 		this.eventDate = eventDate;
 	}
 
 	/**
-	 * Constructor that instantiates the Event class
+	 * Constructor that instantiates the Event class.
 	 * @param description an instance of description
 	 * @param eventDate an instance of event date 
 	 */
@@ -70,31 +67,31 @@ public class Event implements Serializable {
 	}
 
 	/**
-	 * Getter for event number 
+	 * Getter for event number .
 	 * @return event number 
 	 */
-	public Integer getEventNumber() {
-		return eventNumber;
+	public Integer getEventID() {
+		return eventID;
 	}
 
 	/**
-	 * Setter for event number 
-	 * @param eventNumber an instance of event number 
+	 * Setter for event number.
+	 * @param eventID an instance of event number
 	 */
-	public void setEventNumber(Integer eventNumber) {
-		this.eventNumber = eventNumber;
+	public void setEventID(Integer eventID) {
+		this.eventID = eventID;
 	}
 
 	/**
-	 * Getter for description
-	 * @return description
+	 * Getter for description.
+	 * @return the description of the event
 	 */
 	public String getDescription() {
 		return description;
 	}
 
 	/**
-	 * Setter for description
+	 * Setter for description.
 	 * @param description an instance of description
 	 */
 	public void setDescription(String description) {
@@ -102,7 +99,7 @@ public class Event implements Serializable {
 	}
 
 	/**
-	 * Getter for event date 
+	 * Getter for event date.
 	 * @return event date 
 	 */
 	public Date getEventDate() {
@@ -110,8 +107,8 @@ public class Event implements Serializable {
 	}
 
 	/**
-	 * Setter for event date 
-	 * @param eventDate
+	 * Setter for event date.
+	 * @param eventDate the date of the event
 	 */
 	public void setEventDate(Date eventDate) {
 		this.eventDate = eventDate;
@@ -124,11 +121,11 @@ public class Event implements Serializable {
 	}
 
 	/**
-	 * This method creates a bet with a question, minimum bet ammount and percentual profit
+	 * This method creates a bet with a question, minimum bet ammount and percentual profit.
 	 * 
 	 * @param question to be added to the event
 	 * @param betMinimum of that question
-	 * @return Bet
+	 * @return Bet.
 	 */
 	public Question addQuestion(String question, float betMinimum)  {
 		Question q=new Question(question,betMinimum, this);
@@ -137,7 +134,7 @@ public class Event implements Serializable {
 	}
 
 	/**
-	 * It checks if the question already exists for that event
+	 * It checks if the question already exists for that event.
 	 * 
 	 * @param question an instance of a question that needs to be checked if there exists
 	 * @return it returns true if the question exists and false in other case
@@ -154,7 +151,7 @@ public class Event implements Serializable {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + eventNumber;
+		result = prime * result + eventID;
 		return result;
 	}
 
@@ -167,8 +164,6 @@ public class Event implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Event other = (Event) obj;
-		if (eventNumber != other.eventNumber)
-			return false;
-		return true;
+		return eventID == other.eventID;
 	}
 }

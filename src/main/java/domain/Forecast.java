@@ -1,95 +1,103 @@
 package domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlID;
-import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.io.Serializable;
+import javax.persistence.*;
 
-@XmlAccessorType(XmlAccessType.FIELD)
+/**
+ * This class represents a possible forecast for a question on which the
+ * application users can place their bets.
+ * @author Josefinators team
+ */
 @Entity
-public class Forecast implements Serializable{
-
-	private static final long serialVersionUID = 1L;
-	
-	@XmlID
-	@XmlJavaTypeAdapter(IntegerAdapter.class)
+public class Forecast {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer resultNumber;
-	private String result;
+	private Integer forecastID;
+	private String description;
 	private int fee;
-	
-	@XmlIDREF
+
+	@ManyToOne
 	private Question question;
-	
+
+	/**
+	 * Constructor.
+	 */
 	public Forecast(){
 		super();
 	}
 	
 	/**
-	 * Constructor that instantiates the Forecast class
-	 * @param result an instance of result 
-	 * @param fee an instance of fee 
-	 * @param question an instance of question
+	 * Constructor that instantiates the Forecast class.
+	 * @param description the description of the forecast
+	 * @param fee the fee
+	 * @param question the question associated to the forecast
 	 */
-	public Forecast(String result, int fee, Question question) {
+	public Forecast(String description, int fee, Question question) {
 		super();
-		this.result = result;
+		this.description = description;
 		this.fee = fee;
 		this.question = question;
 	}
 
 	/**
-	 * Getter for result 
+	 * Getter for the forecast id.
+	 * @return forecast id
+	 */
+	public Integer getForecastID() {
+		return forecastID;
+	}
+
+	/**
+	 * Setter for the forecast id.
+	 * @param forecastID forecast id
+	 */
+	public void setForecastID(Integer forecastID) {
+		this.forecastID = forecastID;
+	}
+
+	/**
+	 * Getter for result.
 	 * @return result 
 	 */
-	public String getResult() {
-		return result;
+	public String getDescription() {
+		return description;
 	}
 
 	/**
-	 * Setter for result 
-	 * @param result result 
+	 * Setter for result.
+	 * @param description the description of the forecast
 	 */
-	public void setResult(String result) {
-		this.result = result;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	/**
-	 * Getter for fee
-	 * @return fee 
+	 * Getter for fee.
+	 * @return fee the fee of the forecast
 	 */
 	public int getFee() {
 		return fee;
 	}
 
 	/**
-	 * Setter for fee 
-	 * @param fee fee 
+	 * Setter for fee.
+	 * @param fee the fee of the forecast
 	 */
 	public void setFee(int fee) {
 		this.fee = fee;
 	}
 	
 	/**
-	 * Getter for question 
-	 * @return question 
+	 * Getter for question.
+	 * @return question the associated question
 	 */
 	public Question getQuestion() {
 		return question;
 	}
 	
 	/**
-	 * Setter for question 
-	 * @param question an instance of question  
+	 * Setter for question.
+	 * @param question the question associated to the forecast.
 	 */
 	public void setQuestion(Question question) {
 		this.question = question;
 	}
-	
 }

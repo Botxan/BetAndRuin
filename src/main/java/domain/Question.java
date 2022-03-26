@@ -1,70 +1,86 @@
 package domain;
 
 import javax.persistence.*;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlIDREF;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
-import java.io.Serializable;
-import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
-@XmlAccessorType(XmlAccessType.FIELD)
+/**
+ * This class represents a question on which administrators can generate forecasts
+ * for the users of the application to bet on.
+ * @author Josefinators team
+ */
 @Entity
-public class Question implements Serializable {
-
-	private static final long serialVersionUID = 1L;
-
+public class Question {
 	 
-	@XmlJavaTypeAdapter(IntegerAdapter.class)
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
-	private Integer questionNumber;
-
+	private Integer questionID;
 	private String question; 
 	private float betMinimum;
-	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-	private Vector<Forecast> results = new Vector<Forecast>(); 
 
-	@XmlIDREF
+	@ManyToOne
 	private Event event;
 
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	private List<Forecast> forecasts = new ArrayList<Forecast>();
+
+	@OneToOne
+	private Forecast correctForecast;
+
+	/**
+	 * Constructor.
+	 */
 	public Question(){
 		super();
 	}
 
-	public Question(Integer queryNumber, String query, float betMinimum, Event event) {
+	/**
+	 * Constructor.
+	 * @param questionID the question identifier
+	 * @param question the description of the question
+	 * @param betMinimum the minimum bet
+	 * @param event the associated event
+	 */
+	public Question(Integer questionID, String question, float betMinimum, Event event) {
 		super();
-		this.questionNumber = queryNumber;
-		this.question = query;
+		this.questionID = questionID;
+		this.question = question;
 		this.betMinimum=betMinimum;
 		this.event = event;
 	}
 
-	public Question(String query, float betMinimum, Event event) {
+	/**
+	 * Constructor.
+	 * @param question the description of the question
+	 * @param betMinimum the minimum bet
+	 * @param event the associated event
+	 */
+	public Question(String question, float betMinimum, Event event) {
 		super();
-		this.question = query;
+		this.question = question;
 		this.betMinimum=betMinimum;
+		this.event = event;
 	}
 
 	/**
-	 * Gets the  number of the question
+	 * Gets the number of the question.
 	 * 
 	 * @return the question number
 	 */
-	public Integer getQuestionNumber() {
-		return questionNumber;
+	public Integer getQuestionID() {
+		return questionID;
 	}
 
 	/**
-	 * Assigns the bet number to a question
+	 * Assigns the bet number to a question.
 	 * 
-	 * @param questionNumber to be set
+	 * @param questionID to be set
 	 */
-	public void setQuestionNumber(Integer questionNumber) {
-		this.questionNumber = questionNumber;
+	public void setQuestionID(Integer questionID) {
+		this.questionID = questionID;
 	}
 
 	/**
-	 * Gets the question description of the bet
+	 * Gets the question description of the bet.
 	 * 
 	 * @return the bet question
 	 */
@@ -72,9 +88,8 @@ public class Question implements Serializable {
 		return question;
 	}
 
-
 	/**
-	 * Sets the question description of the bet
+	 * Sets the question description of the bet.
 	 * 
 	 * @param question to be set
 	 */	
@@ -83,9 +98,8 @@ public class Question implements Serializable {
 	}
 
 
-
 	/**
-	 * Gets the minimum amount allowed for a bet
+	 * Gets the minimum amount allowed for a bet.
 	 * 
 	 * @return the minimum bet
 	 */
@@ -93,9 +107,8 @@ public class Question implements Serializable {
 		return betMinimum;
 	}
 
-
 	/**
-	 * Gets the minimum amount allowed for the bet
+	 * Gets the minimum amount allowed for the bet.
 	 * 
 	 * @param  betMinimum minimum amount to be set
 	 */
@@ -103,27 +116,26 @@ public class Question implements Serializable {
 		this.betMinimum = betMinimum;
 	}
 
-
 	/**
-	 * Gets the result of the  query
+	 * Gets the result of the  query.
 	 * 
 	 * @return the the query result
 	 */
-	public Vector<Forecast> getResults() {
-		return results;
+	public List<Forecast> getForecasts() {
+		return forecasts;
 	}
 
 	/**
-	 * Sets the correct result of the  query
+	 * Sets the correct result of the  query.
 	 * 
-	 * @param result result of the query
+	 * @param forecasts forecasts of the question
 	 */
-	public void setResults(Vector<Forecast> result) {
-		this.results = result;
+	public void setForecasts(List<Forecast> forecasts) {
+		this.forecasts = forecasts;
 	}
 
 	/**
-	 * Gets the event associated with the bet
+	 * Gets the event associated with the bet.
 	 * 
 	 * @return the associated event
 	 */
@@ -132,7 +144,7 @@ public class Question implements Serializable {
 	}
 
 	/**
-	 * Sets the event associated with the bet
+	 * Sets the event associated with the bet.
 	 * 
 	 * @param event to associate with the bet
 	 */
@@ -143,30 +155,46 @@ public class Question implements Serializable {
 	/**
 	 * This method creates a forecast with a given result and fee.
 	 * 
-	 * @param result the result of that forecast.
-	 * @param fee the fee of that forecast.
-	 * @return the new forecast.
+	 * @param result the result of that forecast
+	 * @param fee the fee of that forecast
+	 * @return the new forecast
 	 */
 	public Forecast addQuestion(String result, int fee)  {
 		Forecast f = new Forecast(result, fee, this);
-		results.add(f);
+		forecasts.add(f);
 		return f;
 	}
 	
 	/**
 	 * Checks if a forecast with same name exist already for
 	 * this question.
-	 * @param result the result of the forecast.
-	 * @return true if the forecast exist. Otherwise false.
+	 * @param forecast the description of the forecast
+	 * @return true if the forecast exist. Otherwise false
 	 */
-	public boolean doesForecastExist(String result) {
-		for (Forecast f: getResults()) 
-			if (f.getResult().equals(result)) 
+	public boolean doesForecastExist(String forecast) {
+		for (Forecast f: getForecasts())
+			if (f.getDescription().equals(forecast))
 				return true;
 		
 		return false;
 	}
-	
+
+	/**
+	 * Getter for the correct forecast of this question.
+	 * @return the correct forecast
+	 */
+	public Forecast getCorrectForecast() {
+		return correctForecast;
+	}
+
+	/**
+	 * Setter for the correct forecast for this question.
+	 * @param correctForecast the correct forecast
+	 */
+	public void setCorrectForecast(Forecast correctForecast) {
+		this.correctForecast = correctForecast;
+	}
+
 	@Override
 	public String toString(){
 		return question;
