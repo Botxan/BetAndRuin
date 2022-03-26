@@ -10,7 +10,7 @@
 <AnchorPane prefHeight="405.0" prefWidth="992.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.BrowseQuestionsController">
     <children>
         <DatePicker fx:id="datepicker" layoutX="24.0" layoutY="78.0" />
-        <Label layoutX="24.0" layoutY="49.0" text="%EventDate" />
+        <Label fx:id="eventDateLbl" layoutX="24.0" layoutY="49.0" text="%EventDate" />
         <TableView fx:id="tblEvents" layoutX="232.0" layoutY="78.0" prefHeight="200.0" prefWidth="330.0">
             <columns>
                 <TableColumn fx:id="ec1" maxWidth="200.0" minWidth="30.0" prefWidth="200.0" text="Id" />
@@ -29,9 +29,9 @@
                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
             </columnResizePolicy>
         </TableView>
-        <Label layoutX="232.0" layoutY="49.0" text="%Events" />
+        <Label fx:id="eventsLbl" layoutX="232.0" layoutY="49.0" text="%Events" />
         <Label layoutX="358.0" layoutY="49.0" text="  " />
-        <Label layoutX="576.0" layoutY="49.0" text="%SelectedEvent" />
+        <Label fx:id="selectedEventLbl" layoutX="576.0" layoutY="49.0" text="%SelectedEvent" />
         <Button fx:id="btnClose" layoutX="535.0" layoutY="332.0" mnemonicParsing="false" onAction="#closeClick" text="%Back" />
     </children>
 </AnchorPane>

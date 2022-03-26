@@ -15,4 +15,9 @@ public class LoginController implements Controller {
     public void setMainApp(MainGUI mainGUI) {
         this.mainGUI = mainGUI;
     }
+
+    @Override
+    public void redraw() {
+
+    }
 }

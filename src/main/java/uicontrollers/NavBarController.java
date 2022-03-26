@@ -100,6 +100,11 @@ public class NavBarController implements Controller {
         this.mainGUI = mainGUI;
     }
 
+    @Override
+    public void redraw() {
+
+    }
+
     /* -------------------------------- LEFT SIDE BUTTONS -------------------------------- */
 
     /**
@@ -140,6 +145,7 @@ public class NavBarController implements Controller {
         }
 
         ((Button) e.getSource()).getStyleClass().add("selectedLang");
+        mainGUI.getHistory().getCurrentWindow().getController().redraw();
     }
 
 
