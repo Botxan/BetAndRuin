@@ -4,7 +4,9 @@ import businessLogic.BlFacade;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.kordamp.bootstrapfx.BootstrapFX;
@@ -117,6 +119,7 @@ public class MainGUI {
         ResizeHelper.addResizeListener(this.stage);
         history.setCurrentWindow(mainLag);
         showScene(mainLag);
+
     }
 
     /**
@@ -147,6 +150,7 @@ public class MainGUI {
         stage.setHeight(window.getHeight());
 
         mainWrapper.setCenter(window.getUi());
+        ((NavBarController)navBar.getController()).updateNav();
         stage.show();
     }
 
