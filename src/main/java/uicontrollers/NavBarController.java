@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
@@ -30,9 +31,8 @@ public class NavBarController implements Controller {
     @FXML private Button esBtn;
     @FXML private Button enBtn;
     @FXML private Button eusBtn;
-    @FXML private Button maximizeBtn;
-    @FXML private Button minimizeBtn;
-    @FXML private Button closeBtn;
+    @FXML private Button loginBtn;
+    @FXML private Button registerBtn;
     @FXML private ResourceBundle resources;
 
     /**
@@ -182,4 +182,40 @@ public class NavBarController implements Controller {
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
         stage.close();
     }
+
+
+    /* -------------------------------- USER BAR -------------------------------- */
+
+    /**
+     * Changes to login window
+     */
+    @FXML
+    void goToLogin() {
+        mainGUI.goForward("Login");
+    }
+
+    /**
+     * Changes to register window
+     */
+    @FXML
+    void goToRegister() {
+        mainGUI.goForward("Register");
+    }
+
+    /**
+     * Updates the navigation bar components depending on the current
+     * window and whether the user is authenticated or not.
+     */
+    public void updateNav() {
+        String currentUI = mainGUI.getHistory().getCurrentWindow()
+                .getController().getClass().getSimpleName();
+        if (currentUI.equals("LoginController") || currentUI.equals("RegisterController")) {
+            loginBtn.setVisible(false);
+            registerBtn.setVisible(false);
+        } else {
+            loginBtn.setVisible(true);
+            registerBtn.setVisible(true);
+        }
+    }
+
 }

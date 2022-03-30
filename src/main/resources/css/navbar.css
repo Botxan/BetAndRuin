@@ -23,7 +23,7 @@
 }
 
 .localeBtn:hover {
-    -fx-text-fill: #B3CF00;
+    -fx-text-fill: -fx-green1;
 }
 
 .selectedLang, .selectedLang:focused {
@@ -47,6 +47,37 @@
 
 .navigationBtn:hover .glyph-icon {
     -fx-fill: #404040;
+}
+
+
+/* ---------- User bar ---------- */
+
+
+.userBar {
+    -fx-padding: 0px 20px;
+
+}
+
+.loginBtn {
+    -fx-background-color: transparent;
+    -fx-text-fill: -fx-green1;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.loginBtn:hover {
+    -fx-text-fill: -fx-green2;
+}
+
+.registerBtn {
+    -fx-background-color: -fx-green1;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.registerBtn:hover {
+    -fx-background-color: -fx-green2;
 }
 
 
