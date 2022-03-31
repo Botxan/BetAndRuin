@@ -1,14 +1,19 @@
 package uicontrollers;
 
 import businessLogic.BlFacade;
+import domain.User;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBase;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.image.ImageView ;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import ui.MainGUI;
 
@@ -33,6 +38,10 @@ public class NavBarController implements Controller {
     @FXML private Button eusBtn;
     @FXML private Button loginBtn;
     @FXML private Button registerBtn;
+    @FXML private MenuButton userBtn;
+    @FXML private MenuItem movementBtn;
+    @FXML private MenuItem logoutBtn;
+    @FXML private ImageView userBtnAvatar;
     @FXML private ResourceBundle resources;
 
     /**
@@ -48,14 +57,26 @@ public class NavBarController implements Controller {
     void initialize() {
         backBtn.setDisable(true);
         nextBtn.setDisable(true);
+        hideBtn(userBtn);
+
+        Circle clip = new Circle(18, 18, 18);
+        userBtnAvatar.setClip(clip);
     }
 
+    /**
+     * Records mouse position when the title bar is pressed.
+     * @param e mouse press
+     */
     @FXML
     void pressed(MouseEvent e) {
         x = e.getSceneX();
         y = e.getSceneY();
     }
 
+    /**
+     * Moves the window according to mouse movement.
+     * @param e mouse drag
+     */
     @FXML
     void dragged(MouseEvent e) {
         Stage stage = (Stage) ((Node) e.getSource()).getScene().getWindow();
@@ -186,6 +207,7 @@ public class NavBarController implements Controller {
 
     /* -------------------------------- USER BAR -------------------------------- */
 
+
     /**
      * Changes to login window
      */
@@ -202,20 +224,70 @@ public class NavBarController implements Controller {
         mainGUI.goForward("Register");
     }
 
+    @FXML
+    void showMovements() {
+        System.out.println("showMovements: not implemented yet.");
+    }
+
+    /**
+     * Destroys the current session and changes the window to Login
+     */
+    @FXML
+    void logout() {
+        businessLogic.setCurrentUser(null);
+        mainGUI.goForward("Login");
+    }
+
     /**
      * Updates the navigation bar components depending on the current
      * window and whether the user is authenticated or not.
      */
     public void updateNav() {
-        String currentUI = mainGUI.getHistory().getCurrentWindow()
-                .getController().getClass().getSimpleName();
+        String currentUI = mainGUI.getHistory().getCurrentWindow().getController().getClass().getSimpleName();
+
+        // Update user bar view
         if (currentUI.equals("LoginController") || currentUI.equals("RegisterController")) {
-            loginBtn.setVisible(false);
-            registerBtn.setVisible(false);
+            // Dont show anything in the user bar
+            hideBtn(loginBtn);
+            hideBtn(registerBtn);
+            hideBtn(userBtn);
         } else {
-            loginBtn.setVisible(true);
-            registerBtn.setVisible(true);
+            User currentUser = businessLogic.getCurrentUser();
+            if (currentUser == null) {
+                // Show login and register buttons
+                showBtn(loginBtn);
+                showBtn(registerBtn);
+            } else {
+                // Show user info
+                hideBtn(loginBtn);
+                hideBtn(registerBtn);
+                showBtn(userBtn);
+
+                String avatar = currentUser.getAvatar();
+                if (avatar == null)
+                    userBtnAvatar.setImage(new Image(String.valueOf(getClass().getResource("/img/avatar/default.png"))));
+                else {
+                    userBtnAvatar.setImage(new Image(String.valueOf(getClass().getResource("/img/avatar/" + avatar))));
+                }
+            }
         }
     }
 
+    /**
+     * Displays the button in the scene and includes it in parents layout calculations.
+     * @param btn the button
+     */
+    void showBtn(ButtonBase btn) {
+        btn.setVisible(true);
+        btn.setManaged(true);
+    }
+
+    /**
+     * Hides a button from the scene and excludes it from parents layout calculations.
+     * @param btn the button
+     */
+    void hideBtn(ButtonBase btn) {
+        btn.setVisible(false);
+        btn.setManaged(false);
+    }
 }

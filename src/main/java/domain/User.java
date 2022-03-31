@@ -18,13 +18,14 @@ public class User {
 	private String username;
 	private String firstName;
 	private String lastName;
-	private String email;
 	private Date birthdate;
 	private String address;
-	private int wallet;
+	private String email;
+	private String avatar;
 	private byte[] password;
 	private byte[] salt; // salt used in password hashing
 	private int userMode; // 0 => guest, 1 => logged user, 2 => administrator
+	private int wallet;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "owner")
 	private List<Card> cards = new ArrayList<Card>();
@@ -38,28 +39,48 @@ public class User {
 	public User() {}
 
 	/**
-	 * User class constructor.
+	 * User class constructor without avatar.
 	 * @param username the name with which the user is identified in the app.
 	 * @param firstName user's first name.
 	 * @param lastName user's last name.
 	 * @param birthdate user's birth date.
 	 * @param address user's address.
-	 * @param password user's password hashed.
 	 * @param email user's email.
+	 * @param password user's password hashed.
 	 * @param salt the salt used in password hashing.
 	 * @param userMode user's userMode
 	 */
 	public User(String username, String firstName, String lastName,
-			Date birthdate, String address, byte[] password, String email, byte[] salt, int userMode) {
+			Date birthdate, String address, String email, byte[] password, byte[] salt, int userMode) {
+		this(username, firstName, lastName, birthdate, address, email, null, password, salt, userMode);
+	}
+
+	/**
+	 * User class constructor with avatar.
+	 * @param username the name with which the user is identified in the app.
+	 * @param firstName user's first name.
+	 * @param lastName user's last name.
+	 * @param birthdate user's birth date.
+	 * @param address user's address.
+	 * @param email user's email.
+	 * @param avatar avatar file name.
+	 * @param password user's password hashed.
+	 * @param salt the salt used in password hashing.
+	 * @param userMode user's userMode
+	 */
+	public User(String username, String firstName, String lastName,
+				Date birthdate, String address, String email, String avatar, byte[] password, byte[] salt, int userMode) {
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.birthdate = birthdate;
 		this.address = address;
+		this.avatar = avatar;
 		this.password = password;
 		this.email = email;
 		this.salt = salt;
 		this.userMode = userMode;
+		wallet = 0;
 	}
 
 	/**
@@ -127,22 +148,6 @@ public class User {
 	}
 
 	/**
-	 * Getter for user's email.
-	 * @return user's email
-	 */
-	public String getEmail() {
-		return email;
-	}
-
-	/**
-	 * Setter for user's email.
-	 * @param email user' email
-	 */
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	/**
 	 * Getter for user's birthdate.
 	 * @return user's birthdate
 	 */
@@ -175,19 +180,36 @@ public class User {
 	}
 
 	/**
-	 * Getter for the money in the wallet.
-	 * @return the money in the wallet
+	 * Getter for user's email.
+	 * @return user's email
 	 */
-	public int getWallet() {
-		return wallet;
+	public String getEmail() {
+		return email;
 	}
 
 	/**
-	 * Setter for wallet money.
-	 * @param wallet the money to set in the wallet
+	 * Setter for user's email.
+	 * @param email user' email
 	 */
-	public void setWallet(int wallet) {
-		this.wallet = wallet;
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+
+	/**
+	 * Getter for avatar file name.
+	 * @return avatar file name
+	 */
+	public String getAvatar() {
+		return avatar;
+	}
+
+	/**
+	 * Setter for avatar file name.
+	 * @param avatar avatar file name
+	 */
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 
 	/**
@@ -236,6 +258,22 @@ public class User {
 	 */
 	public void setUserMode(int userMode) {
 		this.userMode = userMode;
+	}
+
+	/**
+	 * Getter for the money in the wallet.
+	 * @return the money in the wallet
+	 */
+	public int getWallet() {
+		return wallet;
+	}
+
+	/**
+	 * Setter for wallet money.
+	 * @param wallet the money to set in the wallet
+	 */
+	public void setWallet(int wallet) {
+		this.wallet = wallet;
 	}
 
 	/**

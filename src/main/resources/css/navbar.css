@@ -58,9 +58,19 @@
 
 }
 
+.userBtn {
+    -fx-background-color: transparent;
+    -fx-cursor: hand;
+}
+
+.userBtnItem {
+    -fx-cursor: hand;
+}
+
 .loginBtn {
     -fx-background-color: transparent;
     -fx-text-fill: -fx-green1;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-cursor: hand;
 }
@@ -72,6 +82,7 @@
 .registerBtn {
     -fx-background-color: -fx-green1;
     -fx-text-fill: #ffffff;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-cursor: hand;
 }

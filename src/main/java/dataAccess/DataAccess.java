@@ -128,9 +128,9 @@
                 byte [] salt = BlFacadeImplementation.generateSalt();
                 byte[] password = BlFacadeImplementation.hashPassword("123123", salt);
                 User user1 = new User("user1", "userFirstName", "userLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
-                        "userAddress", password, "user@email.com", salt, 1);
+                        "userAddress", "user@email.com", password, salt, 1);
                 User admin1 = new User("admin1", "adminFirstName", "adminLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
-                        "adminAddress", password, "admin@email.com", salt, 2);
+                        "adminAddress", "admin@email.com", password, salt, 2);
 
                 db.persist(q1);
                 db.persist(q2);
@@ -383,7 +383,7 @@
 
             db.getTransaction().begin();
             User newUser = new User(username, firstName, lastName,
-                    birthdate, address, hashedPassword, email, salt, 1);
+                    birthdate, address, email, hashedPassword, salt, 1);
             db.persist(newUser);
             db.getTransaction().commit();
             System.out.println(newUser + " has been saved");

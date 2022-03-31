@@ -1,6 +1,8 @@
 package ui;
 
 import businessLogic.BlFacade;
+import configuration.UtilDate;
+import domain.User;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -9,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import jdk.jshell.execution.Util;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import uicontrollers.*;
 import utils.History;
@@ -150,6 +153,18 @@ public class MainGUI {
         stage.setHeight(window.getHeight());
 
         mainWrapper.setCenter(window.getUi());
+
+        // FIXME Temporal nav update testing. DELETE WHEN LOGIN IS IMPLEMENTED!!!
+        if (window.getController().getClass().getSimpleName().equals("LoginController")) {
+            businessLogic.setCurrentUser(null);
+        }
+        if (window.getController().getClass().getSimpleName().equals("BrowseQuestionsController")) {
+            businessLogic.setCurrentUser(
+                    new User("john44", "john", "doe", UtilDate.newDate(1980, 3, 23),
+                            "testAddress", "john@doe.com", "shrek.jpg", new byte[8], new byte[1], 1));
+        }
+        // FIXME End of the testing
+
         ((NavBarController)navBar.getController()).updateNav();
         stage.show();
     }
