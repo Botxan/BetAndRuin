@@ -184,16 +184,16 @@ public class CreateEventGUI extends JFrame implements DynamicJFrame {
 					eventStatusLabel.setText("<html><p style=\\\"width:200px\\\">"+ResourceBundle.getBundle("Etiquetas").getString("ErrorInvalidDate")+"</p></html>");
 				} else {					
 					// Save the event in the database
-					try {
-						businessLogic.createEvent(eventDescriptionField.getText(), UtilDate.trim(calendar.getDate()));
+
+						// businessLogic.createEvent(eventDescriptionField.getText(), UtilDate.trim(calendar.getDate(), "countryShouldGoHere"));
 						// Print success message
 						eventStatusLabel.setForeground(new Color(46, 204, 113));
 						eventStatusLabel.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("EventAddedSuccessfully") + "</p></html>");
-					} catch (EventAlreadyExistException e1) {
+
 						// Print error message
 						eventStatusLabel.setForeground(new Color(220, 20, 60));
 						eventStatusLabel.setText("<html><p style=\\\"width:200px\\\">"+ResourceBundle.getBundle("Etiquetas").getString("ErrorEventAlreadyExist")+"</p></html>");
-					}
+
 				}
 			}
 		});

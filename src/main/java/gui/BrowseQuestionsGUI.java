@@ -134,7 +134,7 @@ public class BrowseQuestionsGUI extends JFrame implements DynamicJFrame {
 						eventTableModel.setDataVector(null, eventColumnNames);
 						eventTableModel.setColumnCount(3); // another column added to allocate ev objects
 
-						Vector<domain.Event> events = businessLogic.getEvents(firstDay);
+						List<domain.Event> events = businessLogic.getEvents(firstDay);
 
 						if (events.isEmpty() ) eventLbl.setText(ResourceBundle.getBundle("Etiquetas").
 								getString("NoEvents") + ": " + dateformat1.format(currentCalendar.

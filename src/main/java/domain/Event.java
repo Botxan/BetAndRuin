@@ -17,9 +17,41 @@ public class Event {
 	private Integer eventID;
 	private String description; 
 	private Date eventDate;
+	private String country;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private List<Question> questions = new ArrayList<Question>();
+
+	/**
+	 * Constructor
+	 */
+	public Event() {
+		super();
+	}
+
+	/**
+	 * Constructor that instantiates the Event class.
+	 * @param eventNumber an instance of event number
+	 * @param description an instance of description
+	 * @param eventDate an instance of event date
+	 */
+	public Event(Integer eventNumber, String description, Date eventDate, String country) {
+		this.eventID = eventNumber;
+		this.description = description;
+		this.eventDate = eventDate;
+		this.country = country;
+	}
+
+	/**
+	 * Constructor that instantiates the Event class.
+	 * @param description an instance of description
+	 * @param eventDate an instance of event date
+	 */
+	public Event(String description, Date eventDate, String country) {
+		this.description = description;
+		this.eventDate = eventDate;
+		this.country = country;
+	}
 
 	/**
 	 * Getter for questions.
@@ -35,35 +67,6 @@ public class Event {
 	 */
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
-	}
-
-	/**
-	 * Constructor
-	 */
-	public Event() {
-		super();
-	}
-
-	/**
-	 * Constructor that instantiates the Event class.
-	 * @param eventNumber an instance of event number 
-	 * @param description an instance of description
-	 * @param eventDate an instance of event date 
-	 */
-	public Event(Integer eventNumber, String description,Date eventDate) {
-		this.eventID = eventNumber;
-		this.description = description;
-		this.eventDate = eventDate;
-	}
-
-	/**
-	 * Constructor that instantiates the Event class.
-	 * @param description an instance of description
-	 * @param eventDate an instance of event date 
-	 */
-	public Event( String description,Date eventDate) {
-		this.description = description;
-		this.eventDate=eventDate;
 	}
 
 	/**
@@ -112,6 +115,22 @@ public class Event {
 	 */
 	public void setEventDate(Date eventDate) {
 		this.eventDate = eventDate;
+	}
+
+	/**
+	 * Getter for the country where the event takes place.
+	 * @return the country
+	 */
+	public String getCountry() {
+		return country;
+	}
+
+	/**
+	 * Setter for the country where the event takes place.
+	 * @param country the country
+	 */
+	public void setCountr(String country) {
+		this.country = country;
 	}
 
 

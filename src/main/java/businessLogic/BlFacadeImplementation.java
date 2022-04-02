@@ -66,17 +66,17 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 	
 	@WebMethod
-	public Event createEvent(String name, Date date) throws EventAlreadyExistException {
+	public Event createEvent(String name, Date date, String country) throws EventAlreadyExistException {
 		dbManager.open(false);
-		Event event = dbManager.createEvent(name, date);
+		Event event = dbManager.createEvent(name, date, country);
 		dbManager.close();
 		return event;
 	}
 	
 	@WebMethod	
-	public Vector<Event> getEvents(Date date)  {
+	public List<Event> getEvents(Date date)  {
 		dbManager.open(false);
-		Vector<Event>  events = dbManager.getEvents(date);
+		List<Event>  events = dbManager.getEvents(date);
 		dbManager.close();
 		return events;
 	}

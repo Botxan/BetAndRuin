@@ -27,7 +27,7 @@ public class MainGUI {
     private Scene scene;
 
     // Default scene resolution
-    public static final int NAVBAR_HEIGHT = 64;
+    public static final int NAVBAR_HEIGHT = 80;
     public static final int SCENE_WIDTH = 1280;
     public static final int SCENE_HEIGHT = 720-NAVBAR_HEIGHT;
 
@@ -139,6 +139,8 @@ public class MainGUI {
         scene.getStylesheets().add("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
         // Global font css
         scene.getStylesheets().add(getClass().getResource("/css/fonts.css").toExternalForm());
+        // Global color css
+        scene.getStylesheets().add(getClass().getResource("/css/colors.css").toExternalForm());
 
         // Add the wrapper of the navbar and the content to the scene
         scene.setRoot(mainWrapper);

@@ -1,14 +1,20 @@
 package uicontrollers;
 
 import businessLogic.BlFacade;
+import com.jfoenix.controls.JFXTreeTableView;
+import domain.Event;
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableListValue;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.DateCell;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.Label;
+import javafx.scene.Node;
+import javafx.scene.control.*;
 
-import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.util.Callback;
 import ui.MainGUI;
 import utils.Dates;
@@ -28,13 +34,18 @@ public class BrowseEventsController implements Controller {
 
     private LocalDate lastValidDate;
     private List<LocalDate> holidays = new ArrayList<>();
+    private ObservableList<Event> events;
 
     @FXML private DatePicker eventDatePicker;
     @FXML private TextField dayField, monthField, yearField;
+    @FXML private TableView<Event> eventTbl;
+    @FXML private TableColumn<Event, Integer> idCol;
+    @FXML private TableColumn<Event, String> descriptionCol;
+    @FXML private TableColumn<Event, String> countryCol;
 
     /**
      * Constructor. Initializes business logic.
-     * @param bl
+     * @param bl business logic
      */
     public BrowseEventsController(BlFacade bl) {
         businessLogic = bl;
@@ -55,6 +66,24 @@ public class BrowseEventsController implements Controller {
 
         addDateFormatters();
         initializeDatePicker();
+        initializeEventTable();
+    }
+
+    private void initializeEventTable() {
+        events = FXCollections.observableArrayList();
+
+        // Bind columns
+        idCol.setCellValueFactory(new PropertyValueFactory<>("eventID"));
+        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+
+        // Get all events of the initial date
+        Date today = (Dates.convertToDate(lastValidDate));
+        events.addAll(businessLogic.getEvents(today));
+
+        // Bind observable list to the table
+        eventTbl.setItems(events);
+
     }
 
     /**
@@ -81,6 +110,51 @@ public class BrowseEventsController implements Controller {
         setEvents(date.getYear(), date.getMonth().getValue());
         setEvents(date.plusMonths(1).getYear(), date.plusMonths(1).getMonth().getValue());
         setEvents(date.plusMonths(-1).getYear(), date.plusMonths(-1).getMonth().getValue());
+    }
+
+    // Updates the values in the table
+    public void updateEventTable(Date date) {
+        // Empty the list and the table;
+        events.clear();
+        eventTbl.getItems().removeAll();
+
+        // Get all events of the initial date
+        events.addAll(businessLogic.getEvents(date));
+    }
+
+
+    /* ---------------------------------- Date and DatePicker ----------------------------------*/
+
+
+    /**
+     * Adds the event listener to the event DatePicker
+     */
+    public void initializeDatePicker() {
+        // When a date is selected
+        eventDatePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
+            String[] date = newValue.toString().split("-");
+            saveLastDate(date[0], date[1], date[2]);
+            setPreviousDate();
+            updateEventTable(Dates.convertToDate(newValue));
+        });
+
+        eventDatePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(DatePicker param) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+
+                        if (!empty && item != null) {
+                            if (holidays.contains(item)) {
+                                this.setStyle("-fx-background-color: pink");
+                            }
+                        }
+                    }
+                };
+            }
+        });
     }
 
     /**
@@ -178,34 +252,16 @@ public class BrowseEventsController implements Controller {
         eventDatePicker.setValue(lastValidDate);
     }
 
-    /**
-     * Adds the event listener to the event DatePicker
-     */
-    public void initializeDatePicker() {
-        eventDatePicker.valueProperty().addListener((ov, oldValue, newValue) -> {
-            String[] date = newValue.toString().split("-");
-            saveLastDate(date[0], date[1], date[2]);
-            setPreviousDate();
-        });
-
-        eventDatePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
-            @Override
-            public DateCell call(DatePicker param) {
-                return new DateCell() {
-                    @Override
-                    public void updateItem(LocalDate item, boolean empty) {
-                        super.updateItem(item, empty);
-
-                        if (!empty && item != null) {
-                            if (holidays.contains(item)) {
-                                this.setStyle("-fx-background-color: pink");
-                            }
-                        }
-                    }
-                };
-            }
-        });
+    @FXML
+    void dateKeyPressed(KeyEvent key) {
+       if (key.getCode().equals(KeyCode.ENTER)) {
+           eventTbl.requestFocus();
+       }
     }
+
+
+    /* ---------------------------------- Controller interface ----------------------------------*/
+
 
     @Override
     public void setMainApp(MainGUI mainGUI) {

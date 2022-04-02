@@ -68,29 +68,28 @@
                 int year = today.get(Calendar.YEAR);
                 if (month == 12) { month = 0; year += 1;}
 
-                Event ev1 = new Event("Atlético-Athletic", UtilDate.newDate(year, month, 17));
-                Event ev2 = new Event("Eibar-Barcelona", UtilDate.newDate(year, month, 17));
-                Event ev3 = new Event("Getafe-Celta", UtilDate.newDate(year, month, 17));
-                Event ev4 = new Event("Alavés-Deportivo", UtilDate.newDate(year, month, 17));
-                Event ev5 = new Event("Español-Villareal", UtilDate.newDate(year, month, 17));
-                Event ev6 = new Event("Las Palmas-Sevilla", UtilDate.newDate(year, month, 17));
-                Event ev7 = new Event("Malaga-Valencia", UtilDate.newDate(year, month, 17));
-                Event ev8 = new Event("Girona-Leganés", UtilDate.newDate(year, month, 17));
-                Event ev9 = new Event("Real Sociedad-Levante", UtilDate.newDate(year, month, 17));
-                Event ev10 = new Event( "Betis-Real Madrid", UtilDate.newDate(year, month, 17));
+                Event ev1 = new Event("Atlético-Athletic", UtilDate.newDate(year, month, 17), "Spain");
+                Event ev2 = new Event("Eibar-Barcelona", UtilDate.newDate(year, month, 17), "Spain");
+                Event ev3 = new Event("Getafe-Celta", UtilDate.newDate(year, month, 17), "Spain");
+                Event ev4 = new Event("Alavés-Deportivo", UtilDate.newDate(year, month, 17), "France");
+                Event ev5 = new Event("Español-Villareal", UtilDate.newDate(year, month, 17), "France");
+                Event ev6 = new Event("Las Palmas-Sevilla", UtilDate.newDate(year, month, 17), "France");
+                Event ev7 = new Event("Malaga-Valencia", UtilDate.newDate(year, month, 17), "California");
+                Event ev8 = new Event("Girona-Leganés", UtilDate.newDate(year, month, 17), "California");
+                Event ev9 = new Event("Real Sociedad-Levante", UtilDate.newDate(year, month, 17), "Denmark");
+                Event ev10 = new Event( "Betis-Real Madrid", UtilDate.newDate(year, month, 17), "Denmark");
 
-                Event ev11 = new Event("Atletico-Athletic", UtilDate.newDate(year, month, 1));
-                Event ev12 = new Event("Eibar-Barcelona", UtilDate.newDate(year, month, 1));
-                Event ev13 = new Event("Getafe-Celta", UtilDate.newDate(year, month, 1));
-                Event ev14 = new Event("Alavés-Deportivo", UtilDate.newDate(year, month, 1));
-                Event ev15 = new Event("Español-Villareal", UtilDate.newDate(year, month, 1));
-                Event ev16 = new Event("Las Palmas-Sevilla", UtilDate.newDate(year, month, 1));
+                Event ev11 = new Event("Atletico-Athletic", UtilDate.newDate(year, month, 1), "Belgium");
+                Event ev12 = new Event("Eibar-Barcelona", UtilDate.newDate(year, month, 1), "Belgium");
+                Event ev13 = new Event("Getafe-Celta", UtilDate.newDate(year, month, 1), "Belgium");
+                Event ev14 = new Event("Alavés-Deportivo", UtilDate.newDate(year, month, 1), "Japan");
+                Event ev15 = new Event("Español-Villareal", UtilDate.newDate(year, month, 1), "Japan");
+                Event ev16 = new Event("Las Palmas-Sevilla", UtilDate.newDate(year, month, 1), "South Korea");
 
-
-                Event ev17 = new Event("Málaga-Valencia", UtilDate.newDate(year, month + 1, 28));
-                Event ev18 = new Event("Girona-Leganés", UtilDate.newDate(year, month + 1, 28));
-                Event ev19 = new Event("Real Sociedad-Levante", UtilDate.newDate(year, month + 1, 28));
-                Event ev20 = new Event("Betis-Real Madrid", UtilDate.newDate(year, month + 1, 28));
+                Event ev17 = new Event("Málaga-Valencia", UtilDate.newDate(year, month + 1, 28), "China");
+                Event ev18 = new Event("Girona-Leganés", UtilDate.newDate(year, month + 1, 28), "China");
+                Event ev19 = new Event("Real Sociedad-Levante", UtilDate.newDate(year, month + 1, 28), "Poland");
+                Event ev20 = new Event("Betis-Real Madrid", UtilDate.newDate(year, month + 1, 28), "Poland");
 
                 Question q1;
                 Question q2;
@@ -178,13 +177,13 @@
          * @return it returns an event
          * @throws EventAlreadyExistException if the event already exists
          */
-        public Event createEvent(String description, Date date) throws EventAlreadyExistException {
+        public Event createEvent(String description, Date date, String country) throws EventAlreadyExistException {
             System.out.println(">> DataAccess: createEvent => description = " + description + " date = " + date);
 
             // Check if the event exist
-            TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.description=?1", Event.class);
+            TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.description=?1 AND ev.country=?2", Event.class);
             query.setParameter(1, description);
-            query.setParameter(2, date);
+            query.setParameter(2, country);
 
             SimpleDateFormat year = new SimpleDateFormat("yyyy");
             SimpleDateFormat month = new SimpleDateFormat("MM");
@@ -201,7 +200,7 @@
 
             // Store the new event in the database
             db.getTransaction().begin();
-            Event event = new Event(description, date);
+            Event event = new Event(description, date, country);
             db.persist(event);
             db.getTransaction().commit();
 
@@ -241,9 +240,9 @@
          * @param date an instance of date
          * @return collection of events
          */
-        public Vector<Event> getEvents(Date date) {
+        public List<Event> getEvents(Date date) {
             System.out.println(">> DataAccess: getEvents");
-            Vector<Event> res = new Vector<Event>();
+            List<Event> res = new ArrayList<Event>();
             TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.eventDate=?1",
                     Event.class);
             query.setParameter(1, date);

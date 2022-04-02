@@ -13,7 +13,7 @@
 }
 
 .month-field {
-    -fx-text-color: -fx-green1;
+    -fx-text-fill: -fx-green1;
 }
 
 .year-field {
@@ -36,9 +36,9 @@
 }
 
 .date-picker > .arrow-button > .arrow {
-    -fx-background-color: #6A6A6A;
+    -fx-background-color: -fx-green1;
 }
 
 .date-picker > .arrow-button:hover .arrow {
-    -fx-background-color: #888888;
+    -fx-background-color: -fx-green2;
 }
