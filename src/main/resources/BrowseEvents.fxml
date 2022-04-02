@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Line?>
+
+<AnchorPane prefHeight="640.0" prefWidth="1280.0" stylesheets="@css/browseEvents.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.BrowseEventsController">
+   <children>
+      <Label fx:id="dateLbl" layoutX="959.0" layoutY="63.0" styleClass="dateLbl" text="DATE" />
+      <Line endX="220.0" layoutX="890.0" layoutY="98.0" startX="-39.33331298828125" />
+      <TextField fx:id="yearField" alignment="CENTER" layoutX="854.0" layoutY="105.0" prefHeight="16.0" prefWidth="106.0" text="2022">
+         <styleClass>
+            <String fx:value="dateField" />
+            <String fx:value="year-field" />
+         </styleClass>
+      </TextField>
+      <Line endX="99.33331298828125" endY="3.0" layoutX="876.0" layoutY="106.0" startX="87.0" startY="41.0" />
+      <TextField fx:id="monthField" alignment="CENTER" layoutX="966.0" layoutY="105.0" prefHeight="25.0" prefWidth="66.0" text="22">
+         <styleClass>
+            <String fx:value="dateField" />
+            <String fx:value="monthField" />
+         </styleClass></TextField>
+      <Line endX="99.33331298828125" endY="3.0" layoutX="942.0" layoutY="107.0" startX="87.0" startY="41.0" />
+      <TextField fx:id="dayField" alignment="CENTER" layoutX="1030.0" layoutY="105.0" prefHeight="25.0" prefWidth="66.0" styleClass="dateField" text="22" />
+      <DatePicker fx:id="eventDatePicker" layoutX="1111.0" layoutY="113.0" maxHeight="53.0" maxWidth="57.0" minHeight="24.0" minWidth="24.0" prefHeight="24.0" prefWidth="24.0" styleClass="date-picker" />
+      <Label fx:id="dateLbl1" layoutX="950.0" layoutY="169.0" styleClass="dateLbl" text="EVENTS" />
+      <Line endX="220.0" layoutX="890.0" layoutY="204.0" startX="-39.33331298828125" />
+   </children>
+</AnchorPane>

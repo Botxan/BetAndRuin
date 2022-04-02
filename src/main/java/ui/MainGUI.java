@@ -4,9 +4,7 @@ import businessLogic.BlFacade;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.SceneAntialiasing;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import org.kordamp.bootstrapfx.BootstrapFX;
@@ -75,8 +73,8 @@ public class MainGUI {
         loader.setControllerFactory(controllerClass -> {
             if (controllerClass == NavBarController.class) {
                 return new NavBarController(businessLogic);
-            } else if (controllerClass == BrowseQuestionsController.class) {
-                return new BrowseQuestionsController(businessLogic);
+            } else if (controllerClass == BrowseEventsController.class) {
+                return new BrowseEventsController(businessLogic);
             } else if (controllerClass == CreateQuestionController.class) {
                 return new CreateQuestionController(businessLogic);
             } else if (controllerClass == LoginController.class) {
@@ -112,7 +110,7 @@ public class MainGUI {
         loginLag = load("/LoginGUI.fxml", "Login", SCENE_WIDTH, SCENE_HEIGHT);
         registerLag = load("/RegisterGUI.fxml", "Register", SCENE_WIDTH, SCENE_HEIGHT);
         mainLag = load("/MainGUI.fxml", "MainTitle", SCENE_WIDTH, SCENE_HEIGHT);
-        browseQuestionsLag = load("/BrowseQuestions.fxml", "BrowseQuestions", SCENE_WIDTH, SCENE_HEIGHT);
+        browseQuestionsLag = load("/BrowseEvents.fxml", "BrowseQuestions", SCENE_WIDTH, SCENE_HEIGHT);
         createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
 
         setupScene();
@@ -129,11 +127,20 @@ public class MainGUI {
     private void setupScene() {
         // Initialize the wrapper for the navbar and the content
         mainWrapper = new BorderPane();
+
+        // Add the navbar to the wrapper
         mainWrapper.setTop(navBar.getUi());
 
         // Initialize the scene
         scene = new Scene(mainWrapper, SCENE_WIDTH, SCENE_HEIGHT);
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+
+        // Import Roboto fonts
+        scene.getStylesheets().add("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap");
+        // Global font css
+        scene.getStylesheets().add(getClass().getResource("/css/fonts.css").toExternalForm());
+
+        // Add the wrapper of the navbar and the content to the scene
         scene.setRoot(mainWrapper);
 
         // Add the scene to the root
