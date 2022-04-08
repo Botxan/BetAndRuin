@@ -25,7 +25,7 @@ public class MainGUI {
 
     private BorderPane mainWrapper;
 
-    private Window navBar, loginLag, registerLag, mainLag, createQuestionLag, browseQuestionsLag;
+    private Window indexLag, navBar, loginLag, registerLag, mainLag, createQuestionLag, browseQuestionsLag, welcomeLag;
 
     private BlFacade businessLogic;
     private Stage stage;
@@ -86,6 +86,10 @@ public class MainGUI {
                 return new LoginController(businessLogic);
             } else if (controllerClass == RegisterController.class) {
                 return new RegisterController(businessLogic);
+            } else if (controllerClass == IndexController.class) {
+                return new IndexController(businessLogic);
+            } else if (controllerClass == WelcomeController.class) {
+                return new WelcomeController(businessLogic);
             } else {
                 // default behavior for controllerFactory:
                 try {
@@ -112,32 +116,42 @@ public class MainGUI {
         this.stage.initStyle(StageStyle.UNDECORATED);
 
         navBar = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
-        loginLag = load("/LoginGUI.fxml", "Login", SCENE_WIDTH, SCENE_HEIGHT);
+        welcomeLag = load("/WelcomeGUI.fxml", "Welcome", 350, 500);
+        indexLag = load("/Index.fxml", "Welcome", SCENE_WIDTH, SCENE_HEIGHT);
+        loginLag = load("/Login.fxml", "Login", SCENE_WIDTH, SCENE_HEIGHT);
         registerLag = load("/RegisterGUI.fxml", "Register", SCENE_WIDTH, SCENE_HEIGHT);
         mainLag = load("/MainGUI.fxml", "MainTitle", SCENE_WIDTH, SCENE_HEIGHT);
         browseQuestionsLag = load("/BrowseQuestions.fxml", "BrowseQuestions", SCENE_WIDTH, SCENE_HEIGHT);
         createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
 
-        setupScene();
+        setupScene(false);
         ResizeHelper.addResizeListener(this.stage);
-        history.setCurrentWindow(mainLag);
-        showScene(mainLag);
-
+        history.setCurrentWindow(welcomeLag);
+        showScene(welcomeLag);
     }
 
     /**
      * Prepares the window with the navigation bar so that it is possible
      * to navigate between windows without removing the navigation bar.
      */
-    private void setupScene() {
+    private void setupScene(boolean showNavBar) {
         // Initialize the wrapper for the navbar and the content
         mainWrapper = new BorderPane();
         mainWrapper.setTop(navBar.getUi());
 
-        // Initialize the scene
-        scene = new Scene(mainWrapper, SCENE_WIDTH, SCENE_HEIGHT);
-        scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+        if(!showNavBar){
+            mainWrapper.getTop().setVisible(false);
+            mainWrapper.getTop().setDisable(true);
+            scene = new Scene(welcomeLag.getUi(), SCENE_WIDTH, SCENE_HEIGHT);
+        }
+        else
+            // Initialize the scene
+            scene = new Scene(mainWrapper, SCENE_WIDTH, SCENE_HEIGHT);
+
         scene.setRoot(mainWrapper);
+
+        scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+
 
         // Add the scene to the root
         stage.setScene(scene);
@@ -151,6 +165,9 @@ public class MainGUI {
         stage.setTitle(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString(window.getTitle()));
         stage.setWidth(window.getWidth());
         stage.setHeight(window.getHeight());
+
+        mainWrapper.getTop().setVisible(false);
+        mainWrapper.getTop().setDisable(true);
 
         mainWrapper.setCenter(window.getUi());
 
@@ -208,6 +225,8 @@ public class MainGUI {
      */
     public Window getWindow(String title) {
         return switch(title) {
+            case "Index":
+                yield indexLag;
             case "Login":
                 yield loginLag;
             case "Register":
@@ -216,6 +235,8 @@ public class MainGUI {
                 yield browseQuestionsLag;
             case "CreateQuestion":
                 yield createQuestionLag;
+            case "Welcome":
+                yield welcomeLag;
             default: // get the initial window
                 yield mainLag;
         };

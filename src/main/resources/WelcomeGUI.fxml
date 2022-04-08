@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.media.MediaView?>
+<?import javafx.scene.shape.SVGPath?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="350.0" style="-fx-background-color: #22252b;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.WelcomeController">
+    <left>
+        <AnchorPane fx:id="mediaViewPane" prefHeight="500.0" prefWidth="350.0" style="-fx-background-color: #1b1b1b;" styleClass="#1a1a1a" BorderPane.alignment="CENTER">
+            <children>
+                <MediaView fx:id="mediaView" fitHeight="500.0" fitWidth="350.0" smooth="false" />
+                <ImageView fitHeight="236.0" fitWidth="243.0" layoutX="57.0" layoutY="132.0" pickOnBounds="true" preserveRatio="true">
+                    <effect>
+                        <DropShadow blurType="GAUSSIAN" height="100.0" radius="49.5" width="100.0" />
+                    </effect>
+                    <image>
+                        <Image url="@img/final_logo_white.png" />
+                    </image>
+                </ImageView>
+                <Button layoutX="100.0" layoutY="408.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="151.0" style="-fx-background-radius: 50; -fx-background-color: b3cf00;" text="Browse Events" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="15.0" />
+                    </font>
+                </Button>
+                <Button id="exit_button" fx:id="button" contentDisplay="CENTER" layoutX="300.0" mnemonicParsing="false" onAction="#exit" pickOnBounds="false" scaleShape="false" textFill="WHITE">
+                    <font>
+                        <Font name="System Bold" size="96.0" />
+                    </font>
+                    <stylesheets>
+                        <URL value="@css/loginStyle.css" />
+                    </stylesheets>
+               <graphic>
+                  <SVGPath content="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="WHITE" scaleX="3.0" scaleY="3.0" />
+               </graphic></Button>
+            </children>
+        </AnchorPane>
+    </left>
+    <right>
+        <AnchorPane prefHeight="200.0" prefWidth="350.0" style="-fx-background-color: #292929;" BorderPane.alignment="CENTER" />
+    </right>
+</BorderPane>
