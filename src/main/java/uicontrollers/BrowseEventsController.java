@@ -1,29 +1,44 @@
 package uicontrollers;
 
 import businessLogic.BlFacade;
-import com.jfoenix.controls.JFXTreeTableView;
+import com.jfoenix.controls.JFXSlider;
 import domain.Event;
+import javafx.animation.FadeTransition;
+import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableListValue;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
+import javafx.scene.*;
 import javafx.scene.control.*;
 
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.input.PickResult;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.PhongMaterial;
+import javafx.scene.shape.Shape3D;
+import javafx.scene.shape.Sphere;
+import javafx.scene.text.Font;
+import javafx.scene.transform.Rotate;
 import javafx.util.Callback;
+import javafx.util.Duration;
 import ui.MainGUI;
 import utils.Dates;
 import utils.Formatter;
 import utils.skin.MyDatePickerSkin;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import static utils.Dates.isValidDate;
@@ -36,12 +51,19 @@ public class BrowseEventsController implements Controller {
     private List<LocalDate> holidays = new ArrayList<>();
     private ObservableList<Event> events;
 
+    @FXML private AnchorPane main;
     @FXML private DatePicker eventDatePicker;
     @FXML private TextField dayField, monthField, yearField;
     @FXML private TableView<Event> eventTbl;
     @FXML private TableColumn<Event, Integer> idCol;
     @FXML private TableColumn<Event, String> descriptionCol;
     @FXML private TableColumn<Event, String> countryCol;
+
+    // [*] ----- Earth and slider attributes ----- [*]
+    private Sphere earth;
+    private Group earthGroup;
+
+    @FXML JFXSlider earthRotationSlider;
 
     /**
      * Constructor. Initializes business logic.
@@ -53,6 +75,7 @@ public class BrowseEventsController implements Controller {
 
     @FXML
     void initialize() {
+
         // Fetch all events from previous, current and next month
         setEventsPrePost(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue());
 
@@ -67,9 +90,11 @@ public class BrowseEventsController implements Controller {
         addDateFormatters();
         initializeDatePicker();
         initializeEventTable();
+        initialize3dScene();
+        initializeSlider();
     }
 
-    private void initializeEventTable() {
+    public void initializeEventTable() {
         events = FXCollections.observableArrayList();
 
         // Bind columns
@@ -257,6 +282,75 @@ public class BrowseEventsController implements Controller {
        if (key.getCode().equals(KeyCode.ENTER)) {
            eventTbl.requestFocus();
        }
+    }
+
+
+    /* ---------------------------------- Earth and slider methods ----------------------------------*/
+
+
+    public void initialize3dScene() {
+        // [*] --- earthGroup and earth objects already created in scene builder --- [*]
+
+        // 3d objects group
+        earthGroup = new Group();
+
+        // Setup rotation
+        earthGroup.setRotationAxis(Rotate.Y_AXIS);
+        earthGroup.rotateProperty().set(0);
+
+        PerspectiveCamera camera = new PerspectiveCamera(true);
+        camera.setNearClip(0.01);
+        camera.setFarClip(10000);
+        camera.setTranslateZ(-700);
+
+        // Create the earth
+        Sphere earth = new Sphere(175);
+
+        // Add the earth texture to the sphere
+        PhongMaterial earthMaterial = new PhongMaterial();
+        earthMaterial.setDiffuseMap(new Image(getClass().getResourceAsStream("/img/earth-d.jpeg")));
+        earthMaterial.setBumpMap(new Image(getClass().getResourceAsStream("/img/earth-b.jpeg")));
+        earthMaterial.setSpecularMap(new Image(getClass().getResourceAsStream("/img/earth-s.jpeg")));
+        earth.setMaterial(earthMaterial);
+
+        earthGroup.getChildren().add(earth);
+
+        /*
+        // Add random points
+        var nubMaterial = new PhongMaterial (Color.color (0.8, 0.8, 0.8));
+        for (int i = 0; i < 200; i++) {
+            var nub = new Sphere (5);
+            nub.setMaterial (nubMaterial);
+            var phi = 2*Math.PI*Math.random();
+            var theta = Math.acos (2*Math.random() - 1);
+            var z = -150 * Math.sin (theta) * Math.cos (phi);
+            var x = 150 * Math.sin (theta) * Math.sin (phi);
+            var y = -150 * Math.cos (theta);
+            nub.setTranslateX (x);
+            nub.setTranslateY (y);
+            nub.setTranslateZ (z);
+            earthGroup.getChildren().add(nub);
+        }
+        */
+
+        // Subscene where we can enable depth buffer
+        SubScene scene3d = new SubScene(earthGroup, 500, 500, true, SceneAntialiasing.BALANCED);
+        scene3d.setCamera (camera);
+        scene3d.setWidth(360);
+        scene3d.setHeight(360);
+
+        main.getChildren().add(scene3d);
+    }
+
+    public void initializeSlider() {
+        // Bind the slider with the rotation property
+        earthRotationSlider.valueProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                // Set the angle for the rotation
+                earthGroup.rotateProperty().set((double)newValue);
+            }
+        });
     }
 
 

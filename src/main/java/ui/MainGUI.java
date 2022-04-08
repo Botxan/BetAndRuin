@@ -4,6 +4,7 @@ import businessLogic.BlFacade;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.SceneAntialiasing;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -20,7 +21,7 @@ public class MainGUI {
 
     private BorderPane mainWrapper;
 
-    private Window navBar, loginLag, registerLag, mainLag, createQuestionLag, browseQuestionsLag;
+    private Window navBar, loginLag, registerLag, mainLag, createQuestionLag, browseEventsLag;
 
     private BlFacade businessLogic;
     private Stage stage;
@@ -40,6 +41,10 @@ public class MainGUI {
 
     public void setBusinessLogic(BlFacade afi) {
         businessLogic = afi;
+    }
+
+    public Scene getScene() {
+        return scene;
     }
 
     /**
@@ -110,14 +115,13 @@ public class MainGUI {
         loginLag = load("/LoginGUI.fxml", "Login", SCENE_WIDTH, SCENE_HEIGHT);
         registerLag = load("/RegisterGUI.fxml", "Register", SCENE_WIDTH, SCENE_HEIGHT);
         mainLag = load("/MainGUI.fxml", "MainTitle", SCENE_WIDTH, SCENE_HEIGHT);
-        browseQuestionsLag = load("/BrowseEvents.fxml", "BrowseQuestions", SCENE_WIDTH, SCENE_HEIGHT);
+        browseEventsLag = load("/BrowseEvents.fxml", "BrowseEvents", SCENE_WIDTH, SCENE_HEIGHT);
         createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
 
         setupScene();
         ResizeHelper.addResizeListener(this.stage);
         history.setCurrentWindow(mainLag);
-        showScene(mainLag);
-
+        showScene(browseEventsLag);
     }
 
     /**
@@ -206,8 +210,8 @@ public class MainGUI {
                 yield loginLag;
             case "Register":
                 yield registerLag;
-            case "BrowseQuestions":
-                yield browseQuestionsLag;
+            case "BrowseEvents":
+                yield browseEventsLag;
             case "CreateQuestion":
                 yield createQuestionLag;
             default: // get the initial window
