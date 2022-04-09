@@ -1,18 +1,13 @@
 package uicontrollers;
 
 import businessLogic.BlFacade;
-import javafx.fxml.FXML;
 import ui.MainGUI;
 
-import java.awt.*;
-
-public class RegisterController implements Controller {
+public class CreateEventController implements Controller {
     private BlFacade businessLogic;
     private MainGUI mainGUI;
-    @FXML
-    private Button registerButton;
 
-    public RegisterController(BlFacade bl) {
+    public CreateEventController(BlFacade bl) {
         businessLogic = bl;
     }
 
