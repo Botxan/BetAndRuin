@@ -1,6 +1,7 @@
 package ui;
 
 import businessLogic.BlFacade;
+import com.sun.tools.javac.Main;
 import configuration.UtilDate;
 import domain.User;
 import javafx.application.Platform;
@@ -8,6 +9,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
@@ -118,11 +120,12 @@ public class MainGUI {
     public void init(Stage stage) throws IOException {
         this.stage = stage;
         this.stage.initStyle(StageStyle.UNDECORATED);
+        this.stage.getIcons().add(new Image(String.valueOf(MainGUI.class.getResource("/icon/favicon.png"))));
 
         navBar = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
         welcomeLag = load("/WelcomeGUI.fxml", "Welcome", 350, 500);
         indexLag = load("/Index.fxml", "Welcome", SCENE_WIDTH, SCENE_HEIGHT);
-        loginLag = load("/Login.fxml", "Login", SCENE_WIDTH, SCENE_HEIGHT);
+        loginLag = load("/Login.fxml", "Login", 700, 500);
         registerLag = load("/RegisterGUI.fxml", "Register", SCENE_WIDTH, SCENE_HEIGHT);
         mainLag = load("/MainGUI.fxml", "MainTitle", SCENE_WIDTH, SCENE_HEIGHT);
         browseQuestionsLag = load("/BrowseQuestions.fxml", "BrowseQuestions", SCENE_WIDTH, SCENE_HEIGHT);
@@ -265,5 +268,14 @@ public class MainGUI {
      */
     public History getHistory() {
         return history;
+    }
+
+    /**
+     * Returns the stage of the javaFX UI.
+     * @return The stage of the javaFX UI.
+     */
+    public Stage getStage()
+    {
+        return this.stage;
     }
 }

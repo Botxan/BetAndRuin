@@ -1,3 +1,8 @@
+#standard_button:hover
+{
+    -fx-opacity: 0.5;
+}
+
 #transparent_button
 {
         -fx-background-color: rgba(0, 0, 0, 0);
@@ -39,7 +44,18 @@
     -fx-background-radius: 0 0 0 0;
 }
 
+#browse_events
+{
+    -fx-opacity: 1;
+    -fx-font: normal bold 12pt "sans-serif";
+}
+
 #browse_events:hover
+{
+    -fx-opacity: 0.75;
+}
+
+#browse_events:pressed
 {
     -fx-opacity: 0.75;
 }
