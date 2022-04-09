@@ -1,6 +1,21 @@
+#transparent_button
+{
+        -fx-background-color: rgba(0, 0, 0, 0);
+        -fx-background-radius: 0 0 0 0;
+        -fx-font-size: 20;
+        -fx-font-family: "System";
+        -fx-font-style: normal;
+        -fx-text-fill: #FFF;
+}
+
+#transparent_button:hover
+{
+    -fx-background-color:  #b3cf00;
+}
+
 #exit_button
 {
-    -fx-background-color: #ff3d3d;
+    -fx-background-color: #b33f2b;
     -fx-background-radius: 0 0 0 0;
     -fx-min-width: 50;
     -fx-max-width: 50;
@@ -15,11 +30,38 @@
 {
     -fx-background-color: #ff0000;
     -fx-background-radius: 0 0 0 0;
-    -fx-font-size: 10
+    -fx-font-size: 10;
 }
 
 #exit_button:pressed
 {
     -fx-background-color: #a80000;
+    -fx-background-radius: 0 0 0 0;
+}
+
+#browse_events:hover
+{
+    -fx-opacity: 0.75;
+}
+
+.combo-box .cell{
+    -fx-text-fill: black;
+}
+.my-list-cell {
+    -fx-text-fill: black;
+}
+
+#drop_down_menu{
+    -fx-background-color: rgba(0,0,0,0.5);
+    -fx-background-radius: 0 0 0 0;
+}
+
+#drop_down_menu:hover{
+    -fx-background-color: rgba(0,0,0,1);
+    -fx-background-radius: 0 0 0 0;
+}
+
+#drop_down_menu:pressed{
+    -fx-background-color: rgba(0,0,0,1);
     -fx-background-radius: 0 0 0 0;
 }

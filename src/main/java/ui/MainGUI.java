@@ -4,9 +4,11 @@ import businessLogic.BlFacade;
 import configuration.UtilDate;
 import domain.User;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -35,6 +37,8 @@ public class MainGUI {
     public static final int NAVBAR_HEIGHT = 64;
     public static final int SCENE_WIDTH = 1280;
     public static final int SCENE_HEIGHT = 720-NAVBAR_HEIGHT;
+    private double xOffset = 0;
+    private double yOffset = 0;
 
     // The history
     private History history;
@@ -124,7 +128,7 @@ public class MainGUI {
         browseQuestionsLag = load("/BrowseQuestions.fxml", "BrowseQuestions", SCENE_WIDTH, SCENE_HEIGHT);
         createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
 
-        setupScene(false);
+        setupScene();
         ResizeHelper.addResizeListener(this.stage);
         history.setCurrentWindow(welcomeLag);
         showScene(welcomeLag);
@@ -134,24 +138,32 @@ public class MainGUI {
      * Prepares the window with the navigation bar so that it is possible
      * to navigate between windows without removing the navigation bar.
      */
-    private void setupScene(boolean showNavBar) {
+    private void setupScene() {
         // Initialize the wrapper for the navbar and the content
         mainWrapper = new BorderPane();
         mainWrapper.setTop(navBar.getUi());
 
-        if(!showNavBar){
-            mainWrapper.getTop().setVisible(false);
-            mainWrapper.getTop().setDisable(true);
-            scene = new Scene(welcomeLag.getUi(), SCENE_WIDTH, SCENE_HEIGHT);
-        }
-        else
-            // Initialize the scene
-            scene = new Scene(mainWrapper, SCENE_WIDTH, SCENE_HEIGHT);
+        scene = new Scene(mainWrapper, SCENE_WIDTH, SCENE_HEIGHT);
 
         scene.setRoot(mainWrapper);
 
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 
+        //Dragging window with mouse:
+        scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+        scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+            }
+        });
 
         // Add the scene to the root
         stage.setScene(scene);
@@ -163,11 +175,12 @@ public class MainGUI {
      */
     private void showScene(Window window) {
         stage.setTitle(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString(window.getTitle()));
-        stage.setWidth(window.getWidth());
-        stage.setHeight(window.getHeight());
 
-        mainWrapper.getTop().setVisible(false);
-        mainWrapper.getTop().setDisable(true);
+        //Do not show navbar in Welcome, Login and Register GUIs.
+        if(window.getTitle().equals("Welcome") || window.getTitle().equals("Login") || window.getTitle().equals("Register"))
+            mainWrapper.setTop(null);
+        else
+            mainWrapper.setTop(navBar.getUi());
 
         mainWrapper.setCenter(window.getUi());
 
@@ -181,6 +194,10 @@ public class MainGUI {
                             "testAddress", "john@doe.com", "shrek.jpg", new byte[8], new byte[1], 1));
         }
         // FIXME End of the testing
+
+        stage.setWidth(window.getWidth());
+        stage.setHeight(window.getHeight());
+        stage.centerOnScreen();
 
         ((NavBarController)navBar.getController()).updateNav();
         stage.show();
