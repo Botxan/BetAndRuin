@@ -4,9 +4,12 @@ import businessLogic.BlFacade;
 import configuration.UtilDate;
 import domain.User;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -120,6 +123,7 @@ public class MainGUI {
     public void init(Stage stage) throws IOException {
         this.stage = stage;
         this.stage.initStyle(StageStyle.UNDECORATED);
+        this.stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/favicon.png")));
 
         navBar = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
         welcomeLag = load("/WelcomeGUI.fxml", "Welcome", 350, 500);

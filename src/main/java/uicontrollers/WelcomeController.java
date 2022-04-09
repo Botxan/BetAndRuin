@@ -127,7 +127,7 @@ public class WelcomeController implements Controller, Initializable {
     @FXML
     public void browseEventsButton()
     {
-        mainGUI.goForward("BrowseQuestions");
+        mainGUI.goForward("BrowseEvents");
     }
 
     /**
