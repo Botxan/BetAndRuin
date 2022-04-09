@@ -7,6 +7,7 @@
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
@@ -40,19 +41,19 @@
    <right>
       <AnchorPane prefHeight="574.0" prefWidth="554.0" style="-fx-background-color: #292929;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="364.0" fitWidth="339.0" layoutY="148.0" preserveRatio="true" style="-fx-opacity: 0.05;">
+            <ImageView fitHeight="426.0" fitWidth="519.0" layoutX="27.0" layoutY="84.0" preserveRatio="true" style="-fx-opacity: 0.05;">
                <image>
                   <Image url="@img/favicon_dark.png" />
                </image>
             </ImageView>
-            <TextField layoutX="73.0" layoutY="106.0" prefHeight="28.0" prefWidth="362.0" promptText="Username" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <PasswordField layoutX="71.0" layoutY="199.0" prefHeight="28.0" prefWidth="166.0" promptText="Password" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <Button fx:id="registerButton" layoutX="324.0" layoutY="470.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="113.0" style="-fx-background-radius: 50; -fx-background-color: b3cf00;" text="Register" textFill="WHITE">
+            <TextField layoutX="103.0" layoutY="107.0" prefHeight="28.0" prefWidth="362.0" promptText="Username" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <PasswordField layoutX="101.0" layoutY="200.0" prefHeight="28.0" prefWidth="166.0" promptText="Password" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <Button fx:id="registerButton" layoutX="355.0" layoutY="463.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="113.0" style="-fx-background-radius: 50; -fx-background-color: b3cf00;" text="Register" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Label layoutX="72.0" layoutY="50.0" text="Register:" textFill="WHITE">
+            <Label layoutX="102.0" layoutY="51.0" text="Register:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="27.0" />
                </font>
@@ -64,22 +65,22 @@
                <stylesheets>
                   <URL value="@css/loginStyle.css" />
                </stylesheets></Button>
-            <FontAwesomeIconView />
-            <FontAwesomeIconView fill="WHITE" glyphName="USER" layoutX="49.0" layoutY="124.0" size="15.0" />
-            <PasswordField layoutX="254.0" layoutY="199.0" prefHeight="28.0" prefWidth="182.0" promptText="Confirm password" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <FontAwesomeIconView fill="#f7f3f3" glyphName="LOCK" layoutX="46.0" layoutY="217.0" size="15.0" />
-            <TextField layoutX="73.0" layoutY="152.0" prefHeight="28.0" prefWidth="164.0" promptText="First name" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <TextField layoutX="255.0" layoutY="152.0" prefHeight="28.0" prefWidth="180.0" promptText="Last name" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <TextField layoutX="72.0" layoutY="248.0" prefHeight="28.0" prefWidth="362.0" promptText="Address" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <TextField layoutX="71.0" layoutY="296.0" prefHeight="28.0" prefWidth="362.0" promptText="Email" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <FontAwesomeIconView fill="#faf5f5" glyphName="USERS" layoutX="45.0" layoutY="170.0" size="15.0" />
-            <FontAwesomeIconView fill="#fcf8f8" glyphName="ADDRESS_BOOK" layoutX="47.0" layoutY="267.0" size="15.0" />
-            <FontAwesomeIconView fill="#f7f3f3" glyphName="AT" layoutX="47.0" layoutY="313.0" size="15.0" />
-            <DatePicker layoutX="71.0" layoutY="343.0" prefHeight="26.0" prefWidth="362.0" promptText="Birthdate" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <FontAwesomeIconView fill="#f7f3f3" glyphName="CALENDAR" layoutX="45.0" layoutY="361.0" size="15.0" />
-            <CheckBox alignment="TOP_CENTER" graphicTextGap="5.0" layoutX="43.0" layoutY="436.0" mnemonicParsing="false" prefHeight="7.0" prefWidth="340.0" text="I agree to Bet&amp;Ruin conditions of use and privacy notice." textFill="#fcfafa" />
-            <TextField layoutX="71.0" layoutY="389.0" prefHeight="28.0" prefWidth="362.0" promptText="Credit card number" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <FontAwesomeIconView fill="WHITE" glyphName="CREDIT_CARD" layoutX="43.0" layoutY="407.0" size="15.0" />
+            <FontAwesomeIconView fill="WHITE" glyphName="USER" layoutX="79.0" layoutY="125.0" size="15.0" />
+            <PasswordField layoutX="284.0" layoutY="200.0" prefHeight="28.0" prefWidth="182.0" promptText="Confirm password" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <FontAwesomeIconView fill="#f7f3f3" glyphName="LOCK" layoutX="76.0" layoutY="218.0" size="15.0" />
+            <TextField layoutX="103.0" layoutY="153.0" prefHeight="28.0" prefWidth="164.0" promptText="First name" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <TextField layoutX="285.0" layoutY="153.0" prefHeight="28.0" prefWidth="180.0" promptText="Last name" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <TextField layoutX="102.0" layoutY="249.0" prefHeight="28.0" prefWidth="362.0" promptText="Address" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <TextField layoutX="101.0" layoutY="297.0" prefHeight="28.0" prefWidth="362.0" promptText="Email" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <FontAwesomeIconView fill="#faf5f5" glyphName="USERS" layoutX="75.0" layoutY="171.0" size="15.0" />
+            <FontAwesomeIconView fill="#fcf8f8" glyphName="ADDRESS_BOOK" layoutX="77.0" layoutY="268.0" size="15.0" />
+            <FontAwesomeIconView fill="#f7f3f3" glyphName="AT" layoutX="77.0" layoutY="314.0" size="15.0" />
+            <DatePicker layoutX="101.0" layoutY="344.0" prefHeight="26.0" prefWidth="362.0" promptText="Birthdate" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <FontAwesomeIconView fill="#f7f3f3" glyphName="CALENDAR" layoutX="75.0" layoutY="362.0" size="15.0" />
+            <CheckBox alignment="TOP_CENTER" graphicTextGap="5.0" layoutX="76.0" layoutY="435.0" mnemonicParsing="false" prefHeight="7.0" prefWidth="340.0" text="I agree to Bet&amp;Ruin conditions of use and privacy notice." textFill="#fcfafa" />
+            <TextField layoutX="101.0" layoutY="390.0" prefHeight="28.0" prefWidth="362.0" promptText="Credit card number" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <FontAwesomeIconView fill="WHITE" glyphName="CREDIT_CARD" layoutX="75.0" layoutY="409.0" size="15.0" />
+            <TextArea layoutX="75.0" layoutY="463.0" prefHeight="48.0" prefWidth="274.0" />
          </children>
       </AnchorPane>
    </right>
