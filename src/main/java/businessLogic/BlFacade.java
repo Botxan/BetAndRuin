@@ -8,6 +8,7 @@ import exceptions.*;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
 /**
@@ -19,14 +20,15 @@ import java.util.Vector;
 public interface BlFacade  {
 	
 	/**
-	 * It creates an event with its corresponding name and date
+	 * It creates an event with its corresponding name and date.
 	 * @param name an instance of the event name
-	 * @param date an instance of the date of the event 
+	 * @param date an instance of the date of the event
+	 * @param country the country where the event takes place
 	 * @return it returns a new event 
 	 * @throws EventAlreadyExistException if the exception already exist in the database.
 	 */
 	@WebMethod
-	public Event createEvent(String name, Date date) throws EventAlreadyExistException;
+	public Event createEvent(String name, Date date, String country) throws EventAlreadyExistException;
 	
 	/**
 	 * It retrieves all events that take place on a given date 
@@ -34,7 +36,7 @@ public interface BlFacade  {
 	 * @param date an instance of the event date
 	 * @return it returns a collection of events
 	 */
-	@WebMethod public Vector<Event> getEvents(Date date);
+	@WebMethod public List<Event> getEvents(Date date);
 	
 	/**
 	 * It retrieves the dates in a month for which there are events from the database 
@@ -43,6 +45,12 @@ public interface BlFacade  {
 	 * @return collection of dates
 	 */
 	@WebMethod public Vector<Date> getEventsMonth(Date date);
+
+	/**
+	 * It retrieves all the incoming events for the country passed by parameter.
+	 * @return it returns all the incoming events for the given country
+	 */
+	@WebMethod public List<Event> getEventsCountry(String country);
 
 	/**
 	 * It creates a question for an event with a question text and the minimum bet

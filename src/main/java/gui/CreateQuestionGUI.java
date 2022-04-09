@@ -21,6 +21,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
 import java.util.*;
+import java.util.List;
 
 /**
  * This class represents the GUI to create questions in the application
@@ -223,7 +224,7 @@ public class CreateQuestionGUI extends JFrame implements DynamicJFrame {
 					Date firstDay = UtilDate.trim(previousCalendar.getTime());
 
 					try {
-						Vector<Event> events = businessLogic.getEvents(firstDay);
+						List<Event> events = businessLogic.getEvents(firstDay);
 
 						if (events.isEmpty())
 							listOfEventsLbl.setText(ResourceBundle.getBundle("Etiquetas").

@@ -1,0 +1,44 @@
+.dateLbl {
+    -fx-font-size: 2em;
+    -fx-font-style: italic;
+    -fx-font-weight: 100;
+}
+
+.dateField {
+    -fx-pref-width: 70px;
+    -fx-padding: 0;
+    -fx-background-color: transparent;
+    -fx-font-size: 3em;
+    -fx-font-weight: 100;
+}
+
+.month-field {
+    -fx-text-fill: -fx-green1;
+}
+
+.year-field {
+    -fx-pref-width: 120px;
+}
+
+.date-picker {
+    -fx-background-color: transparent;
+}
+
+.date-picker .arrow-button {
+	-fx-background-color: transparent;
+	-fx-padding: 0;
+	-fx-font-size: 2.5em;
+}
+
+
+.date-picker > .arrow-button {
+    -fx-cursor: hand;
+}
+
+.date-picker > .arrow-button > .arrow {
+    -fx-background-color: -fx-green1;
+}
+
+.date-picker > .arrow-button:hover .arrow {
+    -fx-background-color: -fx-green2;
+}

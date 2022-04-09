@@ -23,6 +23,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.List;
 
 /**
  * This class represents the GUI to create forecast in the application
@@ -218,7 +219,7 @@ public class CreateForecastGUI extends JFrame implements DynamicJFrame {
 					CreateQuestionGUI.paintDaysWithEvents(calendar,datesWithEventsInCurrentMonth);
 					
 					// Get events
-					Vector<Event> events = businessLogic.getEvents(firstDay);
+					List<Event> events = businessLogic.getEvents(firstDay);
 					
 					// clear combo boxes
 					eventCB.removeAllItems();

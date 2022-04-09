@@ -30,8 +30,8 @@ public class MainGUIController implements Controller{
     private MainGUI mainGUI;
 
     @FXML
-    void browseQuestions(ActionEvent event) {
-        mainGUI.goForward("BrowseQuestions");
+    void browseEvents(ActionEvent event) {
+        mainGUI.goForward("BrowseEvents");
     }
 
     @FXML
