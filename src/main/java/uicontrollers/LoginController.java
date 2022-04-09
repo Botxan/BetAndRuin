@@ -81,9 +81,9 @@ public class LoginController implements Controller, Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<String> langList = Arrays.asList(new String[]{"EN", "ES", "EUS"});
         ObservableList<String> languages = FXCollections.observableArrayList(langList);
-        langComboBox.setEditable(false);
         langComboBox.setItems(languages);
         langComboBox.getSelectionModel().select(0);
+        langComboBox.setEditable(false);
 
         redraw();
 
