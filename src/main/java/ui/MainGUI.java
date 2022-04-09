@@ -129,7 +129,7 @@ public class MainGUI {
         welcomeLag = load("/WelcomeGUI.fxml", "Welcome", 350, 500);
         indexLag = load("/Index.fxml", "Welcome", SCENE_WIDTH, SCENE_HEIGHT);
         loginLag = load("/Login.fxml", "Login", 700, 500);
-        registerLag = load("/RegisterGUI.fxml", "Register", SCENE_WIDTH, SCENE_HEIGHT);
+        registerLag = load("/RegisterGUI.fxml", "Register", 900, 600);
         mainLag = load("/MainGUI.fxml", "MainTitle", SCENE_WIDTH, SCENE_HEIGHT);
         browseEventsLag = load("/BrowseEvents.fxml", "BrowseEvents", SCENE_WIDTH, SCENE_HEIGHT);
         createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);

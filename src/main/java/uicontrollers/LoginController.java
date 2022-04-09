@@ -77,6 +77,7 @@ public class LoginController implements Controller, Initializable {
         usernameErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("IncorrectUser"));
         passwordErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("IncorrectPassword"));
     }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<String> langList = Arrays.asList(new String[]{"EN", "ES", "EUS"});
