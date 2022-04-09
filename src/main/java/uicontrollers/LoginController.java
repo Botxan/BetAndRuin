@@ -1,11 +1,62 @@
 package uicontrollers;
 
 import businessLogic.BlFacade;
+import com.sun.xml.bind.v2.TODO;
+import domain.User;
+import exceptions.InvalidPasswordException;
+import exceptions.UserNotFoundException;
+import gui.AdminMenuGUI;
+import gui.LoginGUI;
+import gui.UserMenuGUI;
+import gui.components.MenuBar;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
+import javafx.scene.text.Text;
+import javafx.util.Duration;
 import ui.MainGUI;
 
-public class LoginController implements Controller {
+import java.io.File;
+import java.net.URL;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
+
+public class LoginController implements Controller, Initializable {
     private BlFacade businessLogic;
     private MainGUI mainGUI;
+    @FXML
+    private MediaView mediaView;
+    @FXML
+    private AnchorPane mediaViewPane;
+    private File file;
+    private Media media;
+    private MediaPlayer mediaPlayer;
+    @FXML
+    private Button browseEventsButton, registerButton, loginButton;
+
+    @FXML
+    private Text usernameErrorText, passwordErrorText;
+
+    @FXML
+    private TextField usernameField;
+
+    @FXML
+    private PasswordField passwordField;
+
+    @FXML
+    private ComboBox<String> langComboBox;
 
     public LoginController(BlFacade bl) {
         businessLogic = bl;
@@ -18,6 +69,132 @@ public class LoginController implements Controller {
 
     @Override
     public void redraw() {
+        browseEventsButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("BrowseQuestions"));
+        registerButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Register"));
+        loginButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Login"));
+        usernameField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Username"));
+        passwordField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Password"));
+        usernameErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("IncorrectUser"));
+        passwordErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("IncorrectPassword"));
+    }
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        List<String> langList = Arrays.asList(new String[]{"EN", "ES", "EUS"});
+        ObservableList<String> languages = FXCollections.observableArrayList(langList);
+        langComboBox.setEditable(false);
+        langComboBox.setItems(languages);
+        langComboBox.getSelectionModel().select(0);
 
+        redraw();
+
+        file = new File("./src/main/resources/video/LoginUIVideo.mp4");
+
+        usernameErrorText.setVisible(false);
+        passwordErrorText.setVisible(false);
+        media = new Media(file.toURI().toString());
+        mediaPlayer = new MediaPlayer(media);
+        mediaPlayer.play();
+        mediaPlayer.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                mediaPlayer.seek(Duration.ZERO);
+            }
+        });
+        mediaView.setMediaPlayer(mediaPlayer);
+        mediaView.fitHeightProperty().bind(mediaViewPane.heightProperty());
+        mediaView.fitWidthProperty().set(mediaView.getFitHeight() * 16/9);
+        mediaPlayer.setVolume(0);
+    }
+
+    /**
+     * Exits and terminates current session.
+     * @param event Event to be activated by a UI element.
+     */
+    @FXML
+    void exit(ActionEvent event)
+    {
+        try
+        {
+            System.exit(0);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * When clicking the register button go to the Register GUI.
+     */
+    @FXML
+    public void registerButton()
+    {
+        mainGUI.goForward("Register");
+    }
+
+    /**
+     * When pressing the Browse Events Button go to Browse Questions GUI.
+     */
+    @FXML
+    public void browseEventsButton()
+    {
+        mainGUI.goForward("BrowseQuestions");
+    }
+
+    /**
+     * Logs the user to the system is the correct username and password are inserted. Then, it will redirect the user
+     * to the corresponding control panel.
+     */
+    @FXML
+    public void loginButton()
+    {
+        usernameErrorText.setVisible(false);
+        passwordErrorText.setVisible(false);
+        try {
+            User logedUser = businessLogic.login(usernameField.getText(), new String(passwordField.getText()));
+            // FIXME Set the new scene depending on the user type.
+            // Redirect user depending on the user mode
+            if (logedUser.getUserMode() == 1)
+                mainGUI.goForward("MainGUI");
+            else if (logedUser.getUserMode() == 2)
+                mainGUI.goForward("MainGUI");
+
+        } catch (UserNotFoundException e1) {
+            usernameErrorText.setVisible(true);
+        } catch (InvalidPasswordException e2) {
+            passwordErrorText.setVisible(true);
+        }
+    }
+
+    /**
+     * Language drop down menu selector.
+     */
+    @FXML
+    public void selectLanguage()
+    {
+        if(langComboBox.getSelectionModel().isSelected(0))
+            Locale.setDefault(new Locale("en"));
+        else if(langComboBox.getSelectionModel().isSelected(1))
+            Locale.setDefault((new Locale("es")));
+        else if(langComboBox.getSelectionModel().isSelected(2)) {
+            Locale.setDefault(new Locale("eus"));
+        }
+        redraw();
+    }
+
+    /**
+     * Go back to the previous UI.
+     */
+    public void goBack()
+    {
+        mainGUI.goBack();
+    }
+
+    /**
+     * Minimizes the current stage.
+     */
+    public void minimize()
+    {
+        mainGUI.getStage().setIconified(true);
     }
 }
