@@ -19,7 +19,7 @@
       <Label fx:id="lblResult" layoutX="50.0" layoutY="213.0" text="Result" />
       <Label fx:id="lblFee" layoutX="50.0" layoutY="266.0" text="Fee" />
       <ComboBox fx:id="cmbQuestions" layoutX="323.0" layoutY="141.0" prefWidth="150.0" />
-      <Button fx:id="btnCreateForecast" layoutX="158.0" layoutY="318.0" mnemonicParsing="false" text="Create forecast" />
+      <Button fx:id="btnCreateForecast" layoutX="158.0" layoutY="318.0" mnemonicParsing="false" onAction="#createForecastClick" text="Create forecast" />
       <Button fx:id="btnBack" layoutX="306.0" layoutY="318.0" mnemonicParsing="false" text="Back" />
       <Label fx:id="lblErrorMessage" layoutX="327.0" layoutY="244.0" />
    </children>

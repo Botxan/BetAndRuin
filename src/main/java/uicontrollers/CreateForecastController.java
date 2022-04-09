@@ -4,6 +4,7 @@ import businessLogic.BlFacade;
 import domain.Event;
 import domain.Question;
 import exceptions.EventFinished;
+import exceptions.ForecastAlreadyExistException;
 import exceptions.QuestionAlreadyExist;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -88,7 +89,6 @@ public class CreateForecastController implements Controller {
 
     clearErrorLabels();
 
-    Event event = cmbEvents.getSelectionModel().getSelectedItem();
     Question question = cmbQuestions.getSelectionModel().getSelectedItem();
     String inputResult = txtResult.getText();
     int inputFee;
@@ -106,18 +106,16 @@ public class CreateForecastController implements Controller {
           businessLogic.addForecast(question, inputResult, inputFee);
           lblErrorMessage.getStyleClass().clear();
           lblErrorMessage.getStyleClass().setAll("lbl", "lbl-success");
-          lblErrorMessage.setText("Question correctly created");
+          lblErrorMessage.setText("Forecast correctly created");
           showErrors = false;
         }
       } else {
-        lblErrorMessage.setText("Question shouldn't be empty");
+        lblErrorMessage.setText("Result shouldn't be empty");
       }
 
     } catch (NumberFormatException ex) {
       lblErrorMessage.setText("Introduce a number");
-    } catch (EventFinished ex) {
-      lblErrorMessage.setText("Event has finished");
-    } catch (QuestionAlreadyExist ex) {
+    } catch (ForecastAlreadyExistException ex) {
       lblErrorMessage.setText("Question already exists");
     } catch (Exception ex) {
       ex.printStackTrace();

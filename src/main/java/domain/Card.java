@@ -15,6 +15,7 @@ public class Card {
     private int cardNumber;
     private Date expiratonDate;
     private int securityCode;
+    private int wallet;
 
     @ManyToOne
     private User owner;
@@ -39,6 +40,7 @@ public class Card {
         this.expiratonDate = expirationDate;
         this.securityCode = securityCode;
         this.owner = owner;
+        wallet = 0;
     }
 
     /**
@@ -103,6 +105,22 @@ public class Card {
      */
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    /**
+     * Getter for the money in the wallet.
+     * @return the money in the wallet
+     */
+    public int getWallet() {
+        return wallet;
+    }
+
+    /**
+     * Setter for wallet money.
+     * @param wallet the money to set in the wallet
+     */
+    public void setWallet(int wallet) {
+        this.wallet = wallet;
     }
 
     /**
