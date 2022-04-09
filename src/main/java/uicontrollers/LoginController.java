@@ -138,7 +138,7 @@ public class LoginController implements Controller, Initializable {
     @FXML
     public void browseEventsButton()
     {
-        mainGUI.goForward("BrowseQuestions");
+        mainGUI.goForward("BrowseEvents");
     }
 
     /**
