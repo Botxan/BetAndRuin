@@ -9,9 +9,11 @@
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Line?>
 
 <AnchorPane fx:id="main" maxHeight="650.0" maxWidth="1.7976931348623157E308" minHeight="552.0" prefHeight="552.0" prefWidth="1280.0" stylesheets="@css/browseEvents.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.BrowseEventsController">
@@ -20,6 +22,13 @@
          <image>
             <Image url="@icon/favicon.png" />
          </image>
+         <effect>
+            <Shadow blurType="GAUSSIAN" height="0.0" radius="0.0" width="0.0">
+               <color>
+                  <Color opacity="0.24809160828590393" />
+               </color>
+            </Shadow>
+         </effect>
       </ImageView>
       <Label fx:id="dateLbl" layoutX="987.0" layoutY="38.0" styleClass="dateLbl" text="DATE" />
       <Line endX="220.0" layoutX="918.0" layoutY="73.0" startX="-39.33331298828125" />
@@ -56,6 +65,6 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <JFXSlider fx:id="earthRotationSlider" layoutX="169.0" layoutY="452.0" max="360.0" prefHeight="14.0" prefWidth="326.0" />
+      <JFXSlider fx:id="earthRotationSlider" layoutX="170.0" layoutY="459.0" max="360.0" prefHeight="14.0" prefWidth="326.0" />
    </children>
 </AnchorPane>

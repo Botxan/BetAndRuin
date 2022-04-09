@@ -76,7 +76,7 @@ public class BlFacadeImplementation implements BlFacade {
 	@WebMethod	
 	public List<Event> getEvents(Date date)  {
 		dbManager.open(false);
-		List<Event>  events = dbManager.getEvents(date);
+		List<Event> events = dbManager.getEvents(date);
 		dbManager.close();
 		return events;
 	}
@@ -87,6 +87,14 @@ public class BlFacadeImplementation implements BlFacade {
 		Vector<Date>  dates = dbManager.getEventsMonth(date);
 		dbManager.close();
 		return dates;
+	}
+
+	@WebMethod
+	public List<Event> getEventsCountry(String country) {
+		dbManager.open(false);
+		List<Event> events = dbManager.getEventsCountry(country);
+		dbManager.close();
+		return events;
 	}
 
 	@WebMethod

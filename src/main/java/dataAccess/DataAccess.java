@@ -74,10 +74,10 @@
                 Event ev4 = new Event("Alavés-Deportivo", UtilDate.newDate(year, month, 17), "France");
                 Event ev5 = new Event("Español-Villareal", UtilDate.newDate(year, month, 17), "France");
                 Event ev6 = new Event("Las Palmas-Sevilla", UtilDate.newDate(year, month, 17), "France");
-                Event ev7 = new Event("Malaga-Valencia", UtilDate.newDate(year, month, 17), "California");
-                Event ev8 = new Event("Girona-Leganés", UtilDate.newDate(year, month, 17), "California");
-                Event ev9 = new Event("Real Sociedad-Levante", UtilDate.newDate(year, month, 17), "Denmark");
-                Event ev10 = new Event( "Betis-Real Madrid", UtilDate.newDate(year, month, 17), "Denmark");
+                Event ev7 = new Event("Malaga-Valencia", UtilDate.newDate(year, month, 17), "Madagascar");
+                Event ev8 = new Event("Girona-Leganés", UtilDate.newDate(year, month, 17), "Madagascar");
+                Event ev9 = new Event("Real Sociedad-Levante", UtilDate.newDate(year, month, 17), "Jamaica");
+                Event ev10 = new Event( "Betis-Real Madrid", UtilDate.newDate(year, month, 17), "Jamaica");
 
                 Event ev11 = new Event("Atletico-Athletic", UtilDate.newDate(year, month, 1), "Belgium");
                 Event ev12 = new Event("Eibar-Barcelona", UtilDate.newDate(year, month, 1), "Belgium");
@@ -86,8 +86,8 @@
                 Event ev15 = new Event("Español-Villareal", UtilDate.newDate(year, month, 1), "Japan");
                 Event ev16 = new Event("Las Palmas-Sevilla", UtilDate.newDate(year, month, 1), "South Korea");
 
-                Event ev17 = new Event("Málaga-Valencia", UtilDate.newDate(year, month + 1, 28), "China");
-                Event ev18 = new Event("Girona-Leganés", UtilDate.newDate(year, month + 1, 28), "China");
+                Event ev17 = new Event("Málaga-Valencia", UtilDate.newDate(year, month + 1, 28), "Chile");
+                Event ev18 = new Event("Girona-Leganés", UtilDate.newDate(year, month + 1, 28), "Chile");
                 Event ev19 = new Event("Real Sociedad-Levante", UtilDate.newDate(year, month + 1, 28), "Poland");
                 Event ev20 = new Event("Betis-Real Madrid", UtilDate.newDate(year, month + 1, 28), "Poland");
 
@@ -319,6 +319,18 @@
                 res.add(d);
             }
             return res;
+        }
+
+        /**
+         * Retrieves from the database all the events taking place in the given country.
+         * @param country the country where events take place
+         * @return all the events taking place in the given country
+         */
+        public List<Event> getEventsCountry(String country) {
+            System.out.println(">> DataAccess: getEventsCountry");
+            TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.country=?1", Event.class);
+            query.setParameter(1, country);
+            return query.getResultList();
         }
 
         /**

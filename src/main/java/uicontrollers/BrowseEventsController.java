@@ -3,42 +3,42 @@ package uicontrollers;
 import businessLogic.BlFacade;
 import com.jfoenix.controls.JFXSlider;
 import domain.Event;
-import javafx.animation.FadeTransition;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
+import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.geometry.Point3D;
 import javafx.scene.*;
+import javafx.scene.Cursor;
 import javafx.scene.control.*;
 
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Shape3D;
 import javafx.scene.shape.Sphere;
-import javafx.scene.text.Font;
 import javafx.scene.transform.Rotate;
 import javafx.util.Callback;
 import javafx.util.Duration;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import ui.MainGUI;
 import utils.Dates;
 import utils.Formatter;
 import utils.skin.MyDatePickerSkin;
 
-import java.io.File;
+import org.apache.poi.ss.usermodel.Row;
+
+import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
 
 import static utils.Dates.isValidDate;
@@ -61,7 +61,9 @@ public class BrowseEventsController implements Controller {
 
     // [*] ----- Earth and slider attributes ----- [*]
     private Sphere earth;
+    private static final int EARTH_RADIUS = 175;
     private Group earthGroup;
+    private Map<String, EarthPoint> earthPoints;
 
     @FXML JFXSlider earthRotationSlider;
 
@@ -83,8 +85,7 @@ public class BrowseEventsController implements Controller {
         eventDatePicker.setSkin(new MyDatePickerSkin(eventDatePicker));
 
         // Initialize the event date select with current day
-        LocalDate today = LocalDate.now();
-        lastValidDate = today;
+        lastValidDate = LocalDate.now();
         setPreviousDate();
 
         addDateFormatters();
@@ -109,6 +110,24 @@ public class BrowseEventsController implements Controller {
         // Bind observable list to the table
         eventTbl.setItems(events);
 
+        // Add event listener so earth is rotated when an event is selected
+        eventTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                // Get the country
+                String country = eventTbl.getSelectionModel().getSelectedItem().getCountry();
+
+                // Rotate towards the country
+                double currentRotation = earthGroup.getRotate();
+                double rotation = earthPoints.get(country).rotation;
+
+                RotateTransition rt = new RotateTransition(Duration.millis(1000), earthGroup);
+                rt.setByAngle(rotation - currentRotation);
+                rt.play();
+
+                // Update the slider
+                earthRotationSlider.setValue(rotation);
+            }
+        });
     }
 
     /**
@@ -137,15 +156,32 @@ public class BrowseEventsController implements Controller {
         setEvents(date.plusMonths(-1).getYear(), date.plusMonths(-1).getMonth().getValue());
     }
 
-    // Updates the values in the table
+    /**
+     * Updates the values in the table with a given date.
+     * @param date event date
+     */
     public void updateEventTable(Date date) {
-        // Empty the list and the table;
+        // Empty the list and the table
         events.clear();
         eventTbl.getItems().removeAll();
 
         // Get all events of the initial date
         events.addAll(businessLogic.getEvents(date));
     }
+
+    /**
+     * Updates the values in the table with a given country.
+     * @param country country where event take place
+     */
+    public void updateEventTable(String country) {
+        // Empty the list and the table
+        events.clear();
+        eventTbl.getItems().removeAll();
+
+        // Get all events of the given country
+        events.addAll(businessLogic.getEventsCountry(country));
+    }
+
 
 
     /* ---------------------------------- Date and DatePicker ----------------------------------*/
@@ -296,7 +332,6 @@ public class BrowseEventsController implements Controller {
 
         // Setup rotation
         earthGroup.setRotationAxis(Rotate.Y_AXIS);
-        earthGroup.rotateProperty().set(0);
 
         PerspectiveCamera camera = new PerspectiveCamera(true);
         camera.setNearClip(0.01);
@@ -304,9 +339,11 @@ public class BrowseEventsController implements Controller {
         camera.setTranslateZ(-700);
 
         // Create the earth
-        Sphere earth = new Sphere(175);
+        earth = new Sphere(EARTH_RADIUS);
+        earth.setRotationAxis(Rotate.Y_AXIS);
+        earth.rotateProperty().set(180);
 
-        // Add the earth texture to the sphere
+        // Add the earth texture to the earth
         PhongMaterial earthMaterial = new PhongMaterial();
         earthMaterial.setDiffuseMap(new Image(getClass().getResourceAsStream("/img/earth-d.jpeg")));
         earthMaterial.setBumpMap(new Image(getClass().getResourceAsStream("/img/earth-b.jpeg")));
@@ -315,33 +352,81 @@ public class BrowseEventsController implements Controller {
 
         earthGroup.getChildren().add(earth);
 
-        /*
-        // Add random points
-        var nubMaterial = new PhongMaterial (Color.color (0.8, 0.8, 0.8));
-        for (int i = 0; i < 200; i++) {
-            var nub = new Sphere (5);
-            nub.setMaterial (nubMaterial);
-            var phi = 2*Math.PI*Math.random();
-            var theta = Math.acos (2*Math.random() - 1);
-            var z = -150 * Math.sin (theta) * Math.cos (phi);
-            var x = 150 * Math.sin (theta) * Math.sin (phi);
-            var y = -150 * Math.cos (theta);
-            nub.setTranslateX (x);
-            nub.setTranslateY (y);
-            nub.setTranslateZ (z);
-            earthGroup.getChildren().add(nub);
+        // [*] --- Get country points ---- [*]
+
+        // Load countries and their coords and corresponding rotations
+        importCountryCoords();
+
+        // Add country markers to the map
+        for (String country: earthPoints.keySet()) {
+            Sphere s = new Sphere(3);
+            s.setMaterial(new PhongMaterial(Color.web("#B3CF00")));
+            s.setTranslateX(-earthPoints.get(country).p.getX());
+            s.setTranslateY(earthPoints.get(country).p.getY());
+            s.setTranslateZ(-earthPoints.get(country).p.getZ());
+            earthGroup.getChildren().add(s);
+
+            // Add on click listener to each point to get the country
+            s.setOnMouseClicked(e -> {
+                updateEventTable(country);
+            });
+
+            s.setOnMouseEntered(e -> {
+                s.setCursor(Cursor.HAND);
+            });
         }
-        */
 
         // Subscene where we can enable depth buffer
         SubScene scene3d = new SubScene(earthGroup, 500, 500, true, SceneAntialiasing.BALANCED);
         scene3d.setCamera (camera);
-        scene3d.setWidth(360);
-        scene3d.setHeight(360);
+        scene3d.setWidth(EARTH_RADIUS * 2);
+        scene3d.setHeight(EARTH_RADIUS * 2);
+        scene3d.setTranslateX(160);
+        scene3d.setTranslateY(50);
 
         main.getChildren().add(scene3d);
     }
 
+    /**
+     * Reads country names, coordinates and rotations from xlsx file
+     * and adds them to the countryCoords map
+     */
+    private void importCountryCoords() {
+        earthPoints = new HashMap<String, EarthPoint>();
+        try {
+            InputStream is = getClass().getResourceAsStream("/dataset/countryCoords.xlsx");
+            XSSFWorkbook wb = new XSSFWorkbook(is);
+            XSSFSheet sheet = wb.getSheetAt(0);
+            Iterator<Row> it = sheet.iterator();
+
+            while(it.hasNext()) {
+                Row row = it.next();
+
+                // Get country name
+                String countryName = row.getCell(0).getStringCellValue();
+
+                // Get coords and create 3d point
+                double[] coords = Arrays.stream(row.getCell(1)
+                                .getStringCellValue().split(","))
+                        .mapToDouble(Double::parseDouble)
+                        .toArray();
+                Point3D p = new Point3D(coords[0], coords[1], coords[2]);
+
+                // Get rotation
+                double rotation = row.getCell(2).getNumericCellValue();
+
+                // Create new 3d point
+                earthPoints.put(countryName, new EarthPoint(p, rotation));
+            }
+        } catch(IOException e) {
+            System.out.println("Cannot load country coords.");
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Binds the slider value to the rotation of the 3d group.
+     */
     public void initializeSlider() {
         // Bind the slider with the rotation property
         earthRotationSlider.valueProperty().addListener(new ChangeListener<Number>() {
@@ -351,6 +436,8 @@ public class BrowseEventsController implements Controller {
                 earthGroup.rotateProperty().set((double)newValue);
             }
         });
+
+        earthRotationSlider.setValue(180);
     }
 
 
@@ -364,4 +451,18 @@ public class BrowseEventsController implements Controller {
 
     @Override
     public void redraw() {}
+}
+
+/**
+ * Class used to represents a point on the globe.
+ */
+class EarthPoint {
+    protected Point3D p;
+    protected double rotation;
+
+    public EarthPoint(Point3D p, double rotation) {
+        this.p = p;
+        this.rotation = rotation;
+    }
+
 }

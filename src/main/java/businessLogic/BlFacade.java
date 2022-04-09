@@ -47,6 +47,12 @@ public interface BlFacade  {
 	@WebMethod public Vector<Date> getEventsMonth(Date date);
 
 	/**
+	 * It retrieves all the incoming events for the country passed by parameter.
+	 * @return it returns all the incoming events for the given country
+	 */
+	@WebMethod public List<Event> getEventsCountry(String country);
+
+	/**
 	 * It creates a question for an event with a question text and the minimum bet
 	 * 
 	 * @param event to which question is added
