@@ -3,9 +3,7 @@ package businessLogic;
 import configuration.ConfigXML;
 import configuration.UtilDate;
 import dataAccess.DataAccess;
-import domain.Event;
-import domain.Question;
-import domain.User;
+import domain.*;
 import exceptions.*;
 
 import javax.jws.WebMethod;
@@ -197,7 +195,37 @@ public class BlFacadeImplementation implements BlFacade {
 	public void close() {
 		dbManager.close();
 	}
-	
+
+	@Override
+	public void depositMoney(int amountToDeposit) {
+
+	}
+
+	@Override
+	public void removeEvent(int eventID) {
+
+	}
+
+	@Override
+	public void publishResults(Event event) {
+
+	}
+
+	@Override
+	public List<Transaction> showMovements(User user) {
+		return null;
+	}
+
+	@Override
+	public void removeBet(int betID) {
+
+	}
+
+	@Override
+	public void placeBet(float amount, Forecast userForecast, User gambler, Question question, Event event) {
+
+	}
+
 	/**
 	 * Hashes the passed password with the given salt.
 	 * It uses SHA-512 algorithm.

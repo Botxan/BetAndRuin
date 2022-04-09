@@ -56,7 +56,7 @@ public class CreateForecastController implements Controller {
   @FXML
   private ComboBox<Event> cmbEvents;
   @FXML
-  private ComboBox<Event> cmbQuestions;
+  private ComboBox<Question> cmbQuestions;
   @FXML
   private TextField txtResult;
   @FXML
