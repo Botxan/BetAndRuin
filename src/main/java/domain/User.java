@@ -25,7 +25,6 @@ public class User {
 	private byte[] password;
 	private byte[] salt; // salt used in password hashing
 	private int userMode; // 0 => guest, 1 => logged user, 2 => administrator
-	private int wallet;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "owner")
 	private List<Card> cards = new ArrayList<Card>();
@@ -80,7 +79,6 @@ public class User {
 		this.email = email;
 		this.salt = salt;
 		this.userMode = userMode;
-		wallet = 0;
 	}
 
 	/**
@@ -258,22 +256,6 @@ public class User {
 	 */
 	public void setUserMode(int userMode) {
 		this.userMode = userMode;
-	}
-
-	/**
-	 * Getter for the money in the wallet.
-	 * @return the money in the wallet
-	 */
-	public int getWallet() {
-		return wallet;
-	}
-
-	/**
-	 * Setter for wallet money.
-	 * @param wallet the money to set in the wallet
-	 */
-	public void setWallet(int wallet) {
-		this.wallet = wallet;
 	}
 
 	/**

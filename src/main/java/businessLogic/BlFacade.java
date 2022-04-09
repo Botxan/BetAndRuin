@@ -1,8 +1,6 @@
 package businessLogic;
 
-import domain.Event;
-import domain.Question;
-import domain.User;
+import domain.*;
 import exceptions.*;
 
 import javax.jws.WebMethod;
@@ -136,4 +134,44 @@ public interface BlFacade  {
 	 */
 	@WebMethod public void close();
 
+	/**
+	 * It deposits the amount of money that the registered user wants to deposit
+	 * @param amountToDeposit the amount of money to deposit
+	 */
+	@WebMethod public void depositMoney(int amountToDeposit);
+
+	/**
+	 * It removes an event
+	 * @param eventID Event identification
+	 */
+	@WebMethod public void removeEvent(int eventID);
+
+	/**
+	 * It publishes the results of the events
+	 * @param event The event
+	 */
+	@WebMethod public void publishResults(Event event);
+
+	/**
+	 * It returns a list that contains all the movements that the user has done
+	 * @param user The registered user
+	 * @return A list of transactions
+	 */
+	@WebMethod public List<Transaction> showMovements(User user);
+
+	/**
+	 * It removes a bet
+	 * @param betID bet identification
+	 */
+	@WebMethod public void removeBet(int betID);
+
+	/**
+	 * It places a bet in a given question of a given event
+	 * @param amount The amount to place
+	 * @param userForecast The forecast in which the bet is placed
+	 * @param gambler The user
+	 * @param question The question of which the forecast belongs
+	 * @param event The event which the question belongs
+	 */
+	@WebMethod public void placeBet(float amount, Forecast userForecast, User gambler, Question question, Event event);
 }
