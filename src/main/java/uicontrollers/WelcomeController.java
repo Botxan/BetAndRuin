@@ -41,6 +41,7 @@ public class WelcomeController implements Controller, Initializable {
     @FXML
     private Pane dropMenu;
 
+
     /**
      * Business Logic setter.
      * @param bl Business logic to set.
@@ -66,6 +67,7 @@ public class WelcomeController implements Controller, Initializable {
         browseEventsButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("BrowseEvents"));
         registerButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Register"));
         loginButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Login"));
+        setLocale(Locale.getDefault());
     }
 
     /**
