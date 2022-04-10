@@ -398,18 +398,24 @@
          * @param birthdate birthday date of the user
          * @param salt salt used in password hashing
          */
-        public void register(String username, String firstName, String lastName, String address, String email, byte[] hashedPassword, Date birthdate, byte[] salt)
+        public User register(String username, String firstName, String lastName, String address, String email, byte[] hashedPassword, Date birthdate, byte[] salt, Long cardNumber, Date expirationDate, Integer securityCode)
         {
             System.out.println(">> DataAccess: register => username = " + username + " firstName = " +
                     firstName + " lastName = " + lastName + " address = " + address + " email = " + email +
-                    " hashedPassword = " + hashedPassword + " birthdate = " + birthdate + " salt = " + salt);
+                    " hashedPassword = " + hashedPassword + " birthdate = " + birthdate + " salt = " + salt +
+                    " cardNumber = " + cardNumber + " expirationDate = " + expirationDate + " securityCode = " + securityCode);
 
             db.getTransaction().begin();
+            // Create the user
             User newUser = new User(username, firstName, lastName,
                     birthdate, address, email, hashedPassword, salt, 1, 0);
+            // Create the card (with 100€, for testing purposes)
+            newUser.setCard(new Card(cardNumber, expirationDate, securityCode, 100.0, newUser));
             db.persist(newUser);
             db.getTransaction().commit();
             System.out.println(newUser + " has been saved");
+
+            return newUser;
         }
 
         /**

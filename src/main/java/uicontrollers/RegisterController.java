@@ -1,6 +1,7 @@
 package uicontrollers;
 
 import businessLogic.BlFacade;
+import domain.Card;
 import exceptions.*;
 import gui.RegisterGUI;
 import gui.UserMenuGUI;
@@ -19,14 +20,14 @@ import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import ui.MainGUI;
+import utils.Dates;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class RegisterController implements Controller, Initializable {
     private BlFacade businessLogic;
@@ -49,9 +50,6 @@ public class RegisterController implements Controller, Initializable {
 
     @FXML
     private DatePicker birthdatePicker;
-
-    @FXML
-    private Button button;
 
     @FXML
     private TextField cardHolderNameField;
@@ -244,7 +242,6 @@ public class RegisterController implements Controller, Initializable {
         mainGUI.goForward("BrowseEvents");
     }
 
-    //FIXME I still don't persist the credit card data of the registered user.
     public void register()
     {
         errorLbl.setText("");
@@ -263,7 +260,7 @@ public class RegisterController implements Controller, Initializable {
             String password = passwordField.getText();
             String confirmPassword = confirmPasswordField.getText();
 
-            int year = 0,  month = 0, day = 0;
+            int year = 0, month = 0, day = 0;
 
             if(birthdatePicker.getValue() != null) {
                 year = birthdatePicker.getValue().getYear();
@@ -278,31 +275,38 @@ public class RegisterController implements Controller, Initializable {
                     address.isEmpty() || email.isEmpty() || password.isEmpty() ||
                     confirmPassword.isEmpty() || year < 1900 || month < 1 || day < 1)
                 errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("FieldsCompulsory"));
-            else
-            {
+            else {
                 try {
-                    businessLogic.register(username, firstName, lastName, address, email, password, confirmPassword, year, month, day);
-                    //FIXME Change redirection:
-                    mainGUI.goForward("BrowseEvent");
-                } catch(NoMatchingPatternException e5)
-                {
+                    // Get credit card data
+                    Long cardNumber = Long.parseLong(creditCardNumberField.getText());
+                    Date expirationDate = Dates.convertToDate(expireMonthField.getValue());
+                    Integer securityCode = Integer.parseInt(CVVField.getText());
+
+                    // Register the user
+                    businessLogic.register(username, firstName, lastName, address, email,
+                            password, confirmPassword, year, month, day,
+                            cardNumber, expirationDate, securityCode);
+
+                    // Load user menu
+                    mainGUI.loadLoggedWindows();
+                    mainGUI.goForward("UserMenu");
+                } catch (NoMatchingPatternException e5) {
                     errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("InvalidEmail"));
-                } catch (InvalidDateException e1)
-                {
+                } catch (InvalidDateException e1) {
                     errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("InvalidDate"));
-                } catch(UnderageRegistrationException e2)
-                {
+                } catch (UnderageRegistrationException e2) {
                     errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("AdultRegister"));
-                } catch(IncorrectPSWConfirmException e3)
-                {
+                } catch (IncorrectPSWConfirmException e3) {
                     errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("PswMatch"));
 
-                } catch(PswTooShortException e4)
-                {
+                } catch (PswTooShortException e4) {
                     errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Psw6"));
-                } catch(UsernameAlreadyInDBException e6)
-                {
+                } catch (UsernameAlreadyInDBException e5) {
                     errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("UsernameRepeated"));
+                } catch (NumberFormatException e6) {
+                    errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("InvalidCreditCardNumber"));
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
             }
         }

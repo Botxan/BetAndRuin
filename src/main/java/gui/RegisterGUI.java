@@ -373,6 +373,7 @@ public class RegisterGUI extends JFrame implements DynamicJFrame {
 						errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("FieldsCompulsory"));
 					else
 					{
+						/*
 						try {
 							Integer year = Integer.parseInt(yearField.getText());
 							businessLogic.register(username, firstName, lastName, address, email, password, confirmPassword, year, month, day);
@@ -401,6 +402,8 @@ public class RegisterGUI extends JFrame implements DynamicJFrame {
 						{
 							errorLbl.setText("<html><p style=\\\"width:200px\\\">" + ResourceBundle.getBundle("Etiquetas").getString("UsernameRepeated") + "</p></html>");
 						}
+
+						 */
 					}
 				}
 			}

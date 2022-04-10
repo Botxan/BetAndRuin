@@ -85,6 +85,7 @@ public interface BlFacade  {
 	 * @param year birth year of the user
 	 * @param month month of birth of the user
 	 * @param day birth day of the user
+	 * @param
 	 * @throws InvalidDateException format for year and month is invalid
 	 * @throws UnderageRegistrationException the user is under age (less than 18 years)
 	 * @throws IncorrectPSWConfirmException password and checking confirmPassword do not match
@@ -92,7 +93,11 @@ public interface BlFacade  {
 	 * @throws NoMatchingPatternException email does not match the required format
 	 * @throws UsernameAlreadyInDBException chosen username is already in the database
 	 */
-	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException;	
+	@WebMethod public void register(String username, String firstName, String lastName, String address, String email,
+									String password, String confirmPassword, int year, int month, int day,
+									Long cardNumber, Date expirationDate, Integer securityCode)
+			throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException,
+			PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException;
 
 	/**
 	 * It returns the user if successfully logged

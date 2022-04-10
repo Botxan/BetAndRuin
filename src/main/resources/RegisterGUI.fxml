@@ -22,7 +22,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #22252b;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.RegisterController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #22252b;" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.RegisterController">
    <left>
       <AnchorPane fx:id="mediaViewPane" prefHeight="500.0" prefWidth="350.0" style="-fx-background-color: #1b1b1b;" styleClass="#1a1a1a" BorderPane.alignment="CENTER">
          <children>
@@ -51,49 +51,6 @@
    <right>
       <AnchorPane prefHeight="574.0" prefWidth="554.0" style="-fx-background-color: #292929;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="513.0" fitWidth="519.0" layoutX="14.0" layoutY="71.0" preserveRatio="true" style="-fx-opacity: 0.05;">
-               <image>
-                  <Image url="@img/favicon_dark.png" />
-               </image>
-            </ImageView>
-            <TextField fx:id="usernameField" layoutX="113.0" layoutY="129.0" prefHeight="28.0" prefWidth="362.0" promptText="Username" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <PasswordField fx:id="passwordField" layoutX="111.0" layoutY="222.0" prefHeight="28.0" prefWidth="166.0" promptText="Password" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <Button fx:id="registerButton" layoutX="367.0" layoutY="508.0" mnemonicParsing="false" onAction="#register" prefHeight="33.0" prefWidth="113.0" style="-fx-background-radius: 50; -fx-background-color: b3cf00;" text="Register" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font>
-            </Button>
-            <Label fx:id="registerTitle" layoutX="112.0" layoutY="73.0" text="Register:" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="27.0" />
-               </font>
-            </Label>
-            <FontAwesomeIconView fill="WHITE" glyphName="USER" layoutX="89.0" layoutY="147.0" size="15.0" />
-            <PasswordField fx:id="confirmPasswordField" layoutX="294.0" layoutY="222.0" prefHeight="28.0" prefWidth="182.0" promptText="Confirm password" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <FontAwesomeIconView fill="#f7f3f3" glyphName="LOCK" layoutX="86.0" layoutY="240.0" size="15.0" />
-            <TextField fx:id="firstNameField" layoutX="113.0" layoutY="175.0" prefHeight="28.0" prefWidth="164.0" promptText="First name" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <TextField fx:id="lastNameField" layoutX="295.0" layoutY="175.0" prefHeight="28.0" prefWidth="180.0" promptText="Last name" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <TextField fx:id="addressField" layoutX="112.0" layoutY="271.0" prefHeight="28.0" prefWidth="362.0" promptText="Address" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <TextField fx:id="emailField" layoutX="111.0" layoutY="319.0" prefHeight="28.0" prefWidth="362.0" promptText="Email" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <FontAwesomeIconView fill="#faf5f5" glyphName="USERS" layoutX="85.0" layoutY="193.0" size="15.0" />
-            <FontAwesomeIconView fill="#fcf8f8" glyphName="ADDRESS_BOOK" layoutX="87.0" layoutY="290.0" size="15.0" />
-            <FontAwesomeIconView fill="#f7f3f3" glyphName="AT" layoutX="87.0" layoutY="336.0" size="15.0" />
-            <DatePicker id="birthdate_picker" fx:id="birthdatePicker" layoutX="111.0" layoutY="366.0" prefHeight="26.0" prefWidth="362.0" promptText="Birthdate" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0; -fx-control-inner-background: rgba(0, 0, 0, 0.85); -fx-text-fill: #dbdbdb; -fx-unfocus-color: #dbdbdb; -fx-prompt-text-fill: #dbdbdb;" styleClass="birthdate_picker" stylesheets="@css/loginStyle.css" />
-            <FontAwesomeIconView fill="#f7f3f3" glyphName="CALENDAR" layoutX="85.0" layoutY="384.0" size="15.0" />
-            <CheckBox fx:id="conditionsCheckBox" alignment="TOP_CENTER" graphicTextGap="5.0" layoutX="86.0" layoutY="457.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="340.0" text="I agree to Bet&amp;Ruin conditions of use and privacy notice." textFill="#fcfafa" wrapText="true" />
-            <TextField fx:id="creditCardField" layoutX="111.0" layoutY="412.0" onAction="#creditCardPrompt" prefHeight="28.0" prefWidth="363.0" promptText="Credit card number" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <FontAwesomeIconView fill="WHITE" glyphName="CREDIT_CARD" layoutX="85.0" layoutY="431.0" size="15.0" />
-            <TextArea fx:id="errorLbl" layoutX="87.0" layoutY="508.0" prefHeight="48.0" prefWidth="274.0" style="-fx-text-fill: red; -fx-background-color: rgba(0,0,0,0);" styleClass="text-area" stylesheets="@css/loginStyle.css" wrapText="true" />
-            <Button fx:id="creditCardButton" layoutX="103.0" layoutY="404.0" mnemonicParsing="false" onAction="#creditCardPrompt" prefHeight="44.0" prefWidth="385.0" style="-fx-background-color: rgba(0,0,0,0);" />
-            <Pane fx:id="creditCardPanel" layoutX="131.0" layoutY="175.0" prefHeight="235.0" prefWidth="304.0" style="-fx-background-color: rgba(0,0,0,0.85); -fx-background-radius: 30;">
-               <children>
-                  <TextField fx:id="creditCardNumberField" layoutX="48.0" layoutY="81.0" prefHeight="25.0" prefWidth="207.0" promptText="Credit Card Number" style="-fx-prompt-text-fill: grey;" />
-                  <TextField fx:id="cardHolderNameField" layoutX="48.0" layoutY="35.0" prefHeight="25.0" prefWidth="209.0" promptText="Card Holder Name" style="-fx-prompt-text-fill: grey;" />
-                  <DatePicker fx:id="expireMonthField" layoutX="47.0" layoutY="127.0" prefHeight="25.0" prefWidth="207.0" promptText="Expire Month" style="-fx-prompt-text-fill: grey;" />
-                  <TextField fx:id="CVVField" layoutX="47.0" layoutY="173.0" prefHeight="25.0" prefWidth="207.0" promptText="CVV" style="-fx-prompt-text-fill: grey;" />
-                  <Button layoutX="267.0" layoutY="14.0" mnemonicParsing="false" onAction="#creditCardPrompt" style="-fx-background-radius: 5;" text="X" />
-               </children>
-            </Pane>
             <Pane layoutX="18.0" layoutY="14.0" prefHeight="27.0" prefWidth="113.0" style="-fx-background-color: rgba(0,0,0,0.25);">
                <children>
                   <ComboBox fx:id="langComboBox" layoutX="6.0" layoutY="1.0" onAction="#selectLanguage" prefHeight="25.0" prefWidth="101.0" style="-fx-background-color: rgba(255,255,255,0); -fx-text-fill: #FFFFFF;" stylesheets="@css/loginStyle.css">
@@ -103,6 +60,49 @@
                   </ComboBox>
                </children>
             </Pane>
+            <ImageView fitHeight="513.0" fitWidth="519.0" layoutX="14.0" layoutY="71.0" preserveRatio="true" style="-fx-opacity: 0.05;">
+               <image>
+                  <Image url="@img/favicon_dark.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="registerTitle" layoutX="112.0" layoutY="73.0" text="Register:" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="27.0" />
+               </font>
+            </Label>
+            <FontAwesomeIconView fill="WHITE" glyphName="USER" layoutX="89.0" layoutY="147.0" size="15.0" />
+            <TextField fx:id="usernameField" layoutX="113.0" layoutY="129.0" prefHeight="28.0" prefWidth="362.0" promptText="Username" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <FontAwesomeIconView fill="#faf5f5" glyphName="USERS" layoutX="85.0" layoutY="193.0" size="15.0" />
+            <TextField fx:id="firstNameField" layoutX="113.0" layoutY="175.0" prefHeight="28.0" prefWidth="164.0" promptText="First name" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <TextField fx:id="lastNameField" layoutX="295.0" layoutY="175.0" prefHeight="28.0" prefWidth="180.0" promptText="Last name" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <FontAwesomeIconView fill="#f7f3f3" glyphName="LOCK" layoutX="86.0" layoutY="240.0" size="15.0" />
+            <PasswordField fx:id="passwordField" layoutX="111.0" layoutY="222.0" prefHeight="28.0" prefWidth="166.0" promptText="Password" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <PasswordField fx:id="confirmPasswordField" layoutX="294.0" layoutY="222.0" prefHeight="28.0" prefWidth="182.0" promptText="Confirm password" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <FontAwesomeIconView fill="#fcf8f8" glyphName="ADDRESS_BOOK" layoutX="87.0" layoutY="290.0" size="15.0" />
+            <TextField fx:id="addressField" layoutX="112.0" layoutY="271.0" prefHeight="28.0" prefWidth="362.0" promptText="Address" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <FontAwesomeIconView fill="#f7f3f3" glyphName="AT" layoutX="87.0" layoutY="336.0" size="15.0" />
+            <TextField fx:id="emailField" layoutX="111.0" layoutY="319.0" prefHeight="28.0" prefWidth="362.0" promptText="Email" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <FontAwesomeIconView fill="#f7f3f3" glyphName="CALENDAR" layoutX="85.0" layoutY="384.0" size="15.0" />
+            <DatePicker id="birthdate_picker" fx:id="birthdatePicker" layoutX="111.0" layoutY="366.0" prefHeight="26.0" prefWidth="362.0" promptText="Birthdate" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0; -fx-control-inner-background: rgba(0, 0, 0, 0.85); -fx-text-fill: #dbdbdb; -fx-unfocus-color: #dbdbdb; -fx-prompt-text-fill: #dbdbdb;" styleClass="birthdate_picker" stylesheets="@css/loginStyle.css" />
+            <FontAwesomeIconView fill="WHITE" glyphName="CREDIT_CARD" layoutX="85.0" layoutY="431.0" size="15.0" />
+            <TextField fx:id="creditCardField" layoutX="111.0" layoutY="412.0" onAction="#creditCardPrompt" prefHeight="28.0" prefWidth="363.0" promptText="Credit card number" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
+            <Button fx:id="creditCardButton" layoutX="103.0" layoutY="404.0" mnemonicParsing="false" onAction="#creditCardPrompt" prefHeight="44.0" prefWidth="385.0" style="-fx-background-color: rgba(0,0,0,0);" />
+            <Pane fx:id="creditCardPanel" layoutX="131.0" layoutY="175.0" prefHeight="235.0" prefWidth="304.0" style="-fx-background-color: rgba(0,0,0,0.85); -fx-background-radius: 30;">
+               <children>
+                  <TextField fx:id="cardHolderNameField" layoutX="48.0" layoutY="35.0" prefHeight="25.0" prefWidth="209.0" promptText="Card Holder Name" style="-fx-prompt-text-fill: grey;" />
+                  <TextField fx:id="creditCardNumberField" layoutX="48.0" layoutY="81.0" prefHeight="25.0" prefWidth="207.0" promptText="Credit Card Number" style="-fx-prompt-text-fill: grey;" />
+                  <DatePicker fx:id="expireMonthField" layoutX="47.0" layoutY="127.0" prefHeight="25.0" prefWidth="207.0" promptText="Expire Month" style="-fx-prompt-text-fill: grey;" />
+                  <TextField fx:id="CVVField" layoutX="47.0" layoutY="173.0" prefHeight="25.0" prefWidth="207.0" promptText="CVV" style="-fx-prompt-text-fill: grey;" />
+                  <Button layoutX="267.0" layoutY="14.0" mnemonicParsing="false" onAction="#creditCardPrompt" style="-fx-background-radius: 5;" text="X" />
+               </children>
+            </Pane>
+            <CheckBox fx:id="conditionsCheckBox" alignment="TOP_CENTER" graphicTextGap="5.0" layoutX="86.0" layoutY="457.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="340.0" text="I agree to Bet&amp;Ruin conditions of use and privacy notice." textFill="#fcfafa" wrapText="true" />
+            <TextArea fx:id="errorLbl" layoutX="87.0" layoutY="508.0" prefHeight="48.0" prefWidth="274.0" style="-fx-text-fill: red; -fx-background-color: rgba(0,0,0,0);" styleClass="text-area" stylesheets="@css/loginStyle.css" wrapText="true" />
+            <Button fx:id="registerButton" layoutX="367.0" layoutY="508.0" mnemonicParsing="false" onAction="#register" prefHeight="33.0" prefWidth="113.0" style="-fx-background-radius: 50; -fx-background-color: b3cf00;" text="Register" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
             <Text fx:id="minimizeText" fill="WHITE" layoutX="451.0" layoutY="43.0" onDragDetected="#minimize" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
                <font>
                   <Font size="57.0" />

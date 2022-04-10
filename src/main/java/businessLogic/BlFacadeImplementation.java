@@ -121,7 +121,7 @@ public class BlFacadeImplementation implements BlFacade {
 
 	@WebMethod
 	public void register(String username, String firstName, String lastName, String address, String email,
-			String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException
+			String password, String confirmPassword, int year, int month, int day, Long cardNumber, Date expirationDate, Integer securityCode) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException
 	{
 		//Check email format completion (regex):
 		if(!Pattern.compile(emailRegEx).matcher(email).matches())
@@ -146,8 +146,10 @@ public class BlFacadeImplementation implements BlFacade {
 			// Generate a random salt
 			byte[] salt = generateSalt();
 			byte[] hashedPassword = hashPassword(password, salt);
-			
-			dbManager.register(username, firstName, lastName, address, email, hashedPassword, birthdate, salt);
+
+			// Set the registered user as the current user
+			currentUser = dbManager.register(username, firstName, lastName, address, email, hashedPassword, birthdate, salt, cardNumber, expirationDate, securityCode);
+
 		} catch (ParseException e) {
 			throw new InvalidDateException();
 		} finally {
