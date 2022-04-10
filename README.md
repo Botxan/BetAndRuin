@@ -2,7 +2,7 @@
 <div align="center">
   <img width="200" src="https://github.com/Botxan/betandruin2022/blob/main/resources/final_logo.png">
 </div>
-<p align="center"><i>BetAndRuin is a betting application developed for the Software Engineering (SI) course.</i></p>
+<p align="center"><i>BetAndRuin is a betting application developed for the Software Engineering (SE) course.</i></p>
 
 ---
 
