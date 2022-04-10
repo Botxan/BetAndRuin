@@ -31,7 +31,8 @@ public class MainGUI {
 
     public Window navBarLag;
     private Window loginLag, registerLag, mainLag, createQuestionLag,
-            browseEventsLag, welcomeLag, userMenuLag, depositMoneyLag;
+            browseEventsLag, welcomeLag, userMenuLag, depositMoneyLag,
+            createForecastLag;
 
     private BlFacade businessLogic;
     private Stage stage;
@@ -104,6 +105,8 @@ public class MainGUI {
                 return new UserMenuController(businessLogic);
             } else if (controllerClass == DepositMoneyController.class) {
                 return new DepositMoneyController(businessLogic);
+            }else if (controllerClass == CreateForecastController.class) {
+                return new CreateForecastController(businessLogic);
             } else {
                 // default behavior for controllerFactory:
                 try {
@@ -152,6 +155,7 @@ public class MainGUI {
         createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
         userMenuLag = load("/UserMenuGUI.fxml", "UserMenu", SCENE_WIDTH, SCENE_HEIGHT);
         depositMoneyLag = load("/DepositMoney.fxml", "DepositMoney", SCENE_WIDTH, SCENE_HEIGHT);
+        createForecastLag = load("/CreateForecast.fxml", "CreateForecast", SCENE_WIDTH, SCENE_HEIGHT);
     }
 
     /**
@@ -278,6 +282,8 @@ public class MainGUI {
                 yield userMenuLag;
             case "DepositMoney":
                 yield depositMoneyLag;
+            case "CreateForecast":
+                yield createForecastLag;
             default: // get the initial window
                 yield mainLag;
         };

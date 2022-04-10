@@ -35,7 +35,14 @@ public interface BlFacade  {
 	 * @return it returns a collection of events
 	 */
 	@WebMethod public List<Event> getEvents(Date date);
-	
+
+	/**
+	 * It returns all the questions that belong to the event
+	 * @param event The event
+	 * @return A list with all the questions of an event
+	 */
+	@WebMethod public List<Question> getQuestions(Event event);
+
 	/**
 	 * It retrieves the dates in a month for which there are events from the database 
 	 * 
