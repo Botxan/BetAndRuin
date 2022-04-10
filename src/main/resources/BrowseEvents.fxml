@@ -78,12 +78,12 @@
             <FontAwesomeIconView fill="#09b500" glyphName="EURO" layoutX="418.0" layoutY="36.0" size="25" wrappingWidth="13.747528076171875" />
          </children>
       </AnchorPane>
-      <Label fx:id="dateLbl12" layoutX="959.0" layoutY="289.0" styleClass="dateLbl" text="FORECAST" />
+      <Label fx:id="dateLbl12" layoutX="959.0" layoutY="289.0" styleClass="dateLbl" text="QUESTIONS" />
       <Line endX="220.0" layoutX="918.0" layoutY="324.0" startX="-39.33331298828125" />
-      <TableView layoutX="826.0" layoutY="333.0" prefHeight="88.0" prefWidth="356.0">
+      <TableView fx:id="questionsTbl" layoutX="826.0" layoutY="333.0" onSort="#getQuestions" prefHeight="88.0" prefWidth="356.0">
         <columns>
-          <TableColumn fx:id="forecastDescriptions" prefWidth="255.333251953125" text="Description" />
-          <TableColumn fx:id="forecastFees" prefWidth="100.0" text="Fee" />
+          <TableColumn fx:id="questionDescriptions" prefWidth="255.333251953125" text="Description" />
+          <TableColumn fx:id="questionFees" prefWidth="100.0" text="Fee" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

@@ -4,6 +4,7 @@ import businessLogic.BlFacade;
 import com.jfoenix.controls.JFXSlider;
 import domain.Event;
 import domain.Forecast;
+import domain.Question;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -59,10 +60,11 @@ public class BrowseEventsController implements Controller {
     @FXML private TableColumn<Event, Integer> idCol;
     @FXML private TableColumn<Event, String> descriptionCol;
     @FXML private TableColumn<Event, String> countryCol;
-    @FXML private TableColumn<Forecast, String> forecastDescriptions;
-    @FXML private TableColumn<Forecast, Integer> forecastFees;
+    @FXML private TableView<Question> questionsTbl;
+    @FXML private TableColumn<Question, String> questionDescriptions;
+    @FXML private TableColumn<Question, Integer> questionFees;
 
-    ObservableList<Forecast> forecast;
+    ObservableList<Question> questions;
 
     // [*] ----- Earth and slider attributes ----- [*]
     private Sphere earth;
@@ -93,9 +95,11 @@ public class BrowseEventsController implements Controller {
         lastValidDate = LocalDate.now();
         setPreviousDate();
 
+        questions = FXCollections.observableArrayList();
+
         //Bind Forecast columns to their respective attributes:
-        forecastDescriptions.setCellValueFactory(new PropertyValueFactory<>("description"));
-        forecastFees.setCellValueFactory(new PropertyValueFactory<>("fee"));
+        questionDescriptions.setCellValueFactory(new PropertyValueFactory<>("description"));
+        questionFees.setCellValueFactory(new PropertyValueFactory<>("fee"));
 
         addDateFormatters();
         initializeDatePicker();
@@ -327,6 +331,14 @@ public class BrowseEventsController implements Controller {
        if (key.getCode().equals(KeyCode.ENTER)) {
            eventTbl.requestFocus();
        }
+    }
+
+
+    public void getQuestions()
+    {
+        Event selectedEvent = eventTbl.getSelectionModel().getSelectedItem();
+        questions.addAll(selectedEvent.getQuestions());
+        questionsTbl.getItems().addAll(questions);
     }
 
 
