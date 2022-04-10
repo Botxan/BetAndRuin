@@ -155,7 +155,7 @@ public class LoginController implements Controller, Initializable {
             // FIXME Set the new scene depending on the user type.
             // Redirect user depending on the user mode
             if (logedUser.getUserMode() == 1)
-                mainGUI.goForward("MainGUI");
+                mainGUI.goForward("UserMenu");
             else if (logedUser.getUserMode() == 2)
                 mainGUI.goForward("MainGUI");
 
