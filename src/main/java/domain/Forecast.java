@@ -12,7 +12,7 @@ public class Forecast {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer forecastID;
 	private String description;
-	private int fee;
+	private double fee;
 
 	@ManyToOne
 	private Question question;
@@ -30,7 +30,7 @@ public class Forecast {
 	 * @param fee the fee
 	 * @param question the question associated to the forecast
 	 */
-	public Forecast(String description, int fee, Question question) {
+	public Forecast(String description, double fee, Question question) {
 		super();
 		this.description = description;
 		this.fee = fee;
@@ -73,7 +73,7 @@ public class Forecast {
 	 * Getter for fee.
 	 * @return fee the fee of the forecast
 	 */
-	public int getFee() {
+	public double getFee() {
 		return fee;
 	}
 
@@ -81,7 +81,7 @@ public class Forecast {
 	 * Setter for fee.
 	 * @param fee the fee of the forecast
 	 */
-	public void setFee(int fee) {
+	public void setFee(double fee) {
 		this.fee = fee;
 	}
 	

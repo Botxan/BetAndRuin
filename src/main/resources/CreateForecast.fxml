@@ -6,21 +6,43 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.CreateForecastController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #292929;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.CreateForecastController">
    <children>
-      <DatePicker fx:id="grdDatePicker" layoutX="50.0" layoutY="74.0" />
-      <ComboBox fx:id="cmbEvents" layoutX="323.0" layoutY="68.0" prefWidth="150.0" />
-      <TextField fx:id="txtResult" layoutX="93.0" layoutY="209.0" prefHeight="26.0" prefWidth="130.0" />
-      <TextField fx:id="txtFee" layoutX="93.0" layoutY="261.0" prefHeight="26.0" prefWidth="130.0" />
-      <Label fx:id="lblListOfQuestions" layoutX="326.0" layoutY="117.0" text="List of questions" />
-      <Label fx:id="lblDatePicker" layoutX="53.0" layoutY="51.0" text="Select the date" />
-      <Label fx:id="lblListEvents" layoutX="323.0" layoutY="43.0" text="Events" />
-      <Label fx:id="lblResult" layoutX="50.0" layoutY="213.0" text="Result" />
-      <Label fx:id="lblFee" layoutX="50.0" layoutY="266.0" text="Fee" />
-      <ComboBox fx:id="cmbQuestions" layoutX="323.0" layoutY="141.0" prefWidth="150.0" />
-      <Button fx:id="btnCreateForecast" layoutX="158.0" layoutY="318.0" mnemonicParsing="false" onAction="#createForecastClick" text="Create forecast" />
-      <Button fx:id="btnBack" layoutX="306.0" layoutY="318.0" mnemonicParsing="false" text="Back" />
-      <Label fx:id="lblErrorMessage" layoutX="327.0" layoutY="244.0" />
+      <DatePicker fx:id="grdDatePicker" layoutX="50.0" layoutY="81.0" />
+      <ComboBox fx:id="cmbEvents" layoutX="323.0" layoutY="76.0" prefHeight="25.0" prefWidth="231.0" />
+      <TextField fx:id="txtResult" layoutX="123.0" layoutY="216.0" prefHeight="26.0" prefWidth="174.0" />
+      <TextField fx:id="txtFee" layoutX="123.0" layoutY="262.0" prefHeight="26.0" prefWidth="174.0" />
+      <Label fx:id="lblListOfQuestions" layoutX="326.0" layoutY="117.0" text="Questions" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font></Label>
+      <Label fx:id="lblDatePicker" layoutX="50.0" layoutY="44.0" text="Select the date" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font></Label>
+      <Label fx:id="lblListEvents" layoutX="323.0" layoutY="44.0" text="Events" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font></Label>
+      <Label fx:id="lblResult" layoutX="50.0" layoutY="213.0" text="Result" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font></Label>
+      <Label fx:id="lblFee" layoutX="50.0" layoutY="259.0" text="Fee" textFill="WHITE">
+         <font>
+            <Font size="22.0" />
+         </font></Label>
+      <ComboBox fx:id="cmbQuestions" layoutX="323.0" layoutY="152.0" prefHeight="25.0" prefWidth="231.0" />
+      <Button fx:id="btnCreateForecast" layoutX="158.0" layoutY="318.0" mnemonicParsing="false" onAction="#createForecastClick" prefHeight="46.0" prefWidth="117.0" style="-fx-background-color: #b3cf00; -fx-background-radius: 50;" text="Create forecast">
+         <font>
+            <Font name="System Bold" size="13.0" />
+         </font></Button>
+      <Button fx:id="btnBack" layoutX="306.0" layoutY="318.0" mnemonicParsing="false" prefHeight="46.0" prefWidth="85.0" style="-fx-background-color: #b3cf00; -fx-background-radius: 50;" text="Back">
+         <font>
+            <Font name="System Bold" size="16.0" />
+         </font></Button>
+      <Label fx:id="lblErrorMessage" layoutX="324.0" layoutY="218.0" prefHeight="82.0" prefWidth="231.0" />
    </children>
 </AnchorPane>

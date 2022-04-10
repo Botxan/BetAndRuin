@@ -29,6 +29,8 @@ public class CreateForecastController implements Controller {
 
   private ObservableList<Event> oListEvents;
 
+  private ObservableList<Question> oListQuestion;
+
   public CreateForecastController(BlFacade bl) {
     this.businessLogic = bl;
   }
@@ -222,6 +224,22 @@ public class CreateForecastController implements Controller {
         cmbEvents.getSelectionModel().select(0);
       }
 
+    });
+
+    cmbEvents.setOnAction(actionEvent -> {
+      cmbQuestions.getItems().clear();
+
+      oListQuestion = FXCollections.observableArrayList(new ArrayList<>());
+      oListQuestion.setAll(businessLogic.getQuestions(cmbEvents.getSelectionModel().getSelectedItem()));
+      cmbQuestions.setItems(oListQuestion);
+
+      if (cmbQuestions.getItems().size() == 0)
+        btnCreateForecast.setDisable(true);
+      else {
+        btnCreateForecast.setDisable(false);
+        // select first option
+        cmbQuestions.getSelectionModel().select(0);
+      }
     });
 
   }

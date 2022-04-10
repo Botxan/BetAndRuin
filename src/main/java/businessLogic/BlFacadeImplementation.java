@@ -80,6 +80,14 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
+	public List<Question> getQuestions(Event event)  {
+		dbManager.open(false);
+		List<Question> questions = dbManager.getQuestions(event);
+		dbManager.close();
+		return questions;
+	}
+
+	@WebMethod
 	public Vector<Date> getEventsMonth(Date date) {
 		dbManager.open(false);
 		Vector<Date>  dates = dbManager.getEventsMonth(date);

@@ -266,6 +266,19 @@
             return res;
         }
 
+        public List<Question> getQuestions(Event event) {
+            List<Question> que = new ArrayList<Question>();
+            TypedQuery<Question> query = db.createQuery("SELECT qu FROM Question qu WHERE qu.event=?1",
+                    Question.class);
+            query.setParameter(1, event);
+            List<Question> questions = query.getResultList();
+            for (Question qu:questions){
+                System.out.println(qu.toString());
+                que.add(qu);
+            }
+            return que;
+        }
+
         /**
          * It inserts the given forecast in the database
          * @param question an instance of the question of the forecast
