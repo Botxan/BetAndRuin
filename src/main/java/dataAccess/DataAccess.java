@@ -286,7 +286,7 @@
          * @param fee fee of the forecast
          * @throws ForecastAlreadyExistException if the forecast already exists
          */
-        public Forecast addForecast(Question question, String result, int fee) throws ForecastAlreadyExistException {
+        public Forecast addForecast(Question question, String result, double fee) throws ForecastAlreadyExistException {
             System.out.println(">> DataAccess: addForecast => question = " + question + " result = " + result + " fee = " + fee);
 
             // Check if the forecast already exist

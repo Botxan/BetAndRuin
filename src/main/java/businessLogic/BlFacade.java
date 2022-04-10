@@ -78,7 +78,7 @@ public interface BlFacade  {
 	 * @param fee fee of the forecast
 	 * @throws ForecastAlreadyExistException 
 	 */
-	@WebMethod public void addForecast(Question question, String result, int fee) throws ForecastAlreadyExistException;
+	@WebMethod public void addForecast(Question question, String result, double fee) throws ForecastAlreadyExistException;
 	
 	/**
 	 * It registers a user into the database

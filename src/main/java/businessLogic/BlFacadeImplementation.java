@@ -121,7 +121,7 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
-	public void addForecast(Question question, String result, int fee) throws ForecastAlreadyExistException {
+	public void addForecast(Question question, String result, double fee) throws ForecastAlreadyExistException {
 		dbManager.open(false);
 		dbManager.addForecast(question, result, fee);
 		dbManager.close();
