@@ -81,3 +81,28 @@
     -fx-background-color: rgba(0,0,0,1);
     -fx-background-radius: 0 0 0 0;
 }
+
+#birthdate_picker {
+-jfx-unfocus-color: blue;
+-fx-prompt-text-fill: blueviolet;
+-fx-text-fill: red;
+}
+
+.birthdate_picker *{
+-jfx-unfocus-color: white;
+-fx-prompt-text-fill: rgba(255, 255, 255, 0.65);
+-fx-text-fill: green;
+}
+
+.birthdate_picker .arrow-button{
+-fx-background-color: #b3cf00;
+}
+
+.birthdate_picker *:focused{
+-fx-background-color: rgba(0, 0, 0, 0);
+-fx-control-inner-background: rgba(0, 0, 0, 0.1);
+}
+
+.text-area * {
+    -fx-background-color: rgba(0, 0, 0, 0);
+}

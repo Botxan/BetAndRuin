@@ -14,6 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import jdk.jshell.execution.Util;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import uicontrollers.*;
@@ -131,14 +132,12 @@ public class MainGUI {
         navBar = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
         welcomeLag = load("/WelcomeGUI.fxml", "Welcome", 350, 500);
         loginLag = load("/Login.fxml", "Login", 700, 500);
-        registerLag = load("/RegisterGUI.fxml", "Register", SCENE_WIDTH, SCENE_HEIGHT);
+        registerLag = load("/RegisterGUI.fxml", "Register", 900, 600);
         mainLag = load("/MainGUI.fxml", "MainTitle", SCENE_WIDTH, SCENE_HEIGHT);
         browseEventsLag = load("/BrowseEvents.fxml", "BrowseEvents", SCENE_WIDTH, SCENE_HEIGHT);
 
         setupScene();
         ResizeHelper.addResizeListener(this.stage);
-        history.setCurrentWindow(mainLag);
-        showScene(browseEventsLag);
         history.setCurrentWindow(welcomeLag);
         showScene(welcomeLag);
     }

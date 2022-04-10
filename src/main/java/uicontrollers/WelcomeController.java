@@ -63,9 +63,23 @@ public class WelcomeController implements Controller, Initializable {
      */
     @Override
     public void redraw() {
-        browseEventsButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("BrowseQuestions"));
+        browseEventsButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("BrowseEvents"));
         registerButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Register"));
         loginButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Login"));
+    }
+
+    /**
+     * Changes the locale of the scene.
+     * @param defaultLocale The current locale.
+     */
+    public void setLocale(Locale defaultLocale)
+    {
+        if(defaultLocale.toString().contains("en"))
+            langComboBox.getSelectionModel().select(0);
+        else if(defaultLocale.getDefault().toString().contains("es"))
+            langComboBox.getSelectionModel().select(1);
+        else
+            langComboBox.getSelectionModel().select(2);
     }
 
     /**
@@ -79,7 +93,7 @@ public class WelcomeController implements Controller, Initializable {
         ObservableList<String> languages = FXCollections.observableArrayList(langList);
         langComboBox.setEditable(false);
         langComboBox.setItems(languages);
-        langComboBox.getSelectionModel().select(0);
+        setLocale(Locale.getDefault());
 
         browseEventsButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("BrowseQuestions"));
         registerButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Register"));

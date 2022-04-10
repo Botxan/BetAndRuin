@@ -14,10 +14,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -59,6 +56,9 @@ public class LoginController implements Controller, Initializable {
     @FXML
     private ComboBox<String> langComboBox;
 
+    @FXML
+    private Label loginTitle;
+
     public LoginController(BlFacade bl) {
         businessLogic = bl;
     }
@@ -70,6 +70,7 @@ public class LoginController implements Controller, Initializable {
 
     @Override
     public void redraw() {
+        loginTitle.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Login"));
         browseEventsButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("BrowseQuestions"));
         registerButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Register"));
         loginButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Login"));
@@ -78,12 +79,27 @@ public class LoginController implements Controller, Initializable {
         usernameErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("IncorrectUser"));
         passwordErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("IncorrectPassword"));
     }
+
+    /**
+     * Changes the locale of the scene.
+     * @param defaultLocale The current locale.
+     */
+    public void setLocale(Locale defaultLocale)
+    {
+        if(defaultLocale.toString().contains("en"))
+            langComboBox.getSelectionModel().select(0);
+        else if(defaultLocale.getDefault().toString().contains("es"))
+            langComboBox.getSelectionModel().select(1);
+        else
+            langComboBox.getSelectionModel().select(2);
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         List<String> langList = Arrays.asList(new String[]{"EN", "ES", "EUS"});
         ObservableList<String> languages = FXCollections.observableArrayList(langList);
         langComboBox.setItems(languages);
-        langComboBox.getSelectionModel().select(0);
+        setLocale(Locale.getDefault());
         langComboBox.setEditable(false);
 
         redraw();
