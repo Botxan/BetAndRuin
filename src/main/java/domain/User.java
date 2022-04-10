@@ -1,5 +1,7 @@
 package domain;
 
+import exceptions.NotEnoughMoneyInWalletException;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -25,6 +27,7 @@ public class User {
 	private byte[] password;
 	private byte[] salt; // salt used in password hashing
 	private int userMode; // 0 => guest, 1 => logged user, 2 => administrator
+	private double wallet;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "owner")
 	private List<Card> cards = new ArrayList<Card>();
@@ -48,10 +51,11 @@ public class User {
 	 * @param password user's password hashed.
 	 * @param salt the salt used in password hashing.
 	 * @param userMode user's userMode
+	 * @param wallet user's money in the wallet
 	 */
 	public User(String username, String firstName, String lastName,
-			Date birthdate, String address, String email, byte[] password, byte[] salt, int userMode) {
-		this(username, firstName, lastName, birthdate, address, email, null, password, salt, userMode);
+			Date birthdate, String address, String email, byte[] password, byte[] salt, int userMode, double wallet) {
+		this(username, firstName, lastName, birthdate, address, email, null, password, salt, userMode, wallet);
 	}
 
 	/**
@@ -68,7 +72,7 @@ public class User {
 	 * @param userMode user's userMode
 	 */
 	public User(String username, String firstName, String lastName,
-				Date birthdate, String address, String email, String avatar, byte[] password, byte[] salt, int userMode) {
+				Date birthdate, String address, String email, String avatar, byte[] password, byte[] salt, int userMode, double wallet) {
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -79,6 +83,7 @@ public class User {
 		this.email = email;
 		this.salt = salt;
 		this.userMode = userMode;
+		this.wallet = wallet;
 	}
 
 	/**
@@ -259,6 +264,35 @@ public class User {
 	}
 
 	/**
+	 * Getter for user's wallet.
+	 * @return user's wallet
+	 */
+	public double getWallet() {
+		return wallet;
+	}
+
+	/**
+	 * Setter for user's wallet.
+	 * @param wallet user's wallet
+	 */
+	public void setWallet(double wallet) {
+		this.wallet = wallet;
+	}
+
+	/**
+	 * Deposits the amount of money passed by parameter in the wallet of the user.
+	 * @param money the money to deposit in the wallet
+	 */
+	public void depositMoneyIntoWallet(double money) {
+		wallet += money;
+	}
+
+	public void withdrawMoneyFromWallet(double money) throws NotEnoughMoneyInWalletException {
+		if (wallet < money) throw new NotEnoughMoneyInWalletException();
+		wallet -= money;
+	}
+
+	/**
 	 * Getter for user cards.
 	 * @return user cards
 	 */
@@ -281,8 +315,8 @@ public class User {
 	 * @param expirationDate the expiration date of the card
 	 * @param securityCode the security code of the card
 	 */
-	public Card addCard(int cardNumber, Date expirationDate, int securityCode) {
-		Card card = new Card(cardNumber, expirationDate, securityCode, this);
+	public Card addCard(int cardNumber, Date expirationDate, double money, int securityCode) {
+		Card card = new Card(cardNumber, expirationDate, securityCode, money, this);
 		cards.add(card);
 		return card;
 	}
