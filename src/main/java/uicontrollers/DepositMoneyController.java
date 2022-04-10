@@ -83,6 +83,9 @@ public class DepositMoneyController implements Controller {
                 depositResultLabel.setStyle("-fx-text-fill: #B3CF00; -fx-font-weight: bold; -fx-font-size: 1.5em");
                 amountField.setText("");
                 updateMoney();
+
+                // Update also the money displayed in the navigation bar
+                ((NavBarController)mainGUI.navBarLag.getController()).updateWalletLabel();
             }
         } catch ( NumberFormatException e) {
             System.out.println("The introduced amount is not valid");

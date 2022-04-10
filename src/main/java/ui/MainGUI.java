@@ -29,7 +29,8 @@ public class MainGUI {
 
     private BorderPane mainWrapper;
 
-    private Window navBar, loginLag, registerLag, mainLag, createQuestionLag,
+    public Window navBarLag;
+    private Window loginLag, registerLag, mainLag, createQuestionLag,
             browseEventsLag, welcomeLag, userMenuLag, depositMoneyLag;
 
     private BlFacade businessLogic;
@@ -129,7 +130,7 @@ public class MainGUI {
         this.stage.initStyle(StageStyle.UNDECORATED);
         this.stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/favicon.png")));
 
-        navBar = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
+        navBarLag = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
         welcomeLag = load("/WelcomeGUI.fxml", "Welcome", 350, 500);
         loginLag = load("/Login.fxml", "Login", 700, 500);
         registerLag = load("/RegisterGUI.fxml", "Register", 900, 600);
@@ -162,7 +163,7 @@ public class MainGUI {
         mainWrapper = new BorderPane();
 
         // Add the navbar to the wrapper
-        mainWrapper.setTop(navBar.getUi());
+        mainWrapper.setTop(navBarLag.getUi());
 
         // Initialize the scene
         scene = new Scene(mainWrapper, SCENE_WIDTH, SCENE_HEIGHT);
@@ -212,7 +213,7 @@ public class MainGUI {
         if(window.getTitle().equals("Welcome") || window.getTitle().equals("Login") || window.getTitle().equals("Register"))
             mainWrapper.setTop(null);
         else
-            mainWrapper.setTop(navBar.getUi());
+            mainWrapper.setTop(navBarLag.getUi());
 
         mainWrapper.setCenter(window.getUi());
 
@@ -220,7 +221,7 @@ public class MainGUI {
         stage.setHeight(window.getHeight());
         stage.centerOnScreen();
 
-        ((NavBarController)navBar.getController()).updateNav();
+        ((NavBarController)navBarLag.getController()).updateNav();
         stage.show();
     }
 
@@ -229,7 +230,7 @@ public class MainGUI {
      */
     public void goBack() {
         Window previousWindow = history.moveToPrevious();
-        ((NavBarController) navBar.getController()).enableHistoryBtns();
+        ((NavBarController) navBarLag.getController()).enableHistoryBtns();
         if (previousWindow != null) showScene(previousWindow);
     }
 
@@ -239,7 +240,7 @@ public class MainGUI {
      */
     public void goForward() {
         Window nextWindow = history.moveToNext();
-        ((NavBarController) navBar.getController()).enableHistoryBtns();
+        ((NavBarController) navBarLag.getController()).enableHistoryBtns();
         if (nextWindow != null) showScene(nextWindow);
     }
     /**
@@ -253,7 +254,7 @@ public class MainGUI {
         // Move to the requested window and store the old one
         history.moveToWindow(newWindow);
 
-        ((NavBarController) navBar.getController()).enableHistoryBtns();
+        ((NavBarController) navBarLag.getController()).enableHistoryBtns();
         showScene(newWindow);
     }
 

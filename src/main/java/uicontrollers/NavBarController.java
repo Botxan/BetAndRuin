@@ -1,14 +1,12 @@
 package uicontrollers;
 
 import businessLogic.BlFacade;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import domain.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBase;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
@@ -42,6 +40,9 @@ public class NavBarController implements Controller {
     @FXML private MenuItem movementBtn;
     @FXML private MenuItem logoutBtn;
     @FXML private ImageView userBtnAvatar;
+    @FXML private Label walletLabel;
+    @FXML private Button depositMoneyBtn;
+
     @FXML private ResourceBundle resources;
 
     /**
@@ -57,7 +58,9 @@ public class NavBarController implements Controller {
     void initialize() {
         backBtn.setDisable(true);
         nextBtn.setDisable(true);
-        hideBtn(userBtn);
+        hideNode(userBtn);
+        hideNode(walletLabel);
+        hideNode(depositMoneyBtn);
 
         Circle clip = new Circle(18, 18, 18);
         userBtnAvatar.setClip(clip);
@@ -224,6 +227,14 @@ public class NavBarController implements Controller {
         mainGUI.goForward("Register");
     }
 
+    /**
+     * Changes to deposit money window
+     */
+    @FXML
+    void goToDepositMoney() {
+        mainGUI.goForward("DepositMoney");
+    }
+
     @FXML
     void showMovements() {
         System.out.println("showMovements: not implemented yet.");
@@ -246,48 +257,53 @@ public class NavBarController implements Controller {
         String currentUI = mainGUI.getHistory().getCurrentWindow().getController().getClass().getSimpleName();
 
         // Update user bar view
-        if (currentUI.equals("LoginController") || currentUI.equals("RegisterController")) {
-            // Dont show anything in the user bar
-            hideBtn(loginBtn);
-            hideBtn(registerBtn);
-            hideBtn(userBtn);
+        User currentUser = businessLogic.getCurrentUser();
+        if (currentUser == null) {
+            // Show login and register buttons
+            showNode(loginBtn);
+            showNode(registerBtn);
         } else {
-            User currentUser = businessLogic.getCurrentUser();
-            if (currentUser == null) {
-                // Show login and register buttons
-                showBtn(loginBtn);
-                showBtn(registerBtn);
-            } else {
-                // Show user info
-                hideBtn(loginBtn);
-                hideBtn(registerBtn);
-                showBtn(userBtn);
+            // Show user info
+            hideNode(loginBtn);
+            hideNode(registerBtn);
+            showNode(userBtn);
+            showNode(depositMoneyBtn);
+            showNode(walletLabel);
+            updateWalletLabel();
 
-                String avatar = currentUser.getAvatar();
-                if (avatar == null)
-                    userBtnAvatar.setImage(new Image(String.valueOf(getClass().getResource("/img/avatar/default.png"))));
-                else {
-                    userBtnAvatar.setImage(new Image(String.valueOf(getClass().getResource("/img/avatar/" + avatar))));
-                }
+            String avatar = currentUser.getAvatar();
+            if (avatar == null)
+                userBtnAvatar.setImage(new Image(String.valueOf(getClass().getResource("/img/avatar/default.png"))));
+            else {
+                userBtnAvatar.setImage(new Image(String.valueOf(getClass().getResource("/img/avatar/" + avatar))));
             }
         }
+
     }
 
     /**
-     * Displays the button in the scene and includes it in parents layout calculations.
-     * @param btn the button
+     * Displays the money available in current user's wallet
      */
-    void showBtn(ButtonBase btn) {
-        btn.setVisible(true);
-        btn.setManaged(true);
+    public void updateWalletLabel() {
+        Double wallet = businessLogic.getCurrentUser().getWallet();
+        walletLabel.setText(wallet + " €");
+    }
+
+    /**
+     * Displays the node in the scene and includes it in parents layout calculations.
+     * @param node the node
+     */
+    void showNode(Node node) {
+        node.setVisible(true);
+        node.setManaged(true);
     }
 
     /**
      * Hides a button from the scene and excludes it from parents layout calculations.
-     * @param btn the button
+     * @param node the node
      */
-    void hideBtn(ButtonBase btn) {
-        btn.setVisible(false);
-        btn.setManaged(false);
+    void hideNode(Node node) {
+        node.setVisible(false);
+        node.setManaged(false);
     }
 }
