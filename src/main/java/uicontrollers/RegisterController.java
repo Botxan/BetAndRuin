@@ -132,6 +132,7 @@ public class RegisterController implements Controller, Initializable {
         creditCardNumberField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("CreditCardNumber"));
         cardHolderNameField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("CardHolderName"));
         expireMonthField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("ExpireMonth"));
+        setLocale(Locale.getDefault());
         errorLbl.setText("");
     }
 

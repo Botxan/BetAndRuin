@@ -3,6 +3,7 @@ package uicontrollers;
 import businessLogic.BlFacade;
 import com.jfoenix.controls.JFXSlider;
 import domain.Event;
+import domain.Forecast;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -58,6 +59,10 @@ public class BrowseEventsController implements Controller {
     @FXML private TableColumn<Event, Integer> idCol;
     @FXML private TableColumn<Event, String> descriptionCol;
     @FXML private TableColumn<Event, String> countryCol;
+    @FXML private TableColumn<Forecast, String> forecastDescriptions;
+    @FXML private TableColumn<Forecast, Integer> forecastFees;
+
+    ObservableList<Forecast> forecast;
 
     // [*] ----- Earth and slider attributes ----- [*]
     private Sphere earth;
@@ -87,6 +92,10 @@ public class BrowseEventsController implements Controller {
         // Initialize the event date select with current day
         lastValidDate = LocalDate.now();
         setPreviousDate();
+
+        //Bind Forecast columns to their respective attributes:
+        forecastDescriptions.setCellValueFactory(new PropertyValueFactory<>("description"));
+        forecastFees.setCellValueFactory(new PropertyValueFactory<>("fee"));
 
         addDateFormatters();
         initializeDatePicker();
