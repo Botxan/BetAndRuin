@@ -14,6 +14,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import jdk.jshell.execution.Util;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import uicontrollers.*;
@@ -136,8 +137,6 @@ public class MainGUI {
 
         setupScene();
         ResizeHelper.addResizeListener(this.stage);
-        history.setCurrentWindow(mainLag);
-        showScene(browseEventsLag);
         history.setCurrentWindow(welcomeLag);
         showScene(welcomeLag);
     }

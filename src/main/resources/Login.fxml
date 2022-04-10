@@ -71,7 +71,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Button>
-            <Label layoutX="75.0" layoutY="133.0" text="Login:" textFill="WHITE">
+            <Label fx:id="loginTitle" layoutX="75.0" layoutY="133.0" text="Login:" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="27.0" />
                </font>

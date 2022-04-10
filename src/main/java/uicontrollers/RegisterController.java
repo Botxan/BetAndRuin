@@ -25,6 +25,7 @@ import java.net.URL;
 import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class RegisterController implements Controller, Initializable {
@@ -97,6 +98,12 @@ public class RegisterController implements Controller, Initializable {
     @FXML
     private TextArea errorLbl;
 
+    @FXML
+    private ComboBox<String> langComboBox;
+
+    @FXML
+    private Button browseEventsButton;
+
     /**
      * Business Logic setter.
      * @param bl Business Logic to use in UI.
@@ -112,11 +119,46 @@ public class RegisterController implements Controller, Initializable {
 
     @Override
     public void redraw() {
+        browseEventsButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("BrowseEvents"));
+        registerTitle.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Register"));
+        usernameField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Username"));
+        firstNameField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("FirstName"));
+        lastNameField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("LastName"));
+        passwordField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Password"));
+        confirmPasswordField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("ConfirmPassword"));
+        addressField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Address"));
+        emailField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Email"));
+        birthdatePicker.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Birthdate"));
+        conditionsCheckBox.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Terms"));
+        creditCardField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("CreditCardInfo"));
+        creditCardNumberField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("CreditCardNumber"));
+        cardHolderNameField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("CardHolderName"));
+        expireMonthField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("ExpireMonth"));
+        errorLbl.setText("");
+    }
 
+    /**
+     * Changes the locale of the scene.
+     * @param defaultLocale The current locale.
+     */
+    public void setLocale(Locale defaultLocale)
+    {
+        if(defaultLocale.toString().contains("en"))
+            langComboBox.getSelectionModel().select(0);
+        else if(defaultLocale.getDefault().toString().contains("es"))
+            langComboBox.getSelectionModel().select(1);
+        else
+            langComboBox.getSelectionModel().select(2);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        List<String> langList = Arrays.asList(new String[]{"EN", "ES", "EUS"});
+        ObservableList<String> languages = FXCollections.observableArrayList(langList);
+        langComboBox.setItems(languages);
+        setLocale(Locale.getDefault());
+        langComboBox.setEditable(false);
+
         redraw();
 
         creditCardPanel.setVisible(false);
@@ -155,10 +197,51 @@ public class RegisterController implements Controller, Initializable {
         }
     }
 
+    /**
+     * Minimizes the current stage.
+     */
+    public void minimize()
+    {
+        mainGUI.getStage().setIconified(true);
+    }
+
+    /**
+     * Go back to the previous UI.
+     */
+    public void goBack()
+    {
+        mainGUI.goBack();
+    }
+
+    /**
+     * Language drop down menu selector.
+     */
+    @FXML
+    public void selectLanguage()
+    {
+        if(langComboBox.getSelectionModel().isSelected(0))
+            Locale.setDefault(new Locale("en"));
+        else if(langComboBox.getSelectionModel().isSelected(1))
+            Locale.setDefault((new Locale("es")));
+        else if(langComboBox.getSelectionModel().isSelected(2)) {
+            Locale.setDefault(new Locale("eus"));
+        }
+        redraw();
+    }
+
     public void creditCardPrompt()
     {
         if(creditCardPanel.isVisible()) creditCardPanel.setVisible(false);
         else creditCardPanel.setVisible(true);
+    }
+
+    /**
+     * When pressing the Browse Events Button go to Browse Questions GUI.
+     */
+    @FXML
+    public void browseEventsButton()
+    {
+        mainGUI.goForward("BrowseEvents");
     }
 
     //FIXME I still don't persist the credit card data of the registered user.

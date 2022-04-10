@@ -4,11 +4,13 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.ColorAdjust?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -16,7 +18,9 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.media.MediaView?>
+<?import javafx.scene.shape.SVGPath?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
 <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="900.0" style="-fx-background-color: #22252b;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.RegisterController">
    <left>
@@ -31,7 +35,12 @@
                   <Image url="@img/final_logo_white.png" />
                </image>
             </ImageView>
-            <Button layoutX="99.0" layoutY="480.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="151.0" style="-fx-background-radius: 50; -fx-background-color: b3cf00;" text="Browse Events" textFill="WHITE">
+            <Button id="drop_down_menu" fx:id="backButton" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#goBack" stylesheets="@css/loginStyle.css">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="ANGLE_LEFT" size="50" />
+               </graphic>
+            </Button>
+            <Button id="browse_events" fx:id="browseEventsButton" layoutX="55.0" layoutY="479.0" mnemonicParsing="false" onAction="#browseEventsButton" prefHeight="41.0" prefWidth="239.0" style="-fx-background-radius: 50; -fx-background-color: #b3cf00;" stylesheets="@css/loginStyle.css" text="Browse Events" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="15.0" />
                </font>
@@ -42,14 +51,14 @@
    <right>
       <AnchorPane prefHeight="574.0" prefWidth="554.0" style="-fx-background-color: #292929;" BorderPane.alignment="CENTER">
          <children>
-            <ImageView fitHeight="426.0" fitWidth="519.0" layoutX="37.0" layoutY="106.0" preserveRatio="true" style="-fx-opacity: 0.05;">
+            <ImageView fitHeight="513.0" fitWidth="519.0" layoutX="14.0" layoutY="71.0" preserveRatio="true" style="-fx-opacity: 0.05;">
                <image>
                   <Image url="@img/favicon_dark.png" />
                </image>
             </ImageView>
             <TextField fx:id="usernameField" layoutX="113.0" layoutY="129.0" prefHeight="28.0" prefWidth="362.0" promptText="Username" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
             <PasswordField fx:id="passwordField" layoutX="111.0" layoutY="222.0" prefHeight="28.0" prefWidth="166.0" promptText="Password" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
-            <Button fx:id="registerButton" layoutX="365.0" layoutY="485.0" mnemonicParsing="false" onAction="#register" prefHeight="33.0" prefWidth="113.0" style="-fx-background-radius: 50; -fx-background-color: b3cf00;" text="Register" textFill="WHITE">
+            <Button fx:id="registerButton" layoutX="367.0" layoutY="508.0" mnemonicParsing="false" onAction="#register" prefHeight="33.0" prefWidth="113.0" style="-fx-background-radius: 50; -fx-background-color: b3cf00;" text="Register" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
@@ -59,13 +68,6 @@
                   <Font name="System Bold" size="27.0" />
                </font>
             </Label>
-            <Button id="exit_button" fx:id="button" contentDisplay="CENTER" layoutX="503.0" mnemonicParsing="false" onAction="#exit" pickOnBounds="false" scaleShape="false" text="X" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="96.0" />
-               </font>
-               <stylesheets>
-                  <URL value="@css/loginStyle.css" />
-               </stylesheets></Button>
             <FontAwesomeIconView fill="WHITE" glyphName="USER" layoutX="89.0" layoutY="147.0" size="15.0" />
             <PasswordField fx:id="confirmPasswordField" layoutX="294.0" layoutY="222.0" prefHeight="28.0" prefWidth="182.0" promptText="Confirm password" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
             <FontAwesomeIconView fill="#f7f3f3" glyphName="LOCK" layoutX="86.0" layoutY="240.0" size="15.0" />
@@ -78,11 +80,11 @@
             <FontAwesomeIconView fill="#f7f3f3" glyphName="AT" layoutX="87.0" layoutY="336.0" size="15.0" />
             <DatePicker id="birthdate_picker" fx:id="birthdatePicker" layoutX="111.0" layoutY="366.0" prefHeight="26.0" prefWidth="362.0" promptText="Birthdate" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0; -fx-control-inner-background: rgba(0, 0, 0, 0.85); -fx-text-fill: #dbdbdb; -fx-unfocus-color: #dbdbdb; -fx-prompt-text-fill: #dbdbdb;" styleClass="birthdate_picker" stylesheets="@css/loginStyle.css" />
             <FontAwesomeIconView fill="#f7f3f3" glyphName="CALENDAR" layoutX="85.0" layoutY="384.0" size="15.0" />
-            <CheckBox fx:id="conditionsCheckBox" alignment="TOP_CENTER" graphicTextGap="5.0" layoutX="86.0" layoutY="457.0" mnemonicParsing="false" prefHeight="7.0" prefWidth="340.0" text="I agree to Bet&amp;Ruin conditions of use and privacy notice." textFill="#fcfafa" />
+            <CheckBox fx:id="conditionsCheckBox" alignment="TOP_CENTER" graphicTextGap="5.0" layoutX="86.0" layoutY="457.0" mnemonicParsing="false" prefHeight="51.0" prefWidth="340.0" text="I agree to Bet&amp;Ruin conditions of use and privacy notice." textFill="#fcfafa" wrapText="true" />
             <TextField fx:id="creditCardField" layoutX="111.0" layoutY="412.0" onAction="#creditCardPrompt" prefHeight="28.0" prefWidth="363.0" promptText="Credit card number" style="-fx-background-color: rgba(0, 0, 0, 0.3); -fx-border-color: b3cf00; -fx-border-width: 0px 0px 2px 0px; -fx-background-radius: 0;" />
             <FontAwesomeIconView fill="WHITE" glyphName="CREDIT_CARD" layoutX="85.0" layoutY="431.0" size="15.0" />
-            <TextArea fx:id="errorLbl" layoutX="85.0" layoutY="485.0" prefHeight="48.0" prefWidth="274.0" style="-fx-text-fill: red; -fx-background-color: rgba(0,0,0,0);" styleClass="text-area" stylesheets="@css/loginStyle.css" wrapText="true" />
-            <Button layoutX="103.0" layoutY="404.0" mnemonicParsing="false" onAction="#creditCardPrompt" prefHeight="44.0" prefWidth="385.0" style="-fx-background-color: rgba(0,0,0,0);" />
+            <TextArea fx:id="errorLbl" layoutX="87.0" layoutY="508.0" prefHeight="48.0" prefWidth="274.0" style="-fx-text-fill: red; -fx-background-color: rgba(0,0,0,0);" styleClass="text-area" stylesheets="@css/loginStyle.css" wrapText="true" />
+            <Button fx:id="creditCardButton" layoutX="103.0" layoutY="404.0" mnemonicParsing="false" onAction="#creditCardPrompt" prefHeight="44.0" prefWidth="385.0" style="-fx-background-color: rgba(0,0,0,0);" />
             <Pane fx:id="creditCardPanel" layoutX="131.0" layoutY="175.0" prefHeight="235.0" prefWidth="304.0" style="-fx-background-color: rgba(0,0,0,0.85); -fx-background-radius: 30;">
                <children>
                   <TextField fx:id="creditCardNumberField" layoutX="48.0" layoutY="81.0" prefHeight="25.0" prefWidth="207.0" promptText="Credit Card Number" style="-fx-prompt-text-fill: grey;" />
@@ -92,6 +94,32 @@
                   <Button layoutX="267.0" layoutY="14.0" mnemonicParsing="false" onAction="#creditCardPrompt" style="-fx-background-radius: 5;" text="X" />
                </children>
             </Pane>
+            <Pane layoutX="18.0" layoutY="14.0" prefHeight="27.0" prefWidth="113.0" style="-fx-background-color: rgba(0,0,0,0.25);">
+               <children>
+                  <ComboBox fx:id="langComboBox" layoutX="6.0" layoutY="1.0" onAction="#selectLanguage" prefHeight="25.0" prefWidth="101.0" style="-fx-background-color: rgba(255,255,255,0); -fx-text-fill: #FFFFFF;" stylesheets="@css/loginStyle.css">
+                     <effect>
+                        <ColorAdjust brightness="1.0" />
+                     </effect>
+                  </ComboBox>
+               </children>
+            </Pane>
+            <Text fx:id="minimizeText" fill="WHITE" layoutX="451.0" layoutY="43.0" onDragDetected="#minimize" strokeType="OUTSIDE" strokeWidth="0.0" text="-">
+               <font>
+                  <Font size="57.0" />
+               </font>
+            </Text>
+            <Button layoutX="437.0" layoutY="4.0" mnemonicParsing="false" onAction="#minimize" opacity="0.0" prefHeight="47.0" prefWidth="52.0" text="Button" />
+            <Button id="exit_button" fx:id="exitButton" contentDisplay="CENTER" layoutX="500.0" mnemonicParsing="false" onAction="#exit" pickOnBounds="false" scaleShape="false" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="96.0" />
+               </font>
+               <stylesheets>
+                  <URL value="@css/loginStyle.css" />
+               </stylesheets>
+               <graphic>
+                  <SVGPath content="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" fill="WHITE" scaleX="3.0" scaleY="3.0" />
+               </graphic>
+            </Button>
          </children>
       </AnchorPane>
    </right>
