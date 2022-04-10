@@ -29,7 +29,8 @@ public class MainGUI {
 
     private BorderPane mainWrapper;
 
-    private Window indexLag, navBar, loginLag, registerLag, mainLag, createQuestionLag, browseQuestionsLag, browseEventsLag, welcomeLag;
+    private Window navBar, loginLag, registerLag, mainLag,
+            createQuestionLag, browseEventsLag, welcomeLag, userMenuLag;
 
     private BlFacade businessLogic;
     private Stage stage;
@@ -96,10 +97,10 @@ public class MainGUI {
                 return new LoginController(businessLogic);
             } else if (controllerClass == RegisterController.class) {
                 return new RegisterController(businessLogic);
-            } else if (controllerClass == IndexController.class) {
-                return new IndexController(businessLogic);
             } else if (controllerClass == WelcomeController.class) {
                 return new WelcomeController(businessLogic);
+            } else if (controllerClass == UserMenuController.class) {
+                return new UserMenuController(businessLogic);
             } else {
                 // default behavior for controllerFactory:
                 try {
@@ -126,9 +127,9 @@ public class MainGUI {
         this.stage.initStyle(StageStyle.UNDECORATED);
         this.stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/favicon.png")));
 
+        userMenuLag = load("/UserMenuGUI.fxml", "UserMenu", SCENE_WIDTH, SCENE_HEIGHT);
         navBar = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
         welcomeLag = load("/WelcomeGUI.fxml", "Welcome", 350, 500);
-        indexLag = load("/Index.fxml", "Welcome", SCENE_WIDTH, SCENE_HEIGHT);
         loginLag = load("/Login.fxml", "Login", 700, 500);
         registerLag = load("/RegisterGUI.fxml", "Register", 900, 600);
         mainLag = load("/MainGUI.fxml", "MainTitle", SCENE_WIDTH, SCENE_HEIGHT);
@@ -211,7 +212,7 @@ public class MainGUI {
         if (window.getController().getClass().getSimpleName().equals("BrowseQuestionsController")) {
             businessLogic.setCurrentUser(
                     new User("john44", "john", "doe", UtilDate.newDate(1980, 3, 23),
-                            "testAddress", "john@doe.com", "shrek.jpg", new byte[8], new byte[1], 1));
+                            "testAddress", "john@doe.com", "shrek.jpg", new byte[8], new byte[1], 1, 0));
         }
         // FIXME End of the testing
 
@@ -262,8 +263,6 @@ public class MainGUI {
      */
     public Window getWindow(String title) {
         return switch(title) {
-            case "Index":
-                yield indexLag;
             case "Login":
                 yield loginLag;
             case "Register":
@@ -274,6 +273,8 @@ public class MainGUI {
                 yield createQuestionLag;
             case "Welcome":
                 yield welcomeLag;
+            case "UserMenu":
+                yield userMenuLag;
             default: // get the initial window
                 yield mainLag;
         };
