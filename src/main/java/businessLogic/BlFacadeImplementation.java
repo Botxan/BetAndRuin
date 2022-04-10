@@ -196,9 +196,16 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.close();
 	}
 
-	@Override
-	public void depositMoney(int amountToDeposit) {
+	@WebMethod
+	public void depositMoney(double amount) throws NotEnoughMoneyInWalletException {
+		dbManager.open(false);
+		dbManager.depositMoney(amount, currentUser);
+		dbManager.close();
 
+		// FIXME have to update it here also because (apparently) the currentUser User object is dettached from the one
+		// getting updated in the db. So, from now, update the dettached object manually for the current session
+		currentUser.setWallet(currentUser.getWallet()+amount);
+		currentUser.getCard().withdrawMoney(amount);
 	}
 
 	@Override

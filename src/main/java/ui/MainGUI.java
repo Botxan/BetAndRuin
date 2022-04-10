@@ -28,8 +28,8 @@ public class MainGUI {
 
     private BorderPane mainWrapper;
 
-    private Window navBar, loginLag, registerLag, mainLag,
-            createQuestionLag, browseEventsLag, welcomeLag, userMenuLag;
+    private Window navBar, loginLag, registerLag, mainLag, createQuestionLag,
+            browseEventsLag, welcomeLag, userMenuLag, depositMoneyLag;
 
     private BlFacade businessLogic;
     private Stage stage;
@@ -100,6 +100,8 @@ public class MainGUI {
                 return new WelcomeController(businessLogic);
             } else if (controllerClass == UserMenuController.class) {
                 return new UserMenuController(businessLogic);
+            } else if (controllerClass == DepositMoneyController.class) {
+                return new DepositMoneyController(businessLogic);
             } else {
                 // default behavior for controllerFactory:
                 try {
@@ -117,23 +119,21 @@ public class MainGUI {
     }
 
     /**
-     * Initializes all the windows used in the app.
-     * @param stage the stage of the project.
-     * @throws IOException thrown if any fxml file is not found.
+     * Initializes all the windows that do not require user authentication.
+     * @param stage the stage of the project
+     * @throws IOException thrown if any fxml file is not found
      */
     public void init(Stage stage) throws IOException {
         this.stage = stage;
         this.stage.initStyle(StageStyle.UNDECORATED);
         this.stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/favicon.png")));
 
-        userMenuLag = load("/UserMenuGUI.fxml", "UserMenu", SCENE_WIDTH, SCENE_HEIGHT);
         navBar = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
         welcomeLag = load("/WelcomeGUI.fxml", "Welcome", 350, 500);
         loginLag = load("/Login.fxml", "Login", 700, 500);
         registerLag = load("/RegisterGUI.fxml", "Register", SCENE_WIDTH, SCENE_HEIGHT);
         mainLag = load("/MainGUI.fxml", "MainTitle", SCENE_WIDTH, SCENE_HEIGHT);
         browseEventsLag = load("/BrowseEvents.fxml", "BrowseEvents", SCENE_WIDTH, SCENE_HEIGHT);
-        createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
 
         setupScene();
         ResizeHelper.addResizeListener(this.stage);
@@ -141,6 +141,17 @@ public class MainGUI {
         showScene(browseEventsLag);
         history.setCurrentWindow(welcomeLag);
         showScene(welcomeLag);
+    }
+
+    /**
+     * Initializes windows that require user authentication. This allows us to have
+     * current user's information available already when the window is loaded.
+     * @throws IOException thrown if any fxml file is not found
+     */
+    public void loadLoggedWindows() throws IOException {
+        createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
+        userMenuLag = load("/UserMenuGUI.fxml", "UserMenu", SCENE_WIDTH, SCENE_HEIGHT);
+        depositMoneyLag = load("/DepositMoney.fxml", "DepositMoney", SCENE_WIDTH, SCENE_HEIGHT);
     }
 
     /**
@@ -206,17 +217,6 @@ public class MainGUI {
 
         mainWrapper.setCenter(window.getUi());
 
-        // FIXME Temporal nav update testing. DELETE WHEN LOGIN IS IMPLEMENTED!!!
-        if (window.getController().getClass().getSimpleName().equals("LoginController")) {
-            businessLogic.setCurrentUser(null);
-        }
-        if (window.getController().getClass().getSimpleName().equals("BrowseQuestionsController")) {
-            businessLogic.setCurrentUser(
-                    new User("john44", "john", "doe", UtilDate.newDate(1980, 3, 23),
-                            "testAddress", "john@doe.com", "shrek.jpg", new byte[8], new byte[1], 1, 0));
-        }
-        // FIXME End of the testing
-
         stage.setWidth(window.getWidth());
         stage.setHeight(window.getHeight());
         stage.centerOnScreen();
@@ -276,6 +276,8 @@ public class MainGUI {
                 yield welcomeLag;
             case "UserMenu":
                 yield userMenuLag;
+            case "DepositMoney":
+                yield depositMoneyLag;
             default: // get the initial window
                 yield mainLag;
         };

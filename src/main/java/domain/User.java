@@ -26,11 +26,11 @@ public class User {
 	private String avatar;
 	private byte[] password;
 	private byte[] salt; // salt used in password hashing
-	private int userMode; // 0 => guest, 1 => logged user, 2 => administrator
-	private double wallet;
+	private Integer userMode; // 0 => guest, 1 => logged user, 2 => administrator
+	private Double wallet;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "owner")
-	private List<Card> cards = new ArrayList<Card>();
+	@OneToOne(cascade = CascadeType.PERSIST)
+	private Card card;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private List<Bet> bets = new ArrayList<Bet>();
@@ -54,7 +54,7 @@ public class User {
 	 * @param wallet user's money in the wallet
 	 */
 	public User(String username, String firstName, String lastName,
-			Date birthdate, String address, String email, byte[] password, byte[] salt, int userMode, double wallet) {
+			Date birthdate, String address, String email, byte[] password, byte[] salt, Integer userMode, double wallet) {
 		this(username, firstName, lastName, birthdate, address, email, null, password, salt, userMode, wallet);
 	}
 
@@ -251,7 +251,7 @@ public class User {
 	 * Getter for user's user mode.
 	 * @return user's user mode
 	 */
-	public int getUserMode() {
+	public Integer getUserMode() {
 		return userMode;
 	}
 
@@ -259,7 +259,7 @@ public class User {
 	 * Setter for user's user mode.
 	 * @param userMode user's user mode
 	 */
-	public void setUserMode(int userMode) {
+	public void setUserMode(Integer userMode) {
 		this.userMode = userMode;
 	}
 
@@ -267,7 +267,7 @@ public class User {
 	 * Getter for user's wallet.
 	 * @return user's wallet
 	 */
-	public double getWallet() {
+	public Double getWallet() {
 		return wallet;
 	}
 
@@ -275,7 +275,7 @@ public class User {
 	 * Setter for user's wallet.
 	 * @param wallet user's wallet
 	 */
-	public void setWallet(double wallet) {
+	public void setWallet(Double wallet) {
 		this.wallet = wallet;
 	}
 
@@ -293,32 +293,19 @@ public class User {
 	}
 
 	/**
-	 * Getter for user cards.
-	 * @return user cards
+	 * Getter for user's credit card.
+	 * @return user's credit card
 	 */
-	public List<Card> getCards() {
-		return cards;
-	}
-
-	/**
-	 * Setter for user credit cards.
-	 * @param cards credit cards to be added to the user
-	 */
-	public void setCards(List<Card> cards) {
-		this.cards = cards;
-	}
-
-	/**
-	 * Creates a credit card with the given data and
-	 * adds it to the user.
-	 * @param cardNumber the number of the card
-	 * @param expirationDate the expiration date of the card
-	 * @param securityCode the security code of the card
-	 */
-	public Card addCard(int cardNumber, Date expirationDate, double money, int securityCode) {
-		Card card = new Card(cardNumber, expirationDate, securityCode, money, this);
-		cards.add(card);
+	public Card getCard() {
 		return card;
+	}
+
+	/**
+	 * Setter for user's credit card.
+	 * @param card credit cards to be added to the user
+	 */
+	public void setCard(Card card) {
+		this.card = card;
 	}
 
 	/**

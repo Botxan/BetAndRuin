@@ -16,7 +16,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Line?>
 
-<AnchorPane fx:id="main" maxHeight="650.0" maxWidth="1.7976931348623157E308" minHeight="552.0" prefHeight="552.0" prefWidth="1280.0" stylesheets="@css/browseEvents.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.BrowseEventsController">
+<AnchorPane fx:id="main" maxHeight="650.0" maxWidth="1.7976931348623157E308" minHeight="552.0" prefHeight="552.0" prefWidth="1280.0" stylesheets="@css/browseEvents.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.BrowseEventsController">
    <children>
       <ImageView fitHeight="743.0" fitWidth="784.0" layoutX="22.0" layoutY="-16.0" opacity="0.3" pickOnBounds="true" preserveRatio="true">
          <image>

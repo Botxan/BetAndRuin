@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.DepositMoneyController">
+   <children>
+      <ImageView fitHeight="700.0" fitWidth="700.0" layoutX="293.0" layoutY="-13.0" opacity="0.05" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/favicon_dark.png" />
+         </image>
+      </ImageView>
+      <Label layoutX="564.0" layoutY="351.0" prefHeight="17.0" prefWidth="108.0" text="Amount to deposit:" />
+      <TextField fx:id="amountField" layoutX="672.0" layoutY="347.0" prefHeight="25.0" prefWidth="95.0" text="0" />
+      <JFXButton buttonType="RAISED" layoutX="632.0" layoutY="399.0" onAction="#deposit" prefHeight="37.0" prefWidth="81.0" style="-fx-background-color: -fx-green1; -fx-padding: 10px; -fx-font-size: 14px;" stylesheets="@css/colors.css" text="Deposit">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <Label fx:id="depositResultLabel" alignment="CENTER" layoutX="444.0" layoutY="459.0" prefHeight="25.0" prefWidth="457.0" textAlignment="CENTER" />
+      <ImageView fx:id="creditCardBg" fitHeight="295.0" fitWidth="535.0" layoutX="405.0" layoutY="27.0" pickOnBounds="true">
+         <image>
+            <Image url="@img/creditCardBg.jpg" />
+         </image>
+         <viewport>
+            <Rectangle2D />
+         </viewport>
+         <effect>
+            <DropShadow />
+         </effect>
+      </ImageView>
+      <ImageView fitHeight="120.0" fitWidth="118.0" layoutX="782.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/final_logo.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="cardNumberField" graphicTextGap="5.0" layoutX="524.0" layoutY="209.0" prefHeight="45.0" prefWidth="297.0" style="-fx-font-size: 2.5em;" textAlignment="CENTER" />
+      <Label fx:id="cardMoneyField" layoutX="647.0" layoutY="265.0" style="-fx-font-size: 2em;" textFill="WHITE" />
+      <ImageView fitHeight="68.0" fitWidth="69.0" layoutX="442.0" layoutY="107.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@img/cardChip.png" />
+         </image>
+      </ImageView>
+   </children>
+</AnchorPane>

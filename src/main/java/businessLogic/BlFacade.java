@@ -135,10 +135,11 @@ public interface BlFacade  {
 	@WebMethod public void close();
 
 	/**
-	 * It deposits the amount of money that the registered user wants to deposit
-	 * @param amountToDeposit the amount of money to deposit
+	 * Deposits the requested amount of money from the given card in
+	 * current user's wallet.
+	 * @param amount the amount of money to deposit
 	 */
-	@WebMethod public void depositMoney(int amountToDeposit);
+	@WebMethod public void depositMoney(double amount) throws NotEnoughMoneyInWalletException;
 
 	/**
 	 * It removes an event

@@ -1,5 +1,7 @@
 package domain;
 
+import exceptions.NotEnoughMoneyInWalletException;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,12 +14,12 @@ import java.util.List;
 @Entity
 public class Card {
     @Id
-    private int cardNumber;
+    private Long cardNumber;
     private Date expiratonDate;
-    private int securityCode;
-    private double money;
+    private Integer securityCode;
+    private Double money;
 
-    @ManyToOne
+    @OneToOne
     private User owner;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
@@ -35,7 +37,7 @@ public class Card {
      * @param expirationDate expiration date (dd/mm)
      * @param securityCode security code of the card
      */
-    public Card(int cardNumber, Date expirationDate, int securityCode, double money, User owner) {
+    public Card(Long cardNumber, Date expirationDate, Integer securityCode, Double money, User owner) {
         this.cardNumber = cardNumber;
         this.expiratonDate = expirationDate;
         this.securityCode = securityCode;
@@ -47,7 +49,7 @@ public class Card {
      * Getter for the card number.
      * @return card number
      */
-    public int getCardNumber() {
+    public Long getCardNumber() {
         return cardNumber;
     }
 
@@ -55,7 +57,7 @@ public class Card {
      * Setter for the card number.
      * @param cardNumber card number
      */
-    public void setCardNumber(int cardNumber) {
+    public void setCardNumber(Long cardNumber) {
         this.cardNumber = cardNumber;
     }
 
@@ -79,7 +81,7 @@ public class Card {
      * Getter for the security code.
      * @return security code
      */
-    public int getSecurityCode() {
+    public Integer getSecurityCode() {
         return securityCode;
     }
 
@@ -87,7 +89,7 @@ public class Card {
      * Setter for the security code.
      * @param securityCode security code
      */
-    public void setSecurityCode(int securityCode) {
+    public void setSecurityCode(Integer securityCode) {
         this.securityCode = securityCode;
     }
 
@@ -119,8 +121,21 @@ public class Card {
      * Setter for money in the card.
      * @param money the money to add to the card
      */
-    public void setMoney(int money) {
+    public void setMoney(Double money) {
         this.money = money;
+    }
+
+    /**
+     * Deposits money in the credit card.
+     * @param money the money to deposit
+     */
+    public void depositMoney(Double money) {
+        this.money += money;
+    }
+
+    public void withdrawMoney(Double money) throws NotEnoughMoneyInWalletException {
+        if (this.money < money) throw new NotEnoughMoneyInWalletException();
+        this.money -= money;
     }
 
     /**

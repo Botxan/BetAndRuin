@@ -36,7 +36,7 @@ public class UserMenuController implements Controller {
 
     @FXML
     void depositMoney() {
-        System.out.println("Not implemented yet.");
+        mainGUI.goForward("DepositMoney");
     }
 
     @FXML

@@ -27,6 +27,7 @@ import javafx.util.Duration;
 import ui.MainGUI;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
@@ -152,17 +153,21 @@ public class LoginController implements Controller, Initializable {
         passwordErrorText.setVisible(false);
         try {
             User logedUser = businessLogic.login(usernameField.getText(), new String(passwordField.getText()));
-            // FIXME Set the new scene depending on the user type.
+
+            // Load all the windows that require user authentication
+            mainGUI.loadLoggedWindows();
+
             // Redirect user depending on the user mode
             if (logedUser.getUserMode() == 1)
                 mainGUI.goForward("UserMenu");
             else if (logedUser.getUserMode() == 2)
-                mainGUI.goForward("MainGUI");
-
+                mainGUI.goForward("AdminMenu");
         } catch (UserNotFoundException e1) {
             usernameErrorText.setVisible(true);
         } catch (InvalidPasswordException e2) {
             passwordErrorText.setVisible(true);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

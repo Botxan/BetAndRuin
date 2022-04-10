@@ -3,15 +3,10 @@
     import businessLogic.BlFacadeImplementation;
     import configuration.ConfigXML;
     import configuration.UtilDate;
-    import domain.Event;
-    import domain.Forecast;
-    import domain.Question;
-    import domain.User;
-    import exceptions.EventAlreadyExistException;
-    import exceptions.ForecastAlreadyExistException;
-    import exceptions.QuestionAlreadyExist;
-    import exceptions.UserNotFoundException;
+    import domain.*;
+    import exceptions.*;
 
+    import javax.jdo.JDOHelper;
     import javax.persistence.EntityManager;
     import javax.persistence.EntityManagerFactory;
     import javax.persistence.Persistence;
@@ -131,6 +126,20 @@
                 User admin1 = new User("admin1", "adminFirstName", "adminLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
                         "adminAddress", "admin@email.com", password, salt, 2, 0);
 
+                // Create dummy credit cards (with 100€ for testing purposes)
+                Calendar cal = Calendar.getInstance();
+                cal.set(Calendar.YEAR, 2024);
+                cal.set(Calendar.MONTH, Calendar.FEBRUARY);
+                cal.set(Calendar.DAY_OF_MONTH, 18);
+                Card userCard = new Card(2285598963294470L, cal.getTime(), 822, 100.0, user1);
+                user1.setCard(userCard);
+
+                cal.set(Calendar.YEAR, 2024);
+                cal.set(Calendar.MONTH, Calendar.AUGUST);
+                cal.set(Calendar.DAY_OF_MONTH, 12);
+                Card adminCard = new Card(9950451982447108L, cal.getTime(), 798, 100.0, admin1);
+                admin1.setCard(adminCard);
+
                 db.persist(q1);
                 db.persist(q2);
                 db.persist(q3);
@@ -161,6 +170,9 @@
 
                 db.persist(user1);
                 db.persist(admin1);
+
+                db.persist(userCard);
+                db.persist(adminCard);
 
                 db.getTransaction().commit();
                 System.out.println("The database has been initialized");
@@ -430,6 +442,20 @@
             List<User> query = u.getResultList();
             if(query.size() !=  1) throw new UserNotFoundException();
             return query.get(0);
+        }
+
+        public void depositMoney(double amount, User user) throws NotEnoughMoneyInWalletException {
+            // If not taken form the db, the update is not performed
+            User theuser = db.find(User.class, user);
+
+            if (theuser == null) {
+                System.out.println("User " + user.getUsername() + " not found.");
+            } else {
+                db.getTransaction().begin();
+                theuser.getCard().withdrawMoney(amount);
+                theuser.depositMoneyIntoWallet(amount);
+                db.getTransaction().commit();
+            }
         }
 
         /**
