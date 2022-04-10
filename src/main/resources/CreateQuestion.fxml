@@ -6,19 +6,38 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.CreateQuestionController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #292929;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.CreateQuestionController">
    <children>
       <DatePicker fx:id="datePicker" layoutX="53.0" layoutY="85.0" />
-      <Label layoutX="53.0" layoutY="60.0" text="%EventDate" />
-      <Label layoutX="328.0" layoutY="60.0" text="%ListEvents" />
+      <Label layoutX="56.0" layoutY="53.0" text="EventDate" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font></Label>
+      <Label layoutX="326.0" layoutY="53.0" text="ListEvents" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font></Label>
       <ComboBox fx:id="comboEvents" layoutX="326.0" layoutY="86.0" prefWidth="150.0" />
-      <Label layoutX="67.0" layoutY="212.0" text="%Question" />
-      <Label layoutX="67.0" layoutY="266.0" text="%MinimumBetPrice" />
-      <TextField fx:id="txtQuestion" layoutX="137.0" layoutY="208.0" prefHeight="26.0" prefWidth="359.0" />
-      <TextField fx:id="txtMinBet" layoutX="137.0" layoutY="262.0" prefHeight="26.0" prefWidth="106.0" />
-      <Button fx:id="btnCreateQuestion" layoutX="120.0" layoutY="320.0" mnemonicParsing="false" onAction="#createQuestionClick" prefHeight="26.0" prefWidth="130.0" text="%CreateQuestion" />
-      <Button layoutX="310.0" layoutY="321.0" mnemonicParsing="false" onAction="#closeClick" prefHeight="26.0" prefWidth="88.0" text="%Back" />
+      <Label layoutX="56.0" layoutY="209.0" text="Question" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font></Label>
+      <Label layoutX="56.0" layoutY="259.0" text="MinimumBetPrice" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font></Label>
+      <TextField fx:id="txtQuestion" layoutX="190.0" layoutY="212.0" prefHeight="26.0" prefWidth="284.0" />
+      <TextField fx:id="txtMinBet" layoutX="276.0" layoutY="261.0" prefHeight="26.0" prefWidth="196.0" />
+      <Button fx:id="btnCreateQuestion" layoutX="102.0" layoutY="320.0" mnemonicParsing="false" onAction="#createQuestionClick" prefHeight="49.0" prefWidth="174.0" style="-fx-background-color: #b3cf00; -fx-background-radius: 50;" text="CreateQuestion">
+         <font>
+            <Font name="System Bold" size="18.0" />
+         </font></Button>
+      <Button layoutX="313.0" layoutY="320.0" mnemonicParsing="false" onAction="#closeClick" prefHeight="49.0" prefWidth="106.0" style="-fx-background-color: #b3cf00; -fx-background-radius: 50;" text="Back">
+         <font>
+            <Font name="System Bold" size="22.0" />
+         </font></Button>
       <Label fx:id="lblErrorQuestion" layoutX="120.0" layoutY="176.0" />
       <Label fx:id="lblErrorMinBet" layoutX="250.0" layoutY="265.0" />
    </children>
