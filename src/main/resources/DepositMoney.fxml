@@ -10,16 +10,16 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.DepositMoneyController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.DepositMoneyController">
    <children>
       <ImageView fitHeight="700.0" fitWidth="700.0" layoutX="293.0" layoutY="-13.0" opacity="0.05" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@img/favicon_dark.png" />
          </image>
       </ImageView>
-      <Label layoutX="564.0" layoutY="351.0" prefHeight="17.0" prefWidth="108.0" text="Amount to deposit:" />
+      <Label fx:id="amountLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="451.0" layoutY="351.0" prefHeight="17.0" prefWidth="214.0" text="%AmountToDeposit" textAlignment="RIGHT" />
       <TextField fx:id="amountField" layoutX="672.0" layoutY="347.0" prefHeight="25.0" prefWidth="95.0" text="0" />
-      <JFXButton buttonType="RAISED" layoutX="632.0" layoutY="399.0" onAction="#deposit" prefHeight="37.0" prefWidth="81.0" style="-fx-background-color: -fx-green1; -fx-padding: 10px; -fx-font-size: 14px;" stylesheets="@css/colors.css" text="Deposit">
+      <JFXButton fx:id="depositBtn" buttonType="RAISED" layoutX="619.0" layoutY="398.0" onAction="#deposit" prefHeight="40.0" prefWidth="108.0" style="-fx-background-color: -fx-green1; -fx-padding: 10px; -fx-font-size: 14px;" stylesheets="@css/colors.css" text="%Deposit">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

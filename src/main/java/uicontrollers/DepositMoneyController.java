@@ -4,11 +4,14 @@ import businessLogic.BlFacade;
 import domain.Card;
 import exceptions.NotEnoughMoneyInWalletException;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.shape.Rectangle;
 import ui.MainGUI;
+
+import java.util.ResourceBundle;
 
 public class DepositMoneyController implements Controller {
     private BlFacade businessLogic;
@@ -18,8 +21,10 @@ public class DepositMoneyController implements Controller {
     @FXML private ImageView creditCardBg;
     @FXML private Label cardNumberField;
     @FXML private Label cardMoneyField;
-    @FXML private TextField amountField;
+    @FXML private Label amountLbl;
     @FXML private Label depositResultLabel;
+    @FXML private TextField amountField;
+    @FXML private Button depositBtn;
 
     /**
      * Constructor for the UserMenuController.
@@ -72,14 +77,14 @@ public class DepositMoneyController implements Controller {
         try {
             double amount = Double.parseDouble(amountField.getText());
             if (amount == 0) { // Check if introduced amount is positive
-                depositResultLabel.setText("Introduce a positive amount");
+                depositResultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
                 depositResultLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold; -fx-font-size: 1.5em");
             } else if (amount > card.getMoney()) { // Check if there is enough money in the selected card
-                depositResultLabel.setText("There is no enough money available in the card");
+                depositResultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("NotEnoughMoneyAvailableInTheCard"));
                 depositResultLabel.setStyle("-fx-text-fill: red; -fx-font-weight: bold; -fx-font-size: 1.5em");
             } else {
                 businessLogic.depositMoney(amount);
-                depositResultLabel.setText("Money succesfully deposited");
+                depositResultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("MoneySuccesfullyDeposited"));
                 depositResultLabel.setStyle("-fx-text-fill: #B3CF00; -fx-font-weight: bold; -fx-font-size: 1.5em");
                 amountField.setText("");
                 updateMoney();
@@ -87,10 +92,10 @@ public class DepositMoneyController implements Controller {
                 // Update also the money displayed in the navigation bar
                 ((NavBarController)mainGUI.navBarLag.getController()).updateWalletLabel();
             }
-        } catch ( NumberFormatException e) {
-            System.out.println("The introduced amount is not valid");
+        } catch (NumberFormatException e) {
+            depositResultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("InvalidInput"));
         } catch (NotEnoughMoneyInWalletException e) {
-            System.out.println("There is no enough money available in the card");
+            depositResultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("NotEnoughMoneyAvailableInTheCard"));
         }
     }
 
@@ -116,6 +121,7 @@ public class DepositMoneyController implements Controller {
 
     @Override
     public void redraw() {
-
+        amountLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("AmountToDeposit"));
+        depositBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Deposit"));
     }
 }
