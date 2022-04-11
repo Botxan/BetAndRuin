@@ -115,20 +115,6 @@ public class NavBarController implements Controller {
         nextBtn.setDisable(mainGUI.getHistory().getNextWindow() == null);
     }
 
-    /**
-     * Setter for the mainGUI.
-     * @param mainGUI the mainGUI.
-     */
-    @Override
-    public void setMainApp(MainGUI mainGUI) {
-        this.mainGUI = mainGUI;
-    }
-
-    @Override
-    public void redraw() {
-
-    }
-
     /* -------------------------------- LEFT SIDE BUTTONS -------------------------------- */
 
     /**
@@ -158,18 +144,18 @@ public class NavBarController implements Controller {
     void setLocale(ActionEvent e) {
         String locale = ((Button) e.getSource()).getText();
         Locale.setDefault(new Locale(locale));
-
-        // Highlight selected button
-        if (eusBtn.getStyleClass().contains("selectedLang")) {
-            eusBtn.getStyleClass().remove("selectedLang");
-        } else if (esBtn.getStyleClass().contains("selectedLang")) {
-            esBtn.getStyleClass().remove("selectedLang");
-        } else if (enBtn.getStyleClass().contains("selectedLang")) {
-            enBtn.getStyleClass().remove("selectedLang");
-        }
-
-        ((Button) e.getSource()).getStyleClass().add("selectedLang");
+        highlightLocaleBtn(locale);
         mainGUI.getHistory().getCurrentWindow().getController().redraw();
+    }
+
+    void highlightLocaleBtn(String btnText) {
+        eusBtn.getStyleClass().remove("selectedLang");
+        enBtn.getStyleClass().remove("selectedLang");
+        esBtn.getStyleClass().remove("selectedLang");
+
+        if (eusBtn.getText().equals(btnText)) eusBtn.getStyleClass().add("selectedLang");
+        else if (enBtn.getText().equals(btnText)) enBtn.getStyleClass().add("selectedLang");
+        else if (esBtn.getText().equals(btnText)) esBtn.getStyleClass().add("selectedLang");
     }
 
 
@@ -305,5 +291,19 @@ public class NavBarController implements Controller {
     void hideNode(Node node) {
         node.setVisible(false);
         node.setManaged(false);
+    }
+
+    /**
+     * Setter for the mainGUI.
+     * @param mainGUI the mainGUI.
+     */
+    @Override
+    public void setMainApp(MainGUI mainGUI) {
+        this.mainGUI = mainGUI;
+    }
+
+    @Override
+    public void redraw() {
+        highlightLocaleBtn(Locale.getDefault().toString().toUpperCase());
     }
 }

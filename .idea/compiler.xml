@@ -9,8 +9,5 @@
         <module name="BetAndRuin22" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="BetAndRuin22" target="17" />
-    </bytecodeTargetLevel>
   </component>
 </project>

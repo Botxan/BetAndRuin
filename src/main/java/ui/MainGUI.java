@@ -229,6 +229,7 @@ public class MainGUI {
         stage.centerOnScreen();
 
         ((NavBarController)navBarLag.getController()).updateNav();
+        ((NavBarController)navBarLag.getController()).redraw();
         window.getController().redraw();
         stage.show();
     }
