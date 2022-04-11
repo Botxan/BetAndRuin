@@ -106,3 +106,20 @@
 .text-area * {
     -fx-background-color: rgba(0, 0, 0, 0);
 }
+
+.table-view {
+    -fx-background-radius: 20;
+}
+
+.table-view .column-header, .table-view .filler {
+    -fx-background-color:  transparent;
+    -fx-size: 30;
+    -fx-border-color: -fx-box-border;
+    -fx-border-width: 0;
+    -fx-border-insets: 0;
+}
+
+.table-view .column-header-background {
+  -fx-background-radius: 20 20 0 0;
+    -fx-background-color:  #b3cf00;
+}

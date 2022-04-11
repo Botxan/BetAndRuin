@@ -146,6 +146,14 @@ public class MainGUI {
         browseEventsLag = load("/BrowseEvents.fxml", "BrowseEvents", SCENE_WIDTH, SCENE_HEIGHT);
         createEventLag = load("/CreateEvent.fxml", "CreateEvent", SCENE_WIDTH, SCENE_HEIGHT);
 
+        //Update user money everytime a scene is shown.
+        stage.setOnShowing(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                    navBarLag.getController().redraw();
+            }
+        });
+
         setupScene();
         ResizeHelper.addResizeListener(this.stage);
         history.setCurrentWindow(welcomeLag);

@@ -239,8 +239,11 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@Override
-	public void placeBet(float amount, Forecast userForecast, User gambler, Question question, Event event) {
-
+	public boolean placeBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException,MinBetException {
+		dbManager.open(false);
+		boolean result = dbManager.setBet(betAmount, forecast, gambler);
+		dbManager.close();
+		return result;
 	}
 
 	/**
