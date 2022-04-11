@@ -62,9 +62,13 @@ public class BrowseEventsController implements Controller {
     @FXML private TableColumn<Event, String> countryCol;
     @FXML private TableView<Question> questionsTbl;
     @FXML private TableColumn<Question, String> questionDescriptions;
-    @FXML private TableColumn<Question, Integer> questionFees;
+    @FXML private TableColumn<Question, Float> questionFees;
+    @FXML private TableView<Forecast> forecastsTbl;
+    @FXML private TableColumn<Forecast, String> forecastDescription;
+    @FXML private TableColumn<Forecast, Double> forecastFee;
 
     ObservableList<Question> questions;
+    ObservableList<Forecast> forecasts;
 
     // [*] ----- Earth and slider attributes ----- [*]
     private Sphere earth;
@@ -95,11 +99,29 @@ public class BrowseEventsController implements Controller {
         lastValidDate = LocalDate.now();
         setPreviousDate();
 
+        //Initialize observable list for tables:
         questions = FXCollections.observableArrayList();
+        forecasts = FXCollections.observableArrayList();
+
+        //Bind Question columns to their respective attributes:
+        questionDescriptions.setCellValueFactory(new PropertyValueFactory<>("question"));
+        questionFees.setCellValueFactory(new PropertyValueFactory<>("betMinimum"));
 
         //Bind Forecast columns to their respective attributes:
-        questionDescriptions.setCellValueFactory(new PropertyValueFactory<>("description"));
-        questionFees.setCellValueFactory(new PropertyValueFactory<>("fee"));
+        forecastDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        forecastFee.setCellValueFactory(new PropertyValueFactory<>("fee"));
+
+        eventTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                getQuestions();
+            }
+        });
+
+        questionsTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                getForecasts();
+            }
+        });
 
         addDateFormatters();
         initializeDatePicker();
@@ -175,6 +197,8 @@ public class BrowseEventsController implements Controller {
      */
     public void updateEventTable(Date date) {
         // Empty the list and the table
+        questionsTbl.getItems().clear();
+        forecastsTbl.getItems().clear();
         events.clear();
         eventTbl.getItems().removeAll();
 
@@ -333,14 +357,30 @@ public class BrowseEventsController implements Controller {
        }
     }
 
-
+    /**
+     * Gets all the questions of the selected event on the table questionsTbl.
+     */
     public void getQuestions()
     {
+        questions.clear();
+        forecastsTbl.getItems().clear();
+        questionsTbl.getItems().clear();
         Event selectedEvent = eventTbl.getSelectionModel().getSelectedItem();
         questions.addAll(selectedEvent.getQuestions());
         questionsTbl.getItems().addAll(questions);
     }
 
+    /**
+     * Gets all the forecasts of the selected question onto the table forecastsTbl.
+     */
+    public void getForecasts()
+    {
+        forecasts.clear();
+        forecastsTbl.getItems().clear();
+        Question selectedQuestion = questionsTbl.getSelectionModel().getSelectedItem();
+        forecasts.addAll(selectedQuestion.getForecasts());
+        forecastsTbl.getItems().addAll(forecasts);
+    }
 
     /* ---------------------------------- Earth and slider methods ----------------------------------*/
 

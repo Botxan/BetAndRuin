@@ -118,6 +118,18 @@
                     q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
                 }
 
+                List<Forecast> forecasts1 = new ArrayList<Forecast>();
+                forecasts1.add(new Forecast("Team1", 2, q1));
+                forecasts1.add(new Forecast("Team2", 2, q1));
+                forecasts1.add(new Forecast("Tie", 2, q1));
+                forecasts1.add(new Forecast("No goals", 2, q1));
+                q1.setForecasts(forecasts1);
+                q2.setForecasts(forecasts1);
+                q3.setForecasts(forecasts1);
+                q4.setForecasts(forecasts1);
+                q5.setForecasts(forecasts1);
+                q6.setForecasts(forecasts1);
+
                 // Create dummy user and admin
                 byte [] salt = BlFacadeImplementation.generateSalt();
                 byte[] password = BlFacadeImplementation.hashPassword("123123", salt);
