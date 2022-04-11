@@ -27,9 +27,8 @@ public class NavBarController implements Controller {
     private BlFacade businessLogic;
     private MainGUI mainGUI;
 
-    @FXML private ResourceBundle resources;
+    private double x, y;
 
-    @FXML private Label walletLabel;
     @FXML private Button backBtn;
     @FXML private Button nextBtn;
     @FXML private Button esBtn;
@@ -37,15 +36,16 @@ public class NavBarController implements Controller {
     @FXML private Button eusBtn;
     @FXML private Button loginBtn;
     @FXML private Button registerBtn;
-    @FXML private Button depositMoneyBtn;
     @FXML private MenuButton userBtn;
     @FXML private MenuItem depositMoneyItem;
     @FXML private MenuItem movementsItem;
     @FXML private MenuItem logoutItem;
     @FXML private MenuItem browseEventsItem;
     @FXML private ImageView userBtnAvatar;
+    @FXML private Label walletLabel;
+    @FXML private Button depositMoneyBtn;
 
-    private double x, y;
+    @FXML private ResourceBundle resources;
 
     /**
      * Constructor for the NavBarController.
@@ -278,8 +278,10 @@ public class NavBarController implements Controller {
      * Displays the money available in current user's wallet
      */
     public void updateWalletLabel() {
-        Double wallet = businessLogic.getCurrentUser().getWallet();
-        walletLabel.setText(wallet + " €");
+        if(businessLogic.getCurrentUser() != null) {
+            Double wallet = businessLogic.getCurrentUser().getWallet();
+            walletLabel.setText(wallet + " €");
+        }
     }
 
     /**
@@ -311,6 +313,7 @@ public class NavBarController implements Controller {
 
     @Override
     public void redraw() {
+        updateWalletLabel();
         highlightLocaleBtn(Locale.getDefault().toString().toUpperCase());
         loginBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
         registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));

@@ -185,12 +185,15 @@ public interface BlFacade  {
 	@WebMethod public void removeBet(Bet bet);
 
 	/**
-	 * It places a bet in a given question of a given event
-	 * @param amount The amount to place
-	 * @param userForecast The forecast in which the bet is placed
-	 * @param gambler The user
-	 * @param question The question of which the forecast belongs
-	 * @param event The event which the question belongs
+	 * Persists a new bet for the given gambler, in the selected forecast.
+	 * @param betAmount Amount of money bet by the gambler.
+	 * @param forecast The forecast linked with the bet.
+	 * @param gambler The user who places the bet.
+	 * @return true if the persistence has been successful.
+	 * @throws BetAlreadyExistsException Thrown if the gambler already had placed a bet in the same forecast.
+	 * @throws LateBetException Thrown if the gambler tries to place a bet an hour before on the event associated with the forecast.
+	 * @throws LiquidityLackException Thrown when gambler bets not having enough liquidity access to account for it.
+	 * @throws MinBetException Exception for when user inserts less fee than required.
 	 */
-	@WebMethod public void placeBet(float amount, Forecast userForecast, User gambler, Question question, Event event);
+	public boolean placeBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException;
 }

@@ -36,7 +36,7 @@ public class MainGUI {
     public Window navBarLag;
     private Window loginLag, registerLag, mainLag, createQuestionLag,
             browseEventsLag, welcomeLag, userMenuLag, depositMoneyLag,
-            createForecastLag, createEventLag, removeBetLag;
+            createForecastLag, createEventLag, adminMenuLag, removeBetLag;
 
     private BlFacade businessLogic;
     private Stage stage;
@@ -113,6 +113,8 @@ public class MainGUI {
                 return new CreateForecastController(businessLogic);
             } else if (controllerClass == CreateEventController.class) {
                 return new CreateEventController(businessLogic);
+            }else if (controllerClass == AdminMenuController.class) {
+                return new AdminMenuController(businessLogic);
             } else if (controllerClass == RemoveBetController.class) {
                 return new RemoveBetController(businessLogic);
             } else {
@@ -154,6 +156,14 @@ public class MainGUI {
         browseEventsLag = load("/BrowseEvents.fxml", "BrowseEvents", SCENE_WIDTH, SCENE_HEIGHT);
         createEventLag = load("/CreateEvent.fxml", "CreateEvent", SCENE_WIDTH, SCENE_HEIGHT);
 
+        //Update user money everytime a scene is shown.
+        stage.setOnShowing(new EventHandler<WindowEvent>() {
+            @Override
+            public void handle(WindowEvent event) {
+                    navBarLag.getController().redraw();
+            }
+        });
+
         setupScene();
         ResizeHelper.addResizeListener(this.stage);
         history.setCurrentWindow(welcomeLag);
@@ -170,6 +180,7 @@ public class MainGUI {
         userMenuLag = load("/UserMenuGUI.fxml", "UserMenu", SCENE_WIDTH, SCENE_HEIGHT);
         depositMoneyLag = load("/DepositMoney.fxml", "DepositMoney", SCENE_WIDTH, SCENE_HEIGHT);
         createForecastLag = load("/CreateForecast.fxml", "CreateForecast", SCENE_WIDTH, SCENE_HEIGHT);
+        adminMenuLag = load("/AdminMenu.fxml", "AdminMenu", SCENE_WIDTH, SCENE_HEIGHT);
         removeBetLag = load("/RemoveBet.fxml", "RemoveBet", SCENE_WIDTH, SCENE_HEIGHT);
     }
 
@@ -196,6 +207,7 @@ public class MainGUI {
         scene.getStylesheets().add(getClass().getResource("/css/colors.css").toExternalForm());
 
         // Add the wrapper of the navbar and the content to the scene
+
         scene.setRoot(mainWrapper);
 
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
@@ -302,6 +314,8 @@ public class MainGUI {
                 yield createForecastLag;
             case "CreateEvent":
                 yield createEventLag;
+            case "AdminMenu":
+                yield adminMenuLag;
             case "RemoveBet":
                 yield removeBetLag;
             default: // get the initial window

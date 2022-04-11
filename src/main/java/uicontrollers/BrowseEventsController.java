@@ -4,6 +4,11 @@ import businessLogic.BlFacade;
 import com.jfoenix.controls.JFXSlider;
 import domain.Event;
 import domain.Forecast;
+import domain.Question;
+import exceptions.BetAlreadyExistsException;
+import exceptions.LateBetException;
+import exceptions.LiquidityLackException;
+import exceptions.MinBetException;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -22,6 +27,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
@@ -54,22 +60,25 @@ public class BrowseEventsController implements Controller {
     private ObservableList<Event> events;
 
     @FXML private AnchorPane main;
-    @FXML private Label dateLbl;
-    @FXML private Label eventsLbl;
-    @FXML private Label forecastLbl;
-    @FXML private Label placeBetLbl;
-    @FXML private Text couldWinText;
-    @FXML private TextField dayField, monthField, yearField;
-    @FXML private TextField placeBetField;
     @FXML private DatePicker eventDatePicker;
+    @FXML private TextField dayField, monthField, yearField;
     @FXML private TableView<Event> eventTbl;
     @FXML private TableColumn<Event, Integer> idCol;
     @FXML private TableColumn<Event, String> descriptionCol;
     @FXML private TableColumn<Event, String> countryCol;
-    @FXML private TableColumn<Forecast, String> forecastDescriptions;
-    @FXML private TableColumn<Forecast, Integer> forecastFees;
+    @FXML private TableView<Question> questionsTbl;
+    @FXML private TableColumn<Question, String> questionDescriptions;
+    @FXML private TableColumn<Question, Float> questionFees;
+    @FXML private TableView<Forecast> forecastsTbl;
+    @FXML private TableColumn<Forecast, String> forecastDescription;
+    @FXML private TableColumn<Forecast, Double> forecastFee;
+    @FXML private Pane placeBetPane;
+    @FXML private Text registerErrorText;
+    @FXML private Text euroNumber;
+    @FXML private Text gainNumber;
 
-    ObservableList<Forecast> forecast;
+    ObservableList<Question> questions;
+    ObservableList<Forecast> forecasts;
 
     // [*] ----- Earth and slider attributes ----- [*]
     private Sphere earth;
@@ -100,9 +109,39 @@ public class BrowseEventsController implements Controller {
         lastValidDate = LocalDate.now();
         setPreviousDate();
 
+        //Initialize observable list for tables:
+        questions = FXCollections.observableArrayList();
+        forecasts = FXCollections.observableArrayList();
+
+        //Bind Question columns to their respective attributes:
+        questionDescriptions.setCellValueFactory(new PropertyValueFactory<>("question"));
+        questionFees.setCellValueFactory(new PropertyValueFactory<>("betMinimum"));
+
         //Bind Forecast columns to their respective attributes:
-        forecastDescriptions.setCellValueFactory(new PropertyValueFactory<>("description"));
-        forecastFees.setCellValueFactory(new PropertyValueFactory<>("fee"));
+        forecastDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
+        forecastFee.setCellValueFactory(new PropertyValueFactory<>("fee"));
+
+        placeBetPane.setVisible(false);
+        registerErrorText.setText("");
+
+        eventTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                getQuestions();
+            }
+        });
+
+        questionsTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                getForecasts();
+            }
+        });
+
+        forecastsTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                euroNumber.setText(String.valueOf(newSelection.getQuestion().getBetMinimum()));
+                gainNumber.setText(String.valueOf(newSelection.getFee() * newSelection.getQuestion().getBetMinimum()));
+            }
+        });
 
         addDateFormatters();
         initializeDatePicker();
@@ -178,6 +217,8 @@ public class BrowseEventsController implements Controller {
      */
     public void updateEventTable(Date date) {
         // Empty the list and the table
+        questionsTbl.getItems().clear();
+        forecastsTbl.getItems().clear();
         events.clear();
         eventTbl.getItems().removeAll();
 
@@ -336,6 +377,98 @@ public class BrowseEventsController implements Controller {
        }
     }
 
+    /**
+     * Gets all the questions of the selected event on the table questionsTbl.
+     */
+    public void getQuestions()
+    {
+        questions.clear();
+        forecastsTbl.getItems().clear();
+        questionsTbl.getItems().clear();
+        Event selectedEvent = eventTbl.getSelectionModel().getSelectedItem();
+        questions.addAll(selectedEvent.getQuestions());
+        questionsTbl.getItems().addAll(questions);
+    }
+
+    /**
+     * Gets all the forecasts of the selected question onto the table forecastsTbl.
+     */
+    public void getForecasts()
+    {
+        forecasts.clear();
+        forecastsTbl.getItems().clear();
+        Question selectedQuestion = questionsTbl.getSelectionModel().getSelectedItem();
+        forecasts.addAll(selectedQuestion.getForecasts());
+        forecastsTbl.getItems().addAll(forecasts);
+    }
+
+    public void placeBet()
+    {
+        float betPrice = 0F;
+        try {
+            betPrice = Float.parseFloat(euroNumber.getText());
+        } catch (NumberFormatException e)
+        {
+            e.printStackTrace();
+        }
+        try {
+            if(forecastsTbl.getSelectionModel().getSelectedItem() == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You need to select a forecast to bet.", ButtonType.OK);
+                alert.showAndWait();
+            }
+            else {
+                businessLogic.placeBet(betPrice, forecastsTbl.getSelectionModel().getSelectedItem(), businessLogic.getCurrentUser());
+                Alert alert = new Alert(Alert.AlertType.NONE, "Your bet has been successfully placed.", ButtonType.OK);
+                alert.showAndWait();
+            }
+        } catch (BetAlreadyExistsException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "You have already placed a bet for this forecast, choose another one.", ButtonType.OK);
+            alert.showAndWait();
+        } catch (LateBetException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "The event is due to start or has started, unable to place a bet, choose another one.", ButtonType.OK);
+            alert.showAndWait();
+        } catch (LiquidityLackException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "You do not have enough money to carry on with the bet.", ButtonType.OK);
+            alert.showAndWait();
+        } catch (MinBetException e){
+            e.printStackTrace();
+        }
+        mainGUI.navBarLag.getController().redraw();
+    }
+
+    /**
+     * Activate and desactivate bet panel. If current user is not registered pops a warning.
+     */
+    public void betPanel()
+    {
+        registerErrorText.setText("");
+        if(questionsTbl.getSelectionModel().getSelectedItem() == null)
+            //FIXME translation
+            registerErrorText.setText("*Select a question.");
+        else if(businessLogic.getCurrentUser() == null) registerErrorText.setText("*You need to be registered to bet.");
+        else
+        {
+            if (placeBetPane.isVisible()) placeBetPane.setVisible(false);
+            else placeBetPane.setVisible(true);
+        }
+    }
+
+    public void addBetAmount()
+    {
+        Float currentPrice = Float.parseFloat(euroNumber.getText());
+        currentPrice += 0.50F;
+        euroNumber.setText(String.valueOf(currentPrice));
+        gainNumber.setText(String.valueOf(currentPrice * forecastsTbl.getSelectionModel().getSelectedItem().getFee()));
+    }
+
+    public void substractBetAmount()
+    {
+        Float currentPrice = Float.parseFloat(euroNumber.getText());
+        if(currentPrice - 0.5 >= forecastsTbl.getSelectionModel().getSelectedItem().getFee())
+            currentPrice -= 0.50F;
+        euroNumber.setText(String.valueOf(currentPrice));
+        gainNumber.setText(String.valueOf(currentPrice * forecastsTbl.getSelectionModel().getSelectedItem().getFee()));
+    }
 
     /* ---------------------------------- Earth and slider methods ----------------------------------*/
 
@@ -467,18 +600,7 @@ public class BrowseEventsController implements Controller {
 
     @Override
     public void redraw() {
-        // Labels
-        dateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Date").toUpperCase());
-        eventsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Events").toUpperCase());
-        forecastLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Forecast").toUpperCase());
-        placeBetLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("PlaceBet"));
-        couldWinText.setText(ResourceBundle.getBundle("Etiquetas").getString("CouldWin"));
-
-        // Table columns
-        descriptionCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
-        countryCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Country"));
-        forecastDescriptions.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
-        forecastFees.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee"));
+        registerErrorText.setText("");
     }
 }
 

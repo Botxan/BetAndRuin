@@ -4,6 +4,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -14,13 +15,32 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="main" maxHeight="650.0" maxWidth="1.7976931348623157E308" minHeight="552.0" prefHeight="552.0" prefWidth="1280.0" stylesheets="@css/browseEvents.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.BrowseEventsController">
+<AnchorPane fx:id="main" maxHeight="650.0" maxWidth="1.7976931348623157E308" minHeight="552.0" prefHeight="552.0" prefWidth="1280.0" stylesheets="@css/browseEvents.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.BrowseEventsController">
    <children>
-      <ImageView fitHeight="743.0" fitWidth="784.0" layoutX="22.0" layoutY="-16.0" opacity="0.3" pickOnBounds="true" preserveRatio="true">
+      <TableView fx:id="eventTbl" layoutX="826.0" layoutY="153.0" prefHeight="122.0" prefWidth="356.0" styleClass="table_view" stylesheets="@css/loginStyle.css">
+        <columns>
+          <TableColumn fx:id="idCol" maxWidth="1500.0" minWidth="0.0" prefWidth="1500.0" text="Id" />
+          <TableColumn fx:id="descriptionCol" prefWidth="190.0" text="Description" />
+            <TableColumn fx:id="countryCol" maxWidth="2500.0" minWidth="0.0" prefWidth="108.0" text="Country" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+         <effect>
+            <DropShadow height="47.39" offsetX="10.0" offsetY="10.0" radius="22.4625" width="44.46">
+               <color>
+                  <Color red="0.8026315569877625" green="0.8026315569877625" blue="0.8026315569877625" />
+               </color>
+            </DropShadow>
+         </effect>
+      </TableView>
+      <ImageView fitHeight="743.0" fitWidth="784.0" layoutX="14.0" layoutY="-16.0" opacity="0.3" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@icon/favicon.png" />
          </image>
@@ -32,62 +52,125 @@
             </Shadow>
          </effect>
       </ImageView>
-      <Label fx:id="dateLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="879.0" layoutY="26.0" prefHeight="35.0" prefWidth="260.0" styleClass="dateLbl" text="DATE" textAlignment="CENTER" />
-      <Line endX="220.0" layoutX="918.0" layoutY="61.0" startX="-39.33331298828125" />
-      <TextField fx:id="yearField" alignment="CENTER" layoutX="882.0" layoutY="62.0" onKeyPressed="#dateKeyPressed" prefHeight="16.0" prefWidth="106.0" text="2022">
+      <Label fx:id="dateLbl" layoutX="987.0" layoutY="24.0" styleClass="dateLbl" text="DATE" textFill="#757575">
+         <font>
+            <Font size="6.0" />
+         </font></Label>
+      <Line endX="38.0" layoutX="935.0" layoutY="38.0" startX="-39.33331298828125" stroke="#757575" strokeWidth="0.5" />
+      <TextField fx:id="yearField" alignment="CENTER" layoutX="876.0" layoutY="50.0" onKeyPressed="#dateKeyPressed" prefHeight="16.0" prefWidth="106.0" text="2022">
          <styleClass>
             <String fx:value="dateField" />
             <String fx:value="year-field" />
          </styleClass>
       </TextField>
-      <Line endX="99.33331298828125" endY="3.0" layoutX="904.0" layoutY="67.0" startX="87.0" startY="41.0" />
-      <TextField fx:id="monthField" alignment="CENTER" layoutX="994.0" layoutY="62.0" onKeyPressed="#dateKeyPressed" prefHeight="25.0" prefWidth="66.0" text="22">
+      <Line endX="103.0" endY="-4.0" layoutX="893.0" layoutY="57.0" startX="87.0" startY="41.0" stroke="#697900" />
+      <TextField fx:id="monthField" alignment="CENTER" layoutX="991.0" layoutY="51.0" onKeyPressed="#dateKeyPressed" prefHeight="25.0" prefWidth="66.0" text="22">
          <styleClass>
             <String fx:value="dateField" />
             <String fx:value="month-field" />
          </styleClass></TextField>
-      <Line endX="99.33331298828125" endY="3.0" layoutX="970.0" layoutY="68.0" startX="87.0" startY="41.0" />
-      <TextField fx:id="dayField" alignment="CENTER" layoutX="1058.0" layoutY="62.0" onKeyPressed="#dateKeyPressed" prefHeight="25.0" prefWidth="66.0" styleClass="dateField" text="22" />
-      <DatePicker fx:id="eventDatePicker" layoutX="1139.0" layoutY="88.0" maxHeight="53.0" maxWidth="57.0" minHeight="24.0" minWidth="24.0" prefHeight="24.0" prefWidth="24.0" styleClass="date-picker">
+      <TextField fx:id="dayField" alignment="CENTER" layoutX="1072.0" layoutY="51.0" onKeyPressed="#dateKeyPressed" prefHeight="25.0" prefWidth="66.0" styleClass="dateField" text="22" />
+      <DatePicker fx:id="eventDatePicker" layoutX="1149.0" layoutY="56.0" maxHeight="53.0" maxWidth="57.0" minHeight="24.0" minWidth="24.0" prefHeight="24.0" prefWidth="24.0" styleClass="date-picker">
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
          <effect>
             <DropShadow blurType="ONE_PASS_BOX" offsetX="1.0" offsetY="1.0" radius="7.8025" width="12.21" />
          </effect></DatePicker>
-      <Label fx:id="eventsLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="878.0" layoutY="119.0" prefHeight="35.0" prefWidth="260.0" styleClass="dateLbl" text="EVENTS" textAlignment="CENTER" />
-      <Line endX="220.0" layoutX="918.0" layoutY="154.0" startX="-39.33331298828125" />
-      <TableView fx:id="eventTbl" layoutX="830.0" layoutY="167.0" prefHeight="111.0" prefWidth="356.0">
-        <columns>
-          <TableColumn fx:id="idCol" maxWidth="1500.0" minWidth="0.0" prefWidth="1500.0" text="Id" />
-          <TableColumn fx:id="descriptionCol" prefWidth="192.0" text="Description" />
-            <TableColumn fx:id="countryCol" maxWidth="2500.0" prefWidth="2500.0" text="Country" />
-        </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
+      <Label fx:id="dateLbl1" layoutX="973.0" layoutY="119.0" styleClass="dateLbl" text="EVENTS" textFill="#757575" />
       <JFXSlider fx:id="earthRotationSlider" layoutX="170.0" layoutY="459.0" max="360.0" prefHeight="14.0" prefWidth="326.0" />
-      <Label fx:id="placeBetLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="872.0" layoutY="423.0" prefHeight="35.0" prefWidth="260.0" styleClass="dateLbl" text="PLACE BET" textAlignment="CENTER" />
-      <Line endX="220.0" layoutX="911.0" layoutY="458.0" startX="-39.33331298828125" />
-      <AnchorPane layoutX="772.0" layoutY="474.0" prefHeight="53.0" prefWidth="486.0" style="-fx-background-color: #ededed;">
-         <children>
-            <TextField fx:id="placeBetField" layoutX="26.0" layoutY="14.0" promptText="Place Your Bet Amount" />
-            <Text fx:id="couldWinText" layoutX="211.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You could win:" textAlignment="RIGHT" wrappingWidth="132.0" />
-            <FontAwesomeIconView fill="#868686" glyphName="EURO" layoutX="186.0" layoutY="34.0" size="20" wrappingWidth="13.747528076171875" />
-            <FontAwesomeIconView fill="#09b500" glyphName="EURO" layoutX="418.0" layoutY="36.0" size="25" wrappingWidth="13.747528076171875" />
-         </children>
-      </AnchorPane>
-      <Label fx:id="forecastLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="877.0" layoutY="289.0" prefHeight="35.0" prefWidth="260.0" styleClass="dateLbl" text="FORECAST" textAlignment="CENTER" />
-      <Line endX="220.0" layoutX="918.0" layoutY="324.0" startX="-39.33331298828125" />
-      <TableView layoutX="826.0" layoutY="333.0" prefHeight="88.0" prefWidth="356.0">
+      <Label fx:id="dateLbl12" layoutX="961.0" layoutY="296.0" styleClass="dateLbl" text="QUESTIONS" textFill="#757575" />
+      <TableView fx:id="questionsTbl" layoutX="826.0" layoutY="330.0" onSort="#getQuestions" prefHeight="111.0" prefWidth="356.0" stylesheets="@css/loginStyle.css">
         <columns>
-          <TableColumn fx:id="forecastDescriptions" prefWidth="255.333251953125" text="Description" />
-          <TableColumn fx:id="forecastFees" prefWidth="100.0" text="Fee" />
+          <TableColumn fx:id="questionDescriptions" prefWidth="237.0" text="Question" />
+          <TableColumn fx:id="questionFees" prefWidth="117.0" text="Minimum Bet (€)" />
         </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
+         <effect>
+            <DropShadow height="47.39" offsetX="10.0" offsetY="10.0" radius="22.4625" width="44.46">
+               <color>
+                  <Color red="0.8026315569877625" green="0.8026315569877625" blue="0.8026315569877625" />
+               </color>
+            </DropShadow>
+         </effect>
       </TableView>
+      <Text fx:id="registerErrorText" fill="RED" layoutX="920.0" layoutY="523.0" stroke="BLACK" strokeType="OUTSIDE" strokeWidth="0.0" text="*You must be registered to bet.">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Text>
+      <Button id="browse_events" fx:id="betandruinButton" layoutX="914.0" layoutY="466.0" mnemonicParsing="false" onAction="#betPanel" prefHeight="39.0" prefWidth="189.0" style="-fx-background-radius: 50; -fx-background-color: #b3cf00;" styleClass="browse_events" stylesheets="@css/loginStyle.css" text="BET &amp; RUIN" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="19.0" />
+         </font>
+      </Button>
+      <Line endX="38.0" fill="WHITE" layoutX="1086.0" layoutY="38.0" startX="-39.33331298828125" stroke="#757575" strokeWidth="0.5" />
+      <Line endX="103.0" endY="-4.0" layoutX="970.0" layoutY="57.0" startX="87.0" startY="41.0" stroke="#697900" />
+      <Line endX="38.0" layoutX="921.0" layoutY="132.0" startX="-39.33331298828125" stroke="#757575" strokeWidth="0.5" />
+      <Line endX="38.0" fill="WHITE" layoutX="1088.0" layoutY="132.0" startX="-39.33331298828125" stroke="#757575" strokeWidth="0.5" />
+      <Line endX="38.0" layoutX="908.0" layoutY="309.0" startX="-39.33331298828125" stroke="#757575" strokeWidth="0.5" />
+      <Line endX="38.0" fill="WHITE" layoutX="1110.0" layoutY="309.0" startX="-39.33331298828125" stroke="#757575" strokeWidth="0.5" />
+      <Pane fx:id="placeBetPane" layoutX="772.0" layoutY="-4.0" prefHeight="559.0" prefWidth="508.0" style="-fx-background-color: rgba(92, 92, 92, 0.95);">
+         <children>
+            <AnchorPane layoutX="11.0" layoutY="355.0" prefHeight="40.0" prefWidth="457.0" style="-fx-background-color: #ededed; -fx-background-radius: 20;">
+               <children>
+                  <Text layoutX="257.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You could win:" />
+                  <FontAwesomeIconView fill="#a4a4a4" glyphName="EURO" layoutX="418.0" layoutY="38.0" size="25" wrappingWidth="13.747528076171875" />
+                  <FontAwesomeIconView fill="#b3cf00" glyphName="EURO" layoutX="149.0" layoutY="44.0" size="40" wrappingWidth="13.747528076171875" />
+                  <Text fx:id="euroNumber" fill="#b3cf00" layoutX="50.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00" textAlignment="RIGHT">
+                     <font>
+                        <Font name="System Bold" size="46.0" />
+                     </font>
+                  </Text>
+                  <Button layoutX="183.0" layoutY="17.0" mnemonicParsing="false" onAction="#addBetAmount" style="-fx-background-radius: 30;">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="PLUS" />
+                     </graphic>
+                  </Button>
+                  <Button layoutX="215.0" layoutY="17.0" mnemonicParsing="false" onAction="#substractBetAmount" style="-fx-background-radius: 30;">
+                     <graphic>
+                        <FontAwesomeIconView glyphName="MINUS" />
+                     </graphic>
+                  </Button>
+                  <Text fx:id="gainNumber" fill="#6b6b6b" layoutX="370.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00" textAlignment="RIGHT">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                  </Text>
+               </children>
+            </AnchorPane>
+            <TableView fx:id="forecastsTbl" layoutX="42.0" layoutY="131.0" prefHeight="149.0" prefWidth="384.0" stylesheets="@css/loginStyle.css">
+              <columns>
+                <TableColumn fx:id="forecastDescription" prefWidth="277.0" text="Description" />
+                <TableColumn fx:id="forecastFee" prefWidth="106.0" text="Fee (%)" />
+              </columns>
+               <effect>
+                  <DropShadow height="45.2" offsetX="10.0" offsetY="10.0" radius="21.915" width="44.46">
+                     <color>
+                        <Color red="0.30263158679008484" green="0.30263158679008484" blue="0.30263158679008484" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </TableView>
+            <Button id="browse_events" layoutX="160.0" layoutY="435.0" mnemonicParsing="false" onAction="#placeBet" prefHeight="40.0" prefWidth="149.0" style="-fx-background-radius: 50; -fx-background-color: #b3cf00;" stylesheets="@css/loginStyle.css" text="PLACE BET" textFill="WHITE" />
+            <Label fx:id="dateLbl111" layoutX="188.0" layoutY="91.0" styleClass="dateLbl" text="FORECASTS" textFill="WHITE" />
+            <Line endX="38.0" layoutX="132.0" layoutY="104.0" startX="-39.33331298828125" stroke="WHITE" strokeWidth="0.5" />
+            <Line endX="38.0" fill="WHITE" layoutX="334.0" layoutY="104.0" startX="-39.33331298828125" stroke="WHITE" strokeWidth="0.5" />
+            <Label fx:id="dateLbl1111" layoutX="220.0" layoutY="319.0" styleClass="dateLbl" text="BET" textFill="WHITE" />
+            <Line endX="73.0" layoutX="131.0" layoutY="332.0" startX="-39.33331298828125" stroke="WHITE" strokeWidth="0.5" />
+            <Line endX="38.0" fill="WHITE" layoutX="333.0" layoutY="332.0" startX="-67.0" stroke="WHITE" strokeWidth="0.5" />
+            <Button id="browse_events" layoutX="-21.0" layoutY="31.0" mnemonicParsing="false" onAction="#betPanel" prefHeight="40.0" prefWidth="43.0" style="-fx-background-color: #b3cf00; -fx-background-radius: 10;" stylesheets="@css/loginStyle.css" textFill="WHITE">
+               <graphic>
+                  <FontAwesomeIconView fill="WHITE" glyphName="CLOSE" size="20" />
+               </graphic>
+            </Button>
+         </children>
+      </Pane>
+      <Label fx:id="dateLbl2" layoutX="288.0" layoutY="492.0" styleClass="dateLbl" text="COUNTRY" textFill="#757575">
+         <font>
+            <Font size="6.0" />
+         </font>
+      </Label>
+      <Line endX="38.0" layoutX="236.0" layoutY="506.0" startX="-39.33331298828125" stroke="#757575" strokeWidth="0.5" />
+      <Line endX="38.0" fill="WHITE" layoutX="422.0" layoutY="506.0" startX="-39.33331298828125" stroke="#757575" strokeWidth="0.5" />
    </children>
 </AnchorPane>

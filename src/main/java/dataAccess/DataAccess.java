@@ -1,6 +1,7 @@
 	package dataAccess;
 
     import businessLogic.BlFacadeImplementation;
+    import com.toedter.calendar.DateUtil;
     import configuration.ConfigXML;
     import configuration.UtilDate;
     import domain.*;
@@ -114,6 +115,18 @@
                     q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1);
                     q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
                 }
+
+                List<Forecast> forecasts1 = new ArrayList<Forecast>();
+                forecasts1.add(new Forecast("Team1", 2, q1));
+                forecasts1.add(new Forecast("Team2", 2, q1));
+                forecasts1.add(new Forecast("Tie", 2, q1));
+                forecasts1.add(new Forecast("No goals", 2, q1));
+                q1.setForecasts(forecasts1);
+                q2.setForecasts(forecasts1);
+                q3.setForecasts(forecasts1);
+                q4.setForecasts(forecasts1);
+                q5.setForecasts(forecasts1);
+                q6.setForecasts(forecasts1);
 
                 // Create dummy user and admin
                 byte [] salt = BlFacadeImplementation.generateSalt();
@@ -497,6 +510,71 @@
                 theuser.depositMoneyIntoWallet(amount);
                 db.getTransaction().commit();
             }
+        }
+
+        /**
+         * Returns the single possible bet for a given gambler and the gambler's forecast.
+         * @param gambler The user to get the bet from.
+         * @param userForecast The forecast where the user has bet.
+         * @return The single bet placed by the user if a bet was placed, NULL otherwise.
+         */
+        public Bet getBet(User gambler, Forecast userForecast)
+        {
+            Bet result = null;
+            TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.gambler = ?1 AND b.userForecast = ?2", Bet.class);
+            q.setParameter(1, gambler);
+            q.setParameter(2, userForecast);
+            List<Bet> bets = q.getResultList();
+            if(!bets.isEmpty())
+                result = bets.get(0);
+            return result;
+        }
+
+        /**
+         * Persists a new bet for the given gambler, in the selected forecast.
+         * @param betAmount Amount of money bet by the gambler.
+         * @param forecast The forecast linked with the bet.
+         * @param gambler The user who places the bet.
+         * @return true if the persistence has been successful.
+         * @throws BetAlreadyExistsException Thrown if the gambler already had placed a bet in the same forecast.
+         * @throws LateBetException Thrown if the gambler tries to place a bet an hour before on the event associated with the forecast.
+         * @throws LiquidityLackException Thrown when gambler bets not having enough liquidity access to account for it.
+         * @throws MinBetException Exception for when user inserts less fee than required.
+         */
+        public boolean setBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException
+        {
+            if(betAmount < forecast.getQuestion().getBetMinimum()) throw new MinBetException();
+            //Check for liquidity:
+            if(gambler.getWallet() - betAmount < 0) throw new LiquidityLackException();
+
+            //Check for date (LateBetException):
+            Date today = new Date(System.currentTimeMillis());
+            Date eventDate = forecast.getQuestion().getEvent().getEventDate();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(eventDate);
+            cal.add(Calendar.HOUR_OF_DAY, -1);
+            Date eventBetLimit = cal.getTime();
+
+            if(today.after(eventBetLimit)) throw new LateBetException();
+
+            //Check if bet already exists:
+            if(getBet(gambler, forecast) != null) throw new BetAlreadyExistsException();
+
+            User dbGambler;
+            Bet newBet = new Bet(betAmount, forecast, gambler);
+            db.getTransaction().begin();
+            try {
+                dbGambler = getUser(gambler.getUsername());
+                dbGambler.setWallet(gambler.getWallet() - betAmount);
+            } catch (UserNotFoundException e) {
+                e.printStackTrace();
+            }
+            db.persist(newBet);
+            db.getTransaction().commit();
+            gambler.setWallet(gambler.getWallet() - betAmount);
+            System.out.println(newBet + " has been saved.");
+            System.out.println("Gambler current money: " + gambler.getWallet());
+            return true;
         }
 
         /**

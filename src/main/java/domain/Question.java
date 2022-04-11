@@ -207,8 +207,8 @@ public class Question {
 	 * Setter for the correct forecast for this question.
 	 * @param correctForecast the correct forecast
 	 */
-	public void setCorrectForecast(Forecast correctForecast) {
-		this.correctForecast = correctForecast;
+	public Forecast setCorrectForecast(Forecast correctForecast) {
+		return this.correctForecast = correctForecast;
 	}
 
 	@Override
