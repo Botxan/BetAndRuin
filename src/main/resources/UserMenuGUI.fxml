@@ -13,16 +13,16 @@
             <Image url="@img/favicon_dark.png" />
          </image>
       </ImageView>
-      <JFXButton buttonType="RAISED" layoutY="53.0" onAction="#browseEvents" prefHeight="77.0" prefWidth="348.0" style="-fx-background-color: #dadada; -fx-font-size: 14px;" text="Browse questions" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <JFXButton fx:id="browseEventsBtn" buttonType="RAISED" layoutY="53.0" onAction="#browseEvents" prefHeight="77.0" prefWidth="348.0" style="-fx-background-color: #dadada; -fx-font-size: 14px;" text="%BrowseEvents" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor></JFXButton>
-      <JFXButton buttonType="RAISED" layoutY="161.0" onAction="#depositMoney" prefHeight="77.0" prefWidth="1280.0" style="-fx-background-color: #dadada; -fx-font-size: 14px;" text="Deposit money" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <JFXButton fx:id="depositMoneyBtn" buttonType="RAISED" layoutY="161.0" onAction="#depositMoney" prefHeight="77.0" prefWidth="1280.0" style="-fx-background-color: #dadada; -fx-font-size: 14px;" text="%DepositMoney" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXButton buttonType="RAISED" layoutY="270.0" onAction="#showMovements" prefHeight="77.0" prefWidth="1280.0" style="-fx-background-color: #dadada; -fx-font-size: 14px;" text="Show movements" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <JFXButton fx:id="showMovementsBtn" buttonType="RAISED" layoutY="270.0" onAction="#showMovements" prefHeight="77.0" prefWidth="1280.0" style="-fx-background-color: #dadada; -fx-font-size: 14px;" text="%ShowMovements" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
