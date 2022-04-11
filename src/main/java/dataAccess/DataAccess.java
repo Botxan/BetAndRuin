@@ -516,9 +516,13 @@
          * @return true if the persistence has been successful.
          * @throws BetAlreadyExistsException Thrown if the gambler already had placed a bet in the same forecast.
          * @throws LateBetException Thrown if the gambler tries to place a bet an hour before on the event associated with the forecast.
+         * @throws LiquidityLackException Thrown when gambler bets not having enough liquidity access to account for it.
          */
-        public boolean setBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException
+        public boolean setBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException
         {
+            //Check for liquidity:
+            if(gambler.getWallet() - betAmount < 0) throw new LiquidityLackException();
+
             //Check for date (LateBetException):
             Date today = new Date(System.currentTimeMillis());
             Date eventDate = forecast.getQuestion().getEvent().getEventDate();
@@ -532,11 +536,20 @@
             //Check if bet already exists:
             if(getBet(gambler, forecast) != null) throw new BetAlreadyExistsException();
 
-            db.getTransaction().begin();
+            User dbGambler;
             Bet newBet = new Bet(betAmount, forecast, gambler);
+            db.getTransaction().begin();
+            try {
+                dbGambler = getUser(gambler.getUsername());
+                dbGambler.setWallet(gambler.getWallet() - betAmount);
+            } catch (UserNotFoundException e) {
+                e.printStackTrace();
+            }
             db.persist(newBet);
             db.getTransaction().commit();
+            gambler.setWallet(gambler.getWallet() - betAmount);
             System.out.println(newBet + " has been saved.");
+            System.out.println("Gambler current money: " + gambler.getWallet());
             return true;
         }
 

@@ -7,6 +7,7 @@ import domain.Forecast;
 import domain.Question;
 import exceptions.BetAlreadyExistsException;
 import exceptions.LateBetException;
+import exceptions.LiquidityLackException;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -404,7 +405,10 @@ public class BrowseEventsController implements Controller {
             e.printStackTrace();
         } catch (LateBetException e) {
             e.printStackTrace();
+        } catch (LiquidityLackException e) {
+            e.printStackTrace();
         }
+        mainGUI.navBarLag.getController().redraw();
     }
 
     /* ---------------------------------- Earth and slider methods ----------------------------------*/

@@ -1,7 +1,7 @@
 package exceptions;
 
 /**
- * Exception for when user wants to bet on a bet from an hour for the event later.
+ * Thrown if the gambler tries to place a bet an hour before on the event associated with the forecast.
  * @author Nko
  *
  */

@@ -126,7 +126,7 @@ public class NavBarController implements Controller {
 
     @Override
     public void redraw() {
-
+        updateWalletLabel();
     }
 
     /* -------------------------------- LEFT SIDE BUTTONS -------------------------------- */
@@ -285,8 +285,10 @@ public class NavBarController implements Controller {
      * Displays the money available in current user's wallet
      */
     public void updateWalletLabel() {
-        Double wallet = businessLogic.getCurrentUser().getWallet();
-        walletLabel.setText(wallet + " €");
+        if(businessLogic.getCurrentUser() != null) {
+            Double wallet = businessLogic.getCurrentUser().getWallet();
+            walletLabel.setText(wallet + " €");
+        }
     }
 
     /**
