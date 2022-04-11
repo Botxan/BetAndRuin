@@ -8,6 +8,7 @@ import domain.Question;
 import exceptions.BetAlreadyExistsException;
 import exceptions.LateBetException;
 import exceptions.LiquidityLackException;
+import exceptions.MinBetException;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -30,6 +31,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -70,8 +72,10 @@ public class BrowseEventsController implements Controller {
     @FXML private TableView<Forecast> forecastsTbl;
     @FXML private TableColumn<Forecast, String> forecastDescription;
     @FXML private TableColumn<Forecast, Double> forecastFee;
-    @FXML private TextField betAmount;
     @FXML private Pane placeBetPane;
+    @FXML private Text registerErrorText;
+    @FXML private Text euroNumber;
+    @FXML private Text gainNumber;
 
     ObservableList<Question> questions;
     ObservableList<Forecast> forecasts;
@@ -117,6 +121,9 @@ public class BrowseEventsController implements Controller {
         forecastDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
         forecastFee.setCellValueFactory(new PropertyValueFactory<>("fee"));
 
+        placeBetPane.setVisible(false);
+        registerErrorText.setText("");
+
         eventTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 getQuestions();
@@ -126,6 +133,13 @@ public class BrowseEventsController implements Controller {
         questionsTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             if (newSelection != null) {
                 getForecasts();
+            }
+        });
+
+        forecastsTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            if (newSelection != null) {
+                euroNumber.setText(String.valueOf(newSelection.getQuestion().getBetMinimum()));
+                gainNumber.setText(String.valueOf(newSelection.getFee() * newSelection.getQuestion().getBetMinimum()));
             }
         });
 
@@ -390,25 +404,70 @@ public class BrowseEventsController implements Controller {
 
     public void placeBet()
     {
-        if(businessLogic.getCurrentUser() == null) placeBetPane.setDisable(true);
         float betPrice = 0F;
         try {
-            betPrice = Float.parseFloat(betAmount.getText());
+            betPrice = Float.parseFloat(euroNumber.getText());
         } catch (NumberFormatException e)
         {
             e.printStackTrace();
         }
-        //FIXME Check for minimum bet.
         try {
-            businessLogic.placeBet(betPrice, forecastsTbl.getSelectionModel().getSelectedItem(), businessLogic.getCurrentUser());
+            if(forecastsTbl.getSelectionModel().getSelectedItem() == null) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, "You need to select a forecast to bet.", ButtonType.OK);
+                alert.showAndWait();
+            }
+            else {
+                businessLogic.placeBet(betPrice, forecastsTbl.getSelectionModel().getSelectedItem(), businessLogic.getCurrentUser());
+                Alert alert = new Alert(Alert.AlertType.NONE, "Your bet has been successfully placed.", ButtonType.OK);
+                alert.showAndWait();
+            }
         } catch (BetAlreadyExistsException e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "You have already placed a bet for this forecast, choose another one.", ButtonType.OK);
+            alert.showAndWait();
         } catch (LateBetException e) {
-            e.printStackTrace();
+            Alert alert = new Alert(Alert.AlertType.ERROR, "The event is due to start or has started, unable to place a bet, choose another one.", ButtonType.OK);
+            alert.showAndWait();
         } catch (LiquidityLackException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, "You do not have enough money to carry on with the bet.", ButtonType.OK);
+            alert.showAndWait();
+        } catch (MinBetException e){
             e.printStackTrace();
         }
         mainGUI.navBarLag.getController().redraw();
+    }
+
+    /**
+     * Activate and desactivate bet panel. If current user is not registered pops a warning.
+     */
+    public void betPanel()
+    {
+        registerErrorText.setText("");
+        if(questionsTbl.getSelectionModel().getSelectedItem() == null)
+            //FIXME translation
+            registerErrorText.setText("*Select a question.");
+        else if(businessLogic.getCurrentUser() == null) registerErrorText.setText("*You need to be registered to bet.");
+        else
+        {
+            if (placeBetPane.isVisible()) placeBetPane.setVisible(false);
+            else placeBetPane.setVisible(true);
+        }
+    }
+
+    public void addBetAmount()
+    {
+        Float currentPrice = Float.parseFloat(euroNumber.getText());
+        currentPrice += 0.50F;
+        euroNumber.setText(String.valueOf(currentPrice));
+        gainNumber.setText(String.valueOf(currentPrice * forecastsTbl.getSelectionModel().getSelectedItem().getFee()));
+    }
+
+    public void substractBetAmount()
+    {
+        Float currentPrice = Float.parseFloat(euroNumber.getText());
+        if(currentPrice - 0.5 >= forecastsTbl.getSelectionModel().getSelectedItem().getFee())
+            currentPrice -= 0.50F;
+        euroNumber.setText(String.valueOf(currentPrice));
+        gainNumber.setText(String.valueOf(currentPrice * forecastsTbl.getSelectionModel().getSelectedItem().getFee()));
     }
 
     /* ---------------------------------- Earth and slider methods ----------------------------------*/
@@ -540,7 +599,9 @@ public class BrowseEventsController implements Controller {
     }
 
     @Override
-    public void redraw() {}
+    public void redraw() {
+        registerErrorText.setText("");
+    }
 }
 
 /**

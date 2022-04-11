@@ -517,9 +517,11 @@
          * @throws BetAlreadyExistsException Thrown if the gambler already had placed a bet in the same forecast.
          * @throws LateBetException Thrown if the gambler tries to place a bet an hour before on the event associated with the forecast.
          * @throws LiquidityLackException Thrown when gambler bets not having enough liquidity access to account for it.
+         * @throws MinBetException Exception for when user inserts less fee than required.
          */
-        public boolean setBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException
+        public boolean setBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException
         {
+            if(betAmount < forecast.getQuestion().getBetMinimum()) throw new MinBetException();
             //Check for liquidity:
             if(gambler.getWallet() - betAmount < 0) throw new LiquidityLackException();
 
