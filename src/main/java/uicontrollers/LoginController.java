@@ -178,7 +178,7 @@ public class LoginController implements Controller, Initializable {
             if (logedUser.getUserMode() == 1)
                 mainGUI.goForward("UserMenu");
             else if (logedUser.getUserMode() == 2)
-                mainGUI.goForward("CreateEvent");
+                mainGUI.goForward("CreateQuestion");
         } catch (UserNotFoundException e1) {
             usernameErrorText.setVisible(true);
         } catch (InvalidPasswordException e2) {
