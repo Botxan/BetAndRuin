@@ -32,7 +32,7 @@ public class MainGUI {
     public Window navBarLag;
     private Window loginLag, registerLag, mainLag, createQuestionLag,
             browseEventsLag, welcomeLag, userMenuLag, depositMoneyLag,
-            createForecastLag;
+            createForecastLag, createEventLag;
 
     private BlFacade businessLogic;
     private Stage stage;
@@ -107,6 +107,8 @@ public class MainGUI {
                 return new DepositMoneyController(businessLogic);
             }else if (controllerClass == CreateForecastController.class) {
                 return new CreateForecastController(businessLogic);
+            }else if (controllerClass == CreateEventController.class) {
+                return new CreateEventController(businessLogic);
             } else {
                 // default behavior for controllerFactory:
                 try {
@@ -139,6 +141,7 @@ public class MainGUI {
         registerLag = load("/RegisterGUI.fxml", "Register", 900, 600);
         mainLag = load("/MainGUI.fxml", "MainTitle", SCENE_WIDTH, SCENE_HEIGHT);
         browseEventsLag = load("/BrowseEvents.fxml", "BrowseEvents", SCENE_WIDTH, SCENE_HEIGHT);
+        createEventLag = load("/CreateEvent.fxml", "CreateEvent", SCENE_WIDTH, SCENE_HEIGHT);
 
         setupScene();
         ResizeHelper.addResizeListener(this.stage);
@@ -285,6 +288,8 @@ public class MainGUI {
                 yield depositMoneyLag;
             case "CreateForecast":
                 yield createForecastLag;
+            case "CreateEvent":
+                yield createEventLag;
             default: // get the initial window
                 yield mainLag;
         };
