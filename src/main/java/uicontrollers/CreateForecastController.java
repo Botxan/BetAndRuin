@@ -3,9 +3,7 @@ package uicontrollers;
 import businessLogic.BlFacade;
 import domain.Event;
 import domain.Question;
-import exceptions.EventFinished;
 import exceptions.ForecastAlreadyExistException;
-import exceptions.QuestionAlreadyExist;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,222 +15,206 @@ import javafx.util.Callback;
 import ui.MainGUI;
 import utils.Dates;
 
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.YearMonth;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.util.*;
 
 public class CreateForecastController implements Controller {
 
-  private ObservableList<Event> oListEvents;
+    private ObservableList<Event> oListEvents;
 
-  public CreateForecastController(BlFacade bl) {
-    this.businessLogic = bl;
-  }
+    private ObservableList<Question> oListQuestion;
 
-  private BlFacade businessLogic;
+    public CreateForecastController(BlFacade bl) {
+        this.businessLogic = bl;
+    }
 
-  @FXML
-  private ResourceBundle resources;
+    private MainGUI mainGUI;
+    private BlFacade businessLogic;
 
-  @FXML
-  private URL location;
+    @FXML private ResourceBundle resources;
 
-  @FXML
-  private DatePicker grdDatePicker;
-  @FXML
-  private Label lblDatePicker;
-  @FXML
-  private Label lblListEvents;
-  @FXML
-  private Label lblListOfQuestions;
-  @FXML
-  private Label lblResult;
-  @FXML
-  private Label lblFee;
-  @FXML
-  private ComboBox<Event> cmbEvents;
-  @FXML
-  private ComboBox<Question> cmbQuestions;
-  @FXML
-  private TextField txtResult;
-  @FXML
-  private TextField txtFee;
-  @FXML
-  private Button btnCreateForecast;
-  @FXML
-  private Button btnBack;
+    @FXML private DatePicker datePicker;
+    @FXML private Label dateLbl;
+    @FXML private Label eventsLbl;
+    @FXML private Label questionsLbl;
+    @FXML private Label resultLbl;
+    @FXML private Label feeLbl;
+    @FXML private TextField resultField;
+    @FXML private TextField feeField;
+    @FXML private ComboBox<Event> eventsCB;
+    @FXML private ComboBox<Question> questionsCB;
+    @FXML private Button createForecastBtn;
 
-  private MainGUI mainGUI;
+    @FXML
+    private Label lblErrorMessage;
 
+    private void clearErrorLabels() {
+        lblErrorMessage.setText("");
+        lblErrorMessage.getStyleClass().clear();
+    }
 
-  @FXML
-  private Label lblErrorMessage;
+    @FXML
+    void createForecast() {
+        clearErrorLabels();
 
+        Question question = questionsCB.getSelectionModel().getSelectedItem();
+        String inputResult = resultField.getText();
+        int inputFee;
+        boolean showErrors = true;
 
-  @FXML
-  void closeClick(ActionEvent event) {
-    clearErrorLabels();
-    mainGUI.goForward("MainTitle");
-  }
+        try {
 
-  private void clearErrorLabels() {
-    lblErrorMessage.setText("");
-    lblErrorMessage.getStyleClass().clear();
-  }
+            if (inputResult.length() > 0) {
 
-  @FXML
-  void createForecastClick(ActionEvent e) {
+                inputFee = Integer.valueOf(feeField.getText());
 
-    clearErrorLabels();
+                if (inputFee <= 0) lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
+                else {
+                    businessLogic.addForecast(question, inputResult, inputFee);
+                    lblErrorMessage.getStyleClass().clear();
+                    lblErrorMessage.getStyleClass().setAll("lbl", "lbl-success");
+                    lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("ForecastAddedSuccessfully"));
+                    showErrors = false;
+                }
+            } else lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("FieldsCompulsory"));
 
-    Question question = cmbQuestions.getSelectionModel().getSelectedItem();
-    String inputResult = txtResult.getText();
-    int inputFee;
-    boolean showErrors = true;
-
-    try {
-
-      if (inputResult.length() > 0) {
-
-        inputFee = Integer.valueOf(txtFee.getText());
-
-        if (inputFee <= 0) {
-          lblErrorMessage.setText("Fee should be > 0");
-        } else {
-          businessLogic.addForecast(question, inputResult, inputFee);
-          lblErrorMessage.getStyleClass().clear();
-          lblErrorMessage.getStyleClass().setAll("lbl", "lbl-success");
-          lblErrorMessage.setText("Forecast correctly created");
-          showErrors = false;
+        } catch (NumberFormatException ex) {
+            lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
+        } catch (ForecastAlreadyExistException ex) {
+            lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorForecastAlreadyExist"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
         }
-      } else {
-        lblErrorMessage.setText("Result shouldn't be empty");
-      }
 
-    } catch (NumberFormatException ex) {
-      lblErrorMessage.setText("Introduce a number");
-    } catch (ForecastAlreadyExistException ex) {
-      lblErrorMessage.setText("Question already exists");
-    } catch (Exception ex) {
-      ex.printStackTrace();
+        if (lblErrorMessage.getText().length() > 0 && showErrors) {
+            lblErrorMessage.getStyleClass().setAll("lbl", "lbl-danger");
+        }
+        if (lblErrorMessage.getText().length() > 0 && showErrors) {
+            lblErrorMessage.getStyleClass().setAll("lbl", "lbl-danger");
+        }
+
     }
 
-    if (lblErrorMessage.getText().length() > 0 && showErrors) {
-      lblErrorMessage.getStyleClass().setAll("lbl", "lbl-danger");
+    private List<LocalDate> holidays = new ArrayList<>();
+
+    private void setEventsPrePost(int year, int month) {
+        LocalDate date = LocalDate.of(year, month, 1);
+        setEvents(date.getYear(), date.getMonth().getValue());
+        setEvents(date.plusMonths(1).getYear(), date.plusMonths(1).getMonth().getValue());
+        setEvents(date.plusMonths(-1).getYear(), date.plusMonths(-1).getMonth().getValue());
     }
-    if (lblErrorMessage.getText().length() > 0 && showErrors) {
-      lblErrorMessage.getStyleClass().setAll("lbl", "lbl-danger");
+
+    private void setEvents(int year, int month) {
+
+        Date date = Dates.toDate(year, month);
+
+        for (Date day : businessLogic.getEventsMonth(date)) {
+            holidays.add(Dates.convertToLocalDateViaInstant(day));
+        }
     }
 
-  }
+    @FXML
+    void initialize() {
 
-  private List<LocalDate> holidays = new ArrayList<>();
+        createForecastBtn.setDisable(true);
 
-  private void setEventsPrePost(int year, int month) {
-    LocalDate date = LocalDate.of(year, month, 1);
-    setEvents(date.getYear(), date.getMonth().getValue());
-    setEvents(date.plusMonths(1).getYear(), date.plusMonths(1).getMonth().getValue());
-    setEvents(date.plusMonths(-1).getYear(), date.plusMonths(-1).getMonth().getValue());
-  }
-
-  private void setEvents(int year, int month) {
-
-    Date date = Dates.toDate(year, month);
-
-    for (Date day : businessLogic.getEventsMonth(date)) {
-      holidays.add(Dates.convertToLocalDateViaInstant(day));
-    }
-  }
-
-  @FXML
-  void initialize() {
-
-    btnCreateForecast.setDisable(true);
-
-    // only show the text of the event in the combobox (without the id)
-    Callback<ListView<Event>, ListCell<Event>> factory = lv -> new ListCell<>() {
-      @Override
-      protected void updateItem(Event item, boolean empty) {
-        super.updateItem(item, empty);
-        setText(empty ? "" : item.getDescription());
-      }
-    };
-
-    cmbEvents.setCellFactory(factory);
-    cmbEvents.setButtonCell(factory.call(null));
-
-
-    setEventsPrePost(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue());
-
-
-    // get a reference to datepicker inner content
-    // attach a listener to the  << and >> buttons
-    // mark events for the (prev, current, next) month and year shown
-    grdDatePicker.setOnMouseClicked(e -> {
-      DatePickerSkin skin = (DatePickerSkin) grdDatePicker.getSkin();
-      skin.getPopupContent().lookupAll(".button").forEach(node -> {
-        node.setOnMouseClicked(event -> {
-          List<Node> labels = skin.getPopupContent().lookupAll(".label").stream().toList();
-          String month = ((Label) (labels.get(0))).getText();
-          String year = ((Label) (labels.get(1))).getText();
-          YearMonth ym = Dates.getYearMonth(month + " " + year);
-          setEventsPrePost(ym.getYear(), ym.getMonthValue());
-        });
-      });
-
-
-    });
-
-    grdDatePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
-      @Override
-      public DateCell call(DatePicker param) {
-        return new DateCell() {
-          @Override
-          public void updateItem(LocalDate item, boolean empty) {
-            super.updateItem(item, empty);
-
-            if (!empty && item != null) {
-              if (holidays.contains(item)) {
-                this.setStyle("-fx-background-color: pink");
-              }
+        // only show the text of the event in the combobox (without the id)
+        Callback<ListView<Event>, ListCell<Event>> factory = lv -> new ListCell<>() {
+            @Override
+            protected void updateItem(Event item, boolean empty) {
+                super.updateItem(item, empty);
+                setText(empty ? "" : item.getDescription());
             }
-          }
         };
-      }
-    });
 
-    // when a date is selected...
-    grdDatePicker.setOnAction(actionEvent -> {
-      cmbEvents.getItems().clear();
+        eventsCB.setCellFactory(factory);
+        eventsCB.setButtonCell(factory.call(null));
 
-      oListEvents = FXCollections.observableArrayList(new ArrayList<>());
-      oListEvents.setAll(businessLogic.getEvents(Dates.convertToDate(grdDatePicker.getValue())));
+        setEventsPrePost(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue());
 
-      cmbEvents.setItems(oListEvents);
+        // get a reference to datepicker inner content
+        // attach a listener to the  << and >> buttons
+        // mark events for the (prev, current, next) month and year shown
+        datePicker.setOnMouseClicked(e -> {
+            DatePickerSkin skin = (DatePickerSkin) datePicker.getSkin();
+            skin.getPopupContent().lookupAll(".button").forEach(node -> {
+                node.setOnMouseClicked(event -> {
+                    List<Node> labels = skin.getPopupContent().lookupAll(".label").stream().toList();
+                    String month = ((Label) (labels.get(0))).getText();
+                    String year = ((Label) (labels.get(1))).getText();
+                    YearMonth ym = Dates.getYearMonth(month + " " + year);
+                    setEventsPrePost(ym.getYear(), ym.getMonthValue());
+                });
+            });
+        });
 
-      if (cmbEvents.getItems().size() == 0)
-        btnCreateForecast.setDisable(true);
-      else {
-         btnCreateForecast.setDisable(false);
-        // select first option
-        cmbEvents.getSelectionModel().select(0);
-      }
+        datePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(DatePicker param) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
 
-    });
+                        if (!empty && item != null) {
+                            if (holidays.contains(item)) {
+                                this.setStyle("-fx-background-color: pink");
+                            }
+                        }
+                    }
+                };
+            }
+        });
 
-  }
+        // when a date is selected...
+        datePicker.setOnAction(actionEvent -> {
+            eventsCB.getItems().clear();
 
-  @Override
-  public void setMainApp(MainGUI mainGUI) {
-    this.mainGUI = mainGUI;
-  }
+            oListEvents = FXCollections.observableArrayList(new ArrayList<>());
+            oListEvents.setAll(businessLogic.getEvents(Dates.convertToDate(datePicker.getValue())));
 
-  @Override
-  public void redraw() {
+            eventsCB.setItems(oListEvents);
 
-  }
+            if (eventsCB.getItems().size() == 0)
+                createForecastBtn.setDisable(true);
+            else {
+                createForecastBtn.setDisable(false);
+                // select first option
+                eventsCB.getSelectionModel().select(0);
+            }
+        });
+
+        eventsCB.setOnAction(actionEvent -> {
+            questionsCB.getItems().clear();
+
+            oListQuestion = FXCollections.observableArrayList(new ArrayList<>());
+            oListQuestion.setAll(businessLogic.getQuestions(eventsCB.getSelectionModel().getSelectedItem()));
+            questionsCB.setItems(oListQuestion);
+
+            if (questionsCB.getItems().size() == 0)
+                createForecastBtn.setDisable(true);
+            else {
+                createForecastBtn.setDisable(false);
+                // select first option
+                questionsCB.getSelectionModel().select(0);
+            }
+        });
+    }
+
+    @Override
+    public void setMainApp(MainGUI mainGUI) {
+        this.mainGUI = mainGUI;
+    }
+
+    @Override
+    public void redraw() {
+        // Labels and buttons
+        dateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Date"));
+        eventsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Events"));
+        questionsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Questions"));
+        resultLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Result"));
+        feeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee"));
+        createForecastBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateForecast"));
+    }
 }

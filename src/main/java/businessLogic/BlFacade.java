@@ -35,7 +35,14 @@ public interface BlFacade  {
 	 * @return it returns a collection of events
 	 */
 	@WebMethod public List<Event> getEvents(Date date);
-	
+
+	/**
+	 * It returns all the questions that belong to the event
+	 * @param event The event
+	 * @return A list with all the questions of an event
+	 */
+	@WebMethod public List<Question> getQuestions(Event event);
+
 	/**
 	 * It retrieves the dates in a month for which there are events from the database 
 	 * 
@@ -71,7 +78,7 @@ public interface BlFacade  {
 	 * @param fee fee of the forecast
 	 * @throws ForecastAlreadyExistException 
 	 */
-	@WebMethod public void addForecast(Question question, String result, int fee) throws ForecastAlreadyExistException;
+	@WebMethod public void addForecast(Question question, String result, double fee) throws ForecastAlreadyExistException;
 	
 	/**
 	 * It registers a user into the database
@@ -85,6 +92,7 @@ public interface BlFacade  {
 	 * @param year birth year of the user
 	 * @param month month of birth of the user
 	 * @param day birth day of the user
+	 * @param
 	 * @throws InvalidDateException format for year and month is invalid
 	 * @throws UnderageRegistrationException the user is under age (less than 18 years)
 	 * @throws IncorrectPSWConfirmException password and checking confirmPassword do not match
@@ -92,7 +100,11 @@ public interface BlFacade  {
 	 * @throws NoMatchingPatternException email does not match the required format
 	 * @throws UsernameAlreadyInDBException chosen username is already in the database
 	 */
-	@WebMethod public void register(String username, String firstName, String lastName, String address, String email, String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException;	
+	@WebMethod public void register(String username, String firstName, String lastName, String address, String email,
+									String password, String confirmPassword, int year, int month, int day,
+									Long cardNumber, Date expirationDate, Integer securityCode)
+			throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException,
+			PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException;
 
 	/**
 	 * It returns the user if successfully logged
@@ -135,10 +147,11 @@ public interface BlFacade  {
 	@WebMethod public void close();
 
 	/**
-	 * It deposits the amount of money that the registered user wants to deposit
-	 * @param amountToDeposit the amount of money to deposit
+	 * Deposits the requested amount of money from the given card in
+	 * current user's wallet.
+	 * @param amount the amount of money to deposit
 	 */
-	@WebMethod public void depositMoney(int amountToDeposit);
+	@WebMethod public void depositMoney(double amount) throws NotEnoughMoneyInWalletException;
 
 	/**
 	 * It removes an event

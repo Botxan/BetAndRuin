@@ -4,7 +4,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="215.0" prefWidth="334.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.MainGUIController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="215.0" prefWidth="334.0" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.MainGUIController">
    <children>
       <Label fx:id="selectOptionLbl" layoutX="103.0" layoutY="37.0" text="Select Use Case" />
       <Button fx:id="browseQuestionsBtn" layoutX="70.0" layoutY="75.0" mnemonicParsing="false" onAction="#browseEvents" prefHeight="26.0" prefWidth="181.0" text="Browse Questions" />

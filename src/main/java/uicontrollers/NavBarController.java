@@ -1,14 +1,12 @@
 package uicontrollers;
 
 import businessLogic.BlFacade;
+import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import domain.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBase;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
@@ -29,8 +27,9 @@ public class NavBarController implements Controller {
     private BlFacade businessLogic;
     private MainGUI mainGUI;
 
-    private double x, y;
+    @FXML private ResourceBundle resources;
 
+    @FXML private Label walletLabel;
     @FXML private Button backBtn;
     @FXML private Button nextBtn;
     @FXML private Button esBtn;
@@ -38,11 +37,15 @@ public class NavBarController implements Controller {
     @FXML private Button eusBtn;
     @FXML private Button loginBtn;
     @FXML private Button registerBtn;
+    @FXML private Button depositMoneyBtn;
     @FXML private MenuButton userBtn;
-    @FXML private MenuItem movementBtn;
-    @FXML private MenuItem logoutBtn;
+    @FXML private MenuItem depositMoneyItem;
+    @FXML private MenuItem movementsItem;
+    @FXML private MenuItem logoutItem;
+    @FXML private MenuItem browseEventsItem;
     @FXML private ImageView userBtnAvatar;
-    @FXML private ResourceBundle resources;
+
+    private double x, y;
 
     /**
      * Constructor for the NavBarController.
@@ -57,7 +60,9 @@ public class NavBarController implements Controller {
     void initialize() {
         backBtn.setDisable(true);
         nextBtn.setDisable(true);
-        hideBtn(userBtn);
+        hideNode(userBtn);
+        hideNode(walletLabel);
+        hideNode(depositMoneyBtn);
 
         Circle clip = new Circle(18, 18, 18);
         userBtnAvatar.setClip(clip);
@@ -112,20 +117,6 @@ public class NavBarController implements Controller {
         nextBtn.setDisable(mainGUI.getHistory().getNextWindow() == null);
     }
 
-    /**
-     * Setter for the mainGUI.
-     * @param mainGUI the mainGUI.
-     */
-    @Override
-    public void setMainApp(MainGUI mainGUI) {
-        this.mainGUI = mainGUI;
-    }
-
-    @Override
-    public void redraw() {
-
-    }
-
     /* -------------------------------- LEFT SIDE BUTTONS -------------------------------- */
 
     /**
@@ -155,18 +146,18 @@ public class NavBarController implements Controller {
     void setLocale(ActionEvent e) {
         String locale = ((Button) e.getSource()).getText();
         Locale.setDefault(new Locale(locale));
-
-        // Highlight selected button
-        if (eusBtn.getStyleClass().contains("selectedLang")) {
-            eusBtn.getStyleClass().remove("selectedLang");
-        } else if (esBtn.getStyleClass().contains("selectedLang")) {
-            esBtn.getStyleClass().remove("selectedLang");
-        } else if (enBtn.getStyleClass().contains("selectedLang")) {
-            enBtn.getStyleClass().remove("selectedLang");
-        }
-
-        ((Button) e.getSource()).getStyleClass().add("selectedLang");
         mainGUI.getHistory().getCurrentWindow().getController().redraw();
+        redraw();
+    }
+
+    void highlightLocaleBtn(String btnText) {
+        eusBtn.getStyleClass().remove("selectedLang");
+        enBtn.getStyleClass().remove("selectedLang");
+        esBtn.getStyleClass().remove("selectedLang");
+
+        if (eusBtn.getText().equals(btnText)) eusBtn.getStyleClass().add("selectedLang");
+        else if (enBtn.getText().equals(btnText)) enBtn.getStyleClass().add("selectedLang");
+        else if (esBtn.getText().equals(btnText)) esBtn.getStyleClass().add("selectedLang");
     }
 
 
@@ -224,6 +215,19 @@ public class NavBarController implements Controller {
         mainGUI.goForward("Register");
     }
 
+    /**
+     * Changes to deposit money window
+     */
+    @FXML
+    void goToDepositMoney() {
+        mainGUI.goForward("DepositMoney");
+    }
+
+    @FXML
+    void goToBrowseEvents() {
+        mainGUI.goForward("BrowseEvents");
+    }
+
     @FXML
     void showMovements() {
         System.out.println("showMovements: not implemented yet.");
@@ -246,48 +250,73 @@ public class NavBarController implements Controller {
         String currentUI = mainGUI.getHistory().getCurrentWindow().getController().getClass().getSimpleName();
 
         // Update user bar view
-        if (currentUI.equals("LoginController") || currentUI.equals("RegisterController")) {
-            // Dont show anything in the user bar
-            hideBtn(loginBtn);
-            hideBtn(registerBtn);
-            hideBtn(userBtn);
+        User currentUser = businessLogic.getCurrentUser();
+        if (currentUser == null) {
+            // Show login and register buttons
+            showNode(loginBtn);
+            showNode(registerBtn);
         } else {
-            User currentUser = businessLogic.getCurrentUser();
-            if (currentUser == null) {
-                // Show login and register buttons
-                showBtn(loginBtn);
-                showBtn(registerBtn);
-            } else {
-                // Show user info
-                hideBtn(loginBtn);
-                hideBtn(registerBtn);
-                showBtn(userBtn);
+            // Show user info
+            hideNode(loginBtn);
+            hideNode(registerBtn);
+            showNode(userBtn);
+            showNode(depositMoneyBtn);
+            showNode(walletLabel);
+            updateWalletLabel();
 
-                String avatar = currentUser.getAvatar();
-                if (avatar == null)
-                    userBtnAvatar.setImage(new Image(String.valueOf(getClass().getResource("/img/avatar/default.png"))));
-                else {
-                    userBtnAvatar.setImage(new Image(String.valueOf(getClass().getResource("/img/avatar/" + avatar))));
-                }
+            String avatar = currentUser.getAvatar();
+            if (avatar == null)
+                userBtnAvatar.setImage(new Image(String.valueOf(getClass().getResource("/img/avatar/default.png"))));
+            else {
+                userBtnAvatar.setImage(new Image(String.valueOf(getClass().getResource("/img/avatar/" + avatar))));
             }
         }
+
     }
 
     /**
-     * Displays the button in the scene and includes it in parents layout calculations.
-     * @param btn the button
+     * Displays the money available in current user's wallet
      */
-    void showBtn(ButtonBase btn) {
-        btn.setVisible(true);
-        btn.setManaged(true);
+    public void updateWalletLabel() {
+        Double wallet = businessLogic.getCurrentUser().getWallet();
+        walletLabel.setText(wallet + " €");
+    }
+
+    /**
+     * Displays the node in the scene and includes it in parents layout calculations.
+     * @param node the node
+     */
+    void showNode(Node node) {
+        node.setVisible(true);
+        node.setManaged(true);
     }
 
     /**
      * Hides a button from the scene and excludes it from parents layout calculations.
-     * @param btn the button
+     * @param node the node
      */
-    void hideBtn(ButtonBase btn) {
-        btn.setVisible(false);
-        btn.setManaged(false);
+    void hideNode(Node node) {
+        node.setVisible(false);
+        node.setManaged(false);
+    }
+
+    /**
+     * Setter for the mainGUI.
+     * @param mainGUI the mainGUI.
+     */
+    @Override
+    public void setMainApp(MainGUI mainGUI) {
+        this.mainGUI = mainGUI;
+    }
+
+    @Override
+    public void redraw() {
+        highlightLocaleBtn(Locale.getDefault().toString().toUpperCase());
+        loginBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
+        registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));
+        browseEventsItem.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseEvents"));
+        depositMoneyItem.setText(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney"));
+        movementsItem.setText(ResourceBundle.getBundle("Etiquetas").getString("Movements"));
+        logoutItem.setText(ResourceBundle.getBundle("Etiquetas").getString("Logout"));
     }
 }

@@ -4,12 +4,17 @@ import businessLogic.BlFacade;
 import configuration.UtilDate;
 import domain.User;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.SceneAntialiasing;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.stage.WindowEvent;
 import jdk.jshell.execution.Util;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import uicontrollers.*;
@@ -24,7 +29,10 @@ public class MainGUI {
 
     private BorderPane mainWrapper;
 
-    private Window navBar, loginLag, registerLag, mainLag, createQuestionLag, browseEventsLag;
+    public Window navBarLag;
+    private Window loginLag, registerLag, mainLag, createQuestionLag,
+            browseEventsLag, welcomeLag, userMenuLag, depositMoneyLag,
+            createForecastLag, createEventLag;
 
     private BlFacade businessLogic;
     private Stage stage;
@@ -34,6 +42,8 @@ public class MainGUI {
     public static final int NAVBAR_HEIGHT = 80;
     public static final int SCENE_WIDTH = 1280;
     public static final int SCENE_HEIGHT = 720-NAVBAR_HEIGHT;
+    private double xOffset = 0;
+    private double yOffset = 0;
 
     // The history
     private History history;
@@ -89,6 +99,16 @@ public class MainGUI {
                 return new LoginController(businessLogic);
             } else if (controllerClass == RegisterController.class) {
                 return new RegisterController(businessLogic);
+            } else if (controllerClass == WelcomeController.class) {
+                return new WelcomeController(businessLogic);
+            } else if (controllerClass == UserMenuController.class) {
+                return new UserMenuController(businessLogic);
+            } else if (controllerClass == DepositMoneyController.class) {
+                return new DepositMoneyController(businessLogic);
+            }else if (controllerClass == CreateForecastController.class) {
+                return new CreateForecastController(businessLogic);
+            }else if (controllerClass == CreateEventController.class) {
+                return new CreateEventController(businessLogic);
             } else {
                 // default behavior for controllerFactory:
                 try {
@@ -106,25 +126,39 @@ public class MainGUI {
     }
 
     /**
-     * Initializes all the windows used in the app.
-     * @param stage the stage of the project.
-     * @throws IOException thrown if any fxml file is not found.
+     * Initializes all the windows that do not require user authentication.
+     * @param stage the stage of the project
+     * @throws IOException thrown if any fxml file is not found
      */
     public void init(Stage stage) throws IOException {
         this.stage = stage;
         this.stage.initStyle(StageStyle.UNDECORATED);
+        this.stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/favicon.png")));
 
-        navBar = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
-        loginLag = load("/LoginGUI.fxml", "Login", SCENE_WIDTH, SCENE_HEIGHT);
-        registerLag = load("/RegisterGUI.fxml", "Register", SCENE_WIDTH, SCENE_HEIGHT);
+        navBarLag = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
+        welcomeLag = load("/WelcomeGUI.fxml", "Welcome", 350, 500);
+        loginLag = load("/Login.fxml", "Login", 700, 500);
+        registerLag = load("/RegisterGUI.fxml", "Register", 900, 600);
         mainLag = load("/MainGUI.fxml", "MainTitle", SCENE_WIDTH, SCENE_HEIGHT);
         browseEventsLag = load("/BrowseEvents.fxml", "BrowseEvents", SCENE_WIDTH, SCENE_HEIGHT);
-        createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
+        createEventLag = load("/CreateEvent.fxml", "CreateEvent", SCENE_WIDTH, SCENE_HEIGHT);
 
         setupScene();
         ResizeHelper.addResizeListener(this.stage);
-        history.setCurrentWindow(mainLag);
-        showScene(browseEventsLag);
+        history.setCurrentWindow(welcomeLag);
+        showScene(welcomeLag);
+    }
+
+    /**
+     * Initializes windows that require user authentication. This allows us to have
+     * current user's information available already when the window is loaded.
+     * @throws IOException thrown if any fxml file is not found
+     */
+    public void loadLoggedWindows() throws IOException {
+        createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
+        userMenuLag = load("/UserMenuGUI.fxml", "UserMenu", SCENE_WIDTH, SCENE_HEIGHT);
+        depositMoneyLag = load("/DepositMoney.fxml", "DepositMoney", SCENE_WIDTH, SCENE_HEIGHT);
+        createForecastLag = load("/CreateForecast.fxml", "CreateForecast", SCENE_WIDTH, SCENE_HEIGHT);
     }
 
     /**
@@ -136,7 +170,7 @@ public class MainGUI {
         mainWrapper = new BorderPane();
 
         // Add the navbar to the wrapper
-        mainWrapper.setTop(navBar.getUi());
+        mainWrapper.setTop(navBarLag.getUi());
 
         // Initialize the scene
         scene = new Scene(mainWrapper, SCENE_WIDTH, SCENE_HEIGHT);
@@ -150,7 +184,26 @@ public class MainGUI {
         scene.getStylesheets().add(getClass().getResource("/css/colors.css").toExternalForm());
 
         // Add the wrapper of the navbar and the content to the scene
+
         scene.setRoot(mainWrapper);
+
+        scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
+
+        //Dragging window with mouse:
+        scene.setOnMousePressed(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                xOffset = event.getSceneX();
+                yOffset = event.getSceneY();
+            }
+        });
+        scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                stage.setX(event.getScreenX() - xOffset);
+                stage.setY(event.getScreenY() - yOffset);
+            }
+        });
 
         // Add the scene to the root
         stage.setScene(scene);
@@ -162,23 +215,22 @@ public class MainGUI {
      */
     private void showScene(Window window) {
         stage.setTitle(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString(window.getTitle()));
-        stage.setWidth(window.getWidth());
-        stage.setHeight(window.getHeight());
+
+        //Do not show navbar in Welcome, Login and Register GUIs.
+        if(window.getTitle().equals("Welcome") || window.getTitle().equals("Login") || window.getTitle().equals("Register"))
+            mainWrapper.setTop(null);
+        else
+            mainWrapper.setTop(navBarLag.getUi());
 
         mainWrapper.setCenter(window.getUi());
 
-        // FIXME Temporal nav update testing. DELETE WHEN LOGIN IS IMPLEMENTED!!!
-        if (window.getController().getClass().getSimpleName().equals("LoginController")) {
-            businessLogic.setCurrentUser(null);
-        }
-        if (window.getController().getClass().getSimpleName().equals("BrowseQuestionsController")) {
-            businessLogic.setCurrentUser(
-                    new User("john44", "john", "doe", UtilDate.newDate(1980, 3, 23),
-                            "testAddress", "john@doe.com", "shrek.jpg", new byte[8], new byte[1], 1));
-        }
-        // FIXME End of the testing
+        stage.setWidth(window.getWidth());
+        stage.setHeight(window.getHeight());
+        stage.centerOnScreen();
 
-        ((NavBarController)navBar.getController()).updateNav();
+        ((NavBarController)navBarLag.getController()).updateNav();
+        ((NavBarController)navBarLag.getController()).redraw();
+        window.getController().redraw();
         stage.show();
     }
 
@@ -187,7 +239,7 @@ public class MainGUI {
      */
     public void goBack() {
         Window previousWindow = history.moveToPrevious();
-        ((NavBarController) navBar.getController()).enableHistoryBtns();
+        ((NavBarController) navBarLag.getController()).enableHistoryBtns();
         if (previousWindow != null) showScene(previousWindow);
     }
 
@@ -197,7 +249,7 @@ public class MainGUI {
      */
     public void goForward() {
         Window nextWindow = history.moveToNext();
-        ((NavBarController) navBar.getController()).enableHistoryBtns();
+        ((NavBarController) navBarLag.getController()).enableHistoryBtns();
         if (nextWindow != null) showScene(nextWindow);
     }
     /**
@@ -211,7 +263,7 @@ public class MainGUI {
         // Move to the requested window and store the old one
         history.moveToWindow(newWindow);
 
-        ((NavBarController) navBar.getController()).enableHistoryBtns();
+        ((NavBarController) navBarLag.getController()).enableHistoryBtns();
         showScene(newWindow);
     }
 
@@ -229,6 +281,16 @@ public class MainGUI {
                 yield browseEventsLag;
             case "CreateQuestion":
                 yield createQuestionLag;
+            case "Welcome":
+                yield welcomeLag;
+            case "UserMenu":
+                yield userMenuLag;
+            case "DepositMoney":
+                yield depositMoneyLag;
+            case "CreateForecast":
+                yield createForecastLag;
+            case "CreateEvent":
+                yield createEventLag;
             default: // get the initial window
                 yield mainLag;
         };
@@ -240,5 +302,14 @@ public class MainGUI {
      */
     public History getHistory() {
         return history;
+    }
+
+    /**
+     * Returns the stage of the javaFX UI.
+     * @return The stage of the javaFX UI.
+     */
+    public Stage getStage()
+    {
+        return this.stage;
     }
 }

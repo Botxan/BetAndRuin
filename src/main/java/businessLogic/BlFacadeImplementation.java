@@ -80,6 +80,14 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
+	public List<Question> getQuestions(Event event)  {
+		dbManager.open(false);
+		List<Question> questions = dbManager.getQuestions(event);
+		dbManager.close();
+		return questions;
+	}
+
+	@WebMethod
 	public Vector<Date> getEventsMonth(Date date) {
 		dbManager.open(false);
 		Vector<Date>  dates = dbManager.getEventsMonth(date);
@@ -113,7 +121,7 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
-	public void addForecast(Question question, String result, int fee) throws ForecastAlreadyExistException {
+	public void addForecast(Question question, String result, double fee) throws ForecastAlreadyExistException {
 		dbManager.open(false);
 		dbManager.addForecast(question, result, fee);
 		dbManager.close();
@@ -121,7 +129,7 @@ public class BlFacadeImplementation implements BlFacade {
 
 	@WebMethod
 	public void register(String username, String firstName, String lastName, String address, String email,
-			String password, String confirmPassword, int year, int month, int day) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException
+			String password, String confirmPassword, int year, int month, int day, Long cardNumber, Date expirationDate, Integer securityCode) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException
 	{
 		//Check email format completion (regex):
 		if(!Pattern.compile(emailRegEx).matcher(email).matches())
@@ -146,8 +154,10 @@ public class BlFacadeImplementation implements BlFacade {
 			// Generate a random salt
 			byte[] salt = generateSalt();
 			byte[] hashedPassword = hashPassword(password, salt);
-			
-			dbManager.register(username, firstName, lastName, address, email, hashedPassword, birthdate, salt);
+
+			// Set the registered user as the current user
+			currentUser = dbManager.register(username, firstName, lastName, address, email, hashedPassword, birthdate, salt, cardNumber, expirationDate, securityCode);
+
 		} catch (ParseException e) {
 			throw new InvalidDateException();
 		} finally {
@@ -196,9 +206,16 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.close();
 	}
 
-	@Override
-	public void depositMoney(int amountToDeposit) {
+	@WebMethod
+	public void depositMoney(double amount) throws NotEnoughMoneyInWalletException {
+		dbManager.open(false);
+		dbManager.depositMoney(amount, currentUser);
+		dbManager.close();
 
+		// FIXME have to update it here also because (apparently) the currentUser User object is dettached from the one
+		// getting updated in the db. So, from now, update the dettached object manually for the current session
+		currentUser.setWallet(currentUser.getWallet()+amount);
+		currentUser.getCard().withdrawMoney(amount);
 	}
 
 	@Override

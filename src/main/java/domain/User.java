@@ -1,5 +1,7 @@
 package domain;
 
+import exceptions.NotEnoughMoneyInWalletException;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
@@ -24,10 +26,11 @@ public class User {
 	private String avatar;
 	private byte[] password;
 	private byte[] salt; // salt used in password hashing
-	private int userMode; // 0 => guest, 1 => logged user, 2 => administrator
+	private Integer userMode; // 0 => guest, 1 => logged user, 2 => administrator
+	private Double wallet;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST, mappedBy = "owner")
-	private List<Card> cards = new ArrayList<Card>();
+	@OneToOne(cascade = CascadeType.PERSIST)
+	private Card card;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private List<Bet> bets = new ArrayList<Bet>();
@@ -48,10 +51,11 @@ public class User {
 	 * @param password user's password hashed.
 	 * @param salt the salt used in password hashing.
 	 * @param userMode user's userMode
+	 * @param wallet user's money in the wallet
 	 */
 	public User(String username, String firstName, String lastName,
-			Date birthdate, String address, String email, byte[] password, byte[] salt, int userMode) {
-		this(username, firstName, lastName, birthdate, address, email, null, password, salt, userMode);
+			Date birthdate, String address, String email, byte[] password, byte[] salt, Integer userMode, double wallet) {
+		this(username, firstName, lastName, birthdate, address, email, null, password, salt, userMode, wallet);
 	}
 
 	/**
@@ -68,7 +72,7 @@ public class User {
 	 * @param userMode user's userMode
 	 */
 	public User(String username, String firstName, String lastName,
-				Date birthdate, String address, String email, String avatar, byte[] password, byte[] salt, int userMode) {
+				Date birthdate, String address, String email, String avatar, byte[] password, byte[] salt, int userMode, double wallet) {
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -79,6 +83,7 @@ public class User {
 		this.email = email;
 		this.salt = salt;
 		this.userMode = userMode;
+		this.wallet = wallet;
 	}
 
 	/**
@@ -246,7 +251,7 @@ public class User {
 	 * Getter for user's user mode.
 	 * @return user's user mode
 	 */
-	public int getUserMode() {
+	public Integer getUserMode() {
 		return userMode;
 	}
 
@@ -254,37 +259,53 @@ public class User {
 	 * Setter for user's user mode.
 	 * @param userMode user's user mode
 	 */
-	public void setUserMode(int userMode) {
+	public void setUserMode(Integer userMode) {
 		this.userMode = userMode;
 	}
 
 	/**
-	 * Getter for user cards.
-	 * @return user cards
+	 * Getter for user's wallet.
+	 * @return user's wallet
 	 */
-	public List<Card> getCards() {
-		return cards;
+	public Double getWallet() {
+		return wallet;
 	}
 
 	/**
-	 * Setter for user credit cards.
-	 * @param cards credit cards to be added to the user
+	 * Setter for user's wallet.
+	 * @param wallet user's wallet
 	 */
-	public void setCards(List<Card> cards) {
-		this.cards = cards;
+	public void setWallet(Double wallet) {
+		this.wallet = wallet;
 	}
 
 	/**
-	 * Creates a credit card with the given data and
-	 * adds it to the user.
-	 * @param cardNumber the number of the card
-	 * @param expirationDate the expiration date of the card
-	 * @param securityCode the security code of the card
+	 * Deposits the amount of money passed by parameter in the wallet of the user.
+	 * @param money the money to deposit in the wallet
 	 */
-	public Card addCard(int cardNumber, Date expirationDate, int securityCode) {
-		Card card = new Card(cardNumber, expirationDate, securityCode, this);
-		cards.add(card);
+	public void depositMoneyIntoWallet(double money) {
+		wallet += money;
+	}
+
+	public void withdrawMoneyFromWallet(double money) throws NotEnoughMoneyInWalletException {
+		if (wallet < money) throw new NotEnoughMoneyInWalletException();
+		wallet -= money;
+	}
+
+	/**
+	 * Getter for user's credit card.
+	 * @return user's credit card
+	 */
+	public Card getCard() {
 		return card;
+	}
+
+	/**
+	 * Setter for user's credit card.
+	 * @param card credit cards to be added to the user
+	 */
+	public void setCard(Card card) {
+		this.card = card;
 	}
 
 	/**
