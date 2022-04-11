@@ -16,7 +16,7 @@ public class UserMenuController implements Controller {
 
     @FXML private JFXButton browseEventsBtn;
     @FXML private JFXButton depositMoneyBtn;
-    @FXML private JFXButton showMovementsBtn;
+    @FXML private JFXButton removeBetsBtn;
 
     /**
      * Constructor for the UserMenuController.
@@ -46,8 +46,8 @@ public class UserMenuController implements Controller {
     }
 
     @FXML
-    void showMovements() {
-        System.out.println("Not implemented yet.");
+    void goToRemoveBets() {
+        mainGUI.goForward("RemoveBet");
     }
 
     @Override
@@ -59,6 +59,6 @@ public class UserMenuController implements Controller {
     public void redraw() {
         browseEventsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseEvents"));
         depositMoneyBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney"));
-        showMovementsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("ShowMovements"));
+        removeBetsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("RemoveBet"));
     }
 }

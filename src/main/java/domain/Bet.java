@@ -15,7 +15,7 @@ public class Bet {
     @OneToOne
     private Forecast userForecast;
 
-    @ManyToOne
+    @OneToOne
     private User gambler;
 
     /**

@@ -44,6 +44,9 @@ public class AdminMenuController implements Controller {
         mainGUI.goForward("BrowseEvents");
     }
 
+    @FXML
+    void goToRemoveBet(){mainGUI.goForward("RemoveBet");}
+
     @Override
     public void setMainApp(MainGUI mainGUI) {
         this.mainGUI = mainGUI;
