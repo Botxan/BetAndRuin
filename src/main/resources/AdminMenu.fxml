@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            x:controller="AdminMenuController"
-            prefHeight="400.0" prefWidth="600.0">
-
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1280.0" stylesheets="@css/colors.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.AdminMenuController">
+   <children>
+      <JFXButton fx:id="createEventBtn" layoutY="123.0" onAction="#goToCreateEvent" prefHeight="50.0" style="-fx-background-color: -fx-green1;" text="Create Event" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="createQuestionBtn" layoutY="182.0" onAction="#goToCreateQuestion" prefHeight="50.0" style="-fx-background-color: -fx-green1;" text="Create Question" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="createForecastBtn" layoutY="242.0" onAction="#goToCreateForecast" prefHeight="50.0" style="-fx-background-color: -fx-green1;" text="Create Forecast" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+      <JFXButton fx:id="browseEventsBtn" layoutY="304.0" onAction="#goToBrowseEvents" prefHeight="50.0" style="-fx-background-color: -fx-green1;" text="Browse Events" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </JFXButton>
+   </children>
 </AnchorPane>

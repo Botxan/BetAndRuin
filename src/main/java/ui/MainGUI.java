@@ -32,7 +32,7 @@ public class MainGUI {
     public Window navBarLag;
     private Window loginLag, registerLag, mainLag, createQuestionLag,
             browseEventsLag, welcomeLag, userMenuLag, depositMoneyLag,
-            createForecastLag, createEventLag;
+            createForecastLag, createEventLag, adminMenuLag;
 
     private BlFacade businessLogic;
     private Stage stage;
@@ -109,7 +109,10 @@ public class MainGUI {
                 return new CreateForecastController(businessLogic);
             }else if (controllerClass == CreateEventController.class) {
                 return new CreateEventController(businessLogic);
-            } else {
+            }else if (controllerClass == AdminMenuController.class) {
+                return new AdminMenuController(businessLogic);
+            }
+            else {
                 // default behavior for controllerFactory:
                 try {
                     return controllerClass.getDeclaredConstructor().newInstance();
@@ -159,6 +162,7 @@ public class MainGUI {
         userMenuLag = load("/UserMenuGUI.fxml", "UserMenu", SCENE_WIDTH, SCENE_HEIGHT);
         depositMoneyLag = load("/DepositMoney.fxml", "DepositMoney", SCENE_WIDTH, SCENE_HEIGHT);
         createForecastLag = load("/CreateForecast.fxml", "CreateForecast", SCENE_WIDTH, SCENE_HEIGHT);
+        adminMenuLag = load("/AdminMenu.fxml", "AdminMenu", SCENE_WIDTH, SCENE_HEIGHT);
     }
 
     /**
@@ -291,6 +295,8 @@ public class MainGUI {
                 yield createForecastLag;
             case "CreateEvent":
                 yield createEventLag;
+            case "AdminMenu":
+                yield adminMenuLag;
             default: // get the initial window
                 yield mainLag;
         };
