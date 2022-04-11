@@ -1,6 +1,7 @@
 	package dataAccess;
 
     import businessLogic.BlFacadeImplementation;
+    import com.toedter.calendar.DateUtil;
     import configuration.ConfigXML;
     import configuration.UtilDate;
     import domain.*;
@@ -487,6 +488,56 @@
                 theuser.depositMoneyIntoWallet(amount);
                 db.getTransaction().commit();
             }
+        }
+
+        /**
+         * Returns the single possible bet for a given gambler and the gambler's forecast.
+         * @param gambler The user to get the bet from.
+         * @param userForecast The forecast where the user has bet.
+         * @return The single bet placed by the user if a bet was placed, NULL otherwise.
+         */
+        public Bet getBet(User gambler, Forecast userForecast)
+        {
+            Bet result = null;
+            TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.gambler = ?1 AND b.userForecast = ?2", Bet.class);
+            q.setParameter(1, gambler);
+            q.setParameter(2, userForecast);
+            List<Bet> bets = q.getResultList();
+            if(!bets.isEmpty())
+                result = bets.get(0);
+            return result;
+        }
+
+        /**
+         * Persists a new bet for the given gambler, in the selected forecast.
+         * @param betAmount Amount of money bet by the gambler.
+         * @param forecast The forecast linked with the bet.
+         * @param gambler The user who places the bet.
+         * @return true if the persistence has been successful.
+         * @throws BetAlreadyExistsException Thrown if the gambler already had placed a bet in the same forecast.
+         * @throws LateBetException Thrown if the gambler tries to place a bet an hour before on the event associated with the forecast.
+         */
+        public boolean setBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException
+        {
+            //Check for date (LateBetException):
+            Date today = new Date(System.currentTimeMillis());
+            Date eventDate = forecast.getQuestion().getEvent().getEventDate();
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(eventDate);
+            cal.add(Calendar.HOUR_OF_DAY, -1);
+            Date eventBetLimit = cal.getTime();
+
+            if(today.after(eventBetLimit)) throw new LateBetException();
+
+            //Check if bet already exists:
+            if(getBet(gambler, forecast) != null) throw new BetAlreadyExistsException();
+
+            db.getTransaction().begin();
+            Bet newBet = new Bet(betAmount, forecast, gambler);
+            db.persist(newBet);
+            db.getTransaction().commit();
+            System.out.println(newBet + " has been saved.");
+            return true;
         }
 
         /**

@@ -5,6 +5,8 @@ import com.jfoenix.controls.JFXSlider;
 import domain.Event;
 import domain.Forecast;
 import domain.Question;
+import exceptions.BetAlreadyExistsException;
+import exceptions.LateBetException;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -23,6 +25,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.PickResult;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
@@ -66,6 +69,8 @@ public class BrowseEventsController implements Controller {
     @FXML private TableView<Forecast> forecastsTbl;
     @FXML private TableColumn<Forecast, String> forecastDescription;
     @FXML private TableColumn<Forecast, Double> forecastFee;
+    @FXML private TextField betAmount;
+    @FXML private Pane placeBetPane;
 
     ObservableList<Question> questions;
     ObservableList<Forecast> forecasts;
@@ -380,6 +385,26 @@ public class BrowseEventsController implements Controller {
         Question selectedQuestion = questionsTbl.getSelectionModel().getSelectedItem();
         forecasts.addAll(selectedQuestion.getForecasts());
         forecastsTbl.getItems().addAll(forecasts);
+    }
+
+    public void placeBet()
+    {
+        if(businessLogic.getCurrentUser() == null) placeBetPane.setDisable(true);
+        float betPrice = 0F;
+        try {
+            betPrice = Float.parseFloat(betAmount.getText());
+        } catch (NumberFormatException e)
+        {
+            e.printStackTrace();
+        }
+        //FIXME Check for minimum bet.
+        try {
+            businessLogic.placeBet(betPrice, forecastsTbl.getSelectionModel().getSelectedItem(), businessLogic.getCurrentUser());
+        } catch (BetAlreadyExistsException e) {
+            e.printStackTrace();
+        } catch (LateBetException e) {
+            e.printStackTrace();
+        }
     }
 
     /* ---------------------------------- Earth and slider methods ----------------------------------*/
