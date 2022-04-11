@@ -121,19 +121,21 @@
             <Label fx:id="walletLabel" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="60.0" style="-fx-font-weight: bold;" />
             <MenuButton fx:id="userBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="70.0" styleClass="userBtn">
               <items>
-                <MenuItem fx:id="movementsBtn" mnemonicParsing="false" onAction="#showMovements" styleClass="userBtnItem" text="Movements" />
-                <MenuItem fx:id="logoutBtn" mnemonicParsing="false" onAction="#logout" styleClass="userBtnItem" text="Logout" />
+                  <MenuItem fx:id="browseEventsItem" mnemonicParsing="false" onAction="#goToBrowseEvents" styleClass="userBtnItem" text="%BrowseEvents" />
+                  <MenuItem fx:id="depositMoneyItem" mnemonicParsing="false" onAction="#goToDepositMoney" styleClass="userBtnItem" text="%DepositMoney" />
+                <MenuItem fx:id="movementsItem" mnemonicParsing="false" onAction="#showMovements" styleClass="userBtnItem" text="%Movements" />
+                <MenuItem fx:id="logoutItem" mnemonicParsing="false" onAction="#logout" styleClass="userBtnItem" text="%Logout" />
               </items>
                <graphic>
                   <ImageView fx:id="userBtnAvatar" fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" />
                </graphic>
             </MenuButton>
-            <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#goToLogin" prefHeight="35.0" prefWidth="80.0" styleClass="loginBtn" text="Login">
+            <Button fx:id="loginBtn" mnemonicParsing="false" onAction="#goToLogin" prefHeight="35.0" prefWidth="80.0" styleClass="loginBtn" text="%Login">
                <HBox.margin>
                   <Insets right="15.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="registerBtn" mnemonicParsing="false" onAction="#goToRegister" prefHeight="35.0" prefWidth="80.0" styleClass="registerBtn" text="Sign up" />
+            <Button fx:id="registerBtn" mnemonicParsing="false" onAction="#goToRegister" prefHeight="35.0" prefWidth="100.0" styleClass="registerBtn" text="%SignUp" />
          </children>
       </HBox>
    </children>

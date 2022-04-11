@@ -27,8 +27,9 @@ public class NavBarController implements Controller {
     private BlFacade businessLogic;
     private MainGUI mainGUI;
 
-    private double x, y;
+    @FXML private ResourceBundle resources;
 
+    @FXML private Label walletLabel;
     @FXML private Button backBtn;
     @FXML private Button nextBtn;
     @FXML private Button esBtn;
@@ -36,14 +37,15 @@ public class NavBarController implements Controller {
     @FXML private Button eusBtn;
     @FXML private Button loginBtn;
     @FXML private Button registerBtn;
-    @FXML private MenuButton userBtn;
-    @FXML private MenuItem movementBtn;
-    @FXML private MenuItem logoutBtn;
-    @FXML private ImageView userBtnAvatar;
-    @FXML private Label walletLabel;
     @FXML private Button depositMoneyBtn;
+    @FXML private MenuButton userBtn;
+    @FXML private MenuItem depositMoneyItem;
+    @FXML private MenuItem movementsItem;
+    @FXML private MenuItem logoutItem;
+    @FXML private MenuItem browseEventsItem;
+    @FXML private ImageView userBtnAvatar;
 
-    @FXML private ResourceBundle resources;
+    private double x, y;
 
     /**
      * Constructor for the NavBarController.
@@ -144,8 +146,8 @@ public class NavBarController implements Controller {
     void setLocale(ActionEvent e) {
         String locale = ((Button) e.getSource()).getText();
         Locale.setDefault(new Locale(locale));
-        highlightLocaleBtn(locale);
         mainGUI.getHistory().getCurrentWindow().getController().redraw();
+        redraw();
     }
 
     void highlightLocaleBtn(String btnText) {
@@ -219,6 +221,11 @@ public class NavBarController implements Controller {
     @FXML
     void goToDepositMoney() {
         mainGUI.goForward("DepositMoney");
+    }
+
+    @FXML
+    void goToBrowseEvents() {
+        mainGUI.goForward("BrowseEvents");
     }
 
     @FXML
@@ -305,5 +312,11 @@ public class NavBarController implements Controller {
     @Override
     public void redraw() {
         highlightLocaleBtn(Locale.getDefault().toString().toUpperCase());
+        loginBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
+        registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));
+        browseEventsItem.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseEvents"));
+        depositMoneyItem.setText(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney"));
+        movementsItem.setText(ResourceBundle.getBundle("Etiquetas").getString("Movements"));
+        logoutItem.setText(ResourceBundle.getBundle("Etiquetas").getString("Logout"));
     }
 }
