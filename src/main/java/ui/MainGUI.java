@@ -21,6 +21,10 @@ import uicontrollers.*;
 import utils.History;
 import utils.Window;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -32,7 +36,7 @@ public class MainGUI {
     public Window navBarLag;
     private Window loginLag, registerLag, mainLag, createQuestionLag,
             browseEventsLag, welcomeLag, userMenuLag, depositMoneyLag,
-            createForecastLag, createEventLag;
+            createForecastLag, createEventLag, removeBetLag;
 
     private BlFacade businessLogic;
     private Stage stage;
@@ -107,8 +111,10 @@ public class MainGUI {
                 return new DepositMoneyController(businessLogic);
             }else if (controllerClass == CreateForecastController.class) {
                 return new CreateForecastController(businessLogic);
-            }else if (controllerClass == CreateEventController.class) {
+            } else if (controllerClass == CreateEventController.class) {
                 return new CreateEventController(businessLogic);
+            } else if (controllerClass == RemoveBetController.class) {
+                return new RemoveBetController(businessLogic);
             } else {
                 // default behavior for controllerFactory:
                 try {
@@ -135,6 +141,11 @@ public class MainGUI {
         this.stage.initStyle(StageStyle.UNDECORATED);
         this.stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/favicon.png")));
 
+        // set icon for mac os (and other systems which do support this method)
+        // final Taskbar taskbar = Taskbar.getTaskbar();
+        // BufferedImage img = ImageIO.read(getClass().getResourceAsStream("/icon/favicon.png"));
+        // taskbar.setIconImage(img);
+
         navBarLag = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
         welcomeLag = load("/WelcomeGUI.fxml", "Welcome", 350, 500);
         loginLag = load("/Login.fxml", "Login", 700, 500);
@@ -159,6 +170,7 @@ public class MainGUI {
         userMenuLag = load("/UserMenuGUI.fxml", "UserMenu", SCENE_WIDTH, SCENE_HEIGHT);
         depositMoneyLag = load("/DepositMoney.fxml", "DepositMoney", SCENE_WIDTH, SCENE_HEIGHT);
         createForecastLag = load("/CreateForecast.fxml", "CreateForecast", SCENE_WIDTH, SCENE_HEIGHT);
+        removeBetLag = load("/RemoveBet.fxml", "RemoveBet", SCENE_WIDTH, SCENE_HEIGHT);
     }
 
     /**
@@ -184,7 +196,6 @@ public class MainGUI {
         scene.getStylesheets().add(getClass().getResource("/css/colors.css").toExternalForm());
 
         // Add the wrapper of the navbar and the content to the scene
-
         scene.setRoot(mainWrapper);
 
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
@@ -291,6 +302,8 @@ public class MainGUI {
                 yield createForecastLag;
             case "CreateEvent":
                 yield createEventLag;
+            case "RemoveBet":
+                yield removeBetLag;
             default: // get the initial window
                 yield mainLag;
         };

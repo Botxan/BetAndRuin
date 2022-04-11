@@ -313,6 +313,7 @@ public class User {
 	 * @return user's bets
 	 */
 	public List<Bet> getBets() {
+		System.out.println(bets.size());
 		return bets;
 	}
 
@@ -333,5 +334,10 @@ public class User {
 		Bet bet = new Bet(amount, forecast, this);
 		bets.add(bet);
 		return bet;
+	}
+
+	public void removeBet(Bet bet) {
+		bets.remove(bet);
+		System.out.println(bets.size());
 	}
 }

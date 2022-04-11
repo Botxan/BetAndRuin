@@ -200,7 +200,7 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.initializeDB();
 		dbManager.close();
 	}
-	
+
 	@WebMethod
 	public void close() {
 		dbManager.close();
@@ -216,6 +216,11 @@ public class BlFacadeImplementation implements BlFacade {
 		// getting updated in the db. So, from now, update the dettached object manually for the current session
 		currentUser.setWallet(currentUser.getWallet()+amount);
 		currentUser.getCard().withdrawMoney(amount);
+	}
+
+	@WebMethod
+	public List<Bet> getUserBets() {
+		return currentUser.getBets();
 	}
 
 	@Override
@@ -234,8 +239,12 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@Override
-	public void removeBet(int betID) {
+	public void removeBet(Bet bet) {
+		dbManager.open(false);
+		dbManager.removeBet(bet.getBetID());
+		dbManager.close();
 
+		currentUser.removeBet(bet);
 	}
 
 	@Override

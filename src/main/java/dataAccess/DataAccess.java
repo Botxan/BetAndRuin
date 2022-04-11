@@ -7,10 +7,7 @@
     import exceptions.*;
 
     import javax.jdo.JDOHelper;
-    import javax.persistence.EntityManager;
-    import javax.persistence.EntityManagerFactory;
-    import javax.persistence.Persistence;
-    import javax.persistence.TypedQuery;
+    import javax.persistence.*;
     import java.text.SimpleDateFormat;
     import java.util.*;
 
@@ -139,6 +136,22 @@
                 cal.set(Calendar.DAY_OF_MONTH, 12);
                 Card adminCard = new Card(9950451982447108L, cal.getTime(), 798, 100.0, admin1);
                 admin1.setCard(adminCard);
+
+                // Create dummy bets for testing purposes
+                Forecast f1 = new Forecast("Athlético", 1.2, q1);
+                Forecast f2 = new Forecast("Athletic", 1.8, q1);
+                Forecast f3 = new Forecast("Empate", 1.6, q1);
+                Forecast f4 = new Forecast("No sé, pero se tensa que te cagas", 3.5, q1);
+
+                q1.addForecast(f1);
+                q1.addForecast(f2);
+                q1.addForecast(f3);
+                q1.addForecast(f4);
+
+                // Create dummy bets for testing purposs
+                user1.addBet(80, f1);
+                user1.addBet(12, f2);
+                user1.addBet(38, f3);
 
                 db.persist(q1);
                 db.persist(q2);
@@ -398,6 +411,15 @@
             System.out.println(">> DataAccess: existQuestion => event = " + event + " question = " + question);
             Event ev = db.find(Event.class, event.getEventID());
             return ev.doesQuestionExist(question);
+        }
+
+        public void removeBet(Integer betID) {
+            Bet bet = db.find(Bet.class, betID);
+
+            db.getTransaction().begin();
+            Query q = db.createQuery("DELETE FROM Bet b WHERE b.betID = " + betID);
+            q.executeUpdate();
+            db.getTransaction().commit();
         }
 
         /**

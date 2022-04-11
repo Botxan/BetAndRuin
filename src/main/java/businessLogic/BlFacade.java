@@ -154,6 +154,12 @@ public interface BlFacade  {
 	@WebMethod public void depositMoney(double amount) throws NotEnoughMoneyInWalletException;
 
 	/**
+	 * Retrieves all the bets placed by the current user.
+	 * @return all the bets placed by the current user
+	 */
+	@WebMethod public List<Bet> getUserBets();
+
+	/**
 	 * It removes an event
 	 * @param eventID Event identification
 	 */
@@ -173,10 +179,10 @@ public interface BlFacade  {
 	@WebMethod public List<Transaction> showMovements(User user);
 
 	/**
-	 * It removes a bet
-	 * @param betID bet identification
+	 * Removes the bet with the given id
+	 * @param bet the bet.
 	 */
-	@WebMethod public void removeBet(int betID);
+	@WebMethod public void removeBet(Bet bet);
 
 	/**
 	 * It places a bet in a given question of a given event

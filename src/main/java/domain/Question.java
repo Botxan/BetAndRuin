@@ -126,12 +126,28 @@ public class Question {
 	}
 
 	/**
-	 * Sets the correct result of the  query.
+	 * Sets the correct result of the query.
 	 * 
 	 * @param forecasts forecasts of the question
 	 */
 	public void setForecasts(List<Forecast> forecasts) {
 		this.forecasts = forecasts;
+	}
+
+	/**
+	 * Adds a single forecast to the list of forecasts.
+	 * @param forecast the forecast to be added
+	 */
+	public void addForecast(Forecast forecast) {
+		forecasts.add(forecast);
+	}
+
+	/**
+	 * Removes a given forescast from the list of forecasts.
+	 * @param forecast the forecast to me removed
+	 */
+	public void removeForecast(Forecast forecast) {
+		forecasts.remove(forecast);
 	}
 
 	/**
