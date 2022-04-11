@@ -34,7 +34,7 @@ public class CreateEventController implements Controller {
     @FXML Label resultLabel;
     @FXML TextField eventNameField;
     @FXML TextField countryField;
-    @FXML DatePicker eventDatePicker;
+    @FXML DatePicker datePicker;
     @FXML Button createEventBtn;
 
     /**
@@ -52,21 +52,21 @@ public class CreateEventController implements Controller {
     @FXML
     void createEvent() {
         String eventName = eventNameField.getText();
-        LocalDate eventLocalDate = eventDatePicker.getValue();
+        LocalDate eventLocalDate = datePicker.getValue();
         String country = countryField.getText();
 
         // Check non-null fields
         if (eventName.isEmpty() || eventLocalDate == null || country.isEmpty()) {
-            resultLabel.setText("Event name, date and country are compulsory");
+            resultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("FieldsCompulsory"));
             resultLabel.setStyle("-fx-background-color: #da2929; -fx-text-fill: #ffffff; -fx-padding: 5px; -fx-background-radius: 5px; -fx-font-weight: bold");
         } else {
             Date eventDate = Dates.convertToDate(eventLocalDate);
             try {
                 businessLogic.createEvent(eventName, eventDate, country);
-                resultLabel.setText("Event added succesfully");
+                resultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("EventAddedSuccessfully"));
                 resultLabel.setStyle("-fx-background-color: -fx-green1; -fx-text-fill: #ffffff; -fx-padding: 5px; -fx-background-radius: 5px; -fx-font-weight: bold");
             } catch (EventAlreadyExistException e) {
-                resultLabel.setText("The event already exists");
+                resultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventAlreadyExist"));
                 resultLabel.setStyle("-fx-background-color: #da2929; -fx-text-fill: #ffffff; -fx-padding: 5px; -fx-background-radius: 5px; -fx-font-weight: bold");
             }
         }
@@ -86,5 +86,9 @@ public class CreateEventController implements Controller {
      */
     @Override
     public void redraw() {
+        eventNameLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("EventName"));
+        eventDateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Date"));
+        countryLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Country"));
+        createEventBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
     }
 }

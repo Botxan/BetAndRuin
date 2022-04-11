@@ -19,32 +19,32 @@
          </image>
       </ImageView>
       <DatePicker fx:id="datePicker" layoutX="424.0" layoutY="140.0" prefHeight="25.0" prefWidth="136.0" />
-      <Label layoutX="344.0" layoutY="143.0" prefHeight="20.0" prefWidth="76.0" text="Event date:">
+      <Label fx:id="eventDateLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="291.0" layoutY="143.0" prefHeight="20.0" prefWidth="129.0" text="%EventDate" textAlignment="RIGHT">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="593.0" layoutY="143.0" text="Event list:">
+      <Label fx:id="eventsLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="568.0" layoutY="143.0" prefHeight="20.0" prefWidth="87.0" text="%Events" textAlignment="RIGHT">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="354.0" layoutY="194.0" prefHeight="32.0" prefWidth="66.0" text="Question:">
+      <Label fx:id="questionLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="291.0" layoutY="194.0" prefHeight="32.0" prefWidth="129.0" text="%Question" textAlignment="RIGHT">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="327.0" layoutY="256.0" prefHeight="20.0" prefWidth="95.0" text="Minimum bet: ">
+      <Label fx:id="minimumBetLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="293.0" layoutY="256.0" prefHeight="20.0" prefWidth="129.0" text="%MinimumBetPrice" textAlignment="RIGHT">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <TextField fx:id="txtQuestion" layoutX="424.0" layoutY="197.0" prefHeight="26.0" prefWidth="429.0" />
-      <TextField fx:id="txtMinBet" layoutX="424.0" layoutY="253.0" prefHeight="26.0" prefWidth="59.0" />
-      <Label fx:id="lblErrorQuestion" alignment="CENTER" contentDisplay="CENTER" layoutX="424.0" layoutY="226.0" prefHeight="17.0" prefWidth="184.0" />
-      <Label fx:id="lblErrorMinBet" alignment="CENTER" contentDisplay="CENTER" layoutX="424.0" layoutY="279.0" prefHeight="17.0" prefWidth="184.0" />
-      <JFXButton fx:id="btnCreateQuestion" buttonType="RAISED" layoutX="424.0" layoutY="312.0" onAction="#createQuestion" prefHeight="35.0" prefWidth="429.0" style="-fx-background-color: -fx-green1; -fx-background-radius: 5px; -fx-font-size: 16px; -fx-font-weight: bold;" text="Create event" textFill="WHITE">
+      <TextField fx:id="questionField" layoutX="424.0" layoutY="197.0" prefHeight="26.0" prefWidth="429.0" />
+      <TextField fx:id="minimumBetField" layoutX="424.0" layoutY="253.0" prefHeight="26.0" prefWidth="59.0" />
+      <Label fx:id="errorQuestionLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="424.0" layoutY="223.0" prefHeight="17.0" prefWidth="184.0" />
+      <Label fx:id="errorMinmumBetLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="424.0" layoutY="279.0" prefHeight="17.0" prefWidth="184.0" />
+      <JFXButton fx:id="createQuestionBtn" buttonType="RAISED" layoutX="424.0" layoutY="312.0" onAction="#createQuestion" prefHeight="35.0" prefWidth="429.0" style="-fx-background-color: -fx-green1; -fx-background-radius: 5px; -fx-font-size: 16px; -fx-font-weight: bold;" text="%CreateEvent" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>
       </JFXButton>
-      <JFXComboBox fx:id="comboEvents" labelFloat="true" layoutX="669.0" layoutY="141.0" prefHeight="25.0" prefWidth="184.0">
+      <JFXComboBox fx:id="eventsCB" labelFloat="true" layoutX="669.0" layoutY="141.0" prefHeight="25.0" prefWidth="184.0">
          <cursor>
             <Cursor fx:constant="HAND" />
          </cursor>

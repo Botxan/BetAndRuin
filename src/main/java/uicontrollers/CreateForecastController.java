@@ -69,23 +69,20 @@ public class CreateForecastController implements Controller {
 
                 inputFee = Integer.valueOf(feeField.getText());
 
-                if (inputFee <= 0) {
-                    lblErrorMessage.setText("Fee should be > 0");
-                } else {
+                if (inputFee <= 0) lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
+                else {
                     businessLogic.addForecast(question, inputResult, inputFee);
                     lblErrorMessage.getStyleClass().clear();
                     lblErrorMessage.getStyleClass().setAll("lbl", "lbl-success");
-                    lblErrorMessage.setText("Forecast correctly created");
+                    lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("ForecastAddedSuccessfully"));
                     showErrors = false;
                 }
-            } else {
-                lblErrorMessage.setText("Result shouldn't be empty");
-            }
+            } else lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("FieldsCompulsory"));
 
         } catch (NumberFormatException ex) {
-            lblErrorMessage.setText("Introduce a number");
+            lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
         } catch (ForecastAlreadyExistException ex) {
-            lblErrorMessage.setText("Forecast already exists");
+            lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorForecastAlreadyExist"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -212,6 +209,7 @@ public class CreateForecastController implements Controller {
 
     @Override
     public void redraw() {
+        // Labels and buttons
         dateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Date"));
         eventsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Events"));
         questionsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Questions"));
