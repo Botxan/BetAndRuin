@@ -32,7 +32,7 @@
             </Shadow>
          </effect>
       </ImageView>
-      <Label fx:id="dateLbl" layoutX="987.0" layoutY="26.0" styleClass="dateLbl" text="DATE" />
+      <Label fx:id="dateLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="879.0" layoutY="26.0" prefHeight="35.0" prefWidth="260.0" styleClass="dateLbl" text="DATE" textAlignment="CENTER" />
       <Line endX="220.0" layoutX="918.0" layoutY="61.0" startX="-39.33331298828125" />
       <TextField fx:id="yearField" alignment="CENTER" layoutX="882.0" layoutY="62.0" onKeyPressed="#dateKeyPressed" prefHeight="16.0" prefWidth="106.0" text="2022">
          <styleClass>
@@ -55,7 +55,7 @@
          <effect>
             <DropShadow blurType="ONE_PASS_BOX" offsetX="1.0" offsetY="1.0" radius="7.8025" width="12.21" />
          </effect></DatePicker>
-      <Label fx:id="eventsLbl" layoutX="978.0" layoutY="119.0" styleClass="dateLbl" text="EVENTS" />
+      <Label fx:id="eventsLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="878.0" layoutY="119.0" prefHeight="35.0" prefWidth="260.0" styleClass="dateLbl" text="EVENTS" textAlignment="CENTER" />
       <Line endX="220.0" layoutX="918.0" layoutY="154.0" startX="-39.33331298828125" />
       <TableView fx:id="eventTbl" layoutX="830.0" layoutY="167.0" prefHeight="111.0" prefWidth="356.0">
         <columns>
@@ -68,17 +68,17 @@
          </columnResizePolicy>
       </TableView>
       <JFXSlider fx:id="earthRotationSlider" layoutX="170.0" layoutY="459.0" max="360.0" prefHeight="14.0" prefWidth="326.0" />
-      <Label fx:id="placeBetLbl" layoutX="957.0" layoutY="423.0" styleClass="dateLbl" text="PLACE BET" />
+      <Label fx:id="placeBetLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="872.0" layoutY="423.0" prefHeight="35.0" prefWidth="260.0" styleClass="dateLbl" text="PLACE BET" textAlignment="CENTER" />
       <Line endX="220.0" layoutX="911.0" layoutY="458.0" startX="-39.33331298828125" />
       <AnchorPane layoutX="772.0" layoutY="474.0" prefHeight="53.0" prefWidth="486.0" style="-fx-background-color: #ededed;">
          <children>
             <TextField fx:id="placeBetField" layoutX="26.0" layoutY="14.0" promptText="Place Your Bet Amount" />
-            <Text fx:id="couldWinLbl" layoutX="236.0" layoutY="31.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You could win:" />
+            <Text fx:id="couldWinText" layoutX="211.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" text="You could win:" textAlignment="RIGHT" wrappingWidth="132.0" />
             <FontAwesomeIconView fill="#868686" glyphName="EURO" layoutX="186.0" layoutY="34.0" size="20" wrappingWidth="13.747528076171875" />
             <FontAwesomeIconView fill="#09b500" glyphName="EURO" layoutX="418.0" layoutY="36.0" size="25" wrappingWidth="13.747528076171875" />
          </children>
       </AnchorPane>
-      <Label fx:id="forecastLbl" layoutX="959.0" layoutY="289.0" styleClass="dateLbl" text="FORECAST" />
+      <Label fx:id="forecastLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="877.0" layoutY="289.0" prefHeight="35.0" prefWidth="260.0" styleClass="dateLbl" text="FORECAST" textAlignment="CENTER" />
       <Line endX="220.0" layoutX="918.0" layoutY="324.0" startX="-39.33331298828125" />
       <TableView layoutX="826.0" layoutY="333.0" prefHeight="88.0" prefWidth="356.0">
         <columns>

@@ -25,6 +25,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
+import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
 import javafx.util.Callback;
 import javafx.util.Duration;
@@ -53,8 +54,14 @@ public class BrowseEventsController implements Controller {
     private ObservableList<Event> events;
 
     @FXML private AnchorPane main;
-    @FXML private DatePicker eventDatePicker;
+    @FXML private Label dateLbl;
+    @FXML private Label eventsLbl;
+    @FXML private Label forecastLbl;
+    @FXML private Label placeBetLbl;
+    @FXML private Text couldWinText;
     @FXML private TextField dayField, monthField, yearField;
+    @FXML private TextField placeBetField;
+    @FXML private DatePicker eventDatePicker;
     @FXML private TableView<Event> eventTbl;
     @FXML private TableColumn<Event, Integer> idCol;
     @FXML private TableColumn<Event, String> descriptionCol;
@@ -459,7 +466,20 @@ public class BrowseEventsController implements Controller {
     }
 
     @Override
-    public void redraw() {}
+    public void redraw() {
+        // Labels
+        dateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Date").toUpperCase());
+        eventsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Events").toUpperCase());
+        forecastLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Forecast").toUpperCase());
+        placeBetLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("PlaceBet"));
+        couldWinText.setText(ResourceBundle.getBundle("Etiquetas").getString("CouldWin"));
+
+        // Table columns
+        descriptionCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
+        countryCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Country"));
+        forecastDescriptions.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
+        forecastFees.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee"));
+    }
 }
 
 /**
