@@ -65,7 +65,7 @@ public class CreateForecastController implements Controller {
 
         try {
 
-            if (inputResult.length() > 0) {
+            if (inputResult.length() > 0 && !feeField.getText().isEmpty()) {
 
                 inputFee = Integer.valueOf(feeField.getText());
 

@@ -60,22 +60,31 @@ public class BrowseEventsController implements Controller {
     private ObservableList<Event> events;
 
     @FXML private AnchorPane main;
+    @FXML private Button betAndRuinBtn;
+    @FXML private Button placeBetBtn;
     @FXML private DatePicker eventDatePicker;
-    @FXML private TextField dayField, monthField, yearField;
+    @FXML private Label dateLbl;
+    @FXML private Label eventsLbl;
+    @FXML private Label questionsLbl;
+    @FXML private Label forecastsLbl;
+    @FXML private Label betLbl;
+    @FXML private Label countryLbl;
     @FXML private TableView<Event> eventTbl;
     @FXML private TableColumn<Event, Integer> idCol;
     @FXML private TableColumn<Event, String> descriptionCol;
     @FXML private TableColumn<Event, String> countryCol;
-    @FXML private TableView<Question> questionsTbl;
     @FXML private TableColumn<Question, String> questionDescriptions;
-    @FXML private TableColumn<Question, Float> questionFees;
-    @FXML private TableView<Forecast> forecastsTbl;
+    @FXML private TableColumn<Question, Float> questionMinBetCol;
     @FXML private TableColumn<Forecast, String> forecastDescription;
     @FXML private TableColumn<Forecast, Double> forecastFee;
+    @FXML private TableView<Question> questionsTbl;
+    @FXML private TableView<Forecast> forecastsTbl;
+    @FXML private TextField dayField, monthField, yearField;
     @FXML private Pane placeBetPane;
     @FXML private Text registerErrorText;
     @FXML private Text euroNumber;
     @FXML private Text gainNumber;
+    @FXML private Text youCouldWinText;
 
     ObservableList<Question> questions;
     ObservableList<Forecast> forecasts;
@@ -115,7 +124,7 @@ public class BrowseEventsController implements Controller {
 
         //Bind Question columns to their respective attributes:
         questionDescriptions.setCellValueFactory(new PropertyValueFactory<>("question"));
-        questionFees.setCellValueFactory(new PropertyValueFactory<>("betMinimum"));
+        questionMinBetCol.setCellValueFactory(new PropertyValueFactory<>("betMinimum"));
 
         //Bind Forecast columns to their respective attributes:
         forecastDescription.setCellValueFactory(new PropertyValueFactory<>("description"));
@@ -386,8 +395,10 @@ public class BrowseEventsController implements Controller {
         forecastsTbl.getItems().clear();
         questionsTbl.getItems().clear();
         Event selectedEvent = eventTbl.getSelectionModel().getSelectedItem();
-        questions.addAll(selectedEvent.getQuestions());
-        questionsTbl.getItems().addAll(questions);
+        if (selectedEvent != null) {
+            questions.addAll(selectedEvent.getQuestions());
+            questionsTbl.getItems().addAll(questions);
+        }
     }
 
     /**
@@ -398,8 +409,10 @@ public class BrowseEventsController implements Controller {
         forecasts.clear();
         forecastsTbl.getItems().clear();
         Question selectedQuestion = questionsTbl.getSelectionModel().getSelectedItem();
-        forecasts.addAll(selectedQuestion.getForecasts());
-        forecastsTbl.getItems().addAll(forecasts);
+        if (selectedQuestion != null) {
+            forecasts.addAll(selectedQuestion.getForecasts());
+            forecastsTbl.getItems().addAll(forecasts);
+        }
     }
 
     public void placeBet()
@@ -413,22 +426,22 @@ public class BrowseEventsController implements Controller {
         }
         try {
             if(forecastsTbl.getSelectionModel().getSelectedItem() == null) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, "You need to select a forecast to bet.", ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("Etiquetas").getString("ErrorNoForecastSelected"), ButtonType.OK);
                 alert.showAndWait();
             }
             else {
                 businessLogic.placeBet(betPrice, forecastsTbl.getSelectionModel().getSelectedItem(), businessLogic.getCurrentUser());
-                Alert alert = new Alert(Alert.AlertType.NONE, "Your bet has been successfully placed.", ButtonType.OK);
+                Alert alert = new Alert(Alert.AlertType.NONE, ResourceBundle.getBundle("Etiquetas").getString("BetPlaced"), ButtonType.OK);
                 alert.showAndWait();
             }
         } catch (BetAlreadyExistsException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "You have already placed a bet for this forecast, choose another one.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("Etiquetas").getString("BetAlreadyPlacedInForecast"), ButtonType.OK);
             alert.showAndWait();
         } catch (LateBetException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "The event is due to start or has started, unable to place a bet, choose another one.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("Etiquetas").getString("ErrorEventStartingCantBet"), ButtonType.OK);
             alert.showAndWait();
         } catch (LiquidityLackException e) {
-            Alert alert = new Alert(Alert.AlertType.ERROR, "You do not have enough money to carry on with the bet.", ButtonType.OK);
+            Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("Etiquetas").getString("ErrorNotEnoughMoneyToBet"), ButtonType.OK);
             alert.showAndWait();
         } catch (MinBetException e){
             e.printStackTrace();
@@ -437,15 +450,15 @@ public class BrowseEventsController implements Controller {
     }
 
     /**
-     * Activate and desactivate bet panel. If current user is not registered pops a warning.
+     * Activate and deactivate bet panel. If current user is not registered pops a warning.
      */
     public void betPanel()
     {
         registerErrorText.setText("");
         if(questionsTbl.getSelectionModel().getSelectedItem() == null)
-            //FIXME translation
-            registerErrorText.setText("*Select a question.");
-        else if(businessLogic.getCurrentUser() == null) registerErrorText.setText("*You need to be registered to bet.");
+            registerErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas").getString("SelectQuestion"));
+        else if(businessLogic.getCurrentUser() == null)
+            registerErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas").getString("ErrorMustBeAuthenticated"));
         else
         {
             if (placeBetPane.isVisible()) placeBetPane.setVisible(false);
@@ -600,12 +613,29 @@ public class BrowseEventsController implements Controller {
 
     @Override
     public void redraw() {
-        registerErrorText.setText("");
+        // Labels
+        dateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Date").toUpperCase());
+        eventsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Events").toUpperCase());
+        questionsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Questions").toUpperCase());
+        forecastsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Forecasts").toUpperCase());
+        betLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Bet").toUpperCase());
+        countryLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Country").toUpperCase());
+
+        // Table columns
+        descriptionCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
+        countryCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Country"));
+        questionDescriptions.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
+        questionMinBetCol.setText(ResourceBundle.getBundle("Etiquetas").getString("MinimumBet") + " (€)");
+        forecastDescription.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
+        forecastFee.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee") + " (€)");
+
+        // Texts
+        youCouldWinText.setText(ResourceBundle.getBundle("Etiquetas").getString("YouCouldWin") + ":");
     }
 }
 
 /**
- * Class used to represents a point on the globe.
+ * Class used to represent a point on the globe.
  */
 class EarthPoint {
     protected Point3D p;
@@ -615,5 +645,4 @@ class EarthPoint {
         this.p = p;
         this.rotation = rotation;
     }
-
 }
