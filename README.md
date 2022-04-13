@@ -1,8 +1,8 @@
 <h1 align="center">BetAndRuin - 2022</h1>
 <div align="center">
-  <img width="200" src="https://github.com/Botxan/betandruin2022/blob/main/resources/final_logo.png">
+  <img width="200" src="https://user-images.githubusercontent.com/33251573/163246224-a9a85206-77a9-4b7c-9187-eb3089c3c108.png">
+  <p align="center"><i>BetAndRuin is a betting application developed for the Software Engineering (SE) course.</i></p>
 </div>
-<p align="center"><i>BetAndRuin is a betting application developed for the Software Engineering (SE) course.</i></p>
 
 ---
 
@@ -17,8 +17,9 @@
 ---
 
 ## Project development
-- [0<sup>th</sup> Iteration. Project setup](#0th-iteration-project-setup)
-- [1<sup>st</sup> Iteration](#1st-iteration)
+- [0<sup>th</sup> Iteration](#0th-iteration-project-setup)
+- [1<sup>st</sup> Iteration](#1st-iteration-authentication-and-initial-use-cases)
+- [2<sup>nd</sup> Iteration](#2nd-iteration-migration-to-javafx-and-more-use-cases)
 
 ### 0<sup>th</sup> Iteration. Project setup
 The initial scenario proposed to us is a menu where any user can both create questions and query them.
@@ -27,7 +28,7 @@ The initial scenario proposed to us is a menu where any user can both create que
 </div>
 At this starting point, there is still no distinction between users, there are no use cases defined beyond CreateQuestion and BrowseQuestions. The application is composed by 3 different interfaces, MainMenuGUI, CreateQuestionGUI and BrowseQuesionsGUI.
 
-### 1<sup>st</sup> Iteration.
+### 1<sup>st</sup> Iteration. Authentication and initial use cases
 For this first iteration, we are asked to define the requirements of the application, based on 4 initial use cases:
 - [Register](../../issues/1)
 - [Login](../../issues/7)
@@ -40,7 +41,7 @@ For each of these use cases, we have to:
 - Draw the mockup GUI
 - Implement the use case
 
-**List of task carried out during iteration:**
+**List of tasks carried out during iteration:**
 
 Compulsory
 - [x] [Created the use case diagram and flow of events, including the four use cases aforementioned](https://github.com/Botxan/betandruin2022/blob/main/doc/Sprint_1_-_UML.mdj).
@@ -64,3 +65,48 @@ Optional/Extras
   * String input validation. Use of [regex](https://github.com/Botxan/betandruin2022/commit/f95ac922f7d3c06421327b9052e07b08fafa72d6) and value formatters to force user to introduce valid data.
   * [Hashed password](https://github.com/Botxan/betandruin2022/commit/e988ffead8451d1d4eeb8cb9aa445fe67ca05fbd). Passwords are stored using SHA-512 hashing algorithm + salt.
 - [x] [Responsive design](https://github.com/Botxan/betandruin2022/commit/6a2c5f840648a32a78991ab4a117534fd23b592d).
+
+### 2<sup>nd</sup> Iteration. Migration to JavaFX and more use cases
+ <p float="left">
+  <img width="316" src="https://user-images.githubusercontent.com/33251573/163243866-fa74e9d0-9b2a-48f4-b23e-82016f70d0cc.gif">
+  <img width="684" src="https://user-images.githubusercontent.com/33251573/163243824-a9462083-2456-4d87-976a-9a02c8dd15f8.gif">
+  <img width="1000" src="https://user-images.githubusercontent.com/33251573/163242971-b852427d-b378-44ab-bf48-1221035b21d2.gif">
+ </p> 
+ 
+With the proposed migration to JavaFX, we have invested much of the time spent on the project in [redesign](https://github.com/Botxan/betandruin2022/issues/25) each and every one of the old interfaces using JavaFX instad of Swing.
+
+The end user can now enjoy a UI decorated with a selective [color palette](https://github.com/Botxan/betandruin2022/blob/main/src/main/resources/css/colors.css) and a wide range of new components that facilitate and improve navigation, as well as a set of new utilities and use cases for an optimal application experience.
+
+**List of tasks carried out during iteration:**
+
+Compulsory
+- [x] General:
+  * Update of the domain model and use case diagram.
+- [x] Redesigns:
+  * [Welcome page](https://github.com/Botxan/betandruin2022/tree/WelcomeLoginRegister)
+  * [Login](https://github.com/Botxan/betandruin2022/tree/WelcomeLoginRegister)
+  * [Register](https://github.com/Botxan/betandruin2022/tree/RegisterImplementation)
+  * [User menu](https://github.com/Botxan/betandruin2022/tree/UserMenuUI)
+  * [Admin menu](https://github.com/Botxan/betandruin2022/tree/adminMenuUI)
+  * [Browse events](https://github.com/Botxan/betandruin2022/tree/BrowseEvents) (old Browse questions)
+  * [Create event](https://github.com/Botxan/betandruin2022/tree/createEvent)
+  * [Create question](https://github.com/Botxan/betandruin2022/commit/566b6dc1338d110990919ac2d35504892f55fe5e)
+  * [Create forecast](https://github.com/Botxan/betandruin2022/tree/CreateForecastRedesign)
+- [x] Use cases:
+  * [Deposit money](https://github.com/Botxan/betandruin2022/tree/depositMoney)
+  * [Place a bet](https://github.com/Botxan/betandruin2022/tree/PlaceBet)
+  * [Remove a bet](https://github.com/Botxan/betandruin2022/tree/removeBet)
+- [x] Sequence diagrams:
+  * [Login](https://github.com/Botxan/betandruin2022/blob/main/doc/Sprint_2_UML.mdj)
+  * [Register](https://github.com/Botxan/betandruin2022/blob/main/doc/Sprint_2_UML.mdj)
+  
+Optional/Extras
+  - [x] [Custom navigation bar](https://github.com/Botxan/betandruin2022/tree/NavBar). We have removed the default top bar and designed a bar with a more modern look and more utilities, such has [two-way navigation](https://github.com/Botxan/betandruin2022/commit/1efa6e26d555c15238084a5f0b7f6263a12016af) and [dynamic language changer](https://github.com/Botxan/betandruin2022/commit/6ce2f1cdd99e52a736dd69f638d7ab567bd0bcbe). Also, the new bar has a nested sub-bar that will show the [buttons to login and register](https://github.com/Botxan/betandruin2022/commit/d636dc7f84ba6a0b59729c35304358a1ff62c57f) if the user is not logged in, and [user's avatar[^avatar] as well and a dropdown menu](https://github.com/Botxan/betandruin2022/commit/69e34eea5df37cc5061974202b5924bfc02e0649) with several utilities if the user is authenticated.
+  - [x] [Earth globe event searcher](https://github.com/Botxan/betandruin2022/commit/d3f92d8fcbd6c676b0938510d1ef93f1d68eccba). Although it is part of Browse Events GUI redesign, we believe that the new function to search for events is remarkable. The user can now select events by country by clicking on the earth globe on the left side of the interface. Similarly, if the user selects an event from the events table, the ball will automatically rotate to the country where the event takes place.
+  - [x] Linking fonts from Google Fonts. In our case, we are using Roboto.
+  - [x] Integration of libraries:
+    * [FontAwesome](https://github.com/Jerady/fontawesomefx-jigsaw-modules). An icon library widely used by developers.
+    * [JFoenix](https://github.com/sshahine/JFoenix). JavaFX material design library.
+  - [x] String input input validation in the new interfaces, now also with the use of [observators](https://github.com/Botxan/betandruin2022/commit/2af68f771f05277e04bda543688229a5e7e2d03d).
+
+[^avatar]: Users cannot upload avatar's yet, but the platform is already prepared for that situation.
