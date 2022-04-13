@@ -23,7 +23,9 @@ import ui.MainGUI;
 import utils.Dates;
 
 import javax.persistence.Table;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.ResourceBundle;
 
 public class RemoveBetController implements Controller {
     private BlFacade businessLogic;
@@ -120,7 +122,8 @@ public class RemoveBetController implements Controller {
                 // Event
                 eventIdField.setText(String.valueOf(e.getEventID()));
                 eventDescriptionArea.setText(e.getDescription());
-                eventDateField.setText(e.getEventDate().toString());
+                SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                eventDateField.setText(dateFormat.format(e.getEventDate()).toString());
                 eventCountryField.setText(e.getCountry());
             }
         });
@@ -168,14 +171,14 @@ public class RemoveBetController implements Controller {
                 || (eventDate.get(Calendar.YEAR) == today.get(Calendar.YEAR) && eventDate.get(Calendar.MONTH) < today.get(Calendar.MONTH))
                 || (eventDate.get(Calendar.YEAR) == today.get(Calendar.YEAR) && eventDate.get(Calendar.MONTH) == today.get(Calendar.MONTH) && eventDate.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH))) {
             removeBetResultLbl.getStyleClass().setAll("lbl", "lbl-danger");
-            removeBetResultLbl.setText("The event has already passed. Bet cannot be removed.");
+            removeBetResultLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventPassed"));
         } else if (eventDate.get(Calendar.YEAR) == today.get(Calendar.YEAR) && eventDate.get(Calendar.MONTH) == today.get(Calendar.MONTH) && eventDate.get(Calendar.DAY_OF_MONTH) == today.get(Calendar.DAY_OF_MONTH)) {
             removeBetResultLbl.getStyleClass().setAll("lbl", "lbl-danger");
-            removeBetResultLbl.setText("The event takes place today. Bet cannot be deleted.");
+            removeBetResultLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventIsToday"));
         } else {
             businessLogic.removeBet(b);
             removeBetResultLbl.getStyleClass().setAll("lbl", "lbl-success");
-            removeBetResultLbl.setText("Bet removed succesfully.");
+            removeBetResultLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("BetRemoved"));
             // Remove the deleted bet from the table
             resetFields();
             bets.remove(b);
@@ -202,5 +205,28 @@ public class RemoveBetController implements Controller {
 
     @Override
     public void redraw() {
+        // Labels
+        betsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Bets"));
+        associatedForecastLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("AssociatedForecast"));
+        forecastDescriptionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));;
+        forecastFeeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee"));
+        associatedQuestionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("AssociatedQuestion"));
+        questionDescriptionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
+        questionMinBetLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("MinimumBetPrice"));
+        associatedEventLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("AssociatedEvent"));
+        eventDescriptionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
+        eventDateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Date"));
+        eventCountryLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Country"));
+
+        // Table cols
+        betAmountCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Amount"));
+
+        // Buttons
+        removeBetBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("RemoveBet"));
+        confirmDeleteBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Yes"));
+        cancelDeleteBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("No"));
+
+        // Text
+        areYouSureText.setText(ResourceBundle.getBundle("Etiquetas").getString("ConfirmDeleteBet"));
     }
 }
