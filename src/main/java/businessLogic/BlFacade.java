@@ -92,7 +92,6 @@ public interface BlFacade  {
 	 * @param year birth year of the user
 	 * @param month month of birth of the user
 	 * @param day birth day of the user
-	 * @param
 	 * @throws InvalidDateException format for year and month is invalid
 	 * @throws UnderageRegistrationException the user is under age (less than 18 years)
 	 * @throws IncorrectPSWConfirmException password and checking confirmPassword do not match
