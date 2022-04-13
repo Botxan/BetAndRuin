@@ -2,6 +2,7 @@
     -fx-font-size: 1.5em;
     -fx-font-style: italic;
     -fx-font-weight: 100;
+    -fx-text-alignment: center;
 }
 
 .dateField {
