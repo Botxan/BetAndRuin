@@ -323,8 +323,8 @@ public class MainGUI {
                 yield adminMenuLag;
             case "RemoveBet":
                 yield removeBetLag;
-            default: // get the initial window
-                yield mainLag;
+            default: // get the welcome window
+                yield welcomeLag;
         };
     }
 
