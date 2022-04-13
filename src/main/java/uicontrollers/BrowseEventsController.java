@@ -22,6 +22,8 @@ import javafx.scene.control.*;
 
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -33,6 +35,8 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
+import javafx.scene.transform.Translate;
 import javafx.util.Callback;
 import javafx.util.Duration;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
@@ -509,16 +513,25 @@ public class BrowseEventsController implements Controller {
         PhongMaterial earthMaterial = new PhongMaterial();
         earthMaterial.setDiffuseMap(new Image(getClass().getResourceAsStream("/img/earth-d.jpeg")));
         earthMaterial.setBumpMap(new Image(getClass().getResourceAsStream("/img/earth-b.jpeg")));
-        earthMaterial.setSpecularMap(new Image(getClass().getResourceAsStream("/img/earth-s.jpeg")));
+        //earthMaterial.setSpecularMap(new Image(getClass().getResourceAsStream("/img/earth-s.jpeg")));
         earth.setMaterial(earthMaterial);
 
+        PointLight pointLight1 = new PointLight();
+        PointLight pointLight2 = new PointLight();
+        pointLight1.setConstantAttenuation(3);
+        pointLight2.setConstantAttenuation(3);
+        AmbientLight ambientLight = new AmbientLight(Color.rgb(200,200,200));
+        pointLight1.getTransforms().add(new Translate(0,-100000,0));
+        pointLight2.getTransforms().add(new Translate(0,100000,0));
         earthGroup.getChildren().add(earth);
+        earthGroup.getChildren().add(pointLight1);
+        earthGroup.getChildren().add(pointLight2);
+        earthGroup.getChildren().add(ambientLight);
 
         // [*] --- Get country points ---- [*]
 
         // Load countries and their coords and corresponding rotations
         importCountryCoords();
-
         // Add country markers to the map
         for (String country: earthPoints.keySet()) {
             Sphere s = new Sphere(3);
@@ -545,7 +558,13 @@ public class BrowseEventsController implements Controller {
         scene3d.setHeight(EARTH_RADIUS * 2);
         scene3d.setTranslateX(160);
         scene3d.setTranslateY(50);
-
+        DropShadow dS = new DropShadow();
+        dS.setOffsetX(30);
+        dS.setOffsetY(30);
+        dS.setHeight(200);
+        dS.setWidth(200);
+        dS.setColor(Color.rgb(100,100,100));
+        scene3d.setEffect(dS);
         main.getChildren().add(scene3d);
     }
 
@@ -595,6 +614,7 @@ public class BrowseEventsController implements Controller {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 // Set the angle for the rotation
+                earthGroup.getChildren().get(0).setDisable(true);
                 earthGroup.rotateProperty().set((double)newValue);
             }
         });
