@@ -6,6 +6,8 @@ import exceptions.*;
 import gui.RegisterGUI;
 import gui.UserMenuGUI;
 import gui.components.MenuBar;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -28,6 +30,8 @@ import java.net.URL;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+
+import static utils.Dates.isValidDate;
 
 public class RegisterController implements Controller, Initializable {
     private BlFacade businessLogic;
@@ -177,6 +181,28 @@ public class RegisterController implements Controller, Initializable {
         mediaView.fitHeightProperty().bind(mediaViewPane.heightProperty());
         mediaView.fitWidthProperty().set(mediaView.getFitHeight() * 16/9);
         mediaPlayer.setVolume(0);
+
+        addCreditCardNumberFormatter();
+    }
+
+    /**
+     * Adds fixed format to credit card number field, and adds some observators to maintain a valid number.
+     */
+    public void addCreditCardNumberFormatter() {
+        creditCardNumberField.textProperty().addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> {
+            if (!newValue.matches("\\d*"))
+                creditCardNumberField.setText(newValue.replaceAll("[^\\d]", ""));
+
+            if (creditCardNumberField.getLength() > 16)
+                creditCardNumberField.setText(oldValue);
+        });
+
+        // When defocusing credit card number field, check if it has 16 digits
+        creditCardNumberField.focusedProperty().addListener((ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) -> {
+              if (creditCardNumberField.getText().length() != 16) {
+                  creditCardNumberField.setText("");
+              }
+        });
     }
 
     /**
