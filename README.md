@@ -70,7 +70,7 @@ Optional/Extras
  <p float="left">
   <img width="316" src="https://user-images.githubusercontent.com/33251573/163243866-fa74e9d0-9b2a-48f4-b23e-82016f70d0cc.gif">
   <img width="684" src="https://user-images.githubusercontent.com/33251573/163243824-a9462083-2456-4d87-976a-9a02c8dd15f8.gif">
-  <img width="1000" src="https://user-images.githubusercontent.com/33251573/163242971-b852427d-b378-44ab-bf48-1221035b21d2.gif">
+  <img width="1000" src="https://user-images.githubusercontent.com/33251573/163265724-1c8e3fb7-35dd-43ed-9ba2-1618eed147ec.gif">
  </p> 
  
 With the proposed migration to JavaFX, we have invested much of the time spent on the project in [redesign](https://github.com/Botxan/betandruin2022/issues/25) each and every one of the old interfaces using JavaFX instad of Swing.
