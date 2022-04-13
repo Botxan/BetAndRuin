@@ -61,14 +61,30 @@ public class CreateEventController implements Controller {
             resultLabel.setStyle("-fx-background-color: #da2929; -fx-text-fill: #ffffff; -fx-padding: 5px; -fx-background-radius: 5px; -fx-font-weight: bold");
         } else {
             Date eventDate = Dates.convertToDate(eventLocalDate);
-            try {
-                businessLogic.createEvent(eventName, eventDate, country);
-                resultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("EventAddedSuccessfully"));
-                resultLabel.setStyle("-fx-background-color: -fx-green1; -fx-text-fill: #ffffff; -fx-padding: 5px; -fx-background-radius: 5px; -fx-font-weight: bold");
-            } catch (EventAlreadyExistException e) {
-                resultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventAlreadyExist"));
-                resultLabel.setStyle("-fx-background-color: #da2929; -fx-text-fill: #ffffff; -fx-padding: 5px; -fx-background-radius: 5px; -fx-font-weight: bold");
+            Calendar cal1 = Calendar.getInstance();
+            Calendar cal2 = Calendar.getInstance();
+            cal2.setTime(eventDate);
+            int cmp = cal1.get(Calendar.YEAR) - cal2.get(Calendar.YEAR);
+            if (cmp == 0) {
+                cmp = cal1.get(Calendar.MONTH) - cal2.get(Calendar.MONTH);
+                if (cmp == 0) {
+                    cmp = cal1.get(Calendar.DAY_OF_MONTH) - cal2.get(Calendar.DAY_OF_MONTH);
+                }
             }
+
+            if (cmp > 0) resultLabel.setText("Date incorrect");
+            else {
+                try {
+                    businessLogic.createEvent(eventName, eventDate, country);
+                    resultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("EventAddedSuccessfully"));
+                    resultLabel.setStyle("-fx-background-color: -fx-green1; -fx-text-fill: #ffffff; -fx-padding: 5px; -fx-background-radius: 5px; -fx-font-weight: bold");
+                } catch (EventAlreadyExistException e) {
+                    resultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventAlreadyExist"));
+                    resultLabel.setStyle("-fx-background-color: #da2929; -fx-text-fill: #ffffff; -fx-padding: 5px; -fx-background-radius: 5px; -fx-font-weight: bold");
+                }
+            }
+
+
         }
     }
 
