@@ -470,18 +470,22 @@ public class BrowseEventsController implements Controller {
     public void addBetAmount()
     {
         Float currentPrice = Float.parseFloat(euroNumber.getText());
-        currentPrice += 0.50F;
-        euroNumber.setText(String.valueOf(currentPrice));
-        gainNumber.setText(String.valueOf(currentPrice * forecastsTbl.getSelectionModel().getSelectedItem().getFee()));
+        if (forecastsTbl.getSelectionModel().getSelectedItem() != null) {
+            currentPrice += 0.50F;
+            euroNumber.setText(String.valueOf(currentPrice));
+            gainNumber.setText(String.valueOf(currentPrice * forecastsTbl.getSelectionModel().getSelectedItem().getFee()));
+        }
     }
 
     public void substractBetAmount()
     {
         Float currentPrice = Float.parseFloat(euroNumber.getText());
-        if(currentPrice - 0.5 >= forecastsTbl.getSelectionModel().getSelectedItem().getFee())
-            currentPrice -= 0.50F;
-        euroNumber.setText(String.valueOf(currentPrice));
-        gainNumber.setText(String.valueOf(currentPrice * forecastsTbl.getSelectionModel().getSelectedItem().getFee()));
+        if (forecastsTbl.getSelectionModel().getSelectedItem() != null) {
+            if(currentPrice - 0.5 >= forecastsTbl.getSelectionModel().getSelectedItem().getFee())
+                currentPrice -= 0.50F;
+            euroNumber.setText(String.valueOf(currentPrice));
+            gainNumber.setText(String.valueOf(currentPrice * forecastsTbl.getSelectionModel().getSelectedItem().getFee()));
+        }
     }
 
     /* ---------------------------------- Earth and slider methods ----------------------------------*/

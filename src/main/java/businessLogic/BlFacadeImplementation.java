@@ -29,7 +29,7 @@ public class BlFacadeImplementation implements BlFacade {
 	DataAccess dbManager;
 	ConfigXML config = ConfigXML.getInstance();
 	// Regular Expression for checking email format:
-	private String emailRegEx = new String("^\\w+@\\w+\\.[a-z]{2,3}$");
+	private String emailRegEx = new String("^[\\w|\\.]+@\\w+\\.[a-z]{2,3}$");
 	// Minimum length for password:
 	private final int MINIMUM_PSW_LENGHT = 6;
 	// Current user in the application 
