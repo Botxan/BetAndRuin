@@ -129,8 +129,7 @@ public class BlFacadeImplementation implements BlFacade {
 
 	@WebMethod
 	public void register(String username, String firstName, String lastName, String address, String email,
-			String password, String confirmPassword, int year, int month, int day, Long cardNumber, Date expirationDate, Integer securityCode) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException
-	{
+			String password, String confirmPassword, int year, int month, int day, Long cardNumber, Date expirationDate, Integer securityCode) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException, CreditCardAlreadyExists {
 		//Check email format completion (regex):
 		if(!Pattern.compile(emailRegEx).matcher(email).matches())
 			throw new NoMatchingPatternException("email");

@@ -308,6 +308,8 @@ public class RegisterController implements Controller, Initializable {
                     errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("InvalidCreditCardNumber"));
                 } catch (IOException e) {
                     e.printStackTrace();
+                } catch (CreditCardAlreadyExists e) {
+                    errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("CreditCardAlreadyExists"));
                 }
             }
         }
