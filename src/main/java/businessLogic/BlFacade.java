@@ -104,7 +104,7 @@ public interface BlFacade  {
 									String password, String confirmPassword, int year, int month, int day,
 									Long cardNumber, Date expirationDate, Integer securityCode)
 			throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException,
-			PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException;
+			PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException, CreditCardAlreadyExists;
 
 	/**
 	 * It returns the user if successfully logged

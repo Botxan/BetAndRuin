@@ -426,13 +426,24 @@
             return ev.doesQuestionExist(question);
         }
 
-        public void removeBet(Integer betID) {
+        public void removeBet(User currentUser, Integer betID) {
             Bet bet = db.find(Bet.class, betID);
+            User user = db.find(User.class, bet.getGambler());
+            float amountToRefund = bet.getAmount();
 
             db.getTransaction().begin();
-            Query q = db.createQuery("DELETE FROM Bet b WHERE b.betID = " + betID);
-            q.executeUpdate();
+            // Delete the bet
+            Query q1 = db.createQuery("DELETE FROM Bet b WHERE b.betID = " + betID);
+            // Remove the bet from the user
+            user.removeBet(bet);
+            db.persist(user);
+            q1.executeUpdate();
+
+            // Refund the money
+            user.depositMoneyIntoWallet(amountToRefund);
             db.getTransaction().commit();
+            // Refund the money in the current execution
+            currentUser.depositMoneyIntoWallet(amountToRefund);
         }
 
         /**
@@ -446,24 +457,29 @@
          * @param birthdate birthday date of the user
          * @param salt salt used in password hashing
          */
-        public User register(String username, String firstName, String lastName, String address, String email, byte[] hashedPassword, Date birthdate, byte[] salt, Long cardNumber, Date expirationDate, Integer securityCode)
-        {
+        public User register(String username, String firstName, String lastName, String address, String email, byte[] hashedPassword, Date birthdate, byte[] salt, Long cardNumber, Date expirationDate, Integer securityCode) throws CreditCardAlreadyExists {
             System.out.println(">> DataAccess: register => username = " + username + " firstName = " +
                     firstName + " lastName = " + lastName + " address = " + address + " email = " + email +
                     " hashedPassword = " + hashedPassword + " birthdate = " + birthdate + " salt = " + salt +
                     " cardNumber = " + cardNumber + " expirationDate = " + expirationDate + " securityCode = " + securityCode);
 
-            db.getTransaction().begin();
-            // Create the user
-            User newUser = new User(username, firstName, lastName,
-                    birthdate, address, email, hashedPassword, salt, 1, 0);
-            // Create the card (with 100€, for testing purposes)
-            newUser.setCard(new Card(cardNumber, expirationDate, securityCode, 100.0, newUser));
-            db.persist(newUser);
-            db.getTransaction().commit();
-            System.out.println(newUser + " has been saved");
+            Card creditCard = db.find(Card.class , cardNumber);
+            if(creditCard == null){
+                db.getTransaction().begin();
+                // Create the user
+                User newUser = new User(username, firstName, lastName,
+                        birthdate, address, email, hashedPassword, salt, 1, 0);
+                // Create the card (with 100€, for testing purposes)
+                newUser.setCard(new Card(cardNumber, expirationDate, securityCode, 100.0, newUser));
+                db.persist(newUser);
+                db.getTransaction().commit();
+                System.out.println(newUser + " has been saved");
 
-            return newUser;
+                return newUser;
+            }else{
+                throw new CreditCardAlreadyExists();
+            }
+
         }
 
         /**
@@ -557,24 +573,23 @@
 
             if(today.after(eventBetLimit)) throw new LateBetException();
 
-            //Check if bet already exists:
+            // Check if bet already exists:
             if(getBet(gambler, forecast) != null) throw new BetAlreadyExistsException();
 
-            User dbGambler;
-            Bet newBet = new Bet(betAmount, forecast, gambler);
-            db.getTransaction().begin();
-            try {
-                dbGambler = getUser(gambler.getUsername());
-                dbGambler.setWallet(gambler.getWallet() - betAmount);
-            } catch (UserNotFoundException e) {
-                e.printStackTrace();
+            // Find the user to update it
+            User user = db.find(User.class, gambler.getUserID());
+            if (user != null) {
+                db.getTransaction().begin();
+                user.setWallet(gambler.getWallet() - betAmount);
+                user.addBet(betAmount, forecast);
+                db.persist(user);
+                db.getTransaction().commit();
+                System.out.println("Bet has been saved.");
+                return true;
+            } else {
+                System.out.println("Error on placing the bet: the user does not exist.");
+                return false;
             }
-            db.persist(newBet);
-            db.getTransaction().commit();
-            gambler.setWallet(gambler.getWallet() - betAmount);
-            System.out.println(newBet + " has been saved.");
-            System.out.println("Gambler current money: " + gambler.getWallet());
-            return true;
         }
 
         /**

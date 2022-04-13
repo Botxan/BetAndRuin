@@ -129,8 +129,7 @@ public class BlFacadeImplementation implements BlFacade {
 
 	@WebMethod
 	public void register(String username, String firstName, String lastName, String address, String email,
-			String password, String confirmPassword, int year, int month, int day, Long cardNumber, Date expirationDate, Integer securityCode) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException
-	{
+			String password, String confirmPassword, int year, int month, int day, Long cardNumber, Date expirationDate, Integer securityCode) throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException, PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException, CreditCardAlreadyExists {
 		//Check email format completion (regex):
 		if(!Pattern.compile(emailRegEx).matcher(email).matches())
 			throw new NoMatchingPatternException("email");
@@ -241,7 +240,7 @@ public class BlFacadeImplementation implements BlFacade {
 	@Override
 	public void removeBet(Bet bet) {
 		dbManager.open(false);
-		dbManager.removeBet(bet.getBetID());
+		dbManager.removeBet(currentUser, bet.getBetID());
 		dbManager.close();
 
 		currentUser.removeBet(bet);
@@ -252,6 +251,14 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.open(false);
 		boolean result = dbManager.setBet(betAmount, forecast, gambler);
 		dbManager.close();
+
+		// Create also the bet for the current user (detached from db)
+		if (result) {
+			// FIXME the real betID is in the database, this is just dummy id in order not to display all new bet id's = 0
+			currentUser.addBet(betAmount, forecast).setBetID(currentUser.getBets().size());
+			currentUser.setWallet(currentUser.getWallet() - betAmount);
+			System.out.println("Gambler's current wallet: " + gambler.getWallet());
+		}
 		return result;
 	}
 
