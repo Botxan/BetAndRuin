@@ -38,7 +38,6 @@ public class NavBarController implements Controller {
     @FXML private Button registerBtn;
     @FXML private MenuButton userBtn;
     @FXML private MenuItem depositMoneyItem;
-    @FXML private MenuItem movementsItem;
     @FXML private MenuItem logoutItem;
     @FXML private MenuItem browseEventsItem;
     @FXML private ImageView userBtnAvatar;
@@ -228,11 +227,6 @@ public class NavBarController implements Controller {
         mainGUI.goForward("BrowseEvents");
     }
 
-    @FXML
-    void showMovements() {
-        System.out.println("showMovements: not implemented yet.");
-    }
-
     /**
      * Destroys the current session and changes the window to Login
      */
@@ -319,7 +313,6 @@ public class NavBarController implements Controller {
         registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));
         browseEventsItem.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseEvents"));
         depositMoneyItem.setText(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney"));
-        movementsItem.setText(ResourceBundle.getBundle("Etiquetas").getString("Movements"));
         logoutItem.setText(ResourceBundle.getBundle("Etiquetas").getString("Logout"));
     }
 }

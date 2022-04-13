@@ -219,7 +219,11 @@ public class BlFacadeImplementation implements BlFacade {
 
 	@WebMethod
 	public List<Bet> getUserBets() {
-		return currentUser.getBets();
+		dbManager.open(false);
+		List<Bet> bets = dbManager.getBets(currentUser);
+		dbManager.close();
+
+		return bets;
 	}
 
 	@Override

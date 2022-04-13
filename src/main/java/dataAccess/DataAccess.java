@@ -528,6 +528,13 @@
             }
         }
 
+        public List<Bet> getBets(User gambler) {
+            TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.gambler = ?1", Bet.class);
+            q.setParameter(1, gambler);
+            List<Bet> bets = q.getResultList();
+            return bets;
+        }
+
         /**
          * Returns the single possible bet for a given gambler and the gambler's forecast.
          * @param gambler The user to get the bet from.

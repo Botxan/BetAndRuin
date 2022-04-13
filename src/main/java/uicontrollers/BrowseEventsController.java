@@ -429,8 +429,10 @@ public class BrowseEventsController implements Controller {
             if(forecastsTbl.getSelectionModel().getSelectedItem() == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("Etiquetas").getString("ErrorNoForecastSelected"), ButtonType.OK);
                 alert.showAndWait();
-            }
-            else {
+            } else if (questionsTbl.getSelectionModel().getSelectedItem().getBetMinimum() > betPrice) {
+                Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("Etiquetas").getString("ErrorMinBetNotReached"), ButtonType.OK);
+                alert.showAndWait();
+            } else {
                 businessLogic.placeBet(betPrice, forecastsTbl.getSelectionModel().getSelectedItem(), businessLogic.getCurrentUser());
                 Alert alert = new Alert(Alert.AlertType.NONE, ResourceBundle.getBundle("Etiquetas").getString("BetPlaced"), ButtonType.OK);
                 alert.showAndWait();
