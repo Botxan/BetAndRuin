@@ -143,6 +143,7 @@ public class MainGUI {
         this.stage.initStyle(StageStyle.UNDECORATED);
         this.stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/favicon.png")));
 
+        // TODO Not supported in JavaFX, will test it in 3rd iteration
         // set icon for mac os (and other systems which do support this method)
         // final Taskbar taskbar = Taskbar.getTaskbar();
         // BufferedImage img = ImageIO.read(getClass().getResourceAsStream("/icon/favicon.png"));
@@ -223,8 +224,12 @@ public class MainGUI {
         scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                stage.setX(event.getScreenX() - xOffset);
-                stage.setY(event.getScreenY() - yOffset);
+                if (history.getCurrentWindow().getController().getClass().getSimpleName().equals("WelcomeController")
+                        || history.getCurrentWindow().getController().getClass().getSimpleName().equals("LoginController")
+                        || history.getCurrentWindow().getController().getClass().getSimpleName().equals("RegisterController")) {
+                    stage.setX(event.getScreenX() - xOffset);
+                    stage.setY(event.getScreenY() - yOffset);
+                }
             }
         });
 
