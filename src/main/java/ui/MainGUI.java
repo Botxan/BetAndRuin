@@ -34,7 +34,7 @@ public class MainGUI {
     private BorderPane mainWrapper;
 
     public Window navBarLag;
-    private Window loginLag, registerLag, mainLag, createQuestionLag,
+    private Window loginLag, registerLag, createQuestionLag,
             browseEventsLag, welcomeLag, userMenuLag, depositMoneyLag,
             createForecastLag, createEventLag, adminMenuLag, removeBetLag;
 
@@ -153,7 +153,6 @@ public class MainGUI {
         welcomeLag = load("/WelcomeGUI.fxml", "Welcome", 350, 500);
         loginLag = load("/Login.fxml", "Login", 700, 500);
         registerLag = load("/RegisterGUI.fxml", "Register", 900, 600);
-        mainLag = load("/MainGUI.fxml", "MainTitle", SCENE_WIDTH, SCENE_HEIGHT);
         browseEventsLag = load("/BrowseEvents.fxml", "BrowseEvents", SCENE_WIDTH, SCENE_HEIGHT);
         createEventLag = load("/CreateEvent.fxml", "CreateEvent", SCENE_WIDTH, SCENE_HEIGHT);
 
