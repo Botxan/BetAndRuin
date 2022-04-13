@@ -190,12 +190,20 @@ public class RemoveBetController implements Controller {
             betsTbl.getSelectionModel().select(null);
             if (betsTbl.getSelectionModel().getSelectedItem() == null)
                 removeBetBtn.setDisable(true);
+
+            // Update also the money displayed in the navigation bar
+            ((NavBarController)mainGUI.navBarLag.getController()).updateWalletLabel();
         }
     }
 
     @FXML void cancelDelete() {
         confirmationPane.setVisible(false);
         betsTbl.setDisable(false);
+    }
+
+    @FXML void updateBetTable() {
+        bets.clear();
+        bets.addAll(businessLogic.getUserBets());
     }
 
     @Override
@@ -228,5 +236,8 @@ public class RemoveBetController implements Controller {
 
         // Text
         areYouSureText.setText(ResourceBundle.getBundle("Etiquetas").getString("ConfirmDeleteBet"));
+
+        // Update bet table
+        updateBetTable();
     }
 }
