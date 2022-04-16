@@ -21,7 +21,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="main" maxHeight="650.0" maxWidth="1.7976931348623157E308" minHeight="552.0" prefHeight="552.0" prefWidth="1280.0" stylesheets="@css/browseEvents.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.BrowseEventsController">
+<AnchorPane fx:id="main" maxHeight="650.0" maxWidth="1.7976931348623157E308" minHeight="552.0" prefHeight="552.0" prefWidth="1280.0" stylesheets="@css/browseEvents.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.BrowseEventsController">
    <children>
       <TableView fx:id="eventTbl" layoutX="826.0" layoutY="153.0" prefHeight="122.0" prefWidth="356.0" styleClass="table_view" stylesheets="@css/loginStyle.css">
         <columns>
