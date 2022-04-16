@@ -3,10 +3,17 @@ package uicontrollers;
 import businessLogic.BlFacade;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.SubScene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.layout.Pane;
 import ui.MainGUI;
+import utils.Window;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -17,6 +24,7 @@ public class UserMenuController implements Controller {
     @FXML private JFXButton browseEventsBtn;
     @FXML private JFXButton depositMoneyBtn;
     @FXML private JFXButton removeBetsBtn;
+    @FXML private Pane content;
 
     /**
      * Constructor for the UserMenuController.
@@ -27,27 +35,55 @@ public class UserMenuController implements Controller {
         businessLogic = bl;
     }
 
+
     @FXML
     void initialize() {
 
     }
 
     /**
-     * Changes the window to Browse Events
+     * Displays overview pane
      */
     @FXML
-    void browseEvents() {
-        mainGUI.goForward("BrowseEvents");
+    void displayOverview() {
+        content.getChildren().clear();
+        content.getChildren().add(mainGUI.userOverviewLag.getUi());
     }
 
+    /**
+     * Displays profile pane
+     */
     @FXML
-    void depositMoney() {
-        mainGUI.goForward("DepositMoney");
+    void displayProfile() {
+        content.getChildren().clear();
+        content.getChildren().add(mainGUI.profileLag.getUi());
     }
 
+    /**
+     * Displays bets pane
+     */
     @FXML
-    void goToRemoveBets() {
-        mainGUI.goForward("RemoveBet");
+    void displayBets() {
+        content.getChildren().clear();
+        content.getChildren().add(mainGUI.betsLag.getUi());
+    }
+
+    /**
+     * Displays movements pane
+     */
+    @FXML
+    void displayMovements() {
+        content.getChildren().clear();
+        content.getChildren().add(mainGUI.movementsLag.getUi());
+    }
+
+    /**
+     * Finishes the current session
+     */
+    @FXML
+    void logout() {
+        businessLogic.setCurrentUser(null);
+        this.mainGUI.goForward("Login");
     }
 
     @Override
@@ -57,8 +93,6 @@ public class UserMenuController implements Controller {
 
     @Override
     public void redraw() {
-        browseEventsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseEvents"));
-        depositMoneyBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney"));
-        removeBetsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("RemoveBet"));
+
     }
 }

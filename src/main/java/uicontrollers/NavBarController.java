@@ -11,6 +11,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.image.ImageView ;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import ui.MainGUI;
@@ -43,6 +44,7 @@ public class NavBarController implements Controller {
     @FXML private ImageView userBtnAvatar;
     @FXML private Label walletLabel;
     @FXML private Button depositMoneyBtn;
+    @FXML private HBox userBar;
 
     @FXML private ResourceBundle resources;
 
@@ -53,6 +55,10 @@ public class NavBarController implements Controller {
      */
     public NavBarController(BlFacade bl) {
         businessLogic = bl;
+    }
+
+    public HBox getUserBar() {
+        return userBar;
     }
 
     @FXML

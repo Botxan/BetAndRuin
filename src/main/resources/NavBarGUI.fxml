@@ -17,7 +17,7 @@
 
 <AnchorPane prefHeight="0.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.NavBarController">
    <children>
-      <HBox alignment="CENTER_LEFT" blendMode="SRC_ATOP" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="30.0" prefWidth="1142.0" style="-fx-background-color: #202020;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER_LEFT" blendMode="SRC_ATOP" onMouseDragged="#dragged" onMousePressed="#pressed" prefHeight="30.0" prefWidth="1142.0" style="-fx-background-color: -fx-dark-grey;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Button fx:id="backBtn" mnemonicParsing="false" onAction="#goBack" prefWidth="40.0">
                <graphic>
@@ -105,7 +105,7 @@
             </Button>
          </children>
       </HBox>
-      <HBox alignment="CENTER_RIGHT" layoutY="30.0" prefHeight="60.0" prefWidth="1280.0" styleClass="userBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+      <HBox fx:id="userBar" alignment="CENTER_RIGHT" layoutY="30.0" prefHeight="60.0" prefWidth="1280.0" styleClass="userBar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <children>
             <Button fx:id="depositMoneyBtn" mnemonicParsing="false" onAction="#goToDepositMoney" prefHeight="28.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-padding: 0;">
                <graphic>

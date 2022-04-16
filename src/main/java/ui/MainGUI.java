@@ -1,31 +1,27 @@
 package ui;
 
 import businessLogic.BlFacade;
-import configuration.UtilDate;
-import domain.User;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.SceneAntialiasing;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import jdk.jshell.execution.Util;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import uicontrollers.*;
+import uicontrollers.user.BetsController;
+import uicontrollers.user.MovementsController;
+import uicontrollers.user.ProfileController;
+import uicontrollers.user.UserOverviewController;
 import utils.History;
 import utils.Window;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
@@ -33,10 +29,9 @@ public class MainGUI {
 
     private BorderPane mainWrapper;
 
-    public Window navBarLag;
-    private Window loginLag, registerLag, createQuestionLag,
-            browseEventsLag, welcomeLag, userMenuLag, depositMoneyLag,
-            createForecastLag, createEventLag, adminMenuLag, removeBetLag;
+    public Window navBarLag, loginLag, registerLag, createQuestionLag, browseEventsLag, welcomeLag,
+            userMenuLag, depositMoneyLag, createForecastLag, createEventLag, adminMenuLag,
+            removeBetLag, userOverviewLag, profileLag, betsLag, movementsLag;
 
     private BlFacade businessLogic;
     private Stage stage;
@@ -117,6 +112,14 @@ public class MainGUI {
                 return new AdminMenuController(businessLogic);
             } else if (controllerClass == RemoveBetController.class) {
                 return new RemoveBetController(businessLogic);
+            } else if (controllerClass == UserOverviewController.class) {
+                return new UserOverviewController(businessLogic);
+            } else if (controllerClass == ProfileController.class) {
+                return new ProfileController(businessLogic);
+            } else if (controllerClass == BetsController.class) {
+                return new BetsController(businessLogic);
+            } else if (controllerClass == MovementsController.class) {
+                return new MovementsController(businessLogic);
             } else {
                 // default behavior for controllerFactory:
                 try {
@@ -182,6 +185,12 @@ public class MainGUI {
         createForecastLag = load("/CreateForecast.fxml", "CreateForecast", SCENE_WIDTH, SCENE_HEIGHT);
         adminMenuLag = load("/AdminMenu.fxml", "AdminMenu", SCENE_WIDTH, SCENE_HEIGHT);
         removeBetLag = load("/RemoveBet.fxml", "RemoveBet", SCENE_WIDTH, SCENE_HEIGHT);
+
+        // User windows
+        userOverviewLag = load("/user/UserOverview.fxml", "UserOverview", SCENE_WIDTH, SCENE_HEIGHT);
+        profileLag = load("/user/Profile.fxml", "Profile", SCENE_WIDTH, SCENE_HEIGHT);
+        betsLag = load("/user/Bets.fxml", "Bets", SCENE_WIDTH, SCENE_HEIGHT);
+        movementsLag = load("/user/Movements.fxml", "Movements", SCENE_WIDTH, SCENE_HEIGHT);
     }
 
     /**
@@ -243,11 +252,20 @@ public class MainGUI {
     private void showScene(Window window) {
         stage.setTitle(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString(window.getTitle()));
 
-        //Do not show navbar in Welcome, Login and Register GUIs.
-        if(window.getTitle().equals("Welcome") || window.getTitle().equals("Login") || window.getTitle().equals("Register"))
+        // Do not show navbar in Welcome, Login, Register
+        if (Arrays.asList("Welcome", "Login", "Register").contains(window.getTitle()))
             mainWrapper.setTop(null);
-        else
+        else {
             mainWrapper.setTop(navBarLag.getUi());
+            if (Arrays.asList("UserMenu", "AdminMenu").contains(window.getTitle())) {
+                ((NavBarController) navBarLag.getController()).getUserBar().setVisible(false);
+                ((NavBarController) navBarLag.getController()).getUserBar().setManaged(false);
+            } else {
+                ((NavBarController) navBarLag.getController()).getUserBar().setVisible(true);
+                ((NavBarController) navBarLag.getController()).getUserBar().setManaged(true);
+            }
+        }
+
 
         mainWrapper.setCenter(window.getUi());
 
@@ -256,7 +274,6 @@ public class MainGUI {
         stage.centerOnScreen();
 
         ((NavBarController)navBarLag.getController()).updateNav();
-        ((NavBarController)navBarLag.getController()).redraw();
         window.getController().redraw();
         stage.show();
     }
@@ -322,6 +339,14 @@ public class MainGUI {
                 yield adminMenuLag;
             case "RemoveBet":
                 yield removeBetLag;
+            case "UserOverview":
+                yield userOverviewLag;
+            case "Profile":
+                yield profileLag;
+            case "Bets":
+                yield betsLag;
+            case "Movements":
+                yield movementsLag;
             default: // get the welcome window
                 yield welcomeLag;
         };
