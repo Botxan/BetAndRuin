@@ -171,7 +171,7 @@ public class LoginController implements Controller, Initializable {
 
             // Redirect user depending on the user mode
             if (logedUser.getUserMode() == 1)
-                mainGUI.goForward("RemoveBet");
+                mainGUI.goForward("UserMenu");
             else if (logedUser.getUserMode() == 2)
                 mainGUI.goForward("AdminMenu");
         } catch (UserNotFoundException e1) {

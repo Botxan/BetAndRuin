@@ -13,3 +13,7 @@
     -fx-font-size: 1.5em;
     -fx-font-weight: bold;
 }
+
+.card-text {
+    -fx-text-fill: #6b6b6b;
+}

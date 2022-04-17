@@ -243,7 +243,12 @@ public class BlFacadeImplementation implements BlFacade {
 
 	@WebMethod
 	public double getEarnedIncome() {
-		return 99999;
+		double totalIncome = 0;
+
+		for (Bet b: currentUser.getWonBets())
+			totalIncome += b.getAmount() * b.getUserForecast().getFee();
+
+		return totalIncome;
 	}
 
 	@Override

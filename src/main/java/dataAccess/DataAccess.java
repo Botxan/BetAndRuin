@@ -84,12 +84,17 @@
                 Event ev19 = new Event("Real Sociedad-Levante", UtilDate.newDate(year, month + 1, 28), "Poland");
                 Event ev20 = new Event("Betis-Real Madrid", UtilDate.newDate(year, month + 1, 28), "Poland");
 
+                // Event already passed
+                Event ev21 = new Event("Sevilla-Valladolid", UtilDate.newDate(year, month-1, 5), "Venezuela");
+
                 Question q1;
                 Question q2;
                 Question q3;
                 Question q4;
                 Question q5;
                 Question q6;
+                // For already passed event
+                Question q7;
 
                 if (Locale.getDefault().equals(new Locale("es"))) {
                     q1 = ev1.addQuestion("¿Quién ganará el partido?", 1);
@@ -98,23 +103,25 @@
                     q4 = ev11.addQuestion("¿Cuántos goles se marcarán?", 2);
                     q5 = ev17.addQuestion("¿Quién ganará el partido?", 1);
                     q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2);
-                }
-                else if (Locale.getDefault().equals(new Locale("en"))) {
+                    q7 = ev21.addQuestion("¿Quién ganará el partido?", 2);
+                } else if (Locale.getDefault().equals(new Locale("en"))) {
                     q1 = ev1.addQuestion("Who will win the match?", 1);
                     q2 = ev1.addQuestion("Who will score first?", 2);
                     q3 = ev11.addQuestion("Who will win the match?", 1);
                     q4 = ev11.addQuestion("How many goals will be scored in the match?", 2);
                     q5 = ev17.addQuestion("Who will win the match?", 1);
                     q6 = ev17.addQuestion("Will there be goals in the first half?", 2);
-                }
-                else {
+                    q7 = ev21.addQuestion("Who will win the match?", 2);
+                } else {
                     q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1);
                     q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2);
                     q3 = ev11.addQuestion("Zeinek irabaziko du partidua?", 1);
                     q4 = ev11.addQuestion("Zenbat gol sartuko dira?", 2);
                     q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1);
                     q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
+                    q7 = ev21.addQuestion("Zeinek irabaziko du partidua?", 2);
                 }
+
 
                 // Create dummy forecasts
                 Forecast f1 = q3.addForecast("Team1", 2);
@@ -127,6 +134,11 @@
                 Forecast f7 = q4.addForecast("Tie", 2);
                 Forecast f8 = q4.addForecast("No goals", 3.1);
 
+                // For already passed event
+                Forecast f9 = q7.addForecast("Team1", 4);
+                Forecast f10 = q7.addForecast("Team2", 4);
+
+
                 // Create dummy user and admin
                 byte [] salt = BlFacadeImplementation.generateSalt();
                 byte[] password = BlFacadeImplementation.hashPassword("123123", salt);
@@ -134,6 +146,7 @@
                         "userAddress", "user@email.com", password, salt, 1, 0);
                 User admin1 = new User("admin1", "adminFirstName", "adminLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
                         "adminAddress", "admin@email.com", password, salt, 2, 0);
+
 
                 // Create dummy credit cards (with 100€ for testing purposes)
                 Calendar cal = Calendar.getInstance();
@@ -149,11 +162,18 @@
                 Card adminCard = new Card(9950451982447108L, cal.getTime(), 798, 100.0, admin1);
                 admin1.setCard(adminCard);
 
+
                 // Create dummy bets for testing purposes
                 user1.addBet(80, f1);
                 user1.addBet(12, f1);
                 user1.addBet(38, f1);
                 user1.addBet(2.8F, f2);
+                // Bet of already passed event
+                user1.addBet(3.5F, f9);
+                // Set the correct forecast
+                q7.setCorrectForecast(f9);
+                // Deposit corresponding money into user's wallet
+                user1.depositMoneyIntoWallet(f9.getFee() * 3.5F);
 
                 db.persist(ev1);
                 db.persist(ev2);
@@ -175,6 +195,7 @@
                 db.persist(ev18);
                 db.persist(ev19);
                 db.persist(ev20);
+                db.persist(ev21);
 
                 db.persist(user1);
                 db.persist(admin1);
