@@ -203,12 +203,6 @@ public interface BlFacade  {
 	@WebMethod public List<Transaction> showMovements(User user);
 
 	/**
-	 * Removes the bet with the given id
-	 * @param bet the bet.
-	 */
-	@WebMethod public void removeBet(Bet bet);
-
-	/**
 	 * Persists a new bet for the given gambler, in the selected forecast.
 	 * @param betAmount Amount of money bet by the gambler.
 	 * @param forecast The forecast linked with the bet.
@@ -219,5 +213,11 @@ public interface BlFacade  {
 	 * @throws LiquidityLackException Thrown when gambler bets not having enough liquidity access to account for it.
 	 * @throws MinBetException Exception for when user inserts less fee than required.
 	 */
-	public boolean placeBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException;
+	public void placeBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException, UserNotFoundException;
+
+	/**
+	 * Removes the bet with the given id
+	 * @param bet the bet.
+	 */
+	@WebMethod public void removeBet(Bet bet);
 }

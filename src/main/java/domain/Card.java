@@ -15,7 +15,7 @@ import java.util.List;
 public class Card {
     @Id
     private Long cardNumber;
-    private Date expiratonDate;
+    private Date expirationDate;
     private Integer securityCode;
     private Double money;
 
@@ -39,7 +39,7 @@ public class Card {
      */
     public Card(Long cardNumber, Date expirationDate, Integer securityCode, Double money, User owner) {
         this.cardNumber = cardNumber;
-        this.expiratonDate = expirationDate;
+        this.expirationDate = expirationDate;
         this.securityCode = securityCode;
         this.money = money;
         this.owner = owner;
@@ -65,16 +65,16 @@ public class Card {
      * Getter for the expiration date.
      * @return expiration date
      */
-    public Date getExpiratonDate() {
-        return expiratonDate;
+    public Date getExpirationDate() {
+        return expirationDate;
     }
 
     /**
      * Setter for the expiration date.
-     * @param expiratonDate expiration date
+     * @param expirationDate expiration date
      */
-    public void setExpiratonDate(Date expiratonDate) {
-        this.expiratonDate = expiratonDate;
+    public void setExpiratonDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
     }
 
     /**
@@ -160,8 +160,8 @@ public class Card {
      * @param amount the amount of money used in the transaction
      * @return the transaction
      */
-    public Transaction addTransaction(String type, int amount) {
-        Transaction transaction = new Transaction(type, amount);
+    public Transaction addTransaction(int type, float amount) {
+        Transaction transaction = new Transaction(type, amount, this);
         transactions.add(transaction);
         return transaction;
     }

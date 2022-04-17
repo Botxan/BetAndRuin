@@ -34,7 +34,7 @@ public class User {
 	@OneToOne(cascade = CascadeType.PERSIST)
 	private Card card;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Bet> bets = new ArrayList<Bet>();
 
 	/**

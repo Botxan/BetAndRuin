@@ -139,6 +139,7 @@ public class Question {
 	 * @param forecast the forecast to be added
 	 */
 	public void addForecast(Forecast forecast) {
+
 		forecasts.add(forecast);
 	}
 
@@ -175,7 +176,7 @@ public class Question {
 	 * @param fee the fee of that forecast
 	 * @return the new forecast
 	 */
-	public Forecast addQuestion(String result, double fee)  {
+	public Forecast addForecast(String result, double fee)  {
 		Forecast f = new Forecast(result, fee, this);
 		forecasts.add(f);
 		return f;

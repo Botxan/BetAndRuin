@@ -267,23 +267,17 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.removeBet(currentUser, bet.getBetID());
 		dbManager.close();
 
-		currentUser.removeBet(bet);
+		refreshUser();
 	}
 
 	@Override
-	public boolean placeBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException,MinBetException {
+	public void placeBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException, UserNotFoundException {
 		dbManager.open(false);
-		boolean result = dbManager.setBet(betAmount, forecast, gambler);
+		dbManager.setBet(betAmount, forecast, gambler);
 		dbManager.close();
 
-		// Create also the bet for the current user (detached from db)
-		if (result) {
-			// FIXME the real betID is in the database, this is just dummy id in order not to display all new bet id's = 0
-			currentUser.addBet(betAmount, forecast).setBetID(currentUser.getAllBets().size());
-			currentUser.setWallet(currentUser.getWallet() - betAmount);
-			System.out.println("Gambler's current wallet: " + gambler.getWallet());
-		}
-		return result;
+		refreshUser();
+		System.out.println("Users current wallet: " + currentUser.getWallet());
 	}
 
 	/**
@@ -312,5 +306,18 @@ public class BlFacadeImplementation implements BlFacade {
 		byte[] salt = new byte[16];
 		random.nextBytes(salt);
 		return salt;
+	}
+
+	// FIXME temporal function to retrieve updated information of the current user from db
+	/**
+	 * Retrieves the updated information of the current user.
+	 */
+	public void refreshUser () {
+		dbManager.open(false);
+		try {
+			currentUser = dbManager.getUser(currentUser.getUsername());
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 }

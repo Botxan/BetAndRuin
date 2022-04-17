@@ -5,10 +5,7 @@ import com.jfoenix.controls.JFXSlider;
 import domain.Event;
 import domain.Forecast;
 import domain.Question;
-import exceptions.BetAlreadyExistsException;
-import exceptions.LateBetException;
-import exceptions.LiquidityLackException;
-import exceptions.MinBetException;
+import exceptions.*;
 import javafx.animation.RotateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -410,6 +407,7 @@ public class BrowseEventsController implements Controller {
         forecasts.clear();
         forecastsTbl.getItems().clear();
         Question selectedQuestion = questionsTbl.getSelectionModel().getSelectedItem();
+        System.out.println("Selected question: " + selectedQuestion.toString());
         if (selectedQuestion != null) {
             forecasts.addAll(selectedQuestion.getForecasts());
             forecastsTbl.getItems().addAll(forecasts);
@@ -419,24 +417,20 @@ public class BrowseEventsController implements Controller {
     public void placeBet()
     {
         float betPrice = 0F;
+
         try {
             betPrice = Float.parseFloat(euroNumber.getText());
-        } catch (NumberFormatException e)
-        {
-            e.printStackTrace();
-        }
-        try {
+
             if(forecastsTbl.getSelectionModel().getSelectedItem() == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("Etiquetas").getString("ErrorNoForecastSelected"), ButtonType.OK);
-                alert.showAndWait();
-            } else if (questionsTbl.getSelectionModel().getSelectedItem().getBetMinimum() > betPrice) {
-                Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("Etiquetas").getString("ErrorMinBetNotReached"), ButtonType.OK);
                 alert.showAndWait();
             } else {
                 businessLogic.placeBet(betPrice, forecastsTbl.getSelectionModel().getSelectedItem(), businessLogic.getCurrentUser());
                 Alert alert = new Alert(Alert.AlertType.NONE, ResourceBundle.getBundle("Etiquetas").getString("BetPlaced"), ButtonType.OK);
                 alert.showAndWait();
             }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
         } catch (BetAlreadyExistsException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("Etiquetas").getString("BetAlreadyPlacedInForecast"), ButtonType.OK);
             alert.showAndWait();
@@ -446,7 +440,10 @@ public class BrowseEventsController implements Controller {
         } catch (LiquidityLackException e) {
             Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("Etiquetas").getString("ErrorNotEnoughMoneyToBet"), ButtonType.OK);
             alert.showAndWait();
-        } catch (MinBetException e){
+        } catch (MinBetException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("Etiquetas").getString("ErrorMinBetNotReached"), ButtonType.OK);
+            alert.showAndWait();
+        } catch (UserNotFoundException e) {
             e.printStackTrace();
         }
         mainGUI.navBarLag.getController().redraw();

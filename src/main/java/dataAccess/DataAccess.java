@@ -116,17 +116,16 @@
                     q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
                 }
 
-                List<Forecast> forecasts1 = new ArrayList<Forecast>();
-                forecasts1.add(new Forecast("Team1", 2, q1));
-                forecasts1.add(new Forecast("Team2", 2, q1));
-                forecasts1.add(new Forecast("Tie", 2, q1));
-                forecasts1.add(new Forecast("No goals", 2, q1));
-                q1.setForecasts(forecasts1);
-                q2.setForecasts(forecasts1);
-                q3.setForecasts(forecasts1);
-                q4.setForecasts(forecasts1);
-                q5.setForecasts(forecasts1);
-                q6.setForecasts(forecasts1);
+                // Create dummy forecasts
+                Forecast f1 = q3.addForecast("Team1", 2);
+                Forecast f2 = q3.addForecast("Team2", 2.4);
+                Forecast f3 = q3.addForecast("Tie", 1.6);
+                Forecast f4 = q3.addForecast("No goals", 4);
+
+                Forecast f5 = q4.addForecast("Team1", 1);
+                Forecast f6 = q4.addForecast("Team2", 2);
+                Forecast f7 = q4.addForecast("Tie", 2);
+                Forecast f8 = q4.addForecast("No goals", 3.1);
 
                 // Create dummy user and admin
                 byte [] salt = BlFacadeImplementation.generateSalt();
@@ -151,27 +150,10 @@
                 admin1.setCard(adminCard);
 
                 // Create dummy bets for testing purposes
-                Forecast f1 = new Forecast("Athlético", 1.2, q1);
-                Forecast f2 = new Forecast("Athletic", 1.8, q1);
-                Forecast f3 = new Forecast("Empate", 1.6, q1);
-                Forecast f4 = new Forecast("No sé, pero se tensa que te cagas", 3.5, q1);
-
-                q1.addForecast(f1);
-                q1.addForecast(f2);
-                q1.addForecast(f3);
-                q1.addForecast(f4);
-
-                // Create dummy bets for testing purposs
                 user1.addBet(80, f1);
-                user1.addBet(12, f2);
-                user1.addBet(38, f3);
-
-                db.persist(q1);
-                db.persist(q2);
-                db.persist(q3);
-                db.persist(q4);
-                db.persist(q5);
-                db.persist(q6);
+                user1.addBet(12, f1);
+                user1.addBet(38, f1);
+                user1.addBet(2.8F, f2);
 
                 db.persist(ev1);
                 db.persist(ev2);
@@ -323,7 +305,7 @@
 
             // Add the new forecast
             db.getTransaction().begin();
-            Forecast forecast = q.addQuestion(result, fee);
+            Forecast forecast = q.addForecast(result, fee);
             db.persist(q); // CascadeType.PERSIST, so persist(forecast) not needed
             db.getTransaction().commit();
 
@@ -433,17 +415,13 @@
 
             db.getTransaction().begin();
             // Delete the bet
-            Query q1 = db.createQuery("DELETE FROM Bet b WHERE b.betID = " + betID);
-            // Remove the bet from the user
             user.removeBet(bet);
-            db.persist(user);
-            q1.executeUpdate();
-
             // Refund the money
             user.depositMoneyIntoWallet(amountToRefund);
+            // Register the transaction
+            user.getCard().addTransaction(0, amountToRefund);
+            db.persist(user);
             db.getTransaction().commit();
-            // Refund the money in the current execution
-            currentUser.depositMoneyIntoWallet(amountToRefund);
         }
 
         /**
@@ -570,8 +548,9 @@
         public Bet getBet(User gambler, Forecast userForecast)
         {
             Bet result = null;
+            User user = db.find(User.class, gambler.getUserID());
             TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.gambler = ?1 AND b.userForecast = ?2", Bet.class);
-            q.setParameter(1, gambler);
+            q.setParameter(1, user);
             q.setParameter(2, userForecast);
             List<Bet> bets = q.getResultList();
             if(!bets.isEmpty())
@@ -590,39 +569,35 @@
          * @throws LiquidityLackException Thrown when gambler bets not having enough liquidity access to account for it.
          * @throws MinBetException Exception for when user inserts less fee than required.
          */
-        public boolean setBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException
+        public void setBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException, UserNotFoundException
         {
-            if(betAmount < forecast.getQuestion().getBetMinimum()) throw new MinBetException();
-            //Check for liquidity:
+            // Check if user exists
+            User user = db.find(User.class, gambler.getUserID());
+            if (user == null) throw new UserNotFoundException();
+
+            // check for liquidity
             if(gambler.getWallet() - betAmount < 0) throw new LiquidityLackException();
 
-            //Check for date (LateBetException):
-            Date today = new Date(System.currentTimeMillis());
-            Date eventDate = forecast.getQuestion().getEvent().getEventDate();
-            Calendar cal = Calendar.getInstance();
-            cal.setTime(eventDate);
-            cal.add(Calendar.HOUR_OF_DAY, -1);
-            Date eventBetLimit = cal.getTime();
-
-            if(today.after(eventBetLimit)) throw new LateBetException();
-
-            // Check if bet already exists:
+            // check if bet already exists
             if(getBet(gambler, forecast) != null) throw new BetAlreadyExistsException();
 
-            // Find the user to update it
-            User user = db.find(User.class, gambler.getUserID());
-            if (user != null) {
-                db.getTransaction().begin();
-                user.setWallet(gambler.getWallet() - betAmount);
-                user.addBet(betAmount, forecast);
-                db.persist(user);
-                db.getTransaction().commit();
-                System.out.println("Bet has been saved.");
-                return true;
-            } else {
-                System.out.println("Error on placing the bet: the user does not exist.");
-                return false;
-            }
+            // check for if bet day is allowed
+            Date today = Calendar.getInstance().getTime();
+            Date eventDate = forecast.getQuestion().getEvent().getEventDate();
+            if (today.compareTo(eventDate) > 0) throw new LateBetException();
+
+            // check if minimum bet is surpassed
+            System.out.println("Bet minimum:" + forecast.getQuestion());
+            if(betAmount < forecast.getQuestion().getBetMinimum()) throw new MinBetException();
+
+            // Perform the bet
+            db.getTransaction().begin();
+            user.setWallet(gambler.getWallet() - betAmount);
+            user.addBet(betAmount, forecast);
+            user.getCard().addTransaction(1, betAmount);
+            db.persist(user);
+            db.getTransaction().commit();
+            System.out.println("Bet has been saved.");
         }
 
         /**

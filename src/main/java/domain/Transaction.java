@@ -11,10 +11,10 @@ public class Transaction {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int transactionID;
-    private String type;
+    private int type; // 0 => Deposit, 1 => Withdraw
     private float amount;
 
-    @ManyToOne
+    @OneToOne
     private Card card;
 
     /**
@@ -27,9 +27,10 @@ public class Transaction {
      * @param type the type or transaction
      * @param amount the amount of money
      */
-    public Transaction(String type, float amount) {
+    public Transaction(int type, float amount, Card card) {
         this.type = type;
         this.amount = amount;
+        this.card = card;
     }
 
     /**
@@ -52,7 +53,7 @@ public class Transaction {
      * Getter for the transaction type.
      * @return the transaction type
      */
-    public String getType() {
+    public int getType() {
         return type;
     }
 
@@ -60,7 +61,7 @@ public class Transaction {
      * Setter for the transaction type.
      * @param type the transaction type
      */
-    public void setType(String type) {
+    public void setType(int type) {
         this.type = type;
     }
 
