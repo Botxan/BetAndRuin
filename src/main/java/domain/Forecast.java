@@ -100,4 +100,14 @@ public class Forecast {
 	public void setQuestion(Question question) {
 		this.question = question;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (o == this) return true;
+		if (!(o instanceof Forecast)) return false;
+
+		Forecast f = (Forecast) o;
+
+		return forecastID == f.getForecastID();
+	}
 }

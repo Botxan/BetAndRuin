@@ -528,11 +528,37 @@
             }
         }
 
-        public List<Bet> getBets(User gambler) {
+        /**
+         * Returns all the active bets made by the given user.
+         * @param gambler the user who made the bet
+         * @return all the active bets made by the given user
+         */
+        public List<Bet> getActiveBets(User gambler) {
+            // Get today's date
+            Date today = Calendar.getInstance().getTime();
+
             TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.gambler = ?1", Bet.class);
             q.setParameter(1, gambler);
-            List<Bet> bets = q.getResultList();
-            return bets;
+
+            List<Bet> activeBets = new ArrayList<Bet>();
+            Event e;
+            for (Bet b: q.getResultList()) {
+                e = b.getUserForecast().getQuestion().getEvent();
+                if (today.compareTo(e.getEventDate()) < 0) activeBets.add(b);
+            }
+            return activeBets;
+        }
+
+        /**
+         * Retrieves the total number of bets made by the given user, including the ones
+         * that have already passed.
+         * @param gambler the user who made the bet
+         * @return the total number of bets made by the user
+         */
+        public long getTotalNumberOfBets(User gambler) {
+            TypedQuery<Long> q = db.createQuery("SELECT COUNT(b) FROM Bet b WHERE b.gambler = ?1", Long.class);
+            q.setParameter(1, gambler);
+            return q.getSingleResult();
         }
 
         /**

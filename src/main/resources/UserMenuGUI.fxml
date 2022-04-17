@@ -4,6 +4,7 @@
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -11,7 +12,6 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.UserMenuController">
    <children>
@@ -24,7 +24,7 @@
                         <Image url="@icon/favicon.png" />
                      </image>
                   </ImageView>
-                  <Label style="-fx-font-size: 2em; -fx-font-weight: bold;" text=" BetAndRuin" />
+                  <Label style="-fx-font-size: 2em; -fx-font-weight: bold;" text=" BetAndRuin" textFill="#ebebeb" />
                </children>
             </HBox>
             <VBox alignment="TOP_CENTER" prefHeight="685.0" prefWidth="227.0">
@@ -58,8 +58,11 @@
                </children>
             </VBox>
          </children>
+         <effect>
+            <DropShadow blurType="GAUSSIAN" height="0.0" radius="4.75" />
+         </effect>
       </VBox>
-      <Pane fx:id="content" layoutX="501.0" layoutY="52.0" prefHeight="610.0" prefWidth="1053.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Pane fx:id="content" layoutX="501.0" layoutY="52.0" prefHeight="610.0" prefWidth="1053.0" styleClass="content" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
    <stylesheets>
       <URL value="@css/userMenu.css" />

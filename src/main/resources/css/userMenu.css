@@ -8,7 +8,7 @@
 }
 
 .sideBarBtn {
-    -fx-alignment: left;
+    -fx-alignment: center-left;
     -fx-padding: 12px 30px;
     -fx-background-radius: 0;
     -fx-cursor: hand;
@@ -28,4 +28,8 @@
    -fx-padding: 12px 30px;
    -fx-background-color: #E74C3C;
    -fx-cursor: hand;
+}
+
+.content {
+    -fx-background-color: #EBEBEB;
 }

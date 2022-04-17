@@ -3,7 +3,9 @@ package domain;
 import exceptions.NotEnoughMoneyInWalletException;
 
 import javax.persistence.*;
+import java.sql.Array;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -309,11 +311,44 @@ public class User {
 	}
 
 	/**
-	 * Getter for user's bets.
-	 * @return user's bets
+	 * Getter for user bets (including the ones that have already passed).
+	 * @return user bets
 	 */
-	public List<Bet> getBets() {
+	public List<Bet> getAllBets() {
 		return bets;
+	}
+
+	/**
+	 * Getter for user active bets, this is, the ones whose event date hast passed yet.
+	 * @return user active bets
+	 */
+	public List<Bet> getActiveBets() {
+		List<Bet> activeBets = new ArrayList<>();
+		Date today = Calendar.getInstance().getTime();
+
+		for (Bet b: bets) {
+			Event e = b.getUserForecast().getQuestion().getEvent();
+			if (today.compareTo(e.getEventDate()) < 0) activeBets.add(b);
+		}
+
+		return activeBets;
+	}
+
+	/**
+	 * Getter for bets won by the user.
+	 * @return bets won by the user
+	 */
+	public List<Bet> getWonBets() {
+		List<Bet> wonBets = new ArrayList<>();
+
+		for (Bet b: getAllBets()) {
+			Question e = b.getUserForecast().getQuestion();
+			Forecast correctForecast = e.getCorrectForecast();
+			if (correctForecast != null && correctForecast.equals(b.getUserForecast()))
+				wonBets.add(b);
+		}
+
+		return wonBets;
 	}
 
 	/**

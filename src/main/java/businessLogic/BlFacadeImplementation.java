@@ -218,12 +218,32 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
-	public List<Bet> getUserBets() {
+	public List<Bet> getActiveBets() {
 		dbManager.open(false);
-		List<Bet> bets = dbManager.getBets(currentUser);
+		List<Bet> bets = dbManager.getActiveBets(currentUser);
 		dbManager.close();
 
 		return bets;
+	}
+
+	@WebMethod
+	public int getTotalNumberOfBets() {
+		return currentUser.getAllBets().size();
+	}
+
+	@WebMethod
+	public int getNumberOfActiveBets() {
+		return currentUser.getActiveBets().size();
+	}
+
+	@WebMethod
+	public int getNumberOfWonBets() {
+		return currentUser.getWonBets().size();
+	}
+
+	@WebMethod
+	public double getEarnedIncome() {
+		return 99999;
 	}
 
 	@Override
@@ -259,7 +279,7 @@ public class BlFacadeImplementation implements BlFacade {
 		// Create also the bet for the current user (detached from db)
 		if (result) {
 			// FIXME the real betID is in the database, this is just dummy id in order not to display all new bet id's = 0
-			currentUser.addBet(betAmount, forecast).setBetID(currentUser.getBets().size());
+			currentUser.addBet(betAmount, forecast).setBetID(currentUser.getAllBets().size());
 			currentUser.setWallet(currentUser.getWallet() - betAmount);
 			System.out.println("Gambler's current wallet: " + gambler.getWallet());
 		}

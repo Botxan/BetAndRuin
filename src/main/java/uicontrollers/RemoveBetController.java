@@ -96,7 +96,7 @@ public class RemoveBetController implements Controller {
         betIdCol.setCellValueFactory(new PropertyValueFactory<>("betID"));
         betAmountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
 
-        bets.addAll(businessLogic.getUserBets());
+        bets.addAll(businessLogic.getActiveBets());
         betsTbl.setItems(bets);
 
         betsTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldValue, newValue) -> {
@@ -203,7 +203,7 @@ public class RemoveBetController implements Controller {
 
     @FXML void updateBetTable() {
         bets.clear();
-        bets.addAll(businessLogic.getUserBets());
+        bets.addAll(businessLogic.getActiveBets());
     }
 
     @Override

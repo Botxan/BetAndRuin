@@ -1,15 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="610.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.UserOverviewController">
+<AnchorPane fx:id="main" prefHeight="610.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.UserOverviewController">
    <children>
-      <Label alignment="CENTER" layoutX="388.0" layoutY="192.0" text="Implement here user overview" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <font>
-            <Font size="43.0" />
-         </font>
-      </Label>
+      <HBox layoutX="72.0" layoutY="43.0" prefHeight="100.0" prefWidth="910.0">
+         <children>
+            <Pane prefHeight="100.0" prefWidth="252.0" styleClass="overview-card" stylesheets="@../css/userOverview.css">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="26.0" layoutY="25.0" prefHeight="50.0" prefWidth="50.0" styleClass="card-icon-label" stylesheets="@../css/colors.css">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3cf00" size="25" />
+                     </graphic>
+                  </Label>
+                  <Text fx:id="activeBetsText" layoutX="91.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="12" wrappingWidth="87.060546875" />
+                  <Label layoutX="91.0" layoutY="50.0" text="Active bets" />
+               </children>
+               <effect>
+                  <DropShadow height="15.0" offsetY="0.5" radius="7.0" width="15.0" />
+               </effect>
+            </Pane>
+            <Region prefHeight="100.0" prefWidth="48.0" />
+            <Pane prefHeight="100.0" prefWidth="252.0" styleClass="overview-card" stylesheets="@../css/userOverview.css">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="26.0" layoutY="25.0" prefHeight="50.0" prefWidth="50.0" styleClass="card-icon-label" stylesheets="@../css/colors.css">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3cf00" size="25" />
+                     </graphic>
+                  </Label>
+                  <Text fx:id="totalBetsText" layoutX="91.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="300" wrappingWidth="87.060546875" />
+                  <Label layoutX="91.0" layoutY="50.0" text="Total bets" />
+               </children>
+               <effect>
+                  <DropShadow height="15.0" offsetY="0.5" radius="7.0" width="15.0" />
+               </effect>
+            </Pane>
+            <Region prefHeight="100.0" prefWidth="48.0" />
+            <Pane prefHeight="100.0" prefWidth="252.0" styleClass="overview-card" stylesheets="@../css/userOverview.css">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="26.0" layoutY="25.0" prefHeight="50.0" prefWidth="50.0" styleClass="card-icon-label" stylesheets="@../css/colors.css">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3cf00" size="25" />
+                     </graphic>
+                  </Label>
+                  <Text fx:id="wonBetsText" layoutX="91.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="285" wrappingWidth="87.060546875" />
+                  <Label layoutX="91.0" layoutY="50.0" text="Bets won" />
+               </children>
+               <effect>
+                  <DropShadow height="15.0" offsetY="0.5" radius="7.0" width="15.0" />
+               </effect>
+            </Pane>
+            <Region prefHeight="100.0" prefWidth="48.0" />
+            <Pane prefHeight="100.0" prefWidth="252.0" styleClass="overview-card" stylesheets="@../css/userOverview.css">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="26.0" layoutY="25.0" prefHeight="50.0" prefWidth="50.0" styleClass="card-icon-label" stylesheets="@../css/colors.css">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3cf00" size="25" />
+                     </graphic>
+                  </Label>
+                  <Text fx:id="earnedIncomeText" layoutX="91.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="285€" wrappingWidth="87.060546875" />
+                  <Label layoutX="91.0" layoutY="50.0" text="Earned income" />
+               </children>
+               <effect>
+                  <DropShadow height="15.0" offsetY="0.5" radius="7.0" width="15.0" />
+               </effect>
+            </Pane>
+         </children>
+      </HBox>
+      <LineChart layoutX="73.0" layoutY="287.0" prefHeight="292.0" prefWidth="910.0">
+        <xAxis>
+          <CategoryAxis side="BOTTOM" />
+        </xAxis>
+        <yAxis>
+          <NumberAxis side="LEFT" />
+        </yAxis>
+      </LineChart>
    </children>
 </AnchorPane>

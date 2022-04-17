@@ -153,10 +153,35 @@ public interface BlFacade  {
 	@WebMethod public void depositMoney(double amount) throws NotEnoughMoneyInWalletException;
 
 	/**
-	 * Retrieves all the bets placed by the current user.
+	 * Retrieves all the active bets placed by the current user.
 	 * @return all the bets placed by the current user
 	 */
-	@WebMethod public List<Bet> getUserBets();
+	@WebMethod public List<Bet> getActiveBets();
+
+	/**
+	 * Retrieves the number of bets placed by the user, including
+	 * the ones that have already passed
+	 * @return the total number of bets
+	 */
+	@WebMethod public int getTotalNumberOfBets();
+
+	/**
+	 * Retrieves the number of active bets placed by the user.
+	 * The number of bets active bets
+	 */
+	@WebMethod public int getNumberOfActiveBets();
+
+	/**
+	 * Retrieves the number of won bets.
+	 * @return the number of won bets
+	 */
+	@WebMethod public int getNumberOfWonBets();
+
+	/**
+	 * Retrieves the total income earned by the user by placing bets.
+	 * @return income obtained betting
+	 */
+	@WebMethod public double getEarnedIncome();
 
 	/**
 	 * It removes an event
