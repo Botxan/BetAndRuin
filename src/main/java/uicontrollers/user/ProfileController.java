@@ -1,21 +1,28 @@
 package uicontrollers.user;
 
 import businessLogic.BlFacade;
+import com.jfoenix.controls.JFXDialog;
 import domain.Card;
 import domain.User;
+import exceptions.InvalidPasswordException;
 import exceptions.NoMatchingPatternException;
 import exceptions.UsernameAlreadyInDBException;
 import javafx.animation.Interpolator;
+import javafx.animation.PauseTransition;
 import javafx.animation.RotateTransition;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.*;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
@@ -26,6 +33,8 @@ import org.apache.xmlbeans.impl.jam.JConstructor;
 import ui.MainGUI;
 import uicontrollers.Controller;
 import utils.Formatter;
+import utils.MailSender;
+import utils.skin.CodeGenerator;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -46,23 +55,37 @@ public class ProfileController implements Controller {
     private final int CARD_WIDTH = 400;
     private final int CARD_HEIGHT = 210;
 
+    private MailSender mailSender;
+    private JFXDialog passwordChangeDialog;
+    private StackPane dialogOverlayPane;
+
     private Group creditCardGroup;
     private Group front;
     private Group back;
     private Pane frontPane;
     private Pane backPane;
-    RotateTransition rt1;
-    RotateTransition rt2;
+    private RotateTransition rt1;
+    private RotateTransition rt2;
+    private String passwordResetCode;
 
+
+    @FXML private AnchorPane mainPane;
+    @FXML private Pane creditCardPane;
+    @FXML private Pane changePasswordPane;
     @FXML private ImageView avatar;
     @FXML private Label avatarStatusLbl;
     @FXML private Label updateResultLbl;
+    @FXML private Label changePasswordDialogStatusLbl;
     @FXML private TextField usernameField;
     @FXML private TextField emailField;
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
     @FXML private TextField addressField;
-    @FXML private Pane creditCardPane;
+    @FXML private TextField codeTextField;
+    @FXML private TextField oldPasswordField;
+    @FXML private TextField newPasswordField;
+    @FXML private TextField confirmPasswordField;
+    @FXML private Button confirmChangePasswordBtn;
 
     /**
      * Constructor. Initializes the business logic.
@@ -74,9 +97,12 @@ public class ProfileController implements Controller {
 
     @FXML
     void initialize() {
+        mailSender = new MailSender();
+
         initializeAvatar();
         initializeGeneralInformation();
         initializeCreditCardPane();
+        initializePasswordChangeDialog();
     }
 
     /**
@@ -183,6 +209,9 @@ public class ProfileController implements Controller {
         }
     }
 
+    /**
+     * Clear the information of all text fields
+     */
     private void clearFields() {
         usernameField.setText("");
         emailField.setText("");
@@ -354,6 +383,128 @@ public class ProfileController implements Controller {
     @FXML
     void flip() {
         rt1.play();
+    }
+
+    void initializePasswordChangeDialog() {
+        dialogOverlayPane = new StackPane();
+        dialogOverlayPane.setPrefWidth(mainPane.getPrefWidth());
+        dialogOverlayPane.setPrefHeight(mainPane.getPrefHeight());
+        dialogOverlayPane.setVisible(false);
+        changePasswordPane.setVisible(false);
+        mainPane.getChildren().add(dialogOverlayPane);
+
+        passwordChangeDialog = new JFXDialog(dialogOverlayPane, changePasswordPane, JFXDialog.DialogTransition.CENTER);
+        passwordChangeDialog.setOnDialogClosed((e) -> {
+            resetChangePasswordDialog();
+        });
+    }
+
+    @FXML
+    void showChangePasswordDialog() {
+        dialogOverlayPane.setVisible(true);
+        changePasswordPane.setVisible(true);
+        passwordChangeDialog.show();
+        sendChangePasswordEmail();
+    }
+
+    /**
+     * Closes the dialog for changing the password
+     */
+    @FXML
+    void closeChangePasswordDialog() {
+        passwordChangeDialog.close();
+    }
+
+    @FXML
+    void resendChangePasswordEmail() {
+        sendChangePasswordEmail();
+        changePasswordDialogStatusLbl.getStyleClass().clear();
+        changePasswordDialogStatusLbl.setText("The code has been resent");
+        changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-info");
+    }
+
+    /**
+     * Sends a password changing authorization code to current user's email
+     */
+    void sendChangePasswordEmail() {
+        String username = businessLogic.getCurrentUser().getUsername();
+        String email = businessLogic.getCurrentUser().getEmail();
+        passwordResetCode = CodeGenerator.generate5DigitCode();
+        mailSender.sendPasswordResetEmail(username, email, passwordResetCode);
+    }
+
+    /**
+     * Checks if the introduced code is valid, and if so, enables the password change text fields.
+     */
+    @FXML
+    void validateCode() {
+        changePasswordDialogStatusLbl.getStyleClass().clear();
+        changePasswordDialogStatusLbl.setText("");
+        if (codeTextField.getText().trim().equals(passwordResetCode)) {
+            oldPasswordField.setDisable(false);
+            newPasswordField.setDisable(false);
+            confirmPasswordField.setDisable(false);
+            confirmChangePasswordBtn.setDisable(false);
+        } else {
+            changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-danger");
+            changePasswordDialogStatusLbl.setText("The code is incorrect");
+        }
+    }
+
+    /**
+     * Validates the password changing text fields, and attempts to update the password.
+     */
+    @FXML
+    void confirmChangePassword() {
+        // Clear status label
+        changePasswordDialogStatusLbl.getStyleClass().clear();
+        changePasswordDialogStatusLbl.setText("");
+
+        String oldPassword = oldPasswordField.getText().trim();
+        String newPassword = newPasswordField.getText().trim();
+        String passwordConfirmation = confirmPasswordField.getText().trim();
+
+        if (!newPassword.equals(passwordConfirmation)) {
+            changePasswordDialogStatusLbl.setText("New password and confirmation do not match");
+            changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-danger");
+
+        } else if (newPassword.length() < 8) {
+            changePasswordDialogStatusLbl.setText("New password is too short (at least 8 characters)");
+            changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-danger");
+        } else {
+            try {
+                businessLogic.changePassword(oldPassword, newPassword);
+                changePasswordDialogStatusLbl.setText("Password changed successfully");
+                changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-success");
+                PauseTransition delay = new PauseTransition(Duration.seconds(1));
+                delay.setOnFinished(e -> passwordChangeDialog.close());
+                delay.play();
+            } catch (InvalidPasswordException e) {
+                changePasswordDialogStatusLbl.setText("The old password is incorrect");
+                changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-danger");
+            }
+        }
+    }
+
+    /**
+     * Returns the dialog to its initial state.
+     */
+    private void resetChangePasswordDialog() {
+        dialogOverlayPane.setVisible(false);
+        changePasswordPane.setVisible(false);
+
+        codeTextField.setText("");
+
+        oldPasswordField.setText("");
+        oldPasswordField.setDisable(true);
+
+        newPasswordField.setText("");
+        newPasswordField.setDisable(true);
+
+        confirmPasswordField.setText("");
+        confirmPasswordField.setDisable(true);
+
+        confirmChangePasswordBtn.setDisable(true);
     }
 
     @Override

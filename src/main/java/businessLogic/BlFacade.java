@@ -147,6 +147,13 @@ public interface BlFacade  {
 	@WebMethod public void updateAvatar(String avatarExtension);
 
 	/**
+	 * Upates user's password.
+	 * @param oldPwd user's old password
+	 * @param newPwd user's new password
+	 */
+	@WebMethod public void changePassword(String oldPwd, String newPwd) throws InvalidPasswordException;
+
+	/**
 	 * It initializes the database with some events and questions
 	 */
 	@WebMethod public void initializeBD();

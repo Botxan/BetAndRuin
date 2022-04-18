@@ -36,8 +36,15 @@
     -fx-background-color: #E3E3E3;
 }
 
-.save-changes-btn {
+.aceituna-btn {
     -fx-background-color: -fx-green1;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.cancel-btn {
+    -fx-background-color: #dc3545;
     -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
     -fx-cursor: hand;
@@ -60,4 +67,9 @@
     -fx-border-color: #dc3545;
     -fx-border-radius: 3px;
     -fx-cursor: hand;
+}
+
+.dialog-btn {
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
 }

@@ -9,6 +9,7 @@ import exceptions.*;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import java.io.File;
+import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -218,6 +219,24 @@ public class BlFacadeImplementation implements BlFacade {
 	public void updateAvatar(String avatarExtension) {
 		dbManager.open(false);
 		dbManager.updateAvatar(currentUser.getUserID() + avatarExtension, currentUser);
+		dbManager.close();
+
+		refreshUser();
+	}
+
+	@WebMethod
+	public void changePassword(String oldPwd, String newPwd) throws InvalidPasswordException {
+		// Check if old password is correct
+		byte[] oldHashedPassword = hashPassword(oldPwd, currentUser.getSalt());
+		if (!Arrays.equals(oldHashedPassword, currentUser.getPassword())) throw new InvalidPasswordException();
+
+		// Hash the new password
+		byte[] salt = generateSalt();
+		byte[] newHashedPassword = hashPassword(newPwd, salt);
+
+		// Update the password
+		dbManager.open(false);
+		dbManager.updatePassword(newHashedPassword, salt, currentUser);
 		dbManager.close();
 
 		refreshUser();

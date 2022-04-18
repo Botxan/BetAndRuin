@@ -143,7 +143,7 @@
                 byte [] salt = BlFacadeImplementation.generateSalt();
                 byte[] password = BlFacadeImplementation.hashPassword("123123", salt);
                 User user1 = new User("user1", "Antonio", "Geremías Gonzalez", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
-                        "P. Sherman street Wallaby 42 Sydney", "user1@email.com", password, salt, 1, 0);
+                        "P. Sherman street Wallaby 42 Sydney", "betandruin22@gmail.com", password, salt, 1, 0);
                 User admin1 = new User("admin1", "adminFirstName", "adminLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
                         "adminAddress", "admin@email.com", password, salt, 2, 0);
 
@@ -530,6 +530,20 @@
 
             db.getTransaction().begin();
             u.setAvatar(avatar);
+            db.persist(u);
+            db.getTransaction().commit();
+        }
+
+        /**
+         * Updates the password of the given user
+         */
+        public void updatePassword(byte[] newPwd, byte[] newSalt, User user) {
+            User u = db.find(User.class, user.getUserID());
+
+            db.getTransaction().begin();
+            u.setPassword(newPwd);
+            u.setSalt(newSalt);
+            db.persist(u);
             db.getTransaction().commit();
         }
 
