@@ -242,6 +242,15 @@ public class BlFacadeImplementation implements BlFacade {
 		refreshUser();
 	}
 
+	@WebMethod
+	public void deleteAccount() {
+		dbManager.open(false);
+		dbManager.deleteUser(currentUser);
+		dbManager.close();
+
+		currentUser = null;
+	}
+
 	@WebMethod	
 	public void initializeBD(){
 		dbManager.open(false);

@@ -154,6 +154,11 @@ public interface BlFacade  {
 	@WebMethod public void changePassword(String oldPwd, String newPwd) throws InvalidPasswordException;
 
 	/**
+	 * Deletes all the data of the current user
+	 */
+	@WebMethod public void deleteAccount();
+
+	/**
 	 * It initializes the database with some events and questions
 	 */
 	@WebMethod public void initializeBD();

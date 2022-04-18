@@ -53,17 +53,17 @@
                </graphic>
             </JFXButton>
             <Label fx:id="avatarStatusLbl" layoutX="197.0" layoutY="147.0" />
-            <Label layoutX="28.0" layoutY="214.0" styleClass="section-header" text="General Information" />
-            <Label layoutX="28.0" layoutY="263.0" styleClass="text-field-lbl" text="USERNAME" />
-            <TextField fx:id="usernameField" layoutX="28.0" layoutY="283.0" prefHeight="25.0" prefWidth="163.0" />
-            <Label layoutX="213.0" layoutY="264.0" styleClass="text-field-lbl" text="EMAIL" />
-            <TextField fx:id="emailField" layoutX="213.0" layoutY="284.0" prefHeight="25.0" prefWidth="163.0" />
-            <Label layoutX="28.0" layoutY="336.0" styleClass="text-field-lbl" text="FIRST NAME" />
-            <TextField fx:id="firstNameField" layoutX="28.0" layoutY="356.0" prefHeight="25.0" prefWidth="163.0" />
-            <Label layoutX="213.0" layoutY="337.0" styleClass="text-field-lbl" text="LAST NAME" />
-            <TextField fx:id="lastNameField" layoutX="213.0" layoutY="357.0" prefHeight="25.0" prefWidth="163.0" />
-            <Label layoutX="28.0" layoutY="406.0" styleClass="text-field-lbl" text="ADDRESS" />
-            <TextField fx:id="addressField" layoutX="28.0" layoutY="426.0" prefHeight="25.0" prefWidth="347.0" />
+            <Label layoutX="28.0" layoutY="235.0" styleClass="section-header" text="General Information" />
+            <Label layoutX="28.0" layoutY="284.0" styleClass="text-field-lbl" text="USERNAME" />
+            <TextField fx:id="usernameField" layoutX="28.0" layoutY="304.0" prefHeight="25.0" prefWidth="163.0" />
+            <Label layoutX="213.0" layoutY="285.0" styleClass="text-field-lbl" text="EMAIL" />
+            <TextField fx:id="emailField" layoutX="213.0" layoutY="305.0" prefHeight="25.0" prefWidth="163.0" />
+            <Label layoutX="28.0" layoutY="357.0" styleClass="text-field-lbl" text="FIRST NAME" />
+            <TextField fx:id="firstNameField" layoutX="28.0" layoutY="377.0" prefHeight="25.0" prefWidth="163.0" />
+            <Label layoutX="213.0" layoutY="358.0" styleClass="text-field-lbl" text="LAST NAME" />
+            <TextField fx:id="lastNameField" layoutX="213.0" layoutY="378.0" prefHeight="25.0" prefWidth="163.0" />
+            <Label layoutX="28.0" layoutY="427.0" styleClass="text-field-lbl" text="ADDRESS" />
+            <TextField fx:id="addressField" layoutX="28.0" layoutY="447.0" prefHeight="25.0" prefWidth="347.0" />
             <Label fx:id="updateResultLbl" layoutX="30.0" layoutY="477.0" prefHeight="17.0" prefWidth="347.0" />
             <JFXButton layoutX="30.0" layoutY="518.0" onAction="#updateGeneralInformation" prefHeight="35.0" prefWidth="347.0" styleClass="aceituna-btn" text="SAVE CHANGES" />
          </children>
@@ -89,6 +89,26 @@
                </graphic>
             </JFXButton>
             <Label layoutX="26.0" layoutY="22.0" styleClass="section-header" text="Card information" />
+            <Pane fx:id="deleteAccountPane" layoutX="9.0" layoutY="98.0" prefHeight="146.0" prefWidth="465.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="35.0" layoutY="14.0" prefHeight="43.0" prefWidth="395.0" styleClass="section-header" text="Are you sure that you want to delete the account?" wrapText="true">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="34.0" layoutY="52.0" prefHeight="35.0" prefWidth="395.0" text="This action is irreversible" wrapText="true" />
+                  <JFXButton fx:id="deleteAccount" layoutX="249.0" layoutY="94.0" onAction="#confirmDeleteAccount" prefHeight="25.0" prefWidth="180.0" styleClass="red-btn" text="Delete account">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+                  <JFXButton layoutX="35.0" layoutY="95.0" onAction="#closeDeleteAccountDialog" prefHeight="25.0" prefWidth="180.0" styleClass="aceituna-btn" text="Cancel">
+                     <cursor>
+                        <Cursor fx:constant="HAND" />
+                     </cursor>
+                  </JFXButton>
+               </children>
+            </Pane>
          </children>
       </Pane>
       <Pane fx:id="creditCardPane1" layoutX="436.0" layoutY="374.0" prefHeight="219.0" prefWidth="603.0" styleClass="card">
@@ -120,14 +140,14 @@
             </JFXButton>
             <Label layoutX="43.0" layoutY="139.0" styleClass="accountSubtitle" text="Delete account" />
             <Label layoutX="43.0" layoutY="159.0" text="All your information will be completely deleted." />
-            <JFXButton layoutX="417.0" layoutY="146.0" prefHeight="27.0" prefWidth="143.0" styleClass="accountBtn" text="Delete account" textFill="#dc3545">
+            <JFXButton layoutX="417.0" layoutY="146.0" onAction="#showDeleteAccountDialog" prefHeight="27.0" prefWidth="143.0" styleClass="accountBtn" text="Delete account" textFill="#dc3545">
                <font>
                   <Font size="24.0" />
                </font>
             </JFXButton>
          </children>
       </Pane>
-      <Pane fx:id="changePasswordPane" layoutX="285.0" layoutY="66.0" prefHeight="470.0" prefWidth="350.0">
+      <Pane fx:id="changePasswordPane" layoutX="274.0" layoutY="37.0" prefHeight="470.0" prefWidth="350.0">
          <children>
             <Label layoutX="35.0" layoutY="14.0" prefHeight="25.0" prefWidth="283.0" styleClass="section-header" text="Change passsword" wrapText="true">
                <font>
@@ -136,12 +156,12 @@
             </Label>
             <Label layoutX="34.0" layoutY="52.0" prefHeight="35.0" prefWidth="283.0" text="A code has been sent to your email to authorize the operation. Enter the code you have received." wrapText="true" />
             <TextField fx:id="codeTextField" alignment="CENTER" layoutX="35.0" layoutY="99.0" prefHeight="25.0" prefWidth="283.0" styleClass="dialog-text-field" />
-            <JFXButton layoutX="35.0" layoutY="142.0" onAction="#resendChangePasswordEmail" prefHeight="25.0" prefWidth="131.0" styleClass="aceituna-btn" text="Resend">
+            <JFXButton fx:id="resendBtn" layoutX="35.0" layoutY="142.0" onAction="#resendChangePasswordEmail" prefHeight="25.0" prefWidth="131.0" styleClass="aceituna-btn" text="Resend">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton layoutX="187.0" layoutY="142.0" onAction="#validateCode" prefHeight="25.0" prefWidth="131.0" styleClass="aceituna-btn" text="Validate">
+            <JFXButton fx:id="validateBtn" layoutX="187.0" layoutY="142.0" onAction="#validateCode" prefHeight="25.0" prefWidth="131.0" styleClass="aceituna-btn" text="Validate">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
@@ -159,7 +179,7 @@
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <JFXButton layoutX="35.0" layoutY="424.0" onAction="#closeChangePasswordDialog" prefHeight="25.0" prefWidth="131.0" styleClass="cancel-btn" text="Cancel">
+            <JFXButton layoutX="35.0" layoutY="424.0" onAction="#closeChangePasswordDialog" prefHeight="25.0" prefWidth="131.0" styleClass="red-btn" text="Cancel">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

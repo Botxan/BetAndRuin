@@ -43,7 +43,7 @@
     -fx-cursor: hand;
 }
 
-.cancel-btn {
+.red-btn {
     -fx-background-color: #dc3545;
     -fx-text-fill: #ffffff;
     -fx-font-weight: bold;

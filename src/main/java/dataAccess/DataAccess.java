@@ -505,7 +505,8 @@
          * @param address user's address
          */
         public void updateUserData(int userId, String username, String email, String firstName, String lastName, String address) {
-            System.out.println(">> DataAccess: updateUserData");
+            System.out.println(">> DataAccess: updateUserData => username = " + username + " email = " + email
+                    + " firstName = " + firstName + " lastName = " + lastName + " address = " + address);
             User user = db.find(User.class, 1);
 
             db.getTransaction().begin();
@@ -517,7 +518,7 @@
             db.persist(user);
             db.getTransaction().commit();
 
-            System.out.println("User updated");
+            System.out.println("User data updated");
         }
 
         /**
@@ -526,18 +527,22 @@
          * @param user the user to which update the avatar
          */
         public void updateAvatar(String avatar, User user) {
+            System.out.println(">> DataAccess: updateAvatar => avatar = " + avatar + " user = " + user);
             User u = db.find(User.class, user.getUserID());
 
             db.getTransaction().begin();
             u.setAvatar(avatar);
             db.persist(u);
             db.getTransaction().commit();
+
+            System.out.println("Avatar updated");
         }
 
         /**
          * Updates the password of the given user
          */
         public void updatePassword(byte[] newPwd, byte[] newSalt, User user) {
+            System.out.println(">> DataAccess: updatePassword");
             User u = db.find(User.class, user.getUserID());
 
             db.getTransaction().begin();
@@ -545,6 +550,23 @@
             u.setSalt(newSalt);
             db.persist(u);
             db.getTransaction().commit();
+
+            System.out.println("Password and salt updated");
+        }
+
+        /**
+         * Deletes the given user from the database.
+         * @param user the user to be deleted
+         */
+        public void deleteUser(User user) {
+            System.out.println(">> DataAccess: deleteUser => user = " + user);
+            User u = db.find(User.class, user.getUserID());
+
+            db.getTransaction().begin();
+            db.remove(u);
+            db.getTransaction().commit();
+
+            System.out.println("User deleted");
         }
 
         /**

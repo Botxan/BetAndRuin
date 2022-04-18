@@ -10,7 +10,6 @@ import exceptions.UsernameAlreadyInDBException;
 import javafx.animation.Interpolator;
 import javafx.animation.PauseTransition;
 import javafx.animation.RotateTransition;
-import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.*;
@@ -21,7 +20,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -29,21 +27,15 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
-import org.apache.xmlbeans.impl.jam.JConstructor;
 import ui.MainGUI;
 import uicontrollers.Controller;
 import utils.Formatter;
 import utils.MailSender;
 import utils.skin.CodeGenerator;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Calendar;
@@ -57,8 +49,9 @@ public class ProfileController implements Controller {
 
     private MailSender mailSender;
     private JFXDialog passwordChangeDialog;
-    private StackPane dialogOverlayPane;
-
+    private JFXDialog deleteAccountDialog;
+    private StackPane changePasswordDialogOverlayPane;
+    private StackPane deleteAccountDialogOverlayPane;
     private Group creditCardGroup;
     private Group front;
     private Group back;
@@ -68,10 +61,10 @@ public class ProfileController implements Controller {
     private RotateTransition rt2;
     private String passwordResetCode;
 
-
     @FXML private AnchorPane mainPane;
     @FXML private Pane creditCardPane;
     @FXML private Pane changePasswordPane;
+    @FXML private Pane deleteAccountPane;
     @FXML private ImageView avatar;
     @FXML private Label avatarStatusLbl;
     @FXML private Label updateResultLbl;
@@ -86,6 +79,8 @@ public class ProfileController implements Controller {
     @FXML private TextField newPasswordField;
     @FXML private TextField confirmPasswordField;
     @FXML private Button confirmChangePasswordBtn;
+    @FXML private Button validateBtn;
+    @FXML private Button resendBtn;
 
     /**
      * Constructor. Initializes the business logic.
@@ -95,6 +90,9 @@ public class ProfileController implements Controller {
         businessLogic = bl;
     }
 
+    /**
+     * Initializes all the necessary components for the profile UI.
+     */
     @FXML
     void initialize() {
         mailSender = new MailSender();
@@ -103,6 +101,7 @@ public class ProfileController implements Controller {
         initializeGeneralInformation();
         initializeCreditCardPane();
         initializePasswordChangeDialog();
+        initializeDeleteAccountDialog();
     }
 
     /**
@@ -131,16 +130,21 @@ public class ProfileController implements Controller {
         if (f != null) updateAvatar(f);
     }
 
+    /**
+     * Attempts to remove the current avatar of the user and displays the default one.
+     */
     @FXML
     void removeAvatar() {
         File f = new File("file:src/main/resources/img/avatar/default.png");
         updateAvatar(f);
     }
 
+    /**
+     * Attempts to update user's avatar, by removing the old one (if exists) and
+     * storing the new one.
+     * @param f new avatar file
+     */
     private void updateAvatar(File f) {
-        avatarStatusLbl.setText("");
-        avatarStatusLbl.getStyleClass().clear();
-
         String extension = f.getName().substring(f.getName().lastIndexOf("."));
         String oldAvatarFileName = businessLogic.getCurrentUser().getAvatar();
 
@@ -167,6 +171,7 @@ public class ProfileController implements Controller {
 
         avatarStatusLbl.setText("Avatar updated successfully");
         avatarStatusLbl.getStyleClass().addAll("lbl", "lbl-success");
+        clearAfterDelay(5, avatarStatusLbl);
     }
 
     /**
@@ -186,7 +191,6 @@ public class ProfileController implements Controller {
      */
     @FXML
     void updateGeneralInformation() {
-        // Clear result label in case there was a previous attempt
         updateResultLbl.getStyleClass().clear();
 
         String username = usernameField.getText();
@@ -200,12 +204,15 @@ public class ProfileController implements Controller {
             updateResultLbl.setText("Information updated successfully");
             updateResultLbl.getStyleClass().addAll("lbl", "lbl-success");
             clearFields();
+            clearAfterDelay(5, updateResultLbl);
         } catch (NoMatchingPatternException e) {
             updateResultLbl.setText("The email format is incorrect");
             updateResultLbl.getStyleClass().addAll("lbl", "lbl-danger");
+            clearAfterDelay(5, updateResultLbl);
         } catch (UsernameAlreadyInDBException e) {
             updateResultLbl.setText("Username already exist");
             updateResultLbl.getStyleClass().addAll("lbl", "lbl-danger");
+            clearAfterDelay(5, updateResultLbl);
         }
     }
 
@@ -385,46 +392,56 @@ public class ProfileController implements Controller {
         rt1.play();
     }
 
+    /**
+     * Initializes the dialog for changing the password.
+     */
     void initializePasswordChangeDialog() {
-        dialogOverlayPane = new StackPane();
-        dialogOverlayPane.setPrefWidth(mainPane.getPrefWidth());
-        dialogOverlayPane.setPrefHeight(mainPane.getPrefHeight());
-        dialogOverlayPane.setVisible(false);
-        changePasswordPane.setVisible(false);
-        mainPane.getChildren().add(dialogOverlayPane);
+        changePasswordDialogOverlayPane = new StackPane();
+        changePasswordDialogOverlayPane.setPrefWidth(mainPane.getPrefWidth());
+        changePasswordDialogOverlayPane.setPrefHeight(mainPane.getPrefHeight());
+        mainPane.getChildren().add(changePasswordDialogOverlayPane);
 
-        passwordChangeDialog = new JFXDialog(dialogOverlayPane, changePasswordPane, JFXDialog.DialogTransition.CENTER);
+        passwordChangeDialog = new JFXDialog(changePasswordDialogOverlayPane, changePasswordPane, JFXDialog.DialogTransition.CENTER);
         passwordChangeDialog.setOnDialogClosed((e) -> {
             resetChangePasswordDialog();
         });
-    }
 
-    @FXML
-    void showChangePasswordDialog() {
-        dialogOverlayPane.setVisible(true);
-        changePasswordPane.setVisible(true);
-        passwordChangeDialog.show();
-        sendChangePasswordEmail();
+        resetChangePasswordDialog();
     }
 
     /**
-     * Closes the dialog for changing the password
+     * Displays the dialog for changing the password.
+     */
+    @FXML
+    void showChangePasswordDialog() {
+        changePasswordDialogOverlayPane.setVisible(true);
+        changePasswordPane.setVisible(true);
+        sendChangePasswordEmail();
+        passwordChangeDialog.show();
+    }
+
+    /**
+     * Closes the dialog for changing the password.
      */
     @FXML
     void closeChangePasswordDialog() {
         passwordChangeDialog.close();
     }
 
+    /**
+     * Returns the dialog for changing the password to its initial state.
+     */
     @FXML
     void resendChangePasswordEmail() {
-        sendChangePasswordEmail();
         changePasswordDialogStatusLbl.getStyleClass().clear();
         changePasswordDialogStatusLbl.setText("The code has been resent");
         changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-info");
+        sendChangePasswordEmail();
+        clearAfterDelay(5, changePasswordDialogStatusLbl);
     }
 
     /**
-     * Sends a password changing authorization code to current user's email
+     * Sends a password changing authorization code to current user's email.
      */
     void sendChangePasswordEmail() {
         String username = businessLogic.getCurrentUser().getUsername();
@@ -439,15 +456,22 @@ public class ProfileController implements Controller {
     @FXML
     void validateCode() {
         changePasswordDialogStatusLbl.getStyleClass().clear();
-        changePasswordDialogStatusLbl.setText("");
+
         if (codeTextField.getText().trim().equals(passwordResetCode)) {
             oldPasswordField.setDisable(false);
             newPasswordField.setDisable(false);
             confirmPasswordField.setDisable(false);
             confirmChangePasswordBtn.setDisable(false);
+            codeTextField.setDisable(true);
+            resendBtn.setDisable(true);
+            validateBtn.setDisable(true);
+            codeTextField.setStyle("-fx-background-color: rgba(46, 204, 113, .2);");
+            clearAfterDelay(0, changePasswordDialogStatusLbl);
         } else {
+            codeTextField.setStyle("-fx-background-color: rgba(220, 53, 69, .2);");
             changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-danger");
             changePasswordDialogStatusLbl.setText("The code is incorrect");
+            clearAfterDelay(5, changePasswordDialogStatusLbl);
         }
     }
 
@@ -456,9 +480,7 @@ public class ProfileController implements Controller {
      */
     @FXML
     void confirmChangePassword() {
-        // Clear status label
         changePasswordDialogStatusLbl.getStyleClass().clear();
-        changePasswordDialogStatusLbl.setText("");
 
         String oldPassword = oldPasswordField.getText().trim();
         String newPassword = newPasswordField.getText().trim();
@@ -467,15 +489,14 @@ public class ProfileController implements Controller {
         if (!newPassword.equals(passwordConfirmation)) {
             changePasswordDialogStatusLbl.setText("New password and confirmation do not match");
             changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-danger");
-
         } else if (newPassword.length() < 8) {
             changePasswordDialogStatusLbl.setText("New password is too short (at least 8 characters)");
             changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-danger");
         } else {
             try {
                 businessLogic.changePassword(oldPassword, newPassword);
-                changePasswordDialogStatusLbl.setText("Password changed successfully");
                 changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-success");
+                changePasswordDialogStatusLbl.setText("Password changed successfully");
                 PauseTransition delay = new PauseTransition(Duration.seconds(1));
                 delay.setOnFinished(e -> passwordChangeDialog.close());
                 delay.play();
@@ -484,13 +505,14 @@ public class ProfileController implements Controller {
                 changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-danger");
             }
         }
+        clearAfterDelay(5, changePasswordDialogStatusLbl);
     }
 
     /**
      * Returns the dialog to its initial state.
      */
     private void resetChangePasswordDialog() {
-        dialogOverlayPane.setVisible(false);
+        changePasswordDialogOverlayPane.setVisible(false);
         changePasswordPane.setVisible(false);
 
         codeTextField.setText("");
@@ -504,7 +526,78 @@ public class ProfileController implements Controller {
         confirmPasswordField.setText("");
         confirmPasswordField.setDisable(true);
 
+        codeTextField.setDisable(false);
+        resendBtn.setDisable(false);
+        validateBtn.setDisable(false);
+
+        codeTextField.setStyle("-fx-background-color: #E3E3E3;");
+
         confirmChangePasswordBtn.setDisable(true);
+    }
+
+    /**
+     * Initializes the dialog for deleting user's account.
+     */
+    private void initializeDeleteAccountDialog() {
+        deleteAccountDialogOverlayPane = new StackPane();
+        deleteAccountDialogOverlayPane.setPrefWidth(mainPane.getPrefWidth());
+        deleteAccountDialogOverlayPane.setPrefHeight(mainPane.getPrefHeight());
+        deleteAccountDialogOverlayPane.setVisible(false);
+        deleteAccountPane.setVisible(false);
+        mainPane.getChildren().add(deleteAccountDialogOverlayPane);
+
+        deleteAccountDialog = new JFXDialog(deleteAccountDialogOverlayPane, deleteAccountPane, JFXDialog.DialogTransition.CENTER);
+        deleteAccountDialog.setOnDialogClosed(e -> resetDeleteAccountDialog());
+    }
+
+    /**
+     * Returns the dialog for deleting the account to its initial state.
+     */
+    private void resetDeleteAccountDialog() {
+        deleteAccountDialogOverlayPane.setVisible(false);
+        deleteAccountPane.setVisible(false);
+    }
+
+    /**
+     * Display the dialog for deleting the account
+     */
+    @FXML
+    void showDeleteAccountDialog() {
+        deleteAccountDialogOverlayPane.setVisible(true);
+        deleteAccountPane.setVisible(true);
+        deleteAccountDialog.show();
+    }
+
+    /**
+     * Closes the dialog for deleting the account
+     */
+    @FXML
+    void closeDeleteAccountDialog() {
+        deleteAccountDialog.close();
+    }
+
+    /**
+     * Attempts to delete user account and changes the window to
+     * Login window
+     */
+    @FXML
+    void confirmDeleteAccount() {
+        businessLogic.deleteAccount();
+        this.mainGUI.goForward("Login");
+    }
+
+    /**
+     * Performs a pause of duration in seconds passed by parameter and then clears
+     * all the styles and text of a given label.
+     * @param s
+     */
+    private void clearAfterDelay(double s, Label lbl) {
+        PauseTransition delay = new PauseTransition(Duration.seconds(s));
+        delay.setOnFinished(e -> {
+            lbl.getStyleClass().clear();
+            lbl.setText("");
+        });
+        delay.play();
     }
 
     @Override
@@ -513,7 +606,5 @@ public class ProfileController implements Controller {
     }
 
     @Override
-    public void redraw() {
-
-    }
+    public void redraw() {}
 }
