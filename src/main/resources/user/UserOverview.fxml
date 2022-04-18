@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.Region?>
+<?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="main" prefHeight="610.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.UserOverviewController">
@@ -20,11 +21,14 @@
                         <FontAwesomeIconView fill="#b3cf00" glyphName="FUTBOL_ALT" size="25" />
                      </graphic>
                   </Label>
-                  <Text fx:id="activeBetsText" layoutX="91.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="12" wrappingWidth="87.060546875" />
-                  <Label layoutX="91.0" layoutY="50.0" styleClass="card-text" text="Active bets" />
+                  <Text fx:id="activeBetsText" layoutX="91.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="12" wrappingWidth="87.060546875" />
+                  <Label layoutX="91.0" layoutY="55.0" styleClass="card-text" text="Active bets" />
                </children>
                <effect>
-                  <DropShadow height="10.0" offsetY="0.5" radius="4.5" width="10.0" />
+                  <DropShadow height="20.0" offsetY="5.0" radius="9.5" width="20.0">
+                     <color>
+                        <Color opacity="0.20000000298023224" />
+                     </color></DropShadow>
                </effect>
             </Pane>
             <Region prefHeight="100.0" prefWidth="48.0" />
@@ -35,11 +39,14 @@
                         <FontAwesomeIconView fill="#b3cf00" glyphName="LIST_UL" size="25" />
                      </graphic>
                   </Label>
-                  <Text fx:id="totalBetsText" layoutX="91.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="300" wrappingWidth="87.060546875" />
-                  <Label layoutX="91.0" layoutY="50.0" styleClass="card-text" text="Total bets" />
+                  <Text fx:id="totalBetsText" layoutX="91.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="300" wrappingWidth="87.060546875" />
+                  <Label layoutX="91.0" layoutY="55.0" styleClass="card-text" text="Total bets" />
                </children>
                <effect>
-                  <DropShadow height="10.0" offsetY="0.5" radius="4.5" width="10.0" />
+                  <DropShadow height="20.0" offsetY="5.0" radius="9.5" width="20.0">
+                     <color>
+                        <Color opacity="0.20000000298023224" />
+                     </color></DropShadow>
                </effect>
             </Pane>
             <Region prefHeight="100.0" prefWidth="48.0" />
@@ -50,11 +57,14 @@
                         <FontAwesomeIconView fill="#b3cf00" glyphName="BULLSEYE" size="25" />
                      </graphic>
                   </Label>
-                  <Text fx:id="wonBetsText" layoutX="91.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="285" wrappingWidth="87.060546875" />
-                  <Label layoutX="91.0" layoutY="50.0" styleClass="card-text" text="Bets won" />
+                  <Text fx:id="wonBetsText" layoutX="91.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="285" wrappingWidth="87.060546875" />
+                  <Label layoutX="91.0" layoutY="55.0" styleClass="card-text" text="Bets won" />
                </children>
                <effect>
-                  <DropShadow height="10.0" offsetY="0.5" radius="4.5" width="10.0" />
+                  <DropShadow height="20.0" offsetY="5.0" radius="9.5" width="20.0">
+                     <color>
+                        <Color opacity="0.20000000298023224" />
+                     </color></DropShadow>
                </effect>
             </Pane>
             <Region prefHeight="100.0" prefWidth="48.0" />
@@ -65,11 +75,14 @@
                         <FontAwesomeIconView fill="#b3cf00" glyphName="MONEY" size="25" />
                      </graphic>
                   </Label>
-                  <Text fx:id="earnedIncomeText" layoutX="91.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="285€" wrappingWidth="87.060546875" />
-                  <Label layoutX="91.0" layoutY="50.0" styleClass="card-text" text="Earned income" />
+                  <Text fx:id="earnedIncomeText" layoutX="91.0" layoutY="49.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="285€" wrappingWidth="87.060546875" />
+                  <Label layoutX="91.0" layoutY="55.0" styleClass="card-text" text="Earned income" />
                </children>
                <effect>
-                  <DropShadow height="10.0" offsetY="0.5" radius="4.5" width="10.0" />
+                  <DropShadow height="20.0" offsetY="5.0" radius="9.5" width="20.0">
+                     <color>
+                        <Color opacity="0.20000000298023224" />
+                     </color></DropShadow>
                </effect>
             </Pane>
          </children>

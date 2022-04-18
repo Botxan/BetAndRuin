@@ -1,6 +1,7 @@
 package ui;
 
 import businessLogic.BlFacade;
+import exceptions.UserNotFoundException;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -170,7 +171,13 @@ public class MainGUI {
         setupScene();
         ResizeHelper.addResizeListener(this.stage);
         history.setCurrentWindow(welcomeLag);
-        showScene(welcomeLag);
+        try {
+            businessLogic.setCurrentUser(businessLogic.getUserByUsername("user1"));
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        }
+        loadLoggedWindows();
+        showScene(userMenuLag);
     }
 
     /**

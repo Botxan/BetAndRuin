@@ -142,8 +142,8 @@
                 // Create dummy user and admin
                 byte [] salt = BlFacadeImplementation.generateSalt();
                 byte[] password = BlFacadeImplementation.hashPassword("123123", salt);
-                User user1 = new User("user1", "userFirstName", "userLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
-                        "userAddress", "user@email.com", password, salt, 1, 0);
+                User user1 = new User("user1", "Antonio", "Geremías Gonzalez", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
+                        "P. Sherman street Wallaby 42 Sydney", "user1@email.com", password, salt, 1, 0);
                 User admin1 = new User("admin1", "adminFirstName", "adminLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
                         "adminAddress", "admin@email.com", password, salt, 2, 0);
 
@@ -494,6 +494,42 @@
             u.setParameter(1, username);
             List<User> query = u.getResultList();
             return !query.isEmpty();
+        }
+
+        /**
+         * Updtes user information.
+         * @param username username
+         * @param email user's email
+         * @param firstName user's first name
+         * @param lastName user's last name
+         * @param address user's address
+         */
+        public void updateUserData(int userId, String username, String email, String firstName, String lastName, String address) {
+            System.out.println(">> DataAccess: updateUserData");
+            User user = db.find(User.class, 1);
+
+            db.getTransaction().begin();
+            if (!username.isEmpty()) user.setUsername(username);
+            if (!email.isEmpty()) user.setEmail(email);
+            if (!firstName.isEmpty()) user.setFirstName(firstName);
+            if (!lastName.isEmpty()) user.setLastName(lastName);
+            if (!address.isEmpty()) user.setAddress(address);
+            db.persist(user);
+            db.getTransaction().commit();
+
+            System.out.println("User updated");
+        }
+
+        /**
+         * Returns the user with the userID passed by parameter.
+         * @param userID user's ID
+         * @return the user with the given userID
+         * @throws UserNotFoundException if a user with the given userID does not exist
+         */
+        public User getUser(int userID) throws UserNotFoundException {
+            User u = db.find(User.class, userID);
+            if (u == null) throw new UserNotFoundException();
+            return u;
         }
 
         /**

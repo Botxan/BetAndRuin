@@ -133,7 +133,7 @@ public class BlFacadeImplementation implements BlFacade {
 		//Check email format completion (regex):
 		if(!Pattern.compile(emailRegEx).matcher(email).matches())
 			throw new NoMatchingPatternException("email");
-		//Check password lenght:
+		//Check password length:
 		if(password.length() < MINIMUM_PSW_LENGHT) throw new PswTooShortException();
 		//Check whether password and confirmation password match:
 		if(!password.equals(confirmPassword)) throw new IncorrectPSWConfirmException();
@@ -192,7 +192,28 @@ public class BlFacadeImplementation implements BlFacade {
 	public void setCurrentUser(User currentUser) {
 		this.currentUser = currentUser;
 	}
-	
+
+	@WebMethod
+	public void updateUserData(String username, String email, String firstName, String lastName, String address) throws NoMatchingPatternException, UsernameAlreadyInDBException {
+		// Check email format
+		if(!email.isEmpty() && !Pattern.compile(emailRegEx).matcher(email).matches())
+			throw new NoMatchingPatternException("email");
+
+		dbManager.open(false);
+
+		// Check if username exists
+		if (!username.isEmpty())
+			if(dbManager.isUserInDB(username)) {
+				dbManager.close();
+				throw new UsernameAlreadyInDBException();
+			}
+
+		// Update data
+		dbManager.updateUserData(currentUser.getUserID(), username, email, firstName, lastName, address);
+		dbManager.close();
+		refreshUser();
+	}
+
 	@WebMethod	
 	public void initializeBD(){
 		dbManager.open(false);
@@ -211,10 +232,7 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.depositMoney(amount, currentUser);
 		dbManager.close();
 
-		// FIXME have to update it here also because (apparently) the currentUser User object is dettached from the one
-		// getting updated in the db. So, from now, update the dettached object manually for the current session
-		currentUser.setWallet(currentUser.getWallet()+amount);
-		currentUser.getCard().withdrawMoney(amount);
+		refreshUser();
 	}
 
 	@WebMethod
@@ -320,7 +338,7 @@ public class BlFacadeImplementation implements BlFacade {
 	public void refreshUser () {
 		dbManager.open(false);
 		try {
-			currentUser = dbManager.getUser(currentUser.getUsername());
+			currentUser = dbManager.getUser(currentUser.getUserID());
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
 		}

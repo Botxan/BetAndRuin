@@ -122,7 +122,7 @@ public interface BlFacade  {
 	 * @throws UserNotFoundException
 	 */
 	@WebMethod public User getUserByUsername(String username) throws UserNotFoundException;
-	
+
 	/**
 	 * It returns the current user 
 	 * @return currentUser an instance of the current user 
@@ -133,8 +133,13 @@ public interface BlFacade  {
 	 * It sets the current user of the application
 	 * @param currentUser an instance of the current user 
 	 */
-	@WebMethod public void setCurrentUser(User currentUser);	
-	
+	@WebMethod public void setCurrentUser(User currentUser);
+
+	/**
+	 * Updates user information (username, first name, last name, email and address)
+	 */
+	@WebMethod public void updateUserData(String username, String email, String firstName, String lastName, String address) throws NoMatchingPatternException, UsernameAlreadyInDBException;
+
 	/**
 	 * It initializes the database with some events and questions
 	 */

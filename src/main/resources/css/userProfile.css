@@ -1,0 +1,63 @@
+.card {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5px;
+}
+
+.section-header {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.upload-avatar-btn {
+    -fx-background-color: -fx-green1;
+    -fx-padding: 5px 10px;
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 10px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.delete-avatar-btn {
+    -fx-min-width: 32px;
+    -fx-font-size: 10px;
+    -fx-padding: 5px 10px;
+    -fx-border-width: 1;
+    -fx-border-color: #dc3545;
+    -fx-border-radius: 3px;
+    -fx-cursor: hand;
+}
+
+.text-field-lbl {
+    -fx-font-size: 10px;
+}
+
+.text-field {
+    -fx-border-width: 5px;
+    -fx-background-color: #E3E3E3;
+}
+
+.save-changes-btn {
+    -fx-background-color: -fx-green1;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.flipBtn {
+    -fx-padding: 10px;
+}
+
+.accountSubtitle {
+    -fx-font-weight: bold;
+}
+
+.accountBtn {
+    -fx-font-size: 12px;
+    -fx-text-fill: #dc3545;
+    -fx-font-weight: bold;
+    -fx-border-width: 1px;
+    -fx-border-width: 1;
+    -fx-border-color: #dc3545;
+    -fx-border-radius: 3px;
+    -fx-cursor: hand;
+}
