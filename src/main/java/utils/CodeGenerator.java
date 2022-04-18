@@ -1,4 +1,4 @@
-package utils.skin;
+package utils;
 
 import java.util.Random;
 

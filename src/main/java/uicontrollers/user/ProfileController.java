@@ -31,7 +31,7 @@ import ui.MainGUI;
 import uicontrollers.Controller;
 import utils.Formatter;
 import utils.MailSender;
-import utils.skin.CodeGenerator;
+import utils.CodeGenerator;
 
 import java.io.File;
 import java.io.FileInputStream;
