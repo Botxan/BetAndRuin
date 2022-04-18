@@ -7,20 +7,36 @@ import exceptions.NoMatchingPatternException;
 import exceptions.UsernameAlreadyInDBException;
 import javafx.animation.Interpolator;
 import javafx.animation.RotateTransition;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
+import javafx.stage.FileChooser;
 import javafx.util.Duration;
+import org.apache.xmlbeans.impl.jam.JConstructor;
 import ui.MainGUI;
 import uicontrollers.Controller;
 import utils.Formatter;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Calendar;
 
 public class ProfileController implements Controller {
@@ -38,6 +54,8 @@ public class ProfileController implements Controller {
     RotateTransition rt1;
     RotateTransition rt2;
 
+    @FXML private ImageView avatar;
+    @FXML private Label avatarStatusLbl;
     @FXML private Label updateResultLbl;
     @FXML private TextField usernameField;
     @FXML private TextField emailField;
@@ -46,21 +64,89 @@ public class ProfileController implements Controller {
     @FXML private TextField addressField;
     @FXML private Pane creditCardPane;
 
-
+    /**
+     * Constructor. Initializes the business logic.
+     * @param bl business logic
+     */
     public ProfileController(BlFacade bl) {
         businessLogic = bl;
     }
 
     @FXML
     void initialize() {
+        initializeAvatar();
         initializeGeneralInformation();
         initializeCreditCardPane();
     }
 
     /**
+     * Displays user's avatar and adds a rounded clip to it
+     */
+    private void initializeAvatar() {
+        // Load user's avatar
+        Image avatarImg = new Image("file:src/main/resources/img/avatar/" + businessLogic.getCurrentUser().getAvatar());
+        avatar.setImage(avatarImg);
+
+        Circle avatarClip = new Circle(60, 60, 60);
+        avatarClip.setFill(Color.BLUE);
+        avatar.setClip(avatarClip);
+    }
+
+    /**
+     * Opens the file chooser and attempts to upload the avatar
+     */
+    @FXML
+    void uploadAvatar() {
+        FileChooser fc = new FileChooser();
+        FileChooser.ExtensionFilter ext = new FileChooser.ExtensionFilter("*.jpg, *.jpeg, *.png","*.jpg", "*.JPG", "*.jpeg", "*.JPEG", "*.png", "*.PNG");
+        fc.getExtensionFilters().add(ext);
+
+        File f = fc.showOpenDialog(mainGUI.getStage());
+        if (f != null) updateAvatar(f);
+    }
+
+    @FXML
+    void removeAvatar() {
+        File f = new File("file:src/main/resources/img/avatar/default.png");
+        updateAvatar(f);
+    }
+
+    private void updateAvatar(File f) {
+        avatarStatusLbl.setText("");
+        avatarStatusLbl.getStyleClass().clear();
+
+        String extension = f.getName().substring(f.getName().lastIndexOf("."));
+        String oldAvatarFileName = businessLogic.getCurrentUser().getAvatar();
+
+        // Remove old avatar if exists
+        if (!oldAvatarFileName.equals("default.png")) {
+            File oldAvatar = new File("src/main/resources/img/avatar/" + oldAvatarFileName);
+            if (oldAvatar.exists()) oldAvatar.delete();
+        }
+
+        // Store the new avatar only if it is not the default (i.e. when not removing avatar)
+        if (!f.getName().equals("default.png")) {
+            try {
+                Files.copy(new FileInputStream(f), Path.of("src/main/resources/img/avatar/" + businessLogic.getCurrentUser().getUserID() + extension));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        businessLogic.updateAvatar(extension);
+
+        // Display the new avatar
+        Image newAvatar = new Image(String.valueOf(f));
+        avatar.setImage(newAvatar);
+
+        avatarStatusLbl.setText("Avatar updated successfully");
+        avatarStatusLbl.getStyleClass().addAll("lbl", "lbl-success");
+    }
+
+    /**
      * Adds the placeholders with user's data
      */
-    public void initializeGeneralInformation() {
+    private void initializeGeneralInformation() {
         User u = businessLogic.getCurrentUser();
         usernameField.setPromptText(u.getUsername());
         emailField.setPromptText(u.getEmail());

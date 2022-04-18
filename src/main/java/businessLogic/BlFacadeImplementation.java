@@ -8,6 +8,7 @@ import exceptions.*;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -43,9 +44,7 @@ public class BlFacadeImplementation implements BlFacade {
 		boolean initialize = config.getDataBaseOpenMode().equals("initialize");
 		dbManager = new DataAccess(initialize);
 		currentUser = null;
-		if (initialize)
-			dbManager.initializeDB();
-		dbManager.close();
+		if (initialize) initializeBD();
 	}
 	
 	/**
@@ -211,6 +210,16 @@ public class BlFacadeImplementation implements BlFacade {
 		// Update data
 		dbManager.updateUserData(currentUser.getUserID(), username, email, firstName, lastName, address);
 		dbManager.close();
+
+		refreshUser();
+	}
+
+	@WebMethod
+	public void updateAvatar(String avatarExtension) {
+		dbManager.open(false);
+		dbManager.updateAvatar(currentUser.getUserID() + avatarExtension, currentUser);
+		dbManager.close();
+
 		refreshUser();
 	}
 
@@ -219,6 +228,12 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.open(false);
 		dbManager.initializeDB();
 		dbManager.close();
+
+		// Remove all user avatars
+		File avatarDir = new File("src/main/resources/img/avatar");
+		for(File file: avatarDir.listFiles())
+			if (!file.getName().equals("default.png"))
+				file.delete();
 	}
 
 	@WebMethod

@@ -57,7 +57,7 @@ public class User {
 	 */
 	public User(String username, String firstName, String lastName,
 			Date birthdate, String address, String email, byte[] password, byte[] salt, Integer userMode, double wallet) {
-		this(username, firstName, lastName, birthdate, address, email, null, password, salt, userMode, wallet);
+		this(username, firstName, lastName, birthdate, address, email, "default.png", password, salt, userMode, wallet);
 	}
 
 	/**

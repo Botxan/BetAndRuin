@@ -141,6 +141,12 @@ public interface BlFacade  {
 	@WebMethod public void updateUserData(String username, String email, String firstName, String lastName, String address) throws NoMatchingPatternException, UsernameAlreadyInDBException;
 
 	/**
+	 * Updates user's avatar.
+	 * @param avatarExtension the extension of the avatar file name
+	 */
+	@WebMethod public void updateAvatar(String avatarExtension);
+
+	/**
 	 * It initializes the database with some events and questions
 	 */
 	@WebMethod public void initializeBD();

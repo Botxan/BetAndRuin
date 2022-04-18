@@ -265,13 +265,8 @@ public class NavBarController implements Controller {
             updateWalletLabel();
 
             String avatar = currentUser.getAvatar();
-            if (avatar == null)
-                userBtnAvatar.setImage(new Image(String.valueOf(getClass().getResource("/img/avatar/default.png"))));
-            else {
-                userBtnAvatar.setImage(new Image(String.valueOf(getClass().getResource("/img/avatar/" + avatar))));
-            }
+            userBtnAvatar.setImage(new Image("file:src/main/resources/img/avatar/" + avatar));
         }
-
     }
 
     /**

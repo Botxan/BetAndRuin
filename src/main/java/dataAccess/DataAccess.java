@@ -521,6 +521,19 @@
         }
 
         /**
+         * Updates user's avatar
+         * @param avatar avatar file name
+         * @param user the user to which update the avatar
+         */
+        public void updateAvatar(String avatar, User user) {
+            User u = db.find(User.class, user.getUserID());
+
+            db.getTransaction().begin();
+            u.setAvatar(avatar);
+            db.getTransaction().commit();
+        }
+
+        /**
          * Returns the user with the userID passed by parameter.
          * @param userID user's ID
          * @return the user with the given userID
