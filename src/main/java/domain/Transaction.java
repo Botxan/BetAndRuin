@@ -1,6 +1,7 @@
 package domain;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * This class represents a transaction belonging to a credit card.
@@ -12,7 +13,9 @@ public class Transaction {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int transactionID;
     private int type; // 0 => Deposit, 1 => Withdraw
-    private float amount;
+    private String description;
+    private double amount;
+    private Date date;
 
     @OneToOne
     private Card card;
@@ -27,9 +30,11 @@ public class Transaction {
      * @param type the type or transaction
      * @param amount the amount of money
      */
-    public Transaction(int type, float amount, Card card) {
+    public Transaction(int type, String description, double amount, Date date, Card card) {
         this.type = type;
+        this.description = description;
         this.amount = amount;
+        this.date = date;
         this.card = card;
     }
 
@@ -66,10 +71,26 @@ public class Transaction {
     }
 
     /**
+     * Getter for transaction description.
+     * @return transaction description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Setter for the transaction description
+     * @param description transaction description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
      * Getter for the amount of money.
      * @return the amount of money
      */
-    public float getAmount() {
+    public double getAmount() {
         return amount;
     }
 
@@ -81,6 +102,21 @@ public class Transaction {
         this.amount = amount;
     }
 
+    /**
+     * Getter for transaction date
+     * @return transaction date
+     */
+    public Date getDate() {
+        return date;
+    }
+
+    /**
+     * Setter for transaction date
+     * @param date transaction date
+     */
+    public void setDate(Date date) {
+        this.date = date;
+    }
     /**
      * Getter for the associated credit card.
      * @return the associated credit card for the transaction

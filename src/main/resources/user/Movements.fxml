@@ -1,16 +1,112 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.lang.String?>
+<?import java.net.URL?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.shape.Line?>
 
-
-<AnchorPane prefHeight="610.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.MovementsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.MovementsController">
    <children>
-      <Label alignment="CENTER" layoutX="453.0" layoutY="264.0" text="Implement Movements here" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <font>
-            <Font size="52.0" />
-         </font>
-      </Label>
+      <Label alignment="CENTER_RIGHT" layoutX="94.0" layoutY="109.0" prefHeight="17.0" prefWidth="181.0" styleClass="money-description" text="Total money in the " />
+      <Label alignment="CENTER" layoutX="84.0" layoutY="66.0" prefHeight="17.0" prefWidth="300.0" styleClass="money" text="230,630.50€" />
+      <AnchorPane fx:id="transactionPane" layoutX="84.0" layoutY="127.0" minWidth="-Infinity" prefHeight="360.0" prefWidth="300.0" styleClass="transaction-pane" AnchorPane.bottomAnchor="80.0" AnchorPane.topAnchor="180.0">
+         <children>
+            <JFXButton fx:id="depositBtn" layoutY="-1.0" onAction="#showDepositPane" prefHeight="48.0" prefWidth="150.0" text=" Deposit Money" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <graphic>
+                  <FontAwesomeIconView fill="#bfebf580" glyphName="ARROW_CIRCLE_ALT_DOWN" size="18" styleClass="transaction-btn-icon" translateY="1.0" />
+               </graphic>
+               <styleClass>
+                  <String fx:value="transaction-btn" />
+                  <String fx:value="deposit-money-btn" />
+               </styleClass>
+            </JFXButton>
+            <JFXButton fx:id="depositBtn1" layoutX="150.0" layoutY="1.0" onAction="#showWithdrawPane" prefHeight="48.0" prefWidth="150.0" text="Withdraw money" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <graphic>
+                  <FontAwesomeIconView fill="#bfebf580" glyphName="ARROW_CIRCLE_ALT_UP" size="18" styleClass="transaction-btn-icon" translateY="1.0" />
+               </graphic>
+               <styleClass>
+                  <String fx:value="transaction-btn" />
+                  <String fx:value="withdraw-money-btn" />
+               </styleClass>
+            </JFXButton>
+            <Line endX="299.0" layoutX="0.5" layoutY="49.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-1.0" />
+            <Line fx:id="tabLine" endX="149.5" layoutY="49.0" style="-fx-stroke: -fx-green1;" />
+            <AnchorPane fx:id="depositWithdrawPane" layoutX="-253.0" layoutY="50.0" prefHeight="300.0" prefWidth="600.0" styleClass="transactions-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-300.0" AnchorPane.topAnchor="50.0">
+               <children>
+                  <Label layoutX="20.0" layoutY="27.0" styleClass="transaction-title" text="Enter the Amount" AnchorPane.leftAnchor="20.0" />
+                  <Label layoutX="20.0" layoutY="58.0" styleClass="transaction-text" text="No transaction fee" AnchorPane.leftAnchor="20.0" />
+                  <Label layoutX="20.0" layoutY="93.0" styleClass="transaction-text" text="YOUR DEPOSIT" AnchorPane.leftAnchor="20.0" />
+                  <JFXButton layoutX="58.0" layoutY="239.0" prefHeight="25.0" prefWidth="173.0" styleClass="end-transaction-btn" text="Deposit money" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="320.0" />
+                  <TextField alignment="CENTER" disable="true" layoutX="241.0" layoutY="112.0" minHeight="30.0" prefHeight="30.0" prefWidth="40.0" text="€">
+                     <styleClass>
+                        <String fx:value="transaction-field" />
+                        <String fx:value="transaction-field-right" />
+                     </styleClass>
+                  </TextField>
+                  <TextField layoutX="20.0" layoutY="112.0" prefHeight="30.0" prefWidth="220.0" AnchorPane.leftAnchor="20.0">
+                     <styleClass>
+                        <String fx:value="transaction-field" />
+                        <String fx:value="transaction-field-left" />
+                     </styleClass>
+                  </TextField>
+                  <Label layoutX="319.0" layoutY="27.0" styleClass="transaction-title" text="Enter the Amount" />
+                  <Label layoutX="319.0" layoutY="58.0" styleClass="transaction-text" text="Transaction includes fee of 5%" />
+                  <Label layoutX="319.0" layoutY="93.0" styleClass="transaction-text" text="YOU WITHDRAW" />
+                  <JFXButton layoutX="353.0" layoutY="239.0" prefHeight="25.0" prefWidth="173.0" styleClass="end-transaction-btn" text="Withdraw money" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="20.0" />
+                  <TextField alignment="CENTER" disable="true" layoutX="534.0" layoutY="112.0" minHeight="30.0" prefHeight="30.0" prefWidth="40.0" text="€" AnchorPane.rightAnchor="20.0">
+                     <styleClass>
+                        <String fx:value="transaction-field" />
+                        <String fx:value="transaction-field-right" />
+                     </styleClass>
+                  </TextField>
+                  <TextField layoutX="319.0" layoutY="112.0" prefHeight="30.0" prefWidth="221.0" AnchorPane.rightAnchor="60.0">
+                     <styleClass>
+                        <String fx:value="transaction-field" />
+                        <String fx:value="transaction-field-left" />
+                     </styleClass>
+                  </TextField>
+                  <Label layoutX="320.0" layoutY="167.0" styleClass="transaction-text" text="AMOUNT AFTER THE APPLIED FEE" />
+                  <TextField disable="true" layoutX="320.0" layoutY="185.0" prefHeight="30.0" prefWidth="220.0">
+                     <styleClass>
+                        <String fx:value="transaction-field" />
+                        <String fx:value="transaction-field-left" />
+                     </styleClass>
+                  </TextField>
+                  <TextField alignment="CENTER" disable="true" layoutX="541.0" layoutY="185.0" minHeight="30.0" prefHeight="30.0" prefWidth="40.0" text="€">
+                     <styleClass>
+                        <String fx:value="transaction-field" />
+                        <String fx:value="transaction-field-right" />
+                     </styleClass>
+                  </TextField>
+               </children>
+            </AnchorPane>
+         </children>
+         <effect>
+            <DropShadow height="25.0" offsetY="5.0" radius="12.0" width="25.0">
+               <color>
+                  <Color opacity="0.75" />
+               </color>
+            </DropShadow>
+         </effect>
+      </AnchorPane>
+      <Label layoutX="275.0" layoutY="109.0" prefHeight="17.0" prefWidth="181.0" styleClass="card-wallet-lbl" text="card" />
+      <ScrollPane hbarPolicy="NEVER" layoutX="527.0" layoutY="84.0" prefHeight="446.0" prefWidth="451.0">
+        <content>
+          <AnchorPane fx:id="movementsPane" prefWidth="450.0" styleClass="scroll-anchor-pane" />
+        </content>
+      </ScrollPane>
+      <Line endX="440.0" layoutX="532.0" layoutY="83.0" scaleY="0.5" scaleZ="0.5" />
+      <Line endX="440.0" layoutX="532.0" layoutY="530.0" scaleY="0.5" scaleZ="0.5" />
    </children>
+   <stylesheets>
+      <URL value="@../css/colors.css" />
+      <URL value="@../css/movements.css" />
+   </stylesheets>
 </AnchorPane>

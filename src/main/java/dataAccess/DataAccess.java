@@ -162,6 +162,17 @@
                 Card adminCard = new Card(9950451982447108L, cal.getTime(), 798, 100.0, admin1);
                 admin1.setCard(adminCard);
 
+                // Create dummy transactions
+                cal.set(2022, 3, 31, 9, 31, 55);
+                Transaction t1 = userCard.addTransaction(0, "Deposit to BetAndRuin", 12.5, cal.getTime());
+                cal.set(2022, 4, 2, 9, 10, 3);
+                Transaction t2 = userCard.addTransaction(0, "Deposit to BetAndRuin", 5, cal.getTime());
+                cal.set(2022, 4, 2, 16, 16, 40);
+                Transaction t3 = userCard.addTransaction(0, "Deposit to BetAndRuin", 48.5, cal.getTime());
+                cal.set(2022, 4, 5, 19, 30, 23);
+                Transaction t4 = userCard.addTransaction(1, "Withdraw from BetAndRuin", 20, cal.getTime());
+                cal.set(2022, 4, 5, 19, 58, 20);
+                Transaction t5 = userCard.addTransaction(0, "Deposit to BetAndRuin", 54, cal.getTime());
 
                 // Create dummy bets for testing purposes
                 user1.addBet(80, f1);
@@ -440,7 +451,8 @@
             // Refund the money
             user.depositMoneyIntoWallet(amountToRefund);
             // Register the transaction
-            user.getCard().addTransaction(0, amountToRefund);
+            Calendar cal = Calendar.getInstance();
+            user.getCard().addTransaction(0, "Bet refund", amountToRefund, cal.getTime());
             db.persist(user);
             db.getTransaction().commit();
         }
@@ -700,7 +712,8 @@
             db.getTransaction().begin();
             user.setWallet(gambler.getWallet() - betAmount);
             user.addBet(betAmount, forecast);
-            user.getCard().addTransaction(1, betAmount);
+            Calendar cal = Calendar.getInstance();
+            user.getCard().addTransaction(1, "Bet placed", betAmount, cal.getTime());
             db.persist(user);
             db.getTransaction().commit();
             System.out.println("Bet has been saved.");

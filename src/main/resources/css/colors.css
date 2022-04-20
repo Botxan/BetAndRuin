@@ -3,4 +3,6 @@
     -fx-green1: #B3CF00; /* Light, aceituna */
     -fx-green2: #11AA00; /* Darker */
     -fx-dark-grey: #292929;
+    -fx-dark-blue-bg: #00384D;
+    -fx-dark-blue-text: rgba(190, 235, 246, .5);
 }

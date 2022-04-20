@@ -1,0 +1,95 @@
+.money {
+    -fx-font-size: 24px;
+}
+
+.card-wallet-lbl {
+    -fx-text-fill: -fx-green1;
+    -fx-font-weight: bold;
+}
+
+.transaction-pane {
+    -fx-background-color: -fx-dark-blue-bg;
+    -fx-background-radius: 5px;
+}
+
+.transactions-pane {
+    -fx-background-color: -fx-dark-blue-bg;
+    -fx-background-radius: 5px;
+}
+
+.transaction-btn {
+    -fx-background-radius: 0;
+    -fx-text-fill: -fx-dark-blue-text;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.deposit-money-btn {
+    -fx-background-radius: 5px 0 0 0;
+}
+
+.withdraw-money-btn {
+    -fx-background-radius: 0 5px 0 0;
+}
+
+/* :selected not working */
+.transaction-btn:focused, .transaction-btn:focused .transaction-btn-icon {
+    -fx-text-fill: #ffffff;
+    -fx-fill: #ffffff;
+}
+
+.transaction-title {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 20px;
+}
+
+.transaction-text {
+    -fx-text-fill: -fx-dark-blue-text;
+    -fx-font-size: 10px;
+}
+
+.transaction-field {
+    -fx-background-color: #004058;
+    -fx-border-width: .5px;
+    -fx-border-color: #707070;
+    -fx-text-fill: #ffffff;
+}
+
+.transaction-field-left {
+    -fx-border-radius: 3px 0 0 3px;
+}
+
+.transaction-field-right {
+    -fx-border-radius: 0 3px 3px 0;
+}
+
+.end-transaction-btn {
+    -fx-background-color: -fx-green1;
+    -fx-text-fill: -fx-dark-blue-bg;
+    -fx-background-radius: 50px;
+    -fx-padding: 10px;
+    -fx-cursor: hand;
+}
+
+.scroll-pane {
+    -fx-background-color: transparent;
+}
+
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.entry-pane {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.2), 9.5, .2, 0.0, 3.0);
+    -fx-padding: 20px;
+}
+
+.icon-lbl {
+    -fx-padding: 10px;
+    -fx-background-color: #F0F3F4;
+}
+
+
+

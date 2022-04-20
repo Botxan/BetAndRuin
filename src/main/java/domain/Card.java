@@ -160,8 +160,8 @@ public class Card {
      * @param amount the amount of money used in the transaction
      * @return the transaction
      */
-    public Transaction addTransaction(int type, float amount) {
-        Transaction transaction = new Transaction(type, amount, this);
+    public Transaction addTransaction(int type, String description, double amount, Date date) {
+        Transaction transaction = new Transaction(type, description, amount, date, this);
         transactions.add(transaction);
         return transaction;
     }
