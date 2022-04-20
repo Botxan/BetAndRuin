@@ -1,9 +1,8 @@
 package domain;
 
-import exceptions.NotEnoughMoneyInWalletException;
+import exceptions.NotEnoughMoneyException;
 
 import javax.persistence.*;
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -289,8 +288,8 @@ public class User {
 		wallet += money;
 	}
 
-	public void withdrawMoneyFromWallet(double money) throws NotEnoughMoneyInWalletException {
-		if (wallet < money) throw new NotEnoughMoneyInWalletException();
+	public void withdrawMoneyFromWallet(double money) throws NotEnoughMoneyException {
+		if (wallet < money) throw new NotEnoughMoneyException();
 		wallet -= money;
 	}
 

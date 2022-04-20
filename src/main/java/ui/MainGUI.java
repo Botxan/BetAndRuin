@@ -31,7 +31,7 @@ public class MainGUI {
     private BorderPane mainWrapper;
 
     public Window navBarLag, loginLag, registerLag, createQuestionLag, browseEventsLag, welcomeLag,
-            userMenuLag, depositMoneyLag, createForecastLag, createEventLag, adminMenuLag,
+            userMenuLag, createForecastLag, createEventLag, adminMenuLag,
             removeBetLag, userOverviewLag, profileLag, betsLag, movementsLag;
 
     private BlFacade businessLogic;
@@ -103,8 +103,6 @@ public class MainGUI {
                 return new WelcomeController(businessLogic);
             } else if (controllerClass == UserMenuController.class) {
                 return new UserMenuController(businessLogic);
-            } else if (controllerClass == DepositMoneyController.class) {
-                return new DepositMoneyController(businessLogic);
             }else if (controllerClass == CreateForecastController.class) {
                 return new CreateForecastController(businessLogic);
             } else if (controllerClass == CreateEventController.class) {
@@ -188,7 +186,6 @@ public class MainGUI {
     public void loadLoggedWindows() throws IOException {
         createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
         userMenuLag = load("/UserMenuGUI.fxml", "UserMenu", SCENE_WIDTH, SCENE_HEIGHT);
-        depositMoneyLag = load("/DepositMoney.fxml", "DepositMoney", SCENE_WIDTH, SCENE_HEIGHT);
         createForecastLag = load("/CreateForecast.fxml", "CreateForecast", SCENE_WIDTH, SCENE_HEIGHT);
         adminMenuLag = load("/AdminMenu.fxml", "AdminMenu", SCENE_WIDTH, SCENE_HEIGHT);
         removeBetLag = load("/RemoveBet.fxml", "RemoveBet", SCENE_WIDTH, SCENE_HEIGHT);
@@ -336,8 +333,6 @@ public class MainGUI {
                 yield welcomeLag;
             case "UserMenu":
                 yield userMenuLag;
-            case "DepositMoney":
-                yield depositMoneyLag;
             case "CreateForecast":
                 yield createForecastLag;
             case "CreateEvent":

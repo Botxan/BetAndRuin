@@ -1,13 +1,11 @@
 	package dataAccess;
 
     import businessLogic.BlFacadeImplementation;
-    import com.toedter.calendar.DateUtil;
     import configuration.ConfigXML;
     import configuration.UtilDate;
     import domain.*;
     import exceptions.*;
 
-    import javax.jdo.JDOHelper;
     import javax.persistence.*;
     import java.text.SimpleDateFormat;
     import java.util.*;
@@ -610,18 +608,45 @@
             return query.get(0);
         }
 
-        public void depositMoney(double amount, User user) throws NotEnoughMoneyInWalletException {
+        /**
+         *
+         * @param amount
+         * @param user
+         * @throws NotEnoughMoneyException
+         */
+        public Transaction depositMoney(double amount, User user) throws NotEnoughMoneyException {
             // If not taken form the db, the update is not performed
-            User theuser = db.find(User.class, user);
+            User u = db.find(User.class, user);
 
-            if (theuser == null) {
-                System.out.println("User " + user.getUsername() + " not found.");
-            } else {
-                db.getTransaction().begin();
-                theuser.getCard().withdrawMoney(amount);
-                theuser.depositMoneyIntoWallet(amount);
-                db.getTransaction().commit();
-            }
+            db.getTransaction().begin();
+            // Withdraw from user's credit card
+            u.getCard().withdrawMoney(amount);
+            // Deposit into user's wallet
+            u.depositMoneyIntoWallet(amount);
+
+            // Register the transaction
+            Calendar cal = Calendar.getInstance();
+            Transaction t = u.getCard().addTransaction(0, "Deposit into BetAndRuin", amount, cal.getTime());
+            db.getTransaction().commit();
+
+            return t;
+        }
+
+        public Transaction withdrawMoney(double origAmount, double convertedAmount, User user) throws NotEnoughMoneyException {
+            User u = db.find(User.class, user);
+
+            db.getTransaction().begin();
+            // Withdraw original amount from wallet
+            u.withdrawMoneyFromWallet(origAmount);
+            // Add the converted amount to the credit card
+            u.getCard().depositMoney(convertedAmount);
+
+            // Register the transaction
+            Calendar cal = Calendar.getInstance();
+            Transaction t = u.getCard().addTransaction(1, "Withdraw from BetAndRuin wallet", origAmount, cal.getTime());
+            db.getTransaction().commit();
+
+            return t;
         }
 
         /**

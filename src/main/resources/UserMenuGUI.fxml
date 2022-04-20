@@ -46,7 +46,7 @@
                               <FontAwesomeIconView fill="WHITE" glyphName="FUTBOL_ALT" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton onAction="#displayMovements" prefHeight="25.0" prefWidth="295.0" styleClass="sideBarBtn" text=" Movements">
+                        <JFXButton onAction="#displayMovements" prefHeight="25.0" prefWidth="295.0" styleClass="sideBarBtn" text="My Wallet">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="MONEY" />
                            </graphic>

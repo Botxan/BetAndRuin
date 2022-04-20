@@ -5,4 +5,5 @@
     -fx-dark-grey: #292929;
     -fx-dark-blue-bg: #00384D;
     -fx-dark-blue-text: rgba(190, 235, 246, .5);
+    -fx-disabled-text: rgba(0, 0, 0, 0.38);
 }

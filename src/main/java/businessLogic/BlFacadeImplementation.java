@@ -270,12 +270,24 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
-	public void depositMoney(double amount) throws NotEnoughMoneyInWalletException {
+	public Transaction depositMoney(double amount) throws NotEnoughMoneyException {
 		dbManager.open(false);
-		dbManager.depositMoney(amount, currentUser);
+		Transaction t = dbManager.depositMoney(amount, currentUser);
 		dbManager.close();
 
 		refreshUser();
+		return t;
+	}
+
+	@WebMethod
+	public Transaction withdrawMoney(double origAmount) throws NotEnoughMoneyException {
+		double convertedAmount = Math.round((origAmount - origAmount * 0.05) * 100.0) / 100.0;
+		dbManager.open(false);
+		Transaction t = dbManager.withdrawMoney(origAmount, convertedAmount, currentUser);
+		dbManager.close();
+
+		refreshUser();
+		return t;
 	}
 
 	@WebMethod

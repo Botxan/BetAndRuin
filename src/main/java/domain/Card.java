@@ -1,6 +1,6 @@
 package domain;
 
-import exceptions.NotEnoughMoneyInWalletException;
+import exceptions.NotEnoughMoneyException;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -133,8 +133,8 @@ public class Card {
         this.money += money;
     }
 
-    public void withdrawMoney(Double money) throws NotEnoughMoneyInWalletException {
-        if (this.money < money) throw new NotEnoughMoneyInWalletException();
+    public void withdrawMoney(Double money) throws NotEnoughMoneyException {
+        if (this.money < money) throw new NotEnoughMoneyException();
         this.money -= money;
     }
 

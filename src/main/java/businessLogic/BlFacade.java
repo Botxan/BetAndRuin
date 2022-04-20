@@ -172,8 +172,16 @@ public interface BlFacade  {
 	 * Deposits the requested amount of money from the given card in
 	 * current user's wallet.
 	 * @param amount the amount of money to deposit
+	 * @throws NotEnoughMoneyException if there is no enough money in user's wallet
 	 */
-	@WebMethod public void depositMoney(double amount) throws NotEnoughMoneyInWalletException;
+	@WebMethod public Transaction depositMoney(double amount) throws NotEnoughMoneyException;
+
+	/**
+	 * Applies the corresponding conversion fee to the given amount and withdraws
+	 * the new amount of money into user's card.
+	 * @param amount the amount to be withdrawn (no fee applied)
+	 */
+	@WebMethod public Transaction withdrawMoney(double amount) throws NotEnoughMoneyException;
 
 	/**
 	 * Retrieves all the active bets placed by the current user.

@@ -5,11 +5,11 @@ package exceptions;
  * @author Team Josefinators
  *
  */
-public class NotEnoughMoneyInWalletException extends Exception {
+public class NotEnoughMoneyException extends Exception {
     /**
      * Exception constructor without message.
      */
-    public NotEnoughMoneyInWalletException() {
+    public NotEnoughMoneyException() {
         super();
     }
 
@@ -17,7 +17,7 @@ public class NotEnoughMoneyInWalletException extends Exception {
      * Exception constructor with s message.
      * @param s Message to show to the user when the exception is raised
      */
-    public NotEnoughMoneyInWalletException(String s) {
+    public NotEnoughMoneyException(String s) {
         super(s);
     }
 }
