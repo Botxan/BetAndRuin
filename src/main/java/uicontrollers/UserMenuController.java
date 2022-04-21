@@ -2,9 +2,11 @@ package uicontrollers;
 
 import businessLogic.BlFacade;
 import com.jfoenix.controls.JFXButton;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
 import javafx.scene.SubScene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -20,6 +22,7 @@ import java.util.ResourceBundle;
 public class UserMenuController implements Controller {
     private BlFacade businessLogic;
     private MainGUI mainGUI;
+    private Window currentWindow;
 
     @FXML private JFXButton browseEventsBtn;
     @FXML private JFXButton depositMoneyBtn;
@@ -35,10 +38,9 @@ public class UserMenuController implements Controller {
         businessLogic = bl;
     }
 
-
     @FXML
     void initialize() {
-
+        Platform.runLater(() -> displayOverview());
     }
 
     /**
@@ -46,9 +48,7 @@ public class UserMenuController implements Controller {
      */
     @FXML
     void displayOverview() {
-        content.getChildren().clear();
-        mainGUI.userOverviewLag.getController().redraw();
-        content.getChildren().add(mainGUI.userOverviewLag.getUi());
+        switchToWindow(mainGUI.userOverviewLag);
     }
 
     /**
@@ -56,9 +56,7 @@ public class UserMenuController implements Controller {
      */
     @FXML
     void displayProfile() {
-        content.getChildren().clear();
-        mainGUI.profileLag.getController().redraw();
-        content.getChildren().add(mainGUI.profileLag.getUi());
+        switchToWindow(mainGUI.profileLag);
     }
 
     /**
@@ -66,9 +64,7 @@ public class UserMenuController implements Controller {
      */
     @FXML
     void displayBets() {
-        content.getChildren().clear();
-        mainGUI.betsLag.getController().redraw();
-        content.getChildren().add(mainGUI.betsLag.getUi());
+        switchToWindow(mainGUI.betsLag);
     }
 
     /**
@@ -76,9 +72,7 @@ public class UserMenuController implements Controller {
      */
     @FXML
     void displayMovements() {
-        content.getChildren().clear();
-        mainGUI.movementsLag.getController().redraw();
-        content.getChildren().add(mainGUI.movementsLag.getUi());
+        switchToWindow(mainGUI.movementsLag);
     }
 
     /**
@@ -90,6 +84,13 @@ public class UserMenuController implements Controller {
         this.mainGUI.goForward("Login");
     }
 
+    private void switchToWindow(Window w) {
+        content.getChildren().clear();
+        currentWindow = w;
+        w.getController().redraw();
+        content.getChildren().add(w.getUi());
+    }
+
     @Override
     public void setMainApp(MainGUI mainGUI) {
         this.mainGUI = mainGUI;
@@ -97,6 +98,8 @@ public class UserMenuController implements Controller {
 
     @Override
     public void redraw() {
-
+        System.out.println("here");
+        if (currentWindow != null)
+            currentWindow.getController().redraw();
     }
 }
