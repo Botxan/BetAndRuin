@@ -297,10 +297,8 @@
                     Event.class);
             query.setParameter(1, date);
             List<Event> events = query.getResultList();
-            for (Event ev:events){
-                System.out.println(ev.toString());
-                res.add(ev);
-            }
+            for (Event ev:events) res.add(ev);
+
             return res;
         }
 
@@ -310,10 +308,8 @@
                     Question.class);
             query.setParameter(1, event);
             List<Question> questions = query.getResultList();
-            for (Question qu:questions){
-                System.out.println(qu.toString());
-                que.add(qu);
-            }
+            for (Question qu:questions) que.add(qu);
+
             return que;
         }
 
@@ -732,7 +728,6 @@
             if (today.compareTo(eventDate) > 0) throw new LateBetException();
 
             // check if minimum bet is surpassed
-            System.out.println("Bet minimum:" + forecast.getQuestion());
             if(betAmount < forecast.getQuestion().getBetMinimum()) throw new MinBetException();
 
             // Perform the bet
@@ -751,6 +746,5 @@
          */
         public void close(){
             db.close();
-            System.out.println("DataBase is closed");
         }
     }

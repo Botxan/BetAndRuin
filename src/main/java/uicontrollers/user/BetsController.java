@@ -67,7 +67,6 @@ public class BetsController implements Controller {
      * Initializes the table data and the filtering text field.
      */
     private void initBetsTable() {
-        System.out.println("Init bet table!");
         bets = FXCollections.observableArrayList();
         FilteredList<Bet> filteredBets = new FilteredList<>(bets, b -> true);
 

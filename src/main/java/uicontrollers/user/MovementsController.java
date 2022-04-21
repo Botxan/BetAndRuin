@@ -1,6 +1,7 @@
 package uicontrollers.user;
 
 import businessLogic.BlFacade;
+import com.jfoenix.controls.JFXButton;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import domain.Transaction;
@@ -26,6 +27,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class MovementsController implements Controller {
@@ -37,21 +39,44 @@ public class MovementsController implements Controller {
     private List<Transaction> trs;
     private int movementsOffset;
 
-    @FXML AnchorPane depositWithdrawPane;
-    @FXML Line tabLine;
-    @FXML AnchorPane movementsPane;
-    @FXML Label cardMoneyLbl;
-    @FXML Label walletMoneyLbl;
-    @FXML Label depositStatusLbl;
-    @FXML Label withdrawStatusLbl;
-    @FXML TextField depositField;
-    @FXML TextField withdrawField;
-    @FXML TextField withdrawConvertedField;
+    @FXML private AnchorPane depositWithdrawPane;
+    @FXML private AnchorPane movementsPane;
+    @FXML private JFXButton confirmDepositMoneyBtn;
+    @FXML private JFXButton confirmWithdrawMoneyBtn;
+    @FXML private JFXButton depositBtn;
+    @FXML private JFXButton withdrawBtn;
+    @FXML private Label afterFeeLbl;
+    @FXML private Label cardLbl;
+    @FXML private Label cardMoneyLbl;
+    @FXML private Label depositStatusLbl;
+    @FXML private Label enterTheAmountDepositLbl;
+    @FXML private Label enterTheAmountWithdrawLbl;
+    @FXML private Label includesFeeLbl;
+    @FXML private Label noFeeLbl;
+    @FXML private Label totalMoneyCardLbl;
+    @FXML private Label totalMoneyWalletLbl;
+    @FXML private Label walletLbl;
+    @FXML private Label walletMoneyLbl;
+    @FXML private Label withdrawStatusLbl;
+    @FXML private Label youWithdrawLbl;
+    @FXML private Label yourDepositLbl;
+    @FXML private Line tabLine;
+    @FXML private TextField depositField;
+    @FXML private TextField withdrawConvertedField;
+    @FXML private TextField withdrawField;
 
+    /**
+     * Constructor. Initializes the business logic.
+     * @param bl the business logic
+     */
     public MovementsController(BlFacade bl) {
         businessLogic = bl;
     }
 
+    /**
+     * Initializes labels that display money, the pane for making
+     * operations (deposit and withdraw) and the movements pane.
+     */
     @FXML
     void initialize() {
         updateMoneyLabels();
@@ -59,6 +84,10 @@ public class MovementsController implements Controller {
         initMovementsPane();
     }
 
+    /**
+     * Updates the information of the labels that display the current money in the
+     * card and in the wallet.
+     */
     private void updateMoneyLabels() {
         cardMoneyLbl.setText(Formatter.twoDecimals(businessLogic.getCurrentUser().getCard().getMoney()) + "€");
         walletMoneyLbl.setText(Formatter.twoDecimals(businessLogic.getCurrentUser().getWallet()) + "€");
@@ -115,9 +144,15 @@ public class MovementsController implements Controller {
         });
     }
 
+    /**
+     * Checkes if the text of a given text field has a correct number with 0-2 decimals format.
+     * @param tf the text field
+     * @param oldVal the text of the text field before the last change
+     * @param newVal the text of the text field after the last change
+     */
     private void checkValidNumber(TextField tf, String oldVal, String newVal) {
         // Check only numbers
-        if (!newVal.matches("^\\d*((\\,\\d{0,2})|(\\.\\d{0,2}))?$"))
+        if (!newVal.matches("^\\d*((,\\d{0,2})|(\\.\\d{0,2}))?$"))
             tf.setText(oldVal);
 
         if (newVal.indexOf(',') > -1) {
@@ -125,6 +160,9 @@ public class MovementsController implements Controller {
         }
     }
 
+    /**
+     * Displays the real withdrawing money after applying the 5% fee
+     */
     private void displayConversion() {
         String amount = withdrawField.getText();
         if (!amount.isBlank()) {
@@ -151,6 +189,9 @@ public class MovementsController implements Controller {
             depositToWithdrawAnim.play();
     }
 
+    /**
+     * Adds one movement pane for each transaction.
+     */
     private void initMovementsPane() {
         trs = businessLogic.getCurrentUser().getCard().getTransactions();
         movementsPane.getChildren().clear();
@@ -158,11 +199,10 @@ public class MovementsController implements Controller {
         for (Transaction t: trs) addNewTransactionPane(t);
     }
 
-    @Override
-    public void setMainApp(MainGUI mainGUI) {
-        this.mainGUI = mainGUI;
-    }
-
+    /**
+     * Creates a custom node for displaying a transaction.
+     * @param t the transaction to be displayed
+     */
     private void addNewTransactionPane(Transaction t) {
         // Create the pane for the transaction
         Pane entry = new Pane();
@@ -193,7 +233,7 @@ public class MovementsController implements Controller {
         // Add description label
         Label date = null;
         try {
-            SimpleDateFormat sdf =  new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+            SimpleDateFormat sdf =  new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
             Date d = sdf.parse(t.getDate().toString());
             sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
             date = new Label(sdf.format(d).toString());
@@ -220,10 +260,10 @@ public class MovementsController implements Controller {
         Label type = new Label();
         type.getStyleClass().add("type-lbl");
         if (t.getType() == 0) {
-            type.setText("Deposit");
+            type.setText(ResourceBundle.getBundle("Etiquetas").getString("Deposit"));
             type.getStyleClass().add("deposit-lbl");
         } else {
-            type.setText("Withdraw");
+            type.setText(ResourceBundle.getBundle("ETiquetas").getString("Withdraw"));
             type.getStyleClass().add("withdraw-lbl");
         }
         type.setAlignment(Pos.CENTER);
@@ -236,6 +276,11 @@ public class MovementsController implements Controller {
 
         // Increase the offset for the next transaction
         movementsOffset += 100;
+    }
+
+    @Override
+    public void setMainApp(MainGUI mainGUI) {
+        this.mainGUI = mainGUI;
     }
 
     @FXML
@@ -309,5 +354,24 @@ public class MovementsController implements Controller {
     public void redraw() {
         updateMoneyLabels();
         initMovementsPane();
+        updateMoneyLabels();
+
+        confirmDepositMoneyBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney"));
+        confirmWithdrawMoneyBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("WithdrawMoney"));
+        depositBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney"));
+        withdrawBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("WithdrawMoney"));
+        afterFeeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("AmountAfterFee").toUpperCase());
+        cardLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Card").toLowerCase() +
+                (Locale.getDefault().toString().equals("eus") ? "n" : ""));
+        enterTheAmountDepositLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("EnterTheAmount"));
+        enterTheAmountWithdrawLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("EnterTheAmount"));
+        includesFeeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("5PercentFee"));
+        noFeeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("NoTransactionFee"));
+        totalMoneyCardLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("TotalMoneyInThe") + " ");
+        totalMoneyWalletLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("TotalMoneyInThe") + " ");
+        walletLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Wallet").toLowerCase() +
+                (Locale.getDefault().toString().equals("eus") ? "n" : ""));
+        youWithdrawLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("YouWithdraw").toUpperCase());
+        yourDepositLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("YourDeposit").toUpperCase());
     }
 }

@@ -15,11 +15,11 @@
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.MovementsController">
    <children>
       <Label fx:id="cardMoneyLbl" alignment="CENTER" layoutX="35.0" layoutY="33.0" prefHeight="17.0" prefWidth="300.0" styleClass="money" text="230,630.50€" />
-      <Label alignment="CENTER_RIGHT" layoutX="34.0" layoutY="76.0" prefHeight="17.0" prefWidth="190.0" styleClass="money-description" text="Total money in the " />
-      <Label layoutX="224.0" layoutY="76.0" prefHeight="17.0" prefWidth="108.0" styleClass="card-wallet-lbl" text="card" />
+      <Label fx:id="totalMoneyCardLbl" alignment="CENTER_RIGHT" layoutX="34.0" layoutY="76.0" prefHeight="17.0" prefWidth="190.0" styleClass="money-description" text="Total money in the " />
+      <Label fx:id="cardLbl" layoutX="224.0" layoutY="76.0" prefHeight="17.0" prefWidth="108.0" styleClass="card-wallet-lbl" text="card" />
       <Label fx:id="walletMoneyLbl" alignment="CENTER" layoutX="34.0" layoutY="113.0" prefHeight="17.0" prefWidth="300.0" styleClass="money" text="230,630.50€" />
-      <Label alignment="CENTER_RIGHT" layoutX="30.0" layoutY="156.0" prefHeight="17.0" prefWidth="190.0" styleClass="money-description" text="Total money in the " />
-      <Label layoutX="220.0" layoutY="156.0" prefHeight="17.0" prefWidth="108.0" styleClass="card-wallet-lbl" text="wallet" />
+      <Label fx:id="totalMoneyWalletLbl" alignment="CENTER_RIGHT" layoutX="30.0" layoutY="156.0" prefHeight="17.0" prefWidth="190.0" styleClass="money-description" text="Total money in the " />
+      <Label fx:id="walletLbl" layoutX="220.0" layoutY="156.0" prefHeight="17.0" prefWidth="108.0" styleClass="card-wallet-lbl" text="wallet" />
       <AnchorPane fx:id="transactionPane" layoutX="35.0" layoutY="217.0" minWidth="-Infinity" prefHeight="360.0" prefWidth="300.0" styleClass="transaction-pane" AnchorPane.bottomAnchor="43.0" AnchorPane.leftAnchor="35.0" AnchorPane.topAnchor="217.0">
          <children>
             <JFXButton fx:id="depositBtn" layoutY="-1.0" onAction="#showDepositPane" prefHeight="48.0" prefWidth="150.0" text=" Deposit Money" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -31,7 +31,7 @@
                   <String fx:value="deposit-money-btn" />
                </styleClass>
             </JFXButton>
-            <JFXButton fx:id="depositBtn1" layoutX="150.0" layoutY="1.0" onAction="#showWithdrawPane" prefHeight="48.0" prefWidth="150.0" text="Withdraw money" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <JFXButton fx:id="withdrawBtn" layoutX="150.0" layoutY="1.0" onAction="#showWithdrawPane" prefHeight="48.0" prefWidth="150.0" text="Withdraw Money" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <graphic>
                   <FontAwesomeIconView fill="#bfebf580" glyphName="ARROW_CIRCLE_ALT_UP" size="18" styleClass="transaction-btn-icon" translateY="1.0" />
                </graphic>
@@ -44,10 +44,10 @@
             <Line fx:id="tabLine" endX="149.5" layoutY="49.0" style="-fx-stroke: -fx-green1;" />
             <AnchorPane fx:id="depositWithdrawPane" layoutX="-253.0" layoutY="50.0" prefHeight="300.0" prefWidth="600.0" styleClass="transactions-pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-300.0" AnchorPane.topAnchor="50.0">
                <children>
-                  <Label layoutX="20.0" layoutY="27.0" styleClass="transaction-title" text="Enter the Amount" AnchorPane.leftAnchor="20.0" />
-                  <Label layoutX="20.0" layoutY="58.0" styleClass="transaction-text" text="No transaction fee" AnchorPane.leftAnchor="20.0" />
-                  <Label layoutX="20.0" layoutY="93.0" styleClass="transaction-text" text="YOUR DEPOSIT" AnchorPane.leftAnchor="20.0" />
-                  <JFXButton layoutX="58.0" layoutY="239.0" onAction="#depositMoney" prefHeight="25.0" prefWidth="173.0" styleClass="end-transaction-btn" text="Deposit money" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="320.0" />
+                  <Label fx:id="enterTheAmountDepositLbl" layoutX="20.0" layoutY="27.0" styleClass="transaction-title" text="Enter the Amount" AnchorPane.leftAnchor="20.0" />
+                  <Label fx:id="noFeeLbl" layoutX="20.0" layoutY="58.0" styleClass="transaction-text" text="No transaction fee" AnchorPane.leftAnchor="20.0" />
+                  <Label fx:id="yourDepositLbl" layoutX="20.0" layoutY="93.0" styleClass="transaction-text" text="YOUR DEPOSIT" AnchorPane.leftAnchor="20.0" />
+                  <JFXButton fx:id="confirmDepositMoneyBtn" layoutX="58.0" layoutY="239.0" onAction="#depositMoney" prefHeight="25.0" prefWidth="173.0" styleClass="end-transaction-btn" text="Deposit Money" AnchorPane.bottomAnchor="24.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="320.0" />
                   <TextField alignment="CENTER" disable="true" layoutX="240.0" layoutY="112.0" minHeight="30.0" prefHeight="30.0" prefWidth="40.0" text="€">
                      <styleClass>
                         <String fx:value="transaction-field" />
@@ -60,10 +60,10 @@
                         <String fx:value="transaction-field-left" />
                      </styleClass>
                   </TextField>
-                  <Label layoutX="319.0" layoutY="27.0" styleClass="transaction-title" text="Enter the Amount" />
-                  <Label layoutX="319.0" layoutY="58.0" styleClass="transaction-text" text="Transaction includes fee of 5%" />
-                  <Label layoutX="319.0" layoutY="93.0" styleClass="transaction-text" text="YOU WITHDRAW" />
-                  <JFXButton layoutX="353.0" layoutY="239.0" onAction="#withdrawMoney" prefHeight="25.0" prefWidth="173.0" styleClass="end-transaction-btn" text="Withdraw money" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="20.0" />
+                  <Label fx:id="enterTheAmountWithdrawLbl" layoutX="319.0" layoutY="27.0" styleClass="transaction-title" text="Enter the Amount" />
+                  <Label fx:id="includesFeeLbl" layoutX="319.0" layoutY="58.0" styleClass="transaction-text" text="Transaction includes fee of 5%" />
+                  <Label fx:id="youWithdrawLbl" layoutX="319.0" layoutY="93.0" styleClass="transaction-text" text="YOU WITHDRAW" />
+                  <JFXButton fx:id="confirmWithdrawMoneyBtn" layoutX="353.0" layoutY="239.0" onAction="#withdrawMoney" prefHeight="25.0" prefWidth="173.0" styleClass="end-transaction-btn" text="Withdraw Money" AnchorPane.leftAnchor="320.0" AnchorPane.rightAnchor="20.0" />
                   <TextField alignment="CENTER" disable="true" layoutX="539.0" layoutY="112.0" minHeight="30.0" prefHeight="30.0" prefWidth="40.0" text="€" AnchorPane.rightAnchor="21.0">
                      <styleClass>
                         <String fx:value="transaction-field" />
@@ -76,7 +76,7 @@
                         <String fx:value="transaction-field-left" />
                      </styleClass>
                   </TextField>
-                  <Label layoutX="320.0" layoutY="167.0" styleClass="transaction-text" text="AMOUNT AFTER THE APPLIED FEE" />
+                  <Label fx:id="afterFeeLbl" layoutX="320.0" layoutY="167.0" styleClass="transaction-text" text="AMOUNT AFTER THE APPLIED FEE" />
                   <TextField fx:id="withdrawConvertedField" disable="true" layoutX="319.0" layoutY="185.0" prefHeight="30.0" prefWidth="221.0">
                      <styleClass>
                         <String fx:value="transaction-field" />

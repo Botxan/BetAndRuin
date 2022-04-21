@@ -407,7 +407,6 @@ public class BrowseEventsController implements Controller {
         forecasts.clear();
         forecastsTbl.getItems().clear();
         Question selectedQuestion = questionsTbl.getSelectionModel().getSelectedItem();
-        System.out.println("Selected question: " + selectedQuestion.toString());
         if (selectedQuestion != null) {
             forecasts.addAll(selectedQuestion.getForecasts());
             forecastsTbl.getItems().addAll(forecasts);
@@ -600,7 +599,6 @@ public class BrowseEventsController implements Controller {
                 earthPoints.put(countryName, new EarthPoint(p, rotation));
             }
         } catch(IOException e) {
-            System.out.println("Cannot load country coords.");
             e.printStackTrace();
         }
     }

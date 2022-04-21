@@ -45,7 +45,6 @@ public class UtilDate {
 		calendar.setTimeZone(TimeZone.getTimeZone("CET"));
 		calendar.set(year, month, day, 0, 0, 0);
 		calendar.set(Calendar.MILLISECOND, 0);
-		System.out.println("newDate: " + calendar.getTime());
 		return calendar.getTime();
 	}
 
