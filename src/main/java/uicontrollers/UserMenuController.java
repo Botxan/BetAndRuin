@@ -24,10 +24,12 @@ public class UserMenuController implements Controller {
     private MainGUI mainGUI;
     private Window currentWindow;
 
-    @FXML private JFXButton browseEventsBtn;
-    @FXML private JFXButton depositMoneyBtn;
-    @FXML private JFXButton removeBetsBtn;
     @FXML private Pane content;
+    @FXML JFXButton overviewBtn;
+    @FXML JFXButton profileBtn;
+    @FXML JFXButton betsBtn;
+    @FXML JFXButton myWalletBtn;
+    @FXML JFXButton logoutBtn;
 
     /**
      * Constructor for the UserMenuController.
@@ -98,7 +100,12 @@ public class UserMenuController implements Controller {
 
     @Override
     public void redraw() {
-        if (currentWindow != null)
-            currentWindow.getController().redraw();
+        if (currentWindow != null) currentWindow.getController().redraw();
+
+        overviewBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Overview"));
+        profileBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Profile"));
+        betsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Bets"));
+        myWalletBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("MyWallet"));
+        logoutBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Logout"));
     }
 }

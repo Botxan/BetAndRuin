@@ -31,22 +31,22 @@
                <children>
                   <VBox prefHeight="0.0" prefWidth="227.0">
                      <children>
-                        <JFXButton onAction="#displayOverview" prefHeight="25.0" prefWidth="295.0" styleClass="sideBarBtn" text=" Overview">
+                        <JFXButton fx:id="overviewBtn" onAction="#displayOverview" prefHeight="25.0" prefWidth="295.0" styleClass="sideBarBtn" text=" Overview">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="DASHBOARD" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton onAction="#displayProfile" prefHeight="25.0" prefWidth="295.0" styleClass="sideBarBtn" text=" Profile">
+                        <JFXButton fx:id="profileBtn" onAction="#displayProfile" prefHeight="25.0" prefWidth="295.0" styleClass="sideBarBtn" text=" Profile">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="USER" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton onAction="#displayBets" prefHeight="25.0" prefWidth="295.0" styleClass="sideBarBtn" text=" Bets">
+                        <JFXButton fx:id="betsBtn" onAction="#displayBets" prefHeight="25.0" prefWidth="295.0" styleClass="sideBarBtn" text=" Bets">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="FUTBOL_ALT" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton onAction="#displayMovements" prefHeight="25.0" prefWidth="295.0" styleClass="sideBarBtn" text="My Wallet">
+                        <JFXButton fx:id="myWalletBtn" onAction="#displayMovements" prefHeight="25.0" prefWidth="295.0" styleClass="sideBarBtn" text="My Wallet">
                            <graphic>
                               <FontAwesomeIconView fill="WHITE" glyphName="MONEY" />
                            </graphic>
@@ -54,7 +54,7 @@
                      </children>
                   </VBox>
                   <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
-                  <JFXButton onAction="#logout" prefHeight="25.0" prefWidth="376.0" styleClass="logoutBtn" text="Logout" />
+                  <JFXButton fx:id="logoutBtn" onAction="#logout" prefHeight="25.0" prefWidth="376.0" styleClass="logoutBtn" text="Logout" />
                </children>
             </VBox>
          </children>
