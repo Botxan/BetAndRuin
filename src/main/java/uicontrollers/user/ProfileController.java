@@ -1,6 +1,7 @@
 package uicontrollers.user;
 
 import businessLogic.BlFacade;
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import domain.Card;
 import domain.User;
@@ -13,8 +14,8 @@ import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.*;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -39,6 +40,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Calendar;
+import java.util.ResourceBundle;
 
 public class ProfileController implements Controller {
     private BlFacade businessLogic;
@@ -60,27 +62,56 @@ public class ProfileController implements Controller {
     private RotateTransition rt1;
     private RotateTransition rt2;
     private String passwordResetCode;
+    Label expirationMonthLabel;
 
     @FXML private AnchorPane mainPane;
-    @FXML private Pane creditCardPane;
-    @FXML private Pane changePasswordPane;
-    @FXML private Pane deleteAccountPane;
     @FXML private ImageView avatar;
+    @FXML private JFXButton cancelChangePasswordBtn;
+    @FXML private JFXButton cancelDeleteAccBtn;
+    @FXML private JFXButton changePwdBtn;
+    @FXML private JFXButton confirmChangePasswordBtn;
+    @FXML private JFXButton confirmDeleteAccBtn;
+    @FXML private JFXButton deleteAccBtn;
+    @FXML private JFXButton resendBtn;
+    @FXML private JFXButton saveChangesBtn;
+    @FXML private JFXButton uploadAvatarBtn;
+    @FXML private JFXButton validateBtn;
+    @FXML private Label accInfo;
+    @FXML private Label addressLbl;
+    @FXML private Label areYouSureLbl;
     @FXML private Label avatarStatusLbl;
-    @FXML private Label updateResultLbl;
+    @FXML private Label cardInfoLbl;
+    @FXML private Label changeAccPwdLbl;
     @FXML private Label changePasswordDialogStatusLbl;
-    @FXML private TextField usernameField;
+    @FXML private Label codehasBeenSentLbl;
+    @FXML private Label changePwdInfo;
+    @FXML private Label confirmPassBtn;
+    @FXML private Label deleteAccLbl;
+    @FXML private Label emailLbl;
+    @FXML private Label firstNameLbl;
+    @FXML private Label generalInfoLbl;
+    @FXML private Label infoWillBeDeletedLbl;
+    @FXML private Label irreversibleLbl;
+    @FXML private Label lastNameLbl;
+    @FXML private Label newPassLbl;
+    @FXML private Label profileAvatarLbl;
+    @FXML private Label oldPwdLbl;
+    @FXML private Label updateResultLbl;
+    @FXML private Label usernameLbl;
+    @FXML private Label willReceiveCodeLbl;
+    @FXML private Pane changePasswordPane;
+    @FXML private Pane creditCardPane;
+    @FXML private Pane accountPane;
+    @FXML private Pane deleteAccountPane;
+    @FXML private PasswordField oldPasswordField;
+    @FXML private PasswordField newPasswordField;
+    @FXML private PasswordField confirmPasswordField;
+    @FXML private TextField addressField;
+    @FXML private TextField codeTextField;
     @FXML private TextField emailField;
     @FXML private TextField firstNameField;
     @FXML private TextField lastNameField;
-    @FXML private TextField addressField;
-    @FXML private TextField codeTextField;
-    @FXML private TextField oldPasswordField;
-    @FXML private TextField newPasswordField;
-    @FXML private TextField confirmPasswordField;
-    @FXML private Button confirmChangePasswordBtn;
-    @FXML private Button validateBtn;
-    @FXML private Button resendBtn;
+    @FXML private TextField usernameField;
 
     /**
      * Constructor. Initializes the business logic.
@@ -96,6 +127,7 @@ public class ProfileController implements Controller {
     @FXML
     void initialize() {
         mailSender = new MailSender();
+        expirationMonthLabel = new Label();
 
         initializeAvatar();
         initializeGeneralInformation();
@@ -169,7 +201,7 @@ public class ProfileController implements Controller {
         Image newAvatar = new Image(String.valueOf(f));
         avatar.setImage(newAvatar);
 
-        avatarStatusLbl.setText("Avatar updated successfully");
+        avatarStatusLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("AvatarUploadedSuccessfully"));
         avatarStatusLbl.getStyleClass().addAll("lbl", "lbl-success");
         clearAfterDelay(5, avatarStatusLbl);
     }
@@ -201,16 +233,16 @@ public class ProfileController implements Controller {
 
         try {
             businessLogic.updateUserData(username, email, firstName, lastName, address);
-            updateResultLbl.setText("Information updated successfully");
+            updateResultLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("InformationUpdatedSuccessfully"));
             updateResultLbl.getStyleClass().addAll("lbl", "lbl-success");
             clearFields();
             clearAfterDelay(5, updateResultLbl);
         } catch (NoMatchingPatternException e) {
-            updateResultLbl.setText("The email format is incorrect");
+            updateResultLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("InvalidEmail"));
             updateResultLbl.getStyleClass().addAll("lbl", "lbl-danger");
             clearAfterDelay(5, updateResultLbl);
         } catch (UsernameAlreadyInDBException e) {
-            updateResultLbl.setText("Username already exist");
+            updateResultLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("UsernameRepeated"));
             updateResultLbl.getStyleClass().addAll("lbl", "lbl-danger");
             clearAfterDelay(5, updateResultLbl);
         }
@@ -290,11 +322,7 @@ public class ProfileController implements Controller {
         cardNumberLabel.setStyle("-fx-font-size: 2em; -fx-text-fill: #ffffff");
 
         // Expiration month number label
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(card.getExpirationDate());
-        String expirationMonth = Formatter.padLeft(String.valueOf(cal.get(Calendar.MONTH)+1), '0', 2)
-                + "/" + Formatter.padLeft(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)), '0', 2);
-        Label expirationMonthLabel = new Label("EXPIRY DATE: " + expirationMonth);
+        updateExpirationMonthLabel();
         expirationMonthLabel.setPrefWidth(CARD_WIDTH);
         expirationMonthLabel.setAlignment(Pos.CENTER);
         expirationMonthLabel.setTranslateX(-CARD_WIDTH/2);
@@ -384,6 +412,15 @@ public class ProfileController implements Controller {
         });
     }
 
+    private void updateExpirationMonthLabel() {
+        // Expiration month number label
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(businessLogic.getCurrentUser().getCard().getExpirationDate());
+        String expirationMonth = Formatter.padLeft(String.valueOf(cal.get(Calendar.MONTH)+1), '0', 2)
+                + "/" + Formatter.padLeft(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)), '0', 2);
+        expirationMonthLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("ExpireMonth").toUpperCase() + ": " + expirationMonth);
+    }
+
     /**
      * Flips the credit card.
      */
@@ -434,7 +471,7 @@ public class ProfileController implements Controller {
     @FXML
     void resendChangePasswordEmail() {
         changePasswordDialogStatusLbl.getStyleClass().clear();
-        changePasswordDialogStatusLbl.setText("The code has been resent");
+        changePasswordDialogStatusLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("CodeHasBeenResent"));
         changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-info");
         sendChangePasswordEmail();
         clearAfterDelay(5, changePasswordDialogStatusLbl);
@@ -470,7 +507,7 @@ public class ProfileController implements Controller {
         } else {
             codeTextField.setStyle("-fx-background-color: rgba(220, 53, 69, .2);");
             changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-danger");
-            changePasswordDialogStatusLbl.setText("The code is incorrect");
+            changePasswordDialogStatusLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("IncorrectCode"));
             clearAfterDelay(5, changePasswordDialogStatusLbl);
         }
     }
@@ -487,10 +524,10 @@ public class ProfileController implements Controller {
         String passwordConfirmation = confirmPasswordField.getText().trim();
 
         if (!newPassword.equals(passwordConfirmation)) {
-            changePasswordDialogStatusLbl.setText("New password and confirmation do not match");
+            changePasswordDialogStatusLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorPasswordConfirm"));
             changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-danger");
         } else if (newPassword.length() < 8) {
-            changePasswordDialogStatusLbl.setText("New password is too short (at least 8 characters)");
+            changePasswordDialogStatusLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorPasswordTooShort"));
             changePasswordDialogStatusLbl.getStyleClass().addAll("lbl", "lbl-danger");
         } else {
             try {
@@ -606,5 +643,37 @@ public class ProfileController implements Controller {
     }
 
     @Override
-    public void redraw() {}
+    public void redraw() {
+        cancelChangePasswordBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Cancel"));
+        cancelDeleteAccBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Cancel"));
+        changePwdBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("ChangePassword"));
+        confirmChangePasswordBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("ChangePassword"));
+        confirmDeleteAccBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("DeleteAccount"));
+        deleteAccBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("DeleteAccount"));
+        resendBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Resend"));
+        saveChangesBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("SaveChanges").toUpperCase());
+        uploadAvatarBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("UploadAvatar").toUpperCase());
+        validateBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Validate"));
+        accInfo.setText(ResourceBundle.getBundle("Etiquetas").getString("AccountInformation"));
+        addressLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Address").toUpperCase());
+        areYouSureLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("AreYouSureDeleteAccount"));
+        cardInfoLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("CardInformation"));
+        changeAccPwdLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ChangeAccountPassword"));
+        codehasBeenSentLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ACodeHasBeenSentAuthorize"));
+        changePwdInfo.setText(ResourceBundle.getBundle("Etiquetas").getString("ChangePassword"));
+        confirmPassBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("ChangePassword").toUpperCase());
+        deleteAccLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("DeleteAccount"));
+        emailLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Email").toUpperCase());
+        firstNameLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("FirstName").toUpperCase());
+        generalInfoLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("GeneralInformation"));
+        infoWillBeDeletedLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("AllYourInformationWillBeDeleted"));
+        irreversibleLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("IrreversibleAction"));
+        lastNameLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("LastName").toUpperCase());
+        newPassLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("NewPassword").toUpperCase());
+        profileAvatarLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ProfileAvatar"));
+        oldPwdLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("OldPassword").toUpperCase());
+        usernameLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Username").toUpperCase());
+        willReceiveCodeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("YouWillReceiveACodeInYourEmail"));
+        updateExpirationMonthLabel();
+    }
 }
