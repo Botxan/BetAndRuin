@@ -98,7 +98,6 @@ public class UserMenuController implements Controller {
 
     @Override
     public void redraw() {
-        System.out.println("here");
         if (currentWindow != null)
             currentWindow.getController().redraw();
     }

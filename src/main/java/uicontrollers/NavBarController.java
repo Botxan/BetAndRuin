@@ -152,7 +152,6 @@ public class NavBarController implements Controller {
         String locale = ((Button) e.getSource()).getText();
         Locale.setDefault(new Locale(locale));
         mainGUI.getHistory().getCurrentWindow().getController().redraw();
-        System.out.println("The current window is: " + mainGUI.getHistory().getCurrentWindow().getController().getClass().getSimpleName());
         redraw();
     }
 

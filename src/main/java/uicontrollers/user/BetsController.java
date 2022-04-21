@@ -26,6 +26,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class BetsController implements Controller {
@@ -66,6 +67,7 @@ public class BetsController implements Controller {
      * Initializes the table data and the filtering text field.
      */
     private void initBetsTable() {
+        System.out.println("Init bet table!");
         bets = FXCollections.observableArrayList();
         FilteredList<Bet> filteredBets = new FilteredList<>(bets, b -> true);
 
@@ -77,15 +79,14 @@ public class BetsController implements Controller {
         eventCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUserForecast().getQuestion().getEvent().getDescription()));
         dateCol.setCellValueFactory(cellData -> {
             // Date formatter for event date
-            SimpleDateFormat sdf =  new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
-            Date d = null;
+            SimpleDateFormat sdf =  new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
             try {
-                d = sdf.parse(cellData.getValue().getUserForecast().getQuestion().getEvent().getEventDate().toString());
+                Date d = sdf.parse(cellData.getValue().getUserForecast().getQuestion().getEvent().getEventDate().toString());
+                sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
+                return new SimpleStringProperty(sdf.format(d));
             } catch (ParseException e) {
                 throw new RuntimeException(e);
             }
-            sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
-            return new SimpleStringProperty(sdf.format(d));
         });
 
         // Action column
@@ -93,12 +94,12 @@ public class BetsController implements Controller {
 
         // Text field to search and filter
         searchField.textProperty().addListener(obs -> {
-            String filter = searchField.getText().toLowerCase();
+            String filter = searchField.getText().toLowerCase().trim();
             if (filter == null || filter.length() == 0) {
                 filteredBets.setPredicate(s -> true);
             } else {
                 filteredBets.setPredicate(s -> {
-                        SimpleDateFormat sdf =  new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy");
+                        SimpleDateFormat sdf =  new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
                     try {
                         // Convert date before filtering, otherwise filtering is with the original format, which has other characters
                         Date date = sdf.parse(s.getUserForecast().getQuestion().getEvent().getEventDate().toString());
@@ -197,7 +198,7 @@ public class BetsController implements Controller {
      * Updates the bet counter on the top right.
      */
     private void updateBetCounter() {
-        countActiveBetsLbl.setText(bets.size() + " active bets");
+        countActiveBetsLbl.setText(businessLogic.getActiveBets().size() + " " + ResourceBundle.getBundle("Etiquetas").getString("BetsActive").toLowerCase());
     }
 
     @Override
@@ -211,5 +212,13 @@ public class BetsController implements Controller {
         bets.addAll(businessLogic.getActiveBets());
 
         updateBetCounter();
+
+        betsTbl.setPlaceholder(new Label(ResourceBundle.getBundle("Etiquetas").getString("NoContentInTable").toUpperCase()));
+        amountCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Amount").toUpperCase());
+        forecastCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Forecast").toUpperCase());
+        questionCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Question").toUpperCase());
+        eventCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Event").toUpperCase());
+        dateCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Date").toUpperCase());
+        searchField.setPromptText(ResourceBundle.getBundle("Etiquetas").getString("Search") + "...");
     }
 }
