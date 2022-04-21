@@ -1,5 +1,9 @@
 package utils;
 
+import javafx.scene.control.Label;
+
+import java.text.DecimalFormat;
+
 /**
  * This class introduces some static methods for data formatting.
  * @author Josefinators
@@ -26,5 +30,15 @@ public class Formatter {
      */
     public static String padRight(String str, char padChar, int n) {
         return String.format("%-" + n +  "s", str).replace(' ', padChar);
+    }
+
+    /**
+     * Returns a string with #,###.00 format
+     * @param amount the amount to be formatted
+     * @return a string with the formatted amount
+     */
+    public static String twoDecimals(double amount) {
+        DecimalFormat formatter = new DecimalFormat("#,###.00");
+        return formatter.format(amount);
     }
 }

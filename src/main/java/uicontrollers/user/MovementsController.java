@@ -20,8 +20,8 @@ import javafx.util.Duration;
 import ui.MainGUI;
 import uicontrollers.Controller;
 import uicontrollers.NavBarController;
+import utils.Formatter;
 
-import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -54,15 +54,14 @@ public class MovementsController implements Controller {
 
     @FXML
     void initialize() {
-        movementsOffset = 32;
         updateMoneyLabels();
         initDepositWithdrawPane();
         initMovementsPane();
     }
 
     private void updateMoneyLabels() {
-        cardMoneyLbl.setText(String.valueOf(businessLogic.getCurrentUser().getCard().getMoney()) + "€");
-        walletMoneyLbl.setText(String.valueOf(businessLogic.getCurrentUser().getWallet()) + "€");
+        cardMoneyLbl.setText(Formatter.twoDecimals(businessLogic.getCurrentUser().getCard().getMoney()) + "€");
+        walletMoneyLbl.setText(Formatter.twoDecimals(businessLogic.getCurrentUser().getWallet()) + "€");
     }
 
     /**
@@ -154,6 +153,8 @@ public class MovementsController implements Controller {
 
     private void initMovementsPane() {
         trs = businessLogic.getCurrentUser().getCard().getTransactions();
+        movementsPane.getChildren().clear();
+        movementsOffset = 32;
         for (Transaction t: trs) addNewTransactionPane(t);
     }
 
@@ -165,7 +166,7 @@ public class MovementsController implements Controller {
     private void addNewTransactionPane(Transaction t) {
         // Create the pane for the transaction
         Pane entry = new Pane();
-        entry.setPrefWidth(movementsPane.getPrefWidth()-10);
+        entry.setPrefWidth(movementsPane.getPrefWidth() - 5);
         entry.setPrefHeight(64);
         entry.setLayoutX(5);
         entry.setLayoutY(movementsOffset);
@@ -210,8 +211,7 @@ public class MovementsController implements Controller {
         id.setLayoutX(290);
 
         // Add amount
-        DecimalFormat formatter = new DecimalFormat("#,###.00€");
-        Label amount = new Label(formatter.format(t.getAmount()));
+        Label amount = new Label(Formatter.twoDecimals(t.getAmount()) + "€");
         amount.getStyleClass().add("amount-lbl");
         amount.setLayoutY(22);
         amount.setLayoutX(410);
@@ -307,6 +307,7 @@ public class MovementsController implements Controller {
 
     @Override
     public void redraw() {
-
+        updateMoneyLabels();
+        initMovementsPane();
     }
 }

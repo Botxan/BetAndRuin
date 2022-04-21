@@ -655,11 +655,13 @@
          * @return all the active bets made by the given user
          */
         public List<Bet> getActiveBets(User gambler) {
+            User u = db.find(User.class, gambler.getUserID());
+
             // Get today's date
             Date today = Calendar.getInstance().getTime();
 
             TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.gambler = ?1", Bet.class);
-            q.setParameter(1, gambler);
+            q.setParameter(1, u);
 
             List<Bet> activeBets = new ArrayList<Bet>();
             Event e;

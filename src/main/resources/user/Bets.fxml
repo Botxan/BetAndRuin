@@ -1,16 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.net.URL?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-
+<?import javafx.scene.paint.Color?>
 
 <AnchorPane prefHeight="610.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.BetsController">
    <children>
-      <Label alignment="CENTER" text="Implement Bets here" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <font>
-            <Font size="63.0" />
-         </font>
-      </Label>
+      <TableView fx:id="betsTbl" layoutX="40.0" layoutY="134.0" prefHeight="470.0" prefWidth="975.0" styleClass="bets-tbl" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="80.0">
+        <columns>
+          <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
+          <TableColumn fx:id="amountCol" prefWidth="75.0" text="AMOUNT" />
+            <TableColumn fx:id="forecastCol" prefWidth="75.0" text="FORECAST" />
+            <TableColumn fx:id="questionCol" prefWidth="75.0" text="QUESTION" />
+            <TableColumn fx:id="eventCol" prefWidth="75.0" text="EVENT" />
+            <TableColumn fx:id="dateCol" prefWidth="75.0" text="DATE" />
+        </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
+         <effect>
+            <DropShadow height="20.0" offsetY="5.0" radius="9.5" width="20.0">
+               <color>
+                  <Color opacity="0.20000000298023224" />
+               </color>
+            </DropShadow>
+         </effect>
+      </TableView>
+      <TextField fx:id="searchField" layoutX="40.0" layoutY="48.0" prefHeight="25.0" prefWidth="198.0" promptText="Search..." styleClass="search-field" AnchorPane.topAnchor="40.0" />
+      <Label fx:id="removeBetResultLbl" layoutX="249.0" layoutY="44.0" />
+      <Label fx:id="countActiveBetsLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1015.0" layoutY="44.0" prefHeight="17.0" prefWidth="275.0" AnchorPane.rightAnchor="40.0" />
    </children>
+   <stylesheets>
+      <URL value="@../css/colors.css" />
+      <URL value="@../css/bets.css" />
+   </stylesheets>
 </AnchorPane>

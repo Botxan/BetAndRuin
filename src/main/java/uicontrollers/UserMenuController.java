@@ -47,6 +47,7 @@ public class UserMenuController implements Controller {
     @FXML
     void displayOverview() {
         content.getChildren().clear();
+        mainGUI.userOverviewLag.getController().redraw();
         content.getChildren().add(mainGUI.userOverviewLag.getUi());
     }
 
@@ -56,6 +57,7 @@ public class UserMenuController implements Controller {
     @FXML
     void displayProfile() {
         content.getChildren().clear();
+        mainGUI.profileLag.getController().redraw();
         content.getChildren().add(mainGUI.profileLag.getUi());
     }
 
@@ -65,6 +67,7 @@ public class UserMenuController implements Controller {
     @FXML
     void displayBets() {
         content.getChildren().clear();
+        mainGUI.betsLag.getController().redraw();
         content.getChildren().add(mainGUI.betsLag.getUi());
     }
 
@@ -74,6 +77,7 @@ public class UserMenuController implements Controller {
     @FXML
     void displayMovements() {
         content.getChildren().clear();
+        mainGUI.movementsLag.getController().redraw();
         content.getChildren().add(mainGUI.movementsLag.getUi());
     }
 

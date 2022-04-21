@@ -30,15 +30,17 @@ public class UserOverviewController implements Controller {
 
     @FXML
     void initialize() {
-        int activeBets = businessLogic.getNumberOfActiveBets();
-        int totalBets = businessLogic.getTotalNumberOfBets();
-        int wonBets = businessLogic.getNumberOfWonBets();
-        double earnedIncome = businessLogic.getEarnedIncome();
+        initTopPanes();
+    }
 
-        activeBetsText.setText(String.valueOf(activeBets));
-        totalBetsText.setText(String.valueOf(totalBets));
-        wonBetsText.setText(String.valueOf(wonBets));
-        earnedIncomeText.setText(String.valueOf(earnedIncome));
+    /**
+     * Initializes topmost panes with corresponding information
+     */
+    private void initTopPanes() {
+        activeBetsText.setText(String.valueOf(businessLogic.getNumberOfActiveBets()));
+        totalBetsText.setText(String.valueOf(businessLogic.getTotalNumberOfBets()));
+        wonBetsText.setText(String.valueOf(businessLogic.getNumberOfWonBets()));
+        earnedIncomeText.setText(String.valueOf(businessLogic.getEarnedIncome()));
     }
 
     @Override
@@ -48,6 +50,6 @@ public class UserOverviewController implements Controller {
 
     @Override
     public void redraw() {
-
+        initTopPanes();
     }
 }

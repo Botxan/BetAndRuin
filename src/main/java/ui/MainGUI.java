@@ -32,7 +32,7 @@ public class MainGUI {
 
     public Window navBarLag, loginLag, registerLag, createQuestionLag, browseEventsLag, welcomeLag,
             userMenuLag, createForecastLag, createEventLag, adminMenuLag,
-            removeBetLag, userOverviewLag, profileLag, betsLag, movementsLag;
+            userOverviewLag, profileLag, betsLag, movementsLag;
 
     private BlFacade businessLogic;
     private Stage stage;
@@ -109,8 +109,6 @@ public class MainGUI {
                 return new CreateEventController(businessLogic);
             }else if (controllerClass == AdminMenuController.class) {
                 return new AdminMenuController(businessLogic);
-            } else if (controllerClass == RemoveBetController.class) {
-                return new RemoveBetController(businessLogic);
             } else if (controllerClass == UserOverviewController.class) {
                 return new UserOverviewController(businessLogic);
             } else if (controllerClass == ProfileController.class) {
@@ -188,7 +186,6 @@ public class MainGUI {
         userMenuLag = load("/UserMenuGUI.fxml", "UserMenu", SCENE_WIDTH, SCENE_HEIGHT);
         createForecastLag = load("/CreateForecast.fxml", "CreateForecast", SCENE_WIDTH, SCENE_HEIGHT);
         adminMenuLag = load("/AdminMenu.fxml", "AdminMenu", SCENE_WIDTH, SCENE_HEIGHT);
-        removeBetLag = load("/RemoveBet.fxml", "RemoveBet", SCENE_WIDTH, SCENE_HEIGHT);
 
         // User windows
         userOverviewLag = load("/user/UserOverview.fxml", "UserOverview", SCENE_WIDTH, SCENE_HEIGHT);
@@ -220,12 +217,11 @@ public class MainGUI {
         scene.getStylesheets().add(getClass().getResource("/css/colors.css").toExternalForm());
 
         // Add the wrapper of the navbar and the content to the scene
-
         scene.setRoot(mainWrapper);
 
         scene.getStylesheets().add(BootstrapFX.bootstrapFXStylesheet());
 
-        //Dragging window with mouse:
+        // Dragging window with mouse:
         scene.setOnMousePressed(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
@@ -339,8 +335,6 @@ public class MainGUI {
                 yield createEventLag;
             case "AdminMenu":
                 yield adminMenuLag;
-            case "RemoveBet":
-                yield removeBetLag;
             case "UserOverview":
                 yield userOverviewLag;
             case "Profile":
