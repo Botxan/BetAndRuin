@@ -7,6 +7,7 @@ import javax.jws.WebMethod;
 import javax.jws.WebService;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Vector;
 
 /**
@@ -56,6 +57,13 @@ public interface BlFacade  {
 	 * @return it returns all the incoming events for the given country
 	 */
 	@WebMethod public List<Event> getEventsCountry(String country);
+
+	/**
+	 * Returns the latest n incoming events sorted by descending date.
+	 * @param n the number of event to retrieve
+	 * @return the incoming first n events
+	 */
+	@WebMethod public List<Event> getIncomingEvents(int n);
 
 	/**
 	 * It creates a question for an event with a question text and the minimum bet
@@ -182,6 +190,14 @@ public interface BlFacade  {
 	 * @param amount the amount to be withdrawn (no fee applied)
 	 */
 	@WebMethod public Transaction withdrawMoney(double amount) throws NotEnoughMoneyException;
+
+	/**
+	 * Obtains the money movements in the wallet the last month
+	 * @return a map with the money movements in the wallet grouped by days of last month.
+	 * The keys are dates (days), and values are the sum of the movements of that day
+	 * (+incomes -withdraws)
+	 */
+	@WebMethod public Map<String, Double> getWalletMovementsLastMonth();
 
 	/**
 	 * Retrieves all the active bets placed by the current user.

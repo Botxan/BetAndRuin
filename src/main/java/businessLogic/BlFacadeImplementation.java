@@ -5,6 +5,7 @@ import configuration.UtilDate;
 import dataAccess.DataAccess;
 import domain.*;
 import exceptions.*;
+import utils.Dates;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -18,6 +19,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
  * This class implements the business logic layer as a web service 
@@ -290,6 +292,57 @@ public class BlFacadeImplementation implements BlFacade {
 		return t;
 	}
 
+	@Override
+	@WebMethod
+	public Map<String, Double> getWalletMovementsLastMonth() {
+		Calendar cal = Calendar.getInstance();
+		cal.add(Calendar.MONTH, -1);
+		Date prevMonth = cal.getTime();
+		cal.add(Calendar.MONTH, 1);
+		Date today = Calendar.getInstance().getTime();
+
+		// Filter transactions of last month
+		List<Transaction> lastMonthTrs = currentUser.getCard().getTransactions()
+				.stream()
+				.filter(t -> t.getDate().before(today) && t.getDate().after(prevMonth))
+				.toList();
+
+		// Group (and sort) by date
+		Map<String, List<Transaction>> byDate = lastMonthTrs.stream()
+				.collect(Collectors.groupingBy(t -> Dates.convertToLocalDateViaInstant(t.getDate()).toString()));
+		// TreeMap sorts automatically by key default ordering
+		TreeMap<String, List<Transaction>> sortedByDate = new TreeMap<>(byDate);
+
+		// Get sum of money movements per day in the previous month
+		TreeMap<String, Double> sumPerDay = new TreeMap<>();
+		for (String s: sortedByDate.keySet()) {
+			double sum = byDate.get(s).stream().mapToDouble(t -> {
+				double amount = t.getAmount();
+				return t.getType() == 0 ? amount : -amount;
+			}).sum();
+			sumPerDay.put(s, sum);
+		}
+
+		// Get the wallet situation at the beginning of previous month
+		double walletPrevMonth = currentUser.getWallet();
+		double sum = 0;
+		for (String s: sumPerDay.keySet()) sum += sumPerDay.get(s);
+		walletPrevMonth -= sum;
+
+		// Get wallet situation after each active day
+		TreeMap<String, Double> walletSituationPerDay = new TreeMap<>();
+		for (String s: sortedByDate.keySet()) {
+			double monthSum = byDate.get(s).stream().mapToDouble(t -> {
+				double amount = t.getAmount();
+				return t.getType() == 0 ? amount : -amount;
+			}).sum();
+			walletPrevMonth += monthSum;
+			walletSituationPerDay.put(s, walletPrevMonth);
+		}
+
+		return walletSituationPerDay;
+	}
+
 	@WebMethod
 	public List<Bet> getActiveBets() {
 		dbManager.open(false);
@@ -322,6 +375,16 @@ public class BlFacadeImplementation implements BlFacade {
 			totalIncome += b.getAmount() * b.getUserForecast().getFee();
 
 		return totalIncome;
+	}
+
+	@Override
+	@WebMethod
+	public List<Event> getIncomingEvents(int n) {
+		dbManager.open(false);
+		List<Event> evs = dbManager.getIncomingEvents(n);
+		dbManager.close();
+
+		return evs;
 	}
 
 	@Override

@@ -15,5 +15,40 @@
 }
 
 .card-text {
-    -fx-text-fill: #6b6b6b;
+    -fx-text-fill: -fx-disabled-text;
+}
+
+.incoming-event-pane {
+    -fx-background-color: -fx-dark-blue-bg;
+    -fx-background-radius: 5px;
+}
+
+.incoming-events-header {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}
+
+.event-description {
+    -fx-text-fill: #ffffff;
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+}
+
+.event-date {
+    -fx-text-fill: -fx-dark-blue-text;
+}
+
+.flag {
+    -fx-effect: dropshadow(three-pass-box, #000000, 0, .2, 0, 1);
+}
+
+.revenue-pane {
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5px;
+}
+
+.revenue-header {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
 }

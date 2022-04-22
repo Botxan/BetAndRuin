@@ -47,13 +47,10 @@
          * in the tag dataBaseOpenMode of resources/config.xml file
          */
         public void initializeDB(){
-
             db.getTransaction().begin();
 
             try {
-
                 Calendar today = Calendar.getInstance();
-
                 int month = today.get(Calendar.MONTH);
                 month += 1;
                 int year = today.get(Calendar.YEAR);
@@ -136,7 +133,6 @@
                 Forecast f9 = q7.addForecast("Team1", 4);
                 Forecast f10 = q7.addForecast("Team2", 4);
 
-
                 // Create dummy user and admin
                 byte [] salt = BlFacadeImplementation.generateSalt();
                 byte[] password = BlFacadeImplementation.hashPassword("123123", salt);
@@ -144,7 +140,6 @@
                         "P. Sherman street Wallaby 42 Sydney", "betandruin22@gmail.com", password, salt, 1, 0);
                 User admin1 = new User("admin1", "adminFirstName", "adminLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
                         "adminAddress", "admin@email.com", password, salt, 2, 0);
-
 
                 // Create dummy credit cards (with 100€ for testing purposes)
                 Calendar cal = Calendar.getInstance();
@@ -161,16 +156,66 @@
                 admin1.setCard(adminCard);
 
                 // Create dummy transactions
-                cal.set(2022, 3, 31, 9, 31, 55);
+                user1.depositMoneyIntoWallet(12.5);
+                cal.set(2022, Calendar.MARCH, 6);
                 Transaction t1 = userCard.addTransaction(0, "Deposit to BetAndRuin", 12.5, cal.getTime());
-                cal.set(2022, 4, 2, 9, 10, 3);
+                user1.depositMoneyIntoWallet(5);
+                cal.set(2022, Calendar.MARCH, 6);
                 Transaction t2 = userCard.addTransaction(0, "Deposit to BetAndRuin", 5, cal.getTime());
-                cal.set(2022, 4, 2, 16, 16, 40);
+                user1.depositMoneyIntoWallet(48.5);
+                cal.set(2022, Calendar.MARCH, 21);
                 Transaction t3 = userCard.addTransaction(0, "Deposit to BetAndRuin", 48.5, cal.getTime());
-                cal.set(2022, 4, 5, 19, 30, 23);
+                user1.withdrawMoneyFromWallet(20);
+                cal.set(2022, Calendar.APRIL, 2);
                 Transaction t4 = userCard.addTransaction(1, "Withdraw from BetAndRuin", 20, cal.getTime());
-                cal.set(2022, 4, 5, 19, 58, 20);
+                user1.depositMoneyIntoWallet(54);
+                cal.set(2022, Calendar.APRIL, 3);
                 Transaction t5 = userCard.addTransaction(0, "Deposit to BetAndRuin", 54, cal.getTime());
+                user1.depositMoneyIntoWallet(10);
+                cal.set(2022, Calendar.APRIL, 3);
+                Transaction t6 = userCard.addTransaction(0, "Deposit to BetAndRuin", 10, cal.getTime());
+                user1.depositMoneyIntoWallet(20);
+                cal.set(2022, Calendar.APRIL, 4);
+                Transaction t7 = userCard.addTransaction(0, "Deposit to BetAndRuin", 20, cal.getTime());
+                user1.depositMoneyIntoWallet(20);
+                cal.set(2022, Calendar.APRIL, 5);
+                Transaction t8 = userCard.addTransaction(0, "Deposit to BetAndRuin", 20, cal.getTime());
+                user1.depositMoneyIntoWallet(5);
+                cal.set(2022, Calendar.APRIL, 8);
+                Transaction t9 = userCard.addTransaction(0, "Deposit to BetAndRuin", 5, cal.getTime());
+                user1.depositMoneyIntoWallet(20);
+                cal.set(2022, Calendar.APRIL, 8);
+                Transaction t10 = userCard.addTransaction(0, "Deposit to BetAndRuin", 20, cal.getTime());
+                user1.withdrawMoneyFromWallet(30);
+                cal.set(2022, Calendar.APRIL, 12);
+                Transaction t11 = userCard.addTransaction(1, "Withdraw from BetAndRuin", 30, cal.getTime());
+                user1.depositMoneyIntoWallet(15);
+                cal.set(2022, Calendar.APRIL, 12);
+                Transaction t12 = userCard.addTransaction(0, "Deposit to BetAndRuin", 15, cal.getTime());
+                user1.depositMoneyIntoWallet(5);
+                cal.set(2022, Calendar.APRIL, 13);
+                Transaction t13 = userCard.addTransaction(0, "Deposit to BetAndRuin", 5, cal.getTime());
+                user1.withdrawMoneyFromWallet(50);
+                cal.set(2022, Calendar.APRIL, 16);
+                Transaction t14 = userCard.addTransaction(1, "Withdraw from BetAndRuin", 50, cal.getTime());
+                user1.depositMoneyIntoWallet(33);
+                cal.set(2022, Calendar.APRIL, 16);
+                Transaction t15 = userCard.addTransaction(0, "Deposit to BetAndRuin", 33, cal.getTime());
+                user1.depositMoneyIntoWallet(20);
+                cal.set(2022, Calendar.APRIL, 16);
+                Transaction t16 = userCard.addTransaction(0, "Deposit to BetAndRuin", 20, cal.getTime());
+                user1.depositMoneyIntoWallet(10);
+                cal.set(2022, Calendar.APRIL, 16);
+                Transaction t17 = userCard.addTransaction(0, "Deposit to BetAndRuin", 10, cal.getTime());
+                user1.depositMoneyIntoWallet(5);
+                cal.set(2022, Calendar.APRIL, 17);
+                Transaction t18 = userCard.addTransaction(0, "Deposit to BetAndRuin", 5, cal.getTime());
+                user1.withdrawMoneyFromWallet(20);
+                cal.set(2022, Calendar.APRIL, 19);
+                Transaction t19 = userCard.addTransaction(1, "Withdraw from BetAndRuin", 20, cal.getTime());
+                user1.depositMoneyIntoWallet(54);
+                cal.set(2022, Calendar.APRIL, 20);
+                Transaction t20 = userCard.addTransaction(0, "Deposit to BetAndRuin", 54, cal.getTime());
 
                 // Create dummy bets for testing purposes
                 user1.addBet(80, f1);
@@ -183,6 +228,9 @@
                 q7.setCorrectForecast(f9);
                 // Deposit corresponding money into user's wallet
                 user1.depositMoneyIntoWallet(f9.getFee() * 3.5F);
+                cal.set(2022, Calendar.APRIL, 21);
+                // Register the transaction
+                Transaction t21 = userCard.addTransaction(0, "Won Bet", f9.getFee() * 3.5F, cal.getTime());
 
                 db.persist(ev1);
                 db.persist(ev2);
@@ -390,6 +438,20 @@
             TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.country=?1", Event.class);
             query.setParameter(1, country);
             return query.getResultList();
+        }
+
+        /**
+         * Returns from the db the latest n incoming events sorted by descending date.
+         * @param n the number of event to retrieve
+         * @return the incoming first n events
+         */
+        public List<Event> getIncomingEvents(int n) {
+            System.out.println(">> DataAccess: getIncomingEvents => n = " + n);
+            TypedQuery<Event> q = db.createQuery("SELECT e FROM Event e ORDER BY e.eventDate DESC", Event.class);
+            q.setMaxResults(n);
+            List<Event> evs = q.getResultList();
+            System.out.println(evs.size() + " events retrieved");
+            return evs;
         }
 
         /**
