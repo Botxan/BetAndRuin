@@ -4,6 +4,7 @@ import businessLogic.BlFacade;
 import domain.User;
 import exceptions.InvalidPasswordException;
 import exceptions.UserNotFoundException;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -74,6 +75,11 @@ public class LoginController implements Controller, Initializable {
         usernameErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("IncorrectUser"));
         passwordErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("IncorrectPassword"));
         setLocale(Locale.getDefault());
+
+        Platform.runLater(() -> {
+            mainGUI.getHistory().clear();
+            ((NavBarController) mainGUI.navBarLag.getController()).enableHistoryBtns();
+        });
     }
 
     /**
@@ -204,7 +210,7 @@ public class LoginController implements Controller, Initializable {
      */
     public void goBack()
     {
-        mainGUI.goBack();
+        mainGUI.goForward("Welcome");
     }
 
     /**

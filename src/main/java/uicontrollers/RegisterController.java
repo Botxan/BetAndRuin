@@ -2,6 +2,7 @@ package uicontrollers;
 
 import businessLogic.BlFacade;
 import exceptions.*;
+import javafx.application.Platform;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -133,6 +134,11 @@ public class RegisterController implements Controller, Initializable {
         expireMonthField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("ExpireMonth"));
         setLocale(Locale.getDefault());
         errorLbl.setText("");
+
+        Platform.runLater(() -> {
+            mainGUI.getHistory().clear();
+            ((NavBarController) mainGUI.navBarLag.getController()).enableHistoryBtns();
+        });
     }
 
     /**
@@ -230,7 +236,7 @@ public class RegisterController implements Controller, Initializable {
      */
     public void goBack()
     {
-        mainGUI.goBack();
+        mainGUI.goForward("Welcome");
     }
 
     /**

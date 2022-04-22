@@ -42,7 +42,10 @@ public class UserMenuController implements Controller {
 
     @FXML
     void initialize() {
-        Platform.runLater(() -> displayOverview());
+        Platform.runLater(() -> {
+            overviewBtn.requestFocus();
+            displayOverview();
+        });
     }
 
     /**

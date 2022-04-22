@@ -1,5 +1,7 @@
 package utils;
 
+import uicontrollers.NavBarController;
+
 import java.util.Stack;
 
 /**
@@ -115,5 +117,13 @@ public class History {
     public void moveToWindow(Window window) {
         previousWindows.push(currentWindow);
         currentWindow = window;
+    }
+
+    /**
+     * Clears all the history
+     */
+    public void clear() {
+        previousWindows.clear();
+        nextWindows.clear();
     }
 }

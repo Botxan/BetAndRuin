@@ -167,13 +167,7 @@ public class MainGUI {
         setupScene();
         ResizeHelper.addResizeListener(this.stage);
         history.setCurrentWindow(welcomeLag);
-        try {
-            businessLogic.setCurrentUser(businessLogic.getUserByUsername("user1"));
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        }
-        loadLoggedWindows();
-        showScene(userMenuLag);
+        showScene(welcomeLag);
     }
 
     /**
@@ -266,7 +260,6 @@ public class MainGUI {
             }
         }
 
-
         mainWrapper.setCenter(window.getUi());
 
         stage.setWidth(window.getWidth());
@@ -335,14 +328,6 @@ public class MainGUI {
                 yield createEventLag;
             case "AdminMenu":
                 yield adminMenuLag;
-            case "UserOverview":
-                yield userOverviewLag;
-            case "Profile":
-                yield profileLag;
-            case "Bets":
-                yield betsLag;
-            case "Movements":
-                yield movementsLag;
             default: // get the welcome window
                 yield welcomeLag;
         };
