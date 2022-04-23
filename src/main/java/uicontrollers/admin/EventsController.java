@@ -135,7 +135,7 @@ public class EventsController implements Controller {
     }
 
     /**
-     * Adds the cell and button to delete bet to each row
+     * Adds the cell and button to delete event to each row
      */
     private void addActionColumn() {
         TableColumn<Event, Date> actionCol = new TableColumn("");
@@ -187,7 +187,7 @@ public class EventsController implements Controller {
     public void removeEvent(Event e) {
         businessLogic.removeEvent(e.getEventID());
 
-        // Remove the deleted bet from the table
+        // Remove the deleted event from the table
         events.remove(e);
 
         // Update also the money displayed in the navigation bar
@@ -195,7 +195,7 @@ public class EventsController implements Controller {
     }
 
     /**
-     * Initializes the dialog for changing the password.
+     * Initializes the dialog for creating an event.
      */
     void initCreateEventDialog() {
         // Overlay to place the modal

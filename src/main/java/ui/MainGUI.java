@@ -30,7 +30,7 @@ public class MainGUI {
 
     public Window navBarLag, welcomeLag, loginLag, registerLag, browseEventsLag,
             userMenuLag, userOverviewLag, profileLag, betsLag, movementsLag,
-            adminMenuLag, createQuestionLag, createForecastLag, adminOverviewLag, eventsLag, questionsLag, forecastsLag;
+            adminMenuLag, createForecastLag, adminOverviewLag, eventsLag, questionsLag, forecastsLag;
     private BlFacade businessLogic;
     private Stage stage;
     private Scene scene;
@@ -90,8 +90,6 @@ public class MainGUI {
                 return new NavBarController(businessLogic);
             } else if (controllerClass == BrowseEventsController.class) {
                 return new BrowseEventsController(businessLogic);
-            } else if (controllerClass == CreateQuestionController.class) {
-                return new CreateQuestionController(businessLogic);
             } else if (controllerClass == LoginController.class) {
                 return new LoginController(businessLogic);
             } else if (controllerClass == RegisterController.class) {
@@ -191,7 +189,6 @@ public class MainGUI {
         eventsLag = load("/admin/Events.fxml", "Events", SCENE_WIDTH, SCENE_HEIGHT);
         questionsLag = load("/admin/Questions.fxml", "Questions", SCENE_WIDTH, SCENE_HEIGHT);
         forecastsLag = load("/admin/Forecasts.fxml", "Forecasts", SCENE_WIDTH, SCENE_HEIGHT);
-        createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
         createForecastLag = load("/CreateForecast.fxml", "CreateForecast", SCENE_WIDTH, SCENE_HEIGHT);
 
         // User windows
@@ -331,8 +328,6 @@ public class MainGUI {
                 yield registerLag;
             case "BrowseEvents":
                 yield browseEventsLag;
-            case "CreateQuestion":
-                yield createQuestionLag;
             case "Welcome":
                 yield welcomeLag;
             case "UserMenu":

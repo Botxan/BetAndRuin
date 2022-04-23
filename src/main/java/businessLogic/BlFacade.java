@@ -51,6 +51,12 @@ public interface BlFacade  {
 	@WebMethod public List<Question> getQuestions(Event event);
 
 	/**
+	 * It removes the given question.
+	 * @param questionID the question identification
+	 */
+	@WebMethod public void removeQuestion(int questionID);
+
+	/**
 	 * It retrieves the dates in a month for which there are events from the database 
 	 * 
 	 * @param date of the month for which days with events want to be retrieved 

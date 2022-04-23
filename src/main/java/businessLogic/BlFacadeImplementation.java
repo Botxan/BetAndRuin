@@ -99,6 +99,16 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
+	@Override
+	public void removeQuestion(int questionID) {
+		dbManager.open(false);
+		dbManager.removeQuestion(questionID);
+		dbManager.close();
+
+		refreshUser();
+	}
+
+	@WebMethod
 	public Vector<Date> getEventsMonth(Date date) {
 		dbManager.open(false);
 		Vector<Date>  dates = dbManager.getEventsMonth(date);
@@ -115,20 +125,16 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
-	public Question createQuestion(Event event, String question, float betMinimum) 
-			throws EventFinished, QuestionAlreadyExist {
-
-		//The minimum bid must be greater than 0
-		dbManager.open(false);
-		Question qry = null;
-
+	public Question createQuestion(Event event, String question, float betMinimum) throws EventFinished, QuestionAlreadyExist {
 		if (new Date().compareTo(event.getEventDate()) > 0)
-			throw new EventFinished(ResourceBundle.getBundle("Etiquetas").
-					getString("ErrorEventHasFinished"));
+			throw new EventFinished(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventHasFinished"));
 
-		qry = dbManager.createQuestion(event, question, betMinimum);		
+		dbManager.open(false);
+		Question q = dbManager.createQuestion(event, question, betMinimum);
 		dbManager.close();
-		return qry;
+
+		refreshUser();
+		return q;
 	}
 
 	@WebMethod

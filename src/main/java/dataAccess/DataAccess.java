@@ -326,7 +326,6 @@
 
             db.getTransaction().begin();
             Question q = ev.addQuestion(question, betMinimum);
-            //db.persist(q);
             db.persist(ev); // db.persist(q) not required when CascadeType.PERSIST is added
             // in questions property of Event class
             // @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
@@ -467,6 +466,7 @@
          * @param eventID the id of the event to be removed
          */
         public void removeEvent(Integer eventID) {
+            System.out.println(">> DataAccess: removeEvent => eventID = " + eventID);
             Event e = db.find(Event.class, eventID);
 
             // Remove all bets related to this event
@@ -482,11 +482,41 @@
             db.remove(e);
             db.getTransaction().commit();
 
-            // (Optional) Count the number of questions and forecast associated
+            // (Optional) Count the number of questions, forecasts and bets removed
             int countQ = e.getQuestions().size();
             int countF = e.getQuestions().stream().mapToInt(q -> q.getForecasts().size()).sum();
             System.out.println("Event removed");
             System.out.println("Questions removed: " + countQ);
+            System.out.println("Forecasts removed: " + countF);
+            System.out.println("Bets removed: " + associatedBets.size());
+        }
+
+        /**
+         * Removes the question with the given id.
+         * @param questionID the id of the question to be removed
+         */
+        public void removeQuestion(int questionID) {
+            System.out.println(">> DataAccess: removeQuestion => questionID = " + questionID);
+            Question q = db.find(Question.class, questionID);
+            Event e = db.find(Event.class, q.getEvent());
+
+            // Remove all bets related to this question
+            TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.userForecast.question=?1", Bet.class);
+            query.setParameter(1, q);
+
+            List<Bet> associatedBets = query.getResultList();
+            for (Bet b: associatedBets) removeBet(b.getBetID());
+
+            // Remove the question (associated forecasts will also be deleted
+            // thanks to cascade = CascadeType.ALL)
+            db.getTransaction().begin();
+            db.remove(q);
+            e.getQuestions().remove(q);
+            db.getTransaction().commit();
+
+            // (Optional) Count the number of forecasts and bets removed
+            int countF = q.getForecasts().size();
+            System.out.println("Quesiton removed");
             System.out.println("Forecasts removed: " + countF);
             System.out.println("Bets removed: " + associatedBets.size());
         }
