@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.admin.AdminMenuController">
+   <stylesheets>
+      <URL value="@../css/colors.css" />
+      <URL value="@../css/dashboard.css" />
+   </stylesheets>
+   <children>
+      <VBox prefHeight="200.0" prefWidth="230.0" styleClass="sidebar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <HBox alignment="CENTER" prefHeight="0.0" prefWidth="227.0" styleClass="logo-wrapper">
+               <children>
+                  <ImageView fitHeight="35.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../icon/favicon.png" />
+                     </image>
+                  </ImageView>
+                  <Label style="-fx-font-size: 2em; -fx-font-weight: bold;" text=" BetAndRuin" textFill="#ebebeb" />
+               </children>
+            </HBox>
+            <VBox alignment="TOP_CENTER" prefHeight="685.0" prefWidth="227.0">
+               <children>
+                  <VBox prefHeight="0.0" prefWidth="227.0">
+                     <children>
+                        <JFXButton fx:id="overviewBtn" onAction="#displayOverview" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text=" Overview">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="DASHBOARD" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="eventsBtn" onAction="#displayEvents" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text=" Events">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="CALENDAR_ALT" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="questionsBtn" onAction="#displayQuestions" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text=" Questions">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="QUESTION_CIRCLE" />
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="forecastsBtn" onAction="#displayForecasts" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text=" Forecasts">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="PENCIL" />
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </VBox>
+                  <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  <JFXButton fx:id="logoutBtn" onAction="#logout" prefHeight="25.0" prefWidth="376.0" styleClass="logout-btn" text="Logout" />
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+      <Pane fx:id="content" layoutX="241.0" layoutY="92.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+   </children>
+</AnchorPane>

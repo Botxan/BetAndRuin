@@ -14,10 +14,8 @@ import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import uicontrollers.*;
-import uicontrollers.user.BetsController;
-import uicontrollers.user.MovementsController;
-import uicontrollers.user.ProfileController;
-import uicontrollers.user.UserOverviewController;
+import uicontrollers.admin.*;
+import uicontrollers.user.*;
 import utils.History;
 import utils.Window;
 
@@ -30,16 +28,15 @@ public class MainGUI {
 
     private BorderPane mainWrapper;
 
-    public Window navBarLag, loginLag, registerLag, createQuestionLag, browseEventsLag, welcomeLag,
-            userMenuLag, createForecastLag, createEventLag, adminMenuLag,
-            userOverviewLag, profileLag, betsLag, movementsLag;
-
+    public Window navBarLag, welcomeLag, loginLag, registerLag, browseEventsLag,
+            userMenuLag, userOverviewLag, profileLag, betsLag, movementsLag,
+            adminMenuLag,  createEventLag, createQuestionLag, createForecastLag, adminOverviewLag, eventsLag, questionsLag, forecastsLag;
     private BlFacade businessLogic;
     private Stage stage;
     private Scene scene;
 
     // Default scene resolution
-    public static final int NAVBAR_HEIGHT = 80;
+    public static final int NAVBAR_HEIGHT = 90;
     public static final int SCENE_WIDTH = 1280;
     public static final int SCENE_HEIGHT = 720-NAVBAR_HEIGHT;
     private double xOffset = 0;
@@ -117,6 +114,14 @@ public class MainGUI {
                 return new BetsController(businessLogic);
             } else if (controllerClass == MovementsController.class) {
                 return new MovementsController(businessLogic);
+            }  else if (controllerClass == AdminOverviewController.class) {
+                return new AdminOverviewController(businessLogic);
+            } else if (controllerClass == EventsController.class) {
+                return new EventsController(businessLogic);
+            } else if (controllerClass == QuestionsController.class) {
+                return new QuestionsController(businessLogic);
+            } else if (controllerClass == ForecastsController.class) {
+                return new ForecastsController(businessLogic);
             } else {
                 // default behavior for controllerFactory:
                 try {
@@ -166,8 +171,16 @@ public class MainGUI {
 
         setupScene();
         ResizeHelper.addResizeListener(this.stage);
-        history.setCurrentWindow(welcomeLag);
-        showScene(welcomeLag);
+
+        // FIXME (testing admin menu) Change to welcomeLag after testing and remove loadLoggedWindows()
+        try {
+            businessLogic.setCurrentUser(businessLogic.getUserByUsername("admin1"));
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        }
+        loadLoggedWindows();
+        history.setCurrentWindow(adminMenuLag);
+        showScene(adminMenuLag);
     }
 
     /**
@@ -176,12 +189,17 @@ public class MainGUI {
      * @throws IOException thrown if any fxml file is not found
      */
     public void loadLoggedWindows() throws IOException {
+        // Admin windows
+        adminOverviewLag = load("/admin/AdminOverview.fxml", "AdminOverview", SCENE_WIDTH, SCENE_HEIGHT);
+        eventsLag = load("/admin/Events.fxml", "Events", SCENE_WIDTH, SCENE_HEIGHT);
+        questionsLag = load("/admin/Questions.fxml", "Questions", SCENE_WIDTH, SCENE_HEIGHT);
+        forecastsLag = load("/admin/Forecasts.fxml", "Forecasts", SCENE_WIDTH, SCENE_HEIGHT);
         createQuestionLag = load("/CreateQuestion.fxml", "CreateQuestion", SCENE_WIDTH, SCENE_HEIGHT);
-        userMenuLag = load("/UserMenuGUI.fxml", "UserMenu", SCENE_WIDTH, SCENE_HEIGHT);
         createForecastLag = load("/CreateForecast.fxml", "CreateForecast", SCENE_WIDTH, SCENE_HEIGHT);
-        adminMenuLag = load("/AdminMenu.fxml", "AdminMenu", SCENE_WIDTH, SCENE_HEIGHT);
 
         // User windows
+        adminMenuLag = load("/admin/AdminMenu.fxml", "AdminMenu", SCENE_WIDTH, SCENE_HEIGHT);
+        userMenuLag = load("/user/UserMenuGUI.fxml", "UserMenu", SCENE_WIDTH, SCENE_HEIGHT);
         userOverviewLag = load("/user/UserOverview.fxml", "UserOverview", SCENE_WIDTH, SCENE_HEIGHT);
         profileLag = load("/user/Profile.fxml", "Profile", SCENE_WIDTH, SCENE_HEIGHT);
         betsLag = load("/user/Bets.fxml", "Bets", SCENE_WIDTH, SCENE_HEIGHT);

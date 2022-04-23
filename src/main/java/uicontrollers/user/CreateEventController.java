@@ -1,4 +1,4 @@
-package uicontrollers;
+package uicontrollers.user;
 
 import businessLogic.BlFacade;
 import exceptions.EventAlreadyExistException;
@@ -16,6 +16,7 @@ import javafx.scene.media.MediaView;
 import javafx.util.Duration;
 import org.w3c.dom.Text;
 import ui.MainGUI;
+import uicontrollers.Controller;
 import utils.Dates;
 
 import java.io.File;

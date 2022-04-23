@@ -1,4 +1,4 @@
-package uicontrollers;
+package uicontrollers.user;
 
 import businessLogic.BlFacade;
 import com.jfoenix.controls.JFXButton;
@@ -13,23 +13,29 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
 import ui.MainGUI;
+import uicontrollers.Controller;
 import utils.Window;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * This class serves as a controller for user's dashboard.
+ * From this window, the user can access to all user level feature
+ * such as manipulation of bets, user profile and money movements.
+ */
 public class UserMenuController implements Controller {
     private BlFacade businessLogic;
     private MainGUI mainGUI;
     private Window currentWindow;
 
     @FXML private Pane content;
-    @FXML JFXButton overviewBtn;
-    @FXML JFXButton profileBtn;
-    @FXML JFXButton betsBtn;
-    @FXML JFXButton myWalletBtn;
-    @FXML JFXButton logoutBtn;
+    @FXML private JFXButton overviewBtn;
+    @FXML private JFXButton profileBtn;
+    @FXML private JFXButton betsBtn;
+    @FXML private JFXButton myWalletBtn;
+    @FXML private JFXButton logoutBtn;
 
     /**
      * Constructor for the UserMenuController.
@@ -89,6 +95,12 @@ public class UserMenuController implements Controller {
         this.mainGUI.goForward("Login");
     }
 
+    /**
+     * Clears the current content and sets the given window as the
+     * current content. Uses Controller.redraw() to refresh the content
+     * of the given window.
+     * @param w the window to be displayed
+     */
     private void switchToWindow(Window w) {
         content.getChildren().clear();
         currentWindow = w;

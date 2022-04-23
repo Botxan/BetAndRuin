@@ -1,28 +1,32 @@
-.sideBar {
+.sidebar {
     -fx-background-color: -fx-dark-grey;
 }
 
-.sideBar * {
+.sidebar * {
     -fx-text-fill: #ffffff;
     -fx-font-weight: bold;
 }
 
-.sideBarBtn {
+.sidebar-btn {
     -fx-alignment: center-left;
     -fx-padding: 12px 30px;
     -fx-background-radius: 0;
     -fx-cursor: hand;
 }
 
-.sideBarBtn:hover {
+.sidebar-btn:hover {
     -fx-background-color: rgba(179, 207, 0, .2);
 }
 
-.sideBarBtn:focused {
+.sidebar-btn:focused {
     -fx-background-color: -fx-green1;
 }
 
-.logoutBtn {
+.logo-wrapper {
+    -fx-padding: 15px 0;
+}
+
+.logout-btn {
    -fx-alignment: center;
    -fx-background-radius: 0px;
    -fx-padding: 12px 30px;

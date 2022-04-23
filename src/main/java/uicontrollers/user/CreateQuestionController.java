@@ -1,9 +1,14 @@
-package uicontrollers;
+package uicontrollers.user;
+
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.YearMonth;
+import java.util.*;
 
 import businessLogic.BlFacade;
 import domain.Event;
-import domain.Question;
-import exceptions.ForecastAlreadyExistException;
+import exceptions.EventFinished;
+import exceptions.QuestionAlreadyExist;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -13,91 +18,98 @@ import javafx.scene.control.*;
 import javafx.scene.control.skin.DatePickerSkin;
 import javafx.util.Callback;
 import ui.MainGUI;
+import uicontrollers.Controller;
 import utils.Dates;
 
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.util.*;
-
-public class CreateForecastController implements Controller {
+public class CreateQuestionController implements Controller {
 
     private ObservableList<Event> oListEvents;
 
-    private ObservableList<Question> oListQuestion;
-
-    public CreateForecastController(BlFacade bl) {
+    public CreateQuestionController(BlFacade bl) {
         this.businessLogic = bl;
     }
 
-    private MainGUI mainGUI;
     private BlFacade businessLogic;
+    private MainGUI mainGUI;
+    private ResourceBundle resources;
 
-    @FXML private ResourceBundle resources;
-
-    @FXML private DatePicker datePicker;
-    @FXML private Label dateLbl;
+    @FXML private Label eventDateLbl;
     @FXML private Label eventsLbl;
-    @FXML private Label questionsLbl;
-    @FXML private Label resultLbl;
-    @FXML private Label feeLbl;
-    @FXML private TextField resultField;
-    @FXML private TextField feeField;
+    @FXML private Label questionLbl;
+    @FXML private Label minimumBetLbl;
+    @FXML private Label errorQuestionLbl;
+    @FXML private Label errorMinmumBetLbl;
+    @FXML private TextField questionField;
+    @FXML private TextField minimumBetField;
+    @FXML private Button createQuestionBtn;
     @FXML private ComboBox<Event> eventsCB;
-    @FXML private ComboBox<Question> questionsCB;
-    @FXML private Button createForecastBtn;
+    @FXML private DatePicker datePicker;
 
-    @FXML
-    private Label lblErrorMessage;
-
+    /**
+     * Removes the text from error labels.
+     */
     private void clearErrorLabels() {
-        lblErrorMessage.setText("");
-        lblErrorMessage.getStyleClass().clear();
+        errorQuestionLbl.setText("");
+        errorMinmumBetLbl.setText("");
+        errorMinmumBetLbl.getStyleClass().clear();
+        errorQuestionLbl.getStyleClass().clear();
     }
 
+    /**
+     * Attempts to create a new question with the data introduced by the user.
+     * @param e button click
+     */
     @FXML
-    void createForecast() {
+    void createQuestion(ActionEvent e) {
         clearErrorLabels();
 
-        Question question = questionsCB.getSelectionModel().getSelectedItem();
-        String inputResult = resultField.getText();
-        int inputFee;
+        Event event = eventsCB.getSelectionModel().getSelectedItem();
+        String inputQuestion = questionField.getText();
+        Float inputPrice;
         boolean showErrors = true;
 
         try {
+            if (inputQuestion.length() > 0) {
+                inputPrice = Float.valueOf(minimumBetField.getText());
 
-            if (inputResult.length() > 0 && !feeField.getText().isEmpty()) {
 
-                inputFee = Integer.valueOf(feeField.getText());
-
-                if (inputFee <= 0) lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
+                if (inputPrice <= 0)
+                    errorMinmumBetLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
                 else {
-                    businessLogic.addForecast(question, inputResult, inputFee);
-                    lblErrorMessage.getStyleClass().clear();
-                    lblErrorMessage.getStyleClass().setAll("lbl", "lbl-success");
-                    lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("ForecastAddedSuccessfully"));
+                    businessLogic.createQuestion(event, inputQuestion, inputPrice);
+                    errorQuestionLbl.getStyleClass().clear();
+                    errorQuestionLbl.getStyleClass().setAll("lbl", "lbl-success");
+                    errorQuestionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("QuestionCreated"));
+                    errorMinmumBetLbl.getStyleClass().clear();
                     showErrors = false;
                 }
-            } else lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("FieldsCompulsory"));
+            } else errorQuestionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("FieldsCompulsory"));
 
         } catch (NumberFormatException ex) {
-            lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
-        } catch (ForecastAlreadyExistException ex) {
-            lblErrorMessage.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorForecastAlreadyExist"));
+            errorMinmumBetLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));
+        } catch (EventFinished ex) {
+            errorQuestionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventHasFinished"));
+        } catch (QuestionAlreadyExist ex) {
+            errorQuestionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorQuestionAlreadyExist"));
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
-        if (lblErrorMessage.getText().length() > 0 && showErrors) {
-            lblErrorMessage.getStyleClass().setAll("lbl", "lbl-danger");
+        if (errorMinmumBetLbl.getText().length() > 0 && showErrors) {
+            errorMinmumBetLbl.getStyleClass().setAll("lbl", "lbl-danger");
         }
-        if (lblErrorMessage.getText().length() > 0 && showErrors) {
-            lblErrorMessage.getStyleClass().setAll("lbl", "lbl-danger");
+        if (errorQuestionLbl.getText().length() > 0 && showErrors) {
+            errorQuestionLbl.getStyleClass().setAll("lbl", "lbl-danger");
         }
-
     }
 
     private List<LocalDate> holidays = new ArrayList<>();
 
+    /**
+     * Marks the events for current, previous and next month.
+     * @param year the year
+     * @param month the month
+     */
     private void setEventsPrePost(int year, int month) {
         LocalDate date = LocalDate.of(year, month, 1);
         setEvents(date.getYear(), date.getMonth().getValue());
@@ -105,8 +117,12 @@ public class CreateForecastController implements Controller {
         setEvents(date.plusMonths(-1).getYear(), date.plusMonths(-1).getMonth().getValue());
     }
 
+    /**
+     * Fetches the days in which there are events.
+     * @param year the year
+     * @param month the month
+     */
     private void setEvents(int year, int month) {
-
         Date date = Dates.toDate(year, month);
 
         for (Date day : businessLogic.getEventsMonth(date)) {
@@ -114,10 +130,12 @@ public class CreateForecastController implements Controller {
         }
     }
 
+    /**
+     * Prepares the datepicker.
+     */
     @FXML
     void initialize() {
-
-        createForecastBtn.setDisable(true);
+        createQuestionBtn.setDisable(true);
 
         // only show the text of the event in the combobox (without the id)
         Callback<ListView<Event>, ListCell<Event>> factory = lv -> new ListCell<>() {
@@ -177,27 +195,11 @@ public class CreateForecastController implements Controller {
             eventsCB.setItems(oListEvents);
 
             if (eventsCB.getItems().size() == 0)
-                createForecastBtn.setDisable(true);
+                createQuestionBtn.setDisable(true);
             else {
-                createForecastBtn.setDisable(false);
+                createQuestionBtn.setDisable(false);
                 // select first option
                 eventsCB.getSelectionModel().select(0);
-            }
-        });
-
-        eventsCB.setOnAction(actionEvent -> {
-            questionsCB.getItems().clear();
-
-            oListQuestion = FXCollections.observableArrayList(new ArrayList<>());
-            oListQuestion.setAll(businessLogic.getQuestions(eventsCB.getSelectionModel().getSelectedItem()));
-            questionsCB.setItems(oListQuestion);
-
-            if (questionsCB.getItems().size() == 0)
-                createForecastBtn.setDisable(true);
-            else {
-                createForecastBtn.setDisable(false);
-                // select first option
-                questionsCB.getSelectionModel().select(0);
             }
         });
     }
@@ -210,11 +212,10 @@ public class CreateForecastController implements Controller {
     @Override
     public void redraw() {
         // Labels and buttons
-        dateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Date"));
+        eventDateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("EventDate"));
         eventsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Events"));
-        questionsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Questions"));
-        resultLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Result"));
-        feeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee"));
-        createForecastBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateForecast"));
+        questionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Question"));
+        minimumBetLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("MinimumBetPrice"));
+        createQuestionBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
     }
 }
