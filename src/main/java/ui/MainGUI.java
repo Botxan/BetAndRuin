@@ -30,7 +30,7 @@ public class MainGUI {
 
     public Window navBarLag, welcomeLag, loginLag, registerLag, browseEventsLag,
             userMenuLag, userOverviewLag, profileLag, betsLag, movementsLag,
-            adminMenuLag,  createEventLag, createQuestionLag, createForecastLag, adminOverviewLag, eventsLag, questionsLag, forecastsLag;
+            adminMenuLag, createQuestionLag, createForecastLag, adminOverviewLag, eventsLag, questionsLag, forecastsLag;
     private BlFacade businessLogic;
     private Stage stage;
     private Scene scene;
@@ -102,9 +102,7 @@ public class MainGUI {
                 return new UserMenuController(businessLogic);
             }else if (controllerClass == CreateForecastController.class) {
                 return new CreateForecastController(businessLogic);
-            } else if (controllerClass == CreateEventController.class) {
-                return new CreateEventController(businessLogic);
-            }else if (controllerClass == AdminMenuController.class) {
+            } else if (controllerClass == AdminMenuController.class) {
                 return new AdminMenuController(businessLogic);
             } else if (controllerClass == UserOverviewController.class) {
                 return new UserOverviewController(businessLogic);
@@ -159,7 +157,6 @@ public class MainGUI {
         loginLag = load("/Login.fxml", "Login", 700, 500);
         registerLag = load("/RegisterGUI.fxml", "Register", 900, 600);
         browseEventsLag = load("/BrowseEvents.fxml", "BrowseEvents", SCENE_WIDTH, SCENE_HEIGHT);
-        createEventLag = load("/CreateEvent.fxml", "CreateEvent", SCENE_WIDTH, SCENE_HEIGHT);
 
         //Update user money everytime a scene is shown.
         stage.setOnShowing(new EventHandler<WindowEvent>() {
@@ -226,7 +223,7 @@ public class MainGUI {
         // Global font css
         scene.getStylesheets().add(getClass().getResource("/css/fonts.css").toExternalForm());
         // Global color css
-        scene.getStylesheets().add(getClass().getResource("/css/colors.css").toExternalForm());
+        scene.getStylesheets().add(getClass().getResource("/css/betAndRuin.css").toExternalForm());
 
         // Add the wrapper of the navbar and the content to the scene
         scene.setRoot(mainWrapper);
@@ -342,8 +339,6 @@ public class MainGUI {
                 yield userMenuLag;
             case "CreateForecast":
                 yield createForecastLag;
-            case "CreateEvent":
-                yield createEventLag;
             case "AdminMenu":
                 yield adminMenuLag;
             default: // get the welcome window

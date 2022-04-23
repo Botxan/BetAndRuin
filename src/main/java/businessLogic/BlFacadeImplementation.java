@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
  * This class implements the business logic layer as a web service 
  * @author Josefinators team
  * @version first iteration
- *
  */
 @WebService(endpointInterface = "businessLogic.BlFacade")
 public class BlFacadeImplementation implements BlFacade {
@@ -71,6 +70,16 @@ public class BlFacadeImplementation implements BlFacade {
 		Event event = dbManager.createEvent(name, date, country);
 		dbManager.close();
 		return event;
+	}
+
+	@Override
+	@WebMethod
+	public List<Event> getEvents() {
+		dbManager.open(false);
+		List<Event> events = dbManager.getEvents();
+		dbManager.close();
+
+		return events;
 	}
 	
 	@WebMethod	
@@ -379,9 +388,9 @@ public class BlFacadeImplementation implements BlFacade {
 
 	@Override
 	@WebMethod
-	public List<Event> getIncomingEvents(int n) {
+	public List<Event> getUpcomingEvents(int n) {
 		dbManager.open(false);
-		List<Event> evs = dbManager.getIncomingEvents(n);
+		List<Event> evs = dbManager.getUpcomingEvents(n);
 		dbManager.close();
 
 		return evs;
@@ -389,7 +398,11 @@ public class BlFacadeImplementation implements BlFacade {
 
 	@Override
 	public void removeEvent(int eventID) {
+		dbManager.open(false);
+		dbManager.removeEvent(eventID);
+		dbManager.close();
 
+		refreshUser();
 	}
 
 	@Override
@@ -405,7 +418,7 @@ public class BlFacadeImplementation implements BlFacade {
 	@Override
 	public void removeBet(Bet bet) {
 		dbManager.open(false);
-		dbManager.removeBet(currentUser, bet.getBetID());
+		dbManager.removeBet(bet.getBetID());
 		dbManager.close();
 
 		refreshUser();

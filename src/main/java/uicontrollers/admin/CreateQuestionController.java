@@ -1,4 +1,4 @@
-package uicontrollers.user;
+package uicontrollers.admin;
 
 import java.net.URL;
 import java.time.LocalDate;

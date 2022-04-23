@@ -32,6 +32,7 @@ import java.util.ResourceBundle;
 public class BetsController implements Controller {
     private BlFacade businessLogic;
     private MainGUI mainGUI;
+    private ObservableList<Bet> bets;
 
     @FXML private TableView<Bet> betsTbl;
     @FXML private TableColumn<Bet, Integer> idCol;
@@ -43,8 +44,6 @@ public class BetsController implements Controller {
     @FXML private Label removeBetResultLbl;
     @FXML private Label countActiveBetsLbl;
     @FXML private TextField searchField;
-
-    private ObservableList<Bet> bets;
 
     /**
      * Constructor. Initializes business logic.
@@ -89,7 +88,7 @@ public class BetsController implements Controller {
         });
 
         // Action column
-        addButtonToTable();
+        addActionColumn();
 
         // Text field to search and filter
         searchField.textProperty().addListener(obs -> {
@@ -123,8 +122,10 @@ public class BetsController implements Controller {
     /**
      * Adds the cell and button to delete bet to each row
      */
-    private void addButtonToTable() {
-        TableColumn<Bet, Void> colBtn = new TableColumn("");
+    private void addActionColumn() {
+        TableColumn<Bet, Void> actionCol = new TableColumn("");
+        actionCol.setMinWidth(80);
+        actionCol.setMaxWidth(80);
 
         Callback<TableColumn<Bet, Void>, TableCell<Bet, Void>> cellFactory = new Callback<TableColumn<Bet, Void>, TableCell<Bet, Void>>() {
             @Override
@@ -156,9 +157,9 @@ public class BetsController implements Controller {
             }
         };
 
-        colBtn.setCellFactory(cellFactory);
+        actionCol.setCellFactory(cellFactory);
 
-        betsTbl.getColumns().add(colBtn);
+        betsTbl.getColumns().add(actionCol);
     }
 
     /**

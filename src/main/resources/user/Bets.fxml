@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="610.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.BetsController">
    <children>
-      <TableView fx:id="betsTbl" layoutX="40.0" layoutY="134.0" prefHeight="470.0" prefWidth="975.0" styleClass="bets-tbl" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="80.0">
+      <TableView fx:id="betsTbl" layoutX="40.0" layoutY="134.0" prefHeight="470.0" prefWidth="975.0" styleClass="tbl" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="80.0">
         <columns>
           <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
           <TableColumn fx:id="amountCol" prefWidth="75.0" text="AMOUNT" />
@@ -36,7 +36,7 @@
       <Label fx:id="countActiveBetsLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1015.0" layoutY="44.0" prefHeight="17.0" prefWidth="275.0" AnchorPane.rightAnchor="40.0" />
    </children>
    <stylesheets>
-      <URL value="@../css/colors.css" />
-      <URL value="@../css/bets.css" />
+      <URL value="@../css/betAndRuin.css" />
+      <URL value="@../css/table.css" />
    </stylesheets>
 </AnchorPane>

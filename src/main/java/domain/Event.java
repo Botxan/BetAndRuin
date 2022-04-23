@@ -19,7 +19,7 @@ public class Event {
 	private Date eventDate;
 	private String country;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Question> questions = new ArrayList<Question>();
 
 	/**

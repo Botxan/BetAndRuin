@@ -14,7 +14,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.admin.AdminMenuController">
    <stylesheets>
-      <URL value="@../css/colors.css" />
+      <URL value="@../css/betAndRuin.css" />
       <URL value="@../css/dashboard.css" />
    </stylesheets>
    <children>

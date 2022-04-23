@@ -1,6 +1,7 @@
 package domain;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * This class represents a possible forecast for a question on which the

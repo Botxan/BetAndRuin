@@ -140,6 +140,6 @@
    </children>
    <stylesheets>
       <URL value="@css/navbar.css" />
-      <URL value="@css/colors.css" />
+      <URL value="@css/betAndRuin.css" />
    </stylesheets>
 </AnchorPane>

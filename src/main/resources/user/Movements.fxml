@@ -111,7 +111,7 @@
       <Line endX="630.0" layoutX="375.0" layoutY="568.0" scaleY="0.5" scaleZ="0.5" startY="-5.364418029785156E-7" AnchorPane.bottomAnchor="40.0" AnchorPane.rightAnchor="40.0" />
    </children>
    <stylesheets>
-      <URL value="@../css/colors.css" />
+      <URL value="@../css/betAndRuin.css" />
       <URL value="@../css/movements.css" />
    </stylesheets>
 </AnchorPane>

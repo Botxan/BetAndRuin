@@ -28,7 +28,13 @@ public interface BlFacade  {
 	 */
 	@WebMethod
 	public Event createEvent(String name, Date date, String country) throws EventAlreadyExistException;
-	
+
+	/**
+	 * It retrieves all events.
+	 * @return all events
+	 */
+	@WebMethod public List<Event> getEvents();
+
 	/**
 	 * It retrieves all events that take place on a given date 
 	 * 
@@ -59,11 +65,11 @@ public interface BlFacade  {
 	@WebMethod public List<Event> getEventsCountry(String country);
 
 	/**
-	 * Returns the latest n incoming events sorted by descending date.
+	 * Returns the latest n upcoming events sorted by ascending date.
 	 * @param n the number of event to retrieve
 	 * @return the incoming first n events
 	 */
-	@WebMethod public List<Event> getIncomingEvents(int n);
+	@WebMethod public List<Event> getUpcomingEvents(int n);
 
 	/**
 	 * It creates a question for an event with a question text and the minimum bet

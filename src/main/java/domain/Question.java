@@ -20,7 +20,7 @@ public class Question {
 	@ManyToOne
 	private Event event;
 
-	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Forecast> forecasts = new ArrayList<Forecast>();
 
 	@OneToOne

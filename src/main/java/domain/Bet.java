@@ -12,7 +12,7 @@ public class Bet {
     private int betID;
     private float amount;
 
-    @OneToOne
+    @ManyToOne
     private Forecast userForecast;
 
     @ManyToOne

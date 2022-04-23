@@ -188,7 +188,7 @@
       </Pane>
    </children>
    <stylesheets>
-      <URL value="@../css/colors.css" />
+      <URL value="@../css/betAndRuin.css" />
       <URL value="@../css/userProfile.css" />
    </stylesheets>
 </AnchorPane>

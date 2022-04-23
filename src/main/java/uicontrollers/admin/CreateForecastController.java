@@ -1,4 +1,4 @@
-package uicontrollers.user;
+package uicontrollers.admin;
 
 import businessLogic.BlFacade;
 import domain.Event;

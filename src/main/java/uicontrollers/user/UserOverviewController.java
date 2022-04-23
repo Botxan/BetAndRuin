@@ -51,27 +51,26 @@ public class UserOverviewController implements Controller {
     @FXML
     void initialize() {
         initTopPanes();
-        initIncomingEvents();
+        initUpcomingEvents();
         initRevenueChart();
     }
 
     /**
      * Initializes the incoming events pane
      */
-    private void initIncomingEvents() {
-        for (Event e: businessLogic.getIncomingEvents(3)) {
-            Pane p = createIncomingEventPane(e);
+    private void initUpcomingEvents() {
+        for (Event e: businessLogic.getUpcomingEvents(3)) {
+            Pane p = createUpcomingEventPane(e);
             upcomingEventsPane.getChildren().add(p);
             offset += 80;
         }
-
     }
 
     /**
      * Creates a new pane with the given event data.
      * @param e the event
      */
-    private Pane createIncomingEventPane(Event e) {
+    private Pane createUpcomingEventPane(Event e) {
         // Base pane
         Pane p = new Pane();
         p.setPrefWidth(upcomingEventsPane.getPrefWidth());

@@ -65,7 +65,7 @@
       <Pane fx:id="content" layoutX="501.0" layoutY="52.0" prefHeight="610.0" prefWidth="1053.0" styleClass="content" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
    <stylesheets>
-      <URL value="@../css/colors.css" />
+      <URL value="@../css/betAndRuin.css" />
       <URL value="@../css/dashboard.css" />
    </stylesheets>
 </AnchorPane>

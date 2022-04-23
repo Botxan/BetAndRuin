@@ -8,6 +8,7 @@
 
     import javax.persistence.*;
     import java.text.SimpleDateFormat;
+    import java.time.temporal.TemporalQueries;
     import java.util.*;
 
     /**
@@ -334,20 +335,25 @@
         }
 
         /**
+         * Retrieves all the events stored in the database
+         */
+        public List<Event> getEvents() {
+            System.out.println(">> DataAccess: getEvents");
+            TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev", Event.class);
+            return query.getResultList();
+        }
+
+        /**
          * It retrieves from the database the events of a given date
          * @param date an instance of date
          * @return collection of events
          */
         public List<Event> getEvents(Date date) {
-            System.out.println(">> DataAccess: getEvents");
-            List<Event> res = new ArrayList<Event>();
-            TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.eventDate=?1",
+            System.out.println(">> DataAccess: getEvents => date = " + date);
+            TypedQuery<Event> q = db.createQuery("SELECT ev FROM Event ev WHERE ev.eventDate=?1",
                     Event.class);
-            query.setParameter(1, date);
-            List<Event> events = query.getResultList();
-            for (Event ev:events) res.add(ev);
-
-            return res;
+            q.setParameter(1, date);
+            return q.getResultList();
         }
 
         public List<Question> getQuestions(Event event) {
@@ -445,13 +451,44 @@
          * @param n the number of event to retrieve
          * @return the incoming first n events
          */
-        public List<Event> getIncomingEvents(int n) {
+        public List<Event> getUpcomingEvents(int n) {
             System.out.println(">> DataAccess: getIncomingEvents => n = " + n);
-            TypedQuery<Event> q = db.createQuery("SELECT e FROM Event e ORDER BY e.eventDate DESC", Event.class);
+            Date today = Calendar.getInstance().getTime();
+            TypedQuery<Event> q = db.createQuery("SELECT e FROM Event e WHERE e.eventDate > ?1 ORDER BY e.eventDate", Event.class);
+            q.setParameter(1, today);
             q.setMaxResults(n);
             List<Event> evs = q.getResultList();
             System.out.println(evs.size() + " events retrieved");
             return evs;
+        }
+
+        /**
+         * Removes the event with the given id.
+         * @param eventID the id of the event to be removed
+         */
+        public void removeEvent(Integer eventID) {
+            Event e = db.find(Event.class, eventID);
+
+            // Remove all bets related to this event
+            TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.userForecast.question.event=?1", Bet.class);
+            query.setParameter(1, e);
+
+            List<Bet> associatedBets = query.getResultList();
+            for (Bet b: associatedBets) removeBet(b.getBetID());
+
+            // Remove the event (associated forecasts and questions will also be deleted
+            // thanks to cascade = CascadeType.ALL)
+            db.getTransaction().begin();
+            db.remove(e);
+            db.getTransaction().commit();
+
+            // (Optional) Count the number of questions and forecast associated
+            int countQ = e.getQuestions().size();
+            int countF = e.getQuestions().stream().mapToInt(q -> q.getForecasts().size()).sum();
+            System.out.println("Event removed");
+            System.out.println("Questions removed: " + countQ);
+            System.out.println("Forecasts removed: " + countF);
+            System.out.println("Bets removed: " + associatedBets.size());
         }
 
         /**
@@ -496,7 +533,7 @@
             return ev.doesQuestionExist(question);
         }
 
-        public void removeBet(User currentUser, Integer betID) {
+        public void removeBet(Integer betID) {
             Bet bet = db.find(Bet.class, betID);
             User user = db.find(User.class, bet.getGambler());
             float amountToRefund = bet.getAmount();

@@ -7,3 +7,10 @@
     -fx-dark-blue-text: rgba(190, 235, 246, .5);
     -fx-disabled-text: rgba(0, 0, 0, 0.38);
 }
+
+.aceituna-btn {
+    -fx-background-color: -fx-green1;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
