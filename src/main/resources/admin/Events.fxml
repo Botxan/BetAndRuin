@@ -17,7 +17,7 @@
 <AnchorPane fx:id="mainPane" prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.admin.EventsController">
    <children>
       <TextField fx:id="searchField" layoutX="38.0" layoutY="45.0" prefHeight="25.0" prefWidth="198.0" promptText="Search..." styleClass="search-field" />
-      <JFXButton fx:id="showCreateEventDialog" layoutX="907.0" layoutY="45.0" onAction="#showCreateEventDialog" prefHeight="25.0" prefWidth="106.0" styleClass="aceituna-btn" text="Add event">
+      <JFXButton fx:id="showCreateEventDialog" layoutX="904.0" layoutY="45.0" onAction="#showCreateEventDialog" prefHeight="25.0" prefWidth="106.0" styleClass="aceituna-btn" text="Add event">
          <graphic>
             <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" size="14" />
          </graphic>

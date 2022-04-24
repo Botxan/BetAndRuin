@@ -7,8 +7,11 @@ import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import domain.Bet;
 import domain.Event;
+import domain.Question;
 import exceptions.EventAlreadyExistException;
 import javafx.application.Platform;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
@@ -128,10 +131,56 @@ public class EventsController implements Controller {
             }
         });
 
+        addQuestionsColumn();
         addActionColumn();
 
         events.addAll(businessLogic.getEvents());
         eventsTbl.setItems(filteredEvents);
+    }
+
+    private void addQuestionsColumn() {
+        TableColumn<Event, Integer> questionsCol = new TableColumn("QUESTIONS");
+        questionsCol.setMinWidth(100);
+        questionsCol.setMaxWidth(100);
+        questionsCol.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Integer>(cellData.getValue().getQuestions().size()));
+
+        Callback<TableColumn<Event, Integer>, TableCell<Event, Integer>> cellFactory = new Callback<TableColumn<Event, Integer>, TableCell<Event, Integer>>() {
+            @Override
+            public TableCell<Event, Integer> call(final TableColumn<Event, Integer> param) {
+                JFXButton btn = new JFXButton();
+                FontAwesomeIconView icon = new FontAwesomeIconView(FontAwesomeIcon.TABLE);
+                icon.setSize("24px");
+                icon.setFill(Color.web("#B3CF00"));
+                btn.setCursor(Cursor.HAND);
+                btn.setGraphic(icon);
+
+                final TableCell<Event, Integer> cell = new TableCell<Event, Integer>() {
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            ((QuestionsController) mainGUI.questionsLag.getController()).selectEvent(getTableView().getItems().get(getIndex()));
+                            ((AdminMenuController) mainGUI.adminMenuLag.getController()).displayQuestions();
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Integer item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText("");
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setText(getTableView().getItems().get(getIndex()).getQuestions().size() + " ");
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        questionsCol.setCellFactory(cellFactory);
+
+        eventsTbl.getColumns().add(questionsCol);
     }
 
     /**
@@ -190,8 +239,7 @@ public class EventsController implements Controller {
         // Remove the deleted event from the table
         events.remove(e);
 
-        // Update also the money displayed in the navigation bar
-        ((NavBarController)mainGUI.navBarLag.getController()).updateWalletLabel();
+        notifyChanges();
     }
 
     /**
@@ -274,6 +322,7 @@ public class EventsController implements Controller {
                     resultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("EventAddedSuccessfully"));
                     resultLabel.getStyleClass().addAll("lbl", "lbl-success");
                     events.add(0, e);
+                    notifyChanges();
                     closeCreateEventDialog();
                 } catch (EventAlreadyExistException e) {
                     resultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventAlreadyExist"));
@@ -281,6 +330,26 @@ public class EventsController implements Controller {
                 }
             }
         }
+    }
+
+    /**
+     * Requests data reload to affected windows
+     */
+    public void notifyChanges() {
+        // Refresh data in other windows
+        ((QuestionsController)mainGUI.questionsLag.getController()).reloadData();
+        ((ForecastsController)mainGUI.forecastsLag.getController()).reloadData();
+
+        // Update also the money displayed in the navigation bar
+        ((NavBarController)mainGUI.navBarLag.getController()).updateWalletLabel();
+    }
+
+    /**
+     * Updates the changes made in events in other windows.
+     */
+    public void reloadData() {
+        events.clear();
+        events.addAll(businessLogic.getEvents());
     }
 
     @Override

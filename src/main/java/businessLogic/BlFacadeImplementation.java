@@ -133,15 +133,26 @@ public class BlFacadeImplementation implements BlFacade {
 		Question q = dbManager.createQuestion(event, question, betMinimum);
 		dbManager.close();
 
-		refreshUser();
 		return q;
 	}
 
 	@WebMethod
-	public void addForecast(Question question, String result, double fee) throws ForecastAlreadyExistException {
+	public Forecast createForecast(Question question, String result, double fee) throws ForecastAlreadyExistException {
 		dbManager.open(false);
-		dbManager.addForecast(question, result, fee);
+		Forecast f = dbManager.addForecast(question, result, fee);
 		dbManager.close();
+
+		return f;
+	}
+
+	@WebMethod
+	@Override
+	public void removeForecast(int forecastID) {
+		dbManager.open(false);
+		dbManager.removeForecast(forecastID);
+		dbManager.close();
+
+		refreshUser();
 	}
 
 	@WebMethod

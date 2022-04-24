@@ -41,7 +41,6 @@
             this(false);
         }
 
-
         /**
          * It initializes the database with some trial events and questions
          * It is invoked by the business logic layer when the option "initialize" is used
@@ -270,68 +269,38 @@
         }
 
         /**
-         * It creates an event in the database
-         * @param description an instance of description
-         * @param date an instance of date
-         * @return it returns an event
-         * @throws EventAlreadyExistException if the event already exists
+         * It opens the database
+         * @param initializeMode initialize mode of the database
          */
-        public Event createEvent(String description, Date date, String country) throws EventAlreadyExistException {
-            System.out.println(">> DataAccess: createEvent => description = " + description + " date = " + date);
+        public void open(boolean initializeMode){
 
-            // Check if the event exist
-            TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.description=?1 AND ev.country=?2", Event.class);
-            query.setParameter(1, description);
-            query.setParameter(2, country);
+            System.out.println("Opening DataAccess instance => isDatabaseLocal: " +
+                    config.isDataAccessLocal() + " getDatabBaseOpenMode: " + config.getDataBaseOpenMode());
 
-            SimpleDateFormat year = new SimpleDateFormat("yyyy");
-            SimpleDateFormat month = new SimpleDateFormat("MM");
-            SimpleDateFormat day = new SimpleDateFormat("dd");
-
-            for (Event ev: query.getResultList()) {
-                Date evDate = ev.getEventDate();
-                // Compare just year, month and day. Ignore time.
-                if (year.format(evDate).compareTo(year.format(date)) == 0 &&
-                    month.format(evDate).compareTo(month.format(date)) == 0 &&
-                    day.format(evDate).compareTo(day.format(date)) == 0)
-                    throw new EventAlreadyExistException();
+            String fileName = config.getDataBaseFilename();
+            if (initializeMode) {
+                fileName = fileName + ";drop";
+                System.out.println("Deleting the DataBase");
             }
 
-            // Store the new event in the database
-            db.getTransaction().begin();
-            Event event = new Event(description, date, country);
-            db.persist(event);
-            db.getTransaction().commit();
+            if (config.isDataAccessLocal()) {
+                emf = Persistence.createEntityManagerFactory("objectdb:" + fileName);
+                db = emf.createEntityManager();
+            } else {
+                Map<String, String> properties = new HashMap<String, String>();
+                properties.put("javax.persistence.jdbc.user", config.getDataBaseUser());
+                properties.put("javax.persistence.jdbc.password", config.getDataBasePassword());
 
-            return event;
+                emf = Persistence.createEntityManagerFactory("objectdb://" + config.getDataAccessNode() +
+                        ":"+config.getDataAccessPort() + "/" + fileName, properties);
+
+                db = emf.createEntityManager();
+            }
         }
 
-        /**
-         * It creates a question for an event with a question text and the minimum bet
-         * @param event an instance of the event to which the question is added
-         * @param question  an instance of the question text
-         * @param betMinimum minimum quantity of the bet
-         * @return it returns the question created, null or an exception
-         * @throws QuestionAlreadyExist the same question already exists for the event
-         */
-        public Question createQuestion(Event event, String question, float betMinimum)
-                throws QuestionAlreadyExist {
-            System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " +
-                    question + " minimum bet = " + betMinimum);
 
-            Event ev = db.find(Event.class, event.getEventID());
+        /* ---------- [*] Events [*] --------------------------------------------------------------------------- */
 
-            if (ev.doesQuestionExist(question)) throw new QuestionAlreadyExist(
-                    ResourceBundle.getBundle("Etiquetas").getString("ErrorQuestionAlreadyExist"));
-
-            db.getTransaction().begin();
-            Question q = ev.addQuestion(question, betMinimum);
-            db.persist(ev); // db.persist(q) not required when CascadeType.PERSIST is added
-            // in questions property of Event class
-            // @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
-            db.getTransaction().commit();
-            return q;
-        }
 
         /**
          * Retrieves all the events stored in the database
@@ -353,59 +322,6 @@
                     Event.class);
             q.setParameter(1, date);
             return q.getResultList();
-        }
-
-        public List<Question> getQuestions(Event event) {
-            List<Question> que = new ArrayList<Question>();
-            TypedQuery<Question> query = db.createQuery("SELECT qu FROM Question qu WHERE qu.event=?1",
-                    Question.class);
-            query.setParameter(1, event);
-            List<Question> questions = query.getResultList();
-            for (Question qu:questions) que.add(qu);
-
-            return que;
-        }
-
-        /**
-         * It inserts the given forecast in the database
-         * @param question an instance of the question of the forecast
-         * @param result result of the forecast
-         * @param fee fee of the forecast
-         * @throws ForecastAlreadyExistException if the forecast already exists
-         */
-        public Forecast addForecast(Question question, String result, double fee) throws ForecastAlreadyExistException {
-            System.out.println(">> DataAccess: addForecast => question = " + question + " result = " + result + " fee = " + fee);
-
-            // Check if the forecast already exist
-            Question q = db.find(Question.class, question.getQuestionID());
-
-            if (q.doesForecastExist(result)) throw new ForecastAlreadyExistException (
-                    ResourceBundle.getBundle("Etiquetas").getString("ErrorForecastAlreadyExist"));
-
-            // Add the new forecast
-            db.getTransaction().begin();
-            Forecast forecast = q.addForecast(result, fee);
-            db.persist(q); // CascadeType.PERSIST, so persist(forecast) not needed
-            db.getTransaction().commit();
-
-            return forecast;
-        }
-
-        /**
-         * It checks the login utility with a given username and password to grant access
-         * @param username an instance of username
-         * @param password an instance of password
-         * @return access granted or not!
-         */
-        public boolean checkLogin(String username, String password) {
-            System.out.println(">> DataAccess: checkLogin => username = " + username + " password = " + password);
-
-            TypedQuery<User> query = db.createQuery("SELECT user FROM User user WHERE user.username=?1 AND user.password=?2", User.class);
-            query.setParameter(1, username);
-            query.setParameter(2, password);
-            List<User> users = query.getResultList();
-
-            return !users.isEmpty();
         }
 
         /**
@@ -462,6 +378,43 @@
         }
 
         /**
+         * It creates an event in the database
+         * @param description an instance of description
+         * @param date an instance of date
+         * @return it returns an event
+         * @throws EventAlreadyExistException if the event already exists
+         */
+        public Event createEvent(String description, Date date, String country) throws EventAlreadyExistException {
+            System.out.println(">> DataAccess: createEvent => description = " + description + " date = " + date);
+
+            // Check if the event exist
+            TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.description=?1 AND ev.country=?2", Event.class);
+            query.setParameter(1, description);
+            query.setParameter(2, country);
+
+            SimpleDateFormat year = new SimpleDateFormat("yyyy");
+            SimpleDateFormat month = new SimpleDateFormat("MM");
+            SimpleDateFormat day = new SimpleDateFormat("dd");
+
+            for (Event ev: query.getResultList()) {
+                Date evDate = ev.getEventDate();
+                // Compare just year, month and day. Ignore time.
+                if (year.format(evDate).compareTo(year.format(date)) == 0 &&
+                        month.format(evDate).compareTo(month.format(date)) == 0 &&
+                        day.format(evDate).compareTo(day.format(date)) == 0)
+                    throw new EventAlreadyExistException();
+            }
+
+            // Store the new event in the database
+            db.getTransaction().begin();
+            Event event = new Event(description, date, country);
+            db.persist(event);
+            db.getTransaction().commit();
+
+            return event;
+        }
+
+        /**
          * Removes the event with the given id.
          * @param eventID the id of the event to be removed
          */
@@ -491,6 +444,48 @@
             System.out.println("Bets removed: " + associatedBets.size());
         }
 
+
+        /* ---------- [*] Questions [*] --------------------------------------------------------------------------- */
+
+
+        /**
+         * It creates a question for an event with a question text and the minimum bet
+         * @param event an instance of the event to which the question is added
+         * @param question  an instance of the question text
+         * @param betMinimum minimum quantity of the bet
+         * @return it returns the question created, null or an exception
+         * @throws QuestionAlreadyExist the same question already exists for the event
+         */
+        public Question createQuestion(Event event, String question, float betMinimum)
+                throws QuestionAlreadyExist {
+            System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " +
+                    question + " minimum bet = " + betMinimum);
+
+            Event ev = db.find(Event.class, event.getEventID());
+
+            if (ev.doesQuestionExist(question)) throw new QuestionAlreadyExist(
+                    ResourceBundle.getBundle("Etiquetas").getString("ErrorQuestionAlreadyExist"));
+
+            db.getTransaction().begin();
+            Question q = ev.addQuestion(question, betMinimum);
+            db.persist(ev); // db.persist(q) not required when CascadeType.PERSIST is added
+            // in questions property of Event class
+            // @OneToMany(fetch=FetchType.EAGER, cascade=CascadeType.PERSIST)
+            db.getTransaction().commit();
+            return q;
+        }
+
+        public List<Question> getQuestions(Event event) {
+            List<Question> que = new ArrayList<Question>();
+            TypedQuery<Question> query = db.createQuery("SELECT qu FROM Question qu WHERE qu.event=?1",
+                    Question.class);
+            query.setParameter(1, event);
+            List<Question> questions = query.getResultList();
+            for (Question qu:questions) que.add(qu);
+
+            return que;
+        }
+
         /**
          * Removes the question with the given id.
          * @param questionID the id of the question to be removed
@@ -516,39 +511,9 @@
 
             // (Optional) Count the number of forecasts and bets removed
             int countF = q.getForecasts().size();
-            System.out.println("Quesiton removed");
+            System.out.println("Question removed");
             System.out.println("Forecasts removed: " + countF);
             System.out.println("Bets removed: " + associatedBets.size());
-        }
-
-        /**
-         * It opens the database
-         * @param initializeMode initialize mode of the database
-         */
-        public void open(boolean initializeMode){
-
-            System.out.println("Opening DataAccess instance => isDatabaseLocal: " +
-                    config.isDataAccessLocal() + " getDatabBaseOpenMode: " + config.getDataBaseOpenMode());
-
-            String fileName = config.getDataBaseFilename();
-            if (initializeMode) {
-                fileName = fileName + ";drop";
-                System.out.println("Deleting the DataBase");
-            }
-
-            if (config.isDataAccessLocal()) {
-                emf = Persistence.createEntityManagerFactory("objectdb:" + fileName);
-                db = emf.createEntityManager();
-            } else {
-                Map<String, String> properties = new HashMap<String, String>();
-                properties.put("javax.persistence.jdbc.user", config.getDataBaseUser());
-                properties.put("javax.persistence.jdbc.password", config.getDataBasePassword());
-
-                emf = Persistence.createEntityManagerFactory("objectdb://" + config.getDataAccessNode() +
-                        ":"+config.getDataAccessPort() + "/" + fileName, properties);
-
-                db = emf.createEntityManager();
-            }
         }
 
         /**
@@ -561,6 +526,148 @@
             System.out.println(">> DataAccess: existQuestion => event = " + event + " question = " + question);
             Event ev = db.find(Event.class, event.getEventID());
             return ev.doesQuestionExist(question);
+        }
+
+
+        /* ---------- [*] Forecasts [*] --------------------------------------------------------------------------- */
+
+
+        /**
+         * It inserts the given forecast in the database
+         * @param question an instance of the question of the forecast
+         * @param result result of the forecast
+         * @param fee fee of the forecast
+         * @throws ForecastAlreadyExistException if the forecast already exists
+         */
+        public Forecast addForecast(Question question, String result, double fee) throws ForecastAlreadyExistException {
+            System.out.println(">> DataAccess: addForecast => question = " + question + " result = " + result + " fee = " + fee);
+
+            // Check if the forecast already exist
+            Question q = db.find(Question.class, question.getQuestionID());
+
+            if (q.doesForecastExist(result)) throw new ForecastAlreadyExistException (
+                    ResourceBundle.getBundle("Etiquetas").getString("ErrorForecastAlreadyExist"));
+
+            // Add the new forecast
+            db.getTransaction().begin();
+            Forecast forecast = q.addForecast(result, fee);
+            db.persist(q); // CascadeType.PERSIST, so persist(forecast) not needed
+            db.getTransaction().commit();
+
+            return forecast;
+        }
+
+        /**
+         * Removes the forecast with the given id from the database
+         * @param forecastID the forecast identification
+         */
+        public void removeForecast(int forecastID) {
+            System.out.println(">> DataAccess: removeForecast => questionID = " + forecastID);
+            Forecast f = db.find(Forecast.class, forecastID);
+            Question q = db.find(Question.class, f.getQuestion());
+
+            // Remove all bets related to this forecast
+            TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.userForecast=?1", Bet.class);
+            query.setParameter(1, f);
+
+            List<Bet> associatedBets = query.getResultList();
+            for (Bet b: associatedBets) removeBet(b.getBetID());
+
+            // Remove the forecast
+            db.getTransaction().begin();
+            q.getForecasts().remove(f);
+            db.getTransaction().commit();
+
+            // (Optional) Count the number of bets removed
+            System.out.println("Forecast removed");
+            System.out.println("Bets removed: " + associatedBets.size());
+        }
+
+
+        /* ---------- [*] Bets [*] --------------------------------------------------------------------------- */
+
+        /**
+         * Persists a new bet for the given gambler, in the selected forecast.
+         * @param betAmount Amount of money bet by the gambler.
+         * @param forecast The forecast linked with the bet.
+         * @param gambler The user who places the bet.
+         * @return true if the persistence has been successful.
+         * @throws BetAlreadyExistsException Thrown if the gambler already had placed a bet in the same forecast.
+         * @throws LateBetException Thrown if the gambler tries to place a bet an hour before on the event associated with the forecast.
+         * @throws LiquidityLackException Thrown when gambler bets not having enough liquidity access to account for it.
+         * @throws MinBetException Exception for when user inserts less fee than required.
+         */
+        public void setBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException, UserNotFoundException
+        {
+            // Check if user exists
+            User user = db.find(User.class, gambler.getUserID());
+            if (user == null) throw new UserNotFoundException();
+
+            // check for liquidity
+            if(gambler.getWallet() - betAmount < 0) throw new LiquidityLackException();
+
+            // check if bet already exists
+            if(getBet(gambler, forecast) != null) throw new BetAlreadyExistsException();
+
+            // check for if bet day is allowed
+            Date today = Calendar.getInstance().getTime();
+            Date eventDate = forecast.getQuestion().getEvent().getEventDate();
+            if (today.compareTo(eventDate) > 0) throw new LateBetException();
+
+            // check if minimum bet is surpassed
+            if(betAmount < forecast.getQuestion().getBetMinimum()) throw new MinBetException();
+
+            // Perform the bet
+            db.getTransaction().begin();
+            user.setWallet(gambler.getWallet() - betAmount);
+            user.addBet(betAmount, forecast);
+            Calendar cal = Calendar.getInstance();
+            user.getCard().addTransaction(1, "Bet placed", betAmount, cal.getTime());
+            db.persist(user);
+            db.getTransaction().commit();
+            System.out.println("Bet has been saved.");
+        }
+
+        /**
+         * Returns the single possible bet for a given gambler and the gambler's forecast.
+         * @param gambler The user to get the bet from.
+         * @param userForecast The forecast where the user has bet.
+         * @return The single bet placed by the user if a bet was placed, NULL otherwise.
+         */
+        public Bet getBet(User gambler, Forecast userForecast)
+        {
+            Bet result = null;
+            User user = db.find(User.class, gambler.getUserID());
+            TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.gambler = ?1 AND b.userForecast = ?2", Bet.class);
+            q.setParameter(1, user);
+            q.setParameter(2, userForecast);
+            List<Bet> bets = q.getResultList();
+            if(!bets.isEmpty())
+                result = bets.get(0);
+            return result;
+        }
+
+        /**
+         * Returns all the active bets made by the given user.
+         * @param gambler the user who made the bet
+         * @return all the active bets made by the given user
+         */
+        public List<Bet> getActiveBets(User gambler) {
+            User u = db.find(User.class, gambler.getUserID());
+
+            // Get today's date
+            Date today = Calendar.getInstance().getTime();
+
+            TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.gambler = ?1", Bet.class);
+            q.setParameter(1, u);
+
+            List<Bet> activeBets = new ArrayList<Bet>();
+            Event e;
+            for (Bet b: q.getResultList()) {
+                e = b.getUserForecast().getQuestion().getEvent();
+                if (today.compareTo(e.getEventDate()) < 0) activeBets.add(b);
+            }
+            return activeBets;
         }
 
         public void removeBet(Integer betID) {
@@ -578,6 +685,39 @@
             user.getCard().addTransaction(0, "Bet refund", amountToRefund, cal.getTime());
             db.persist(user);
             db.getTransaction().commit();
+        }
+
+        /**
+         * Retrieves the total number of bets made by the given user, including the ones
+         * that have already passed.
+         * @param gambler the user who made the bet
+         * @return the total number of bets made by the user
+         */
+        public long getTotalNumberOfBets(User gambler) {
+            TypedQuery<Long> q = db.createQuery("SELECT COUNT(b) FROM Bet b WHERE b.gambler = ?1", Long.class);
+            q.setParameter(1, gambler);
+            return q.getSingleResult();
+        }
+
+
+        /* ---------- [*] User [*] --------------------------------------------------------------------------- */
+
+
+        /**
+         * It checks the login utility with a given username and password to grant access
+         * @param username an instance of username
+         * @param password an instance of password
+         * @return access granted or not!
+         */
+        public boolean checkLogin(String username, String password) {
+            System.out.println(">> DataAccess: checkLogin => username = " + username + " password = " + password);
+
+            TypedQuery<User> query = db.createQuery("SELECT user FROM User user WHERE user.username=?1 AND user.password=?2", User.class);
+            query.setParameter(1, username);
+            query.setParameter(2, password);
+            List<User> users = query.getResultList();
+
+            return !users.isEmpty();
         }
 
         /**
@@ -617,18 +757,32 @@
         }
 
         /**
-         * It returns true if the username is already in the database
-         * @param username an instance of username
-         * @return it returns true if the username is already in the database
+         * Returns the user with the userID passed by parameter.
+         * @param userID user's ID
+         * @return the user with the given userID
+         * @throws UserNotFoundException if a user with the given userID does not exist
          */
-        public boolean isUserInDB(String username)
+        public User getUser(int userID) throws UserNotFoundException {
+            User u = db.find(User.class, userID);
+            if (u == null) throw new UserNotFoundException();
+            return u;
+        }
+
+        /**
+         * Returns the user with the username passed by parameter.
+         * @param username The username of the user to retrieve.
+         * @return The user with the username passed by parameter.
+         * @throws UserNotFoundException if the user does not exist
+         */
+        public User getUser(String username) throws UserNotFoundException
         {
-            System.out.println(">> DataAccess: isUserInDB => username = " + username);
+            System.out.println(">> DataAccess: getUser => username = " + username);
 
             TypedQuery<User> u = db.createQuery("SELECT u FROM User u WHERE u.username=?1", User.class);
             u.setParameter(1, username);
             List<User> query = u.getResultList();
-            return !query.isEmpty();
+            if(query.size() !=  1) throw new UserNotFoundException();
+            return query.get(0);
         }
 
         /**
@@ -705,33 +859,23 @@
         }
 
         /**
-         * Returns the user with the userID passed by parameter.
-         * @param userID user's ID
-         * @return the user with the given userID
-         * @throws UserNotFoundException if a user with the given userID does not exist
+         * It returns true if the username is already in the database
+         * @param username an instance of username
+         * @return it returns true if the username is already in the database
          */
-        public User getUser(int userID) throws UserNotFoundException {
-            User u = db.find(User.class, userID);
-            if (u == null) throw new UserNotFoundException();
-            return u;
-        }
-
-        /**
-         * Returns the user with the username passed by parameter.
-         * @param username The username of the user to retrieve.
-         * @return The user with the username passed by parameter.
-         * @throws UserNotFoundException if the user does not exist
-         */
-        public User getUser(String username) throws UserNotFoundException
+        public boolean isUserInDB(String username)
         {
-            System.out.println(">> DataAccess: getUser => username = " + username);
+            System.out.println(">> DataAccess: isUserInDB => username = " + username);
 
             TypedQuery<User> u = db.createQuery("SELECT u FROM User u WHERE u.username=?1", User.class);
             u.setParameter(1, username);
             List<User> query = u.getResultList();
-            if(query.size() !=  1) throw new UserNotFoundException();
-            return query.get(0);
+            return !query.isEmpty();
         }
+
+
+        /* ---------- [*] Transactions [*] --------------------------------------------------------------------------- */
+
 
         /**
          *
@@ -774,101 +918,9 @@
             return t;
         }
 
-        /**
-         * Returns all the active bets made by the given user.
-         * @param gambler the user who made the bet
-         * @return all the active bets made by the given user
-         */
-        public List<Bet> getActiveBets(User gambler) {
-            User u = db.find(User.class, gambler.getUserID());
 
-            // Get today's date
-            Date today = Calendar.getInstance().getTime();
+        /* ----------------------------------------------------------------------------------------------------------- */
 
-            TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.gambler = ?1", Bet.class);
-            q.setParameter(1, u);
-
-            List<Bet> activeBets = new ArrayList<Bet>();
-            Event e;
-            for (Bet b: q.getResultList()) {
-                e = b.getUserForecast().getQuestion().getEvent();
-                if (today.compareTo(e.getEventDate()) < 0) activeBets.add(b);
-            }
-            return activeBets;
-        }
-
-        /**
-         * Retrieves the total number of bets made by the given user, including the ones
-         * that have already passed.
-         * @param gambler the user who made the bet
-         * @return the total number of bets made by the user
-         */
-        public long getTotalNumberOfBets(User gambler) {
-            TypedQuery<Long> q = db.createQuery("SELECT COUNT(b) FROM Bet b WHERE b.gambler = ?1", Long.class);
-            q.setParameter(1, gambler);
-            return q.getSingleResult();
-        }
-
-        /**
-         * Returns the single possible bet for a given gambler and the gambler's forecast.
-         * @param gambler The user to get the bet from.
-         * @param userForecast The forecast where the user has bet.
-         * @return The single bet placed by the user if a bet was placed, NULL otherwise.
-         */
-        public Bet getBet(User gambler, Forecast userForecast)
-        {
-            Bet result = null;
-            User user = db.find(User.class, gambler.getUserID());
-            TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.gambler = ?1 AND b.userForecast = ?2", Bet.class);
-            q.setParameter(1, user);
-            q.setParameter(2, userForecast);
-            List<Bet> bets = q.getResultList();
-            if(!bets.isEmpty())
-                result = bets.get(0);
-            return result;
-        }
-
-        /**
-         * Persists a new bet for the given gambler, in the selected forecast.
-         * @param betAmount Amount of money bet by the gambler.
-         * @param forecast The forecast linked with the bet.
-         * @param gambler The user who places the bet.
-         * @return true if the persistence has been successful.
-         * @throws BetAlreadyExistsException Thrown if the gambler already had placed a bet in the same forecast.
-         * @throws LateBetException Thrown if the gambler tries to place a bet an hour before on the event associated with the forecast.
-         * @throws LiquidityLackException Thrown when gambler bets not having enough liquidity access to account for it.
-         * @throws MinBetException Exception for when user inserts less fee than required.
-         */
-        public void setBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException, UserNotFoundException
-        {
-            // Check if user exists
-            User user = db.find(User.class, gambler.getUserID());
-            if (user == null) throw new UserNotFoundException();
-
-            // check for liquidity
-            if(gambler.getWallet() - betAmount < 0) throw new LiquidityLackException();
-
-            // check if bet already exists
-            if(getBet(gambler, forecast) != null) throw new BetAlreadyExistsException();
-
-            // check for if bet day is allowed
-            Date today = Calendar.getInstance().getTime();
-            Date eventDate = forecast.getQuestion().getEvent().getEventDate();
-            if (today.compareTo(eventDate) > 0) throw new LateBetException();
-
-            // check if minimum bet is surpassed
-            if(betAmount < forecast.getQuestion().getBetMinimum()) throw new MinBetException();
-
-            // Perform the bet
-            db.getTransaction().begin();
-            user.setWallet(gambler.getWallet() - betAmount);
-            user.addBet(betAmount, forecast);
-            Calendar cal = Calendar.getInstance();
-            user.getCard().addTransaction(1, "Bet placed", betAmount, cal.getTime());
-            db.persist(user);
-            db.getTransaction().commit();
-            System.out.println("Bet has been saved.");
-        }
 
         /**
          * It closes the database

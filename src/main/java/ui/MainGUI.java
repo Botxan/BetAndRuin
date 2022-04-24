@@ -1,6 +1,7 @@
 package ui;
 
 import businessLogic.BlFacade;
+import domain.User;
 import exceptions.UserNotFoundException;
 import javafx.application.Platform;
 import javafx.event.EventHandler;
@@ -20,6 +21,7 @@ import utils.History;
 import utils.Window;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -30,7 +32,7 @@ public class MainGUI {
 
     public Window navBarLag, welcomeLag, loginLag, registerLag, browseEventsLag,
             userMenuLag, userOverviewLag, profileLag, betsLag, movementsLag,
-            adminMenuLag, createForecastLag, adminOverviewLag, eventsLag, questionsLag, forecastsLag;
+            adminMenuLag, adminOverviewLag, eventsLag, questionsLag, forecastsLag;
     private BlFacade businessLogic;
     private Stage stage;
     private Scene scene;
@@ -76,58 +78,30 @@ public class MainGUI {
     }
 
     /**
-     * Creates a new window and assigns its corresponding value
-     * UI and Controller
-     * @param fxmlfile the name of the fxml file
+     * Creates a new window and assigns its corresponding UI and Controller
+     * @param fxmlfile the path of the fxml resource
+     * @param controllerFile the path to the controller's classname
      * @return the new window
-     * @throws IOException in case de load.loader() fails.
+     * @throws IOException in case loader.load() fails.
      */
-    private Window load(String fxmlfile, String title, int width, int height) throws IOException {
-        Window window = new Window(title, width, height);
+    private Window load(String fxmlfile, String controllerFile, int width, int height) throws IOException {
+        Window window = new Window(width, height);
         FXMLLoader loader = new FXMLLoader(MainGUI.class.getResource(fxmlfile), ResourceBundle.getBundle("Etiquetas", Locale.getDefault()));
+
+        // Set the controller constructor with business logic
         loader.setControllerFactory(controllerClass -> {
-            if (controllerClass == NavBarController.class) {
-                return new NavBarController(businessLogic);
-            } else if (controllerClass == BrowseEventsController.class) {
-                return new BrowseEventsController(businessLogic);
-            } else if (controllerClass == LoginController.class) {
-                return new LoginController(businessLogic);
-            } else if (controllerClass == RegisterController.class) {
-                return new RegisterController(businessLogic);
-            } else if (controllerClass == WelcomeController.class) {
-                return new WelcomeController(businessLogic);
-            } else if (controllerClass == UserMenuController.class) {
-                return new UserMenuController(businessLogic);
-            }else if (controllerClass == CreateForecastController.class) {
-                return new CreateForecastController(businessLogic);
-            } else if (controllerClass == AdminMenuController.class) {
-                return new AdminMenuController(businessLogic);
-            } else if (controllerClass == UserOverviewController.class) {
-                return new UserOverviewController(businessLogic);
-            } else if (controllerClass == ProfileController.class) {
-                return new ProfileController(businessLogic);
-            } else if (controllerClass == BetsController.class) {
-                return new BetsController(businessLogic);
-            } else if (controllerClass == MovementsController.class) {
-                return new MovementsController(businessLogic);
-            }  else if (controllerClass == AdminOverviewController.class) {
-                return new AdminOverviewController(businessLogic);
-            } else if (controllerClass == EventsController.class) {
-                return new EventsController(businessLogic);
-            } else if (controllerClass == QuestionsController.class) {
-                return new QuestionsController(businessLogic);
-            } else if (controllerClass == ForecastsController.class) {
-                return new ForecastsController(businessLogic);
-            } else {
-                // default behavior for controllerFactory:
-                try {
-                    return controllerClass.getDeclaredConstructor().newInstance();
-                } catch (Exception exc) {
-                    exc.printStackTrace();
-                    throw new RuntimeException(exc); // fatal, just bail...
-                }
+            try {
+                // Obtain the controller by its name
+                Class<?> c = Class.forName("uicontrollers." + controllerFile);
+                // Obtain the desired constructor (there's only one, and takes the business logic as param)
+                Constructor<?> cons = c.getConstructor(BlFacade.class);
+                // Return the instance of the constructor with the name
+                return cons.newInstance(businessLogic);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         });
+
         window.setUi(loader.load());
         ((Controller) loader.getController()).setMainApp(this);
         window.setController(loader.getController());
@@ -150,11 +124,11 @@ public class MainGUI {
         // BufferedImage img = ImageIO.read(getClass().getResourceAsStream("/icon/favicon.png"));
         // taskbar.setIconImage(img);
 
-        navBarLag = load("/NavBarGUI.fxml", "NavBar",  SCENE_WIDTH, SCENE_HEIGHT);
-        welcomeLag = load("/WelcomeGUI.fxml", "Welcome", 350, 500);
-        loginLag = load("/Login.fxml", "Login", 700, 500);
-        registerLag = load("/RegisterGUI.fxml", "Register", 900, 600);
-        browseEventsLag = load("/BrowseEvents.fxml", "BrowseEvents", SCENE_WIDTH, SCENE_HEIGHT);
+        navBarLag = load("/NavBarGUI.fxml", "NavBarController",  SCENE_WIDTH, SCENE_HEIGHT);
+        welcomeLag = load("/WelcomeGUI.fxml", "WelcomeController", 350, 500);
+        loginLag = load("/Login.fxml", "LoginController", 700, 500);
+        registerLag = load("/RegisterGUI.fxml", "RegisterController", 900, 600);
+        browseEventsLag = load("/BrowseEvents.fxml", "BrowseEventsController", SCENE_WIDTH, SCENE_HEIGHT);
 
         //Update user money everytime a scene is shown.
         stage.setOnShowing(new EventHandler<WindowEvent>() {
@@ -185,19 +159,18 @@ public class MainGUI {
      */
     public void loadLoggedWindows() throws IOException {
         // Admin windows
-        adminOverviewLag = load("/admin/AdminOverview.fxml", "AdminOverview", SCENE_WIDTH, SCENE_HEIGHT);
-        eventsLag = load("/admin/Events.fxml", "Events", SCENE_WIDTH, SCENE_HEIGHT);
-        questionsLag = load("/admin/Questions.fxml", "Questions", SCENE_WIDTH, SCENE_HEIGHT);
-        forecastsLag = load("/admin/Forecasts.fxml", "Forecasts", SCENE_WIDTH, SCENE_HEIGHT);
-        createForecastLag = load("/CreateForecast.fxml", "CreateForecast", SCENE_WIDTH, SCENE_HEIGHT);
+        adminMenuLag = load("/admin/AdminMenu.fxml", "admin.AdminMenuController", SCENE_WIDTH, SCENE_HEIGHT);
+        adminOverviewLag = load("/admin/AdminOverview.fxml", "admin.AdminOverviewController", SCENE_WIDTH, SCENE_HEIGHT);
+        eventsLag = load("/admin/Events.fxml", "admin.EventsController", SCENE_WIDTH, SCENE_HEIGHT);
+        questionsLag = load("/admin/Questions.fxml", "admin.QuestionsController", SCENE_WIDTH, SCENE_HEIGHT);
+        forecastsLag = load("/admin/Forecasts.fxml", "admin.ForecastsController", SCENE_WIDTH, SCENE_HEIGHT);
 
         // User windows
-        adminMenuLag = load("/admin/AdminMenu.fxml", "AdminMenu", SCENE_WIDTH, SCENE_HEIGHT);
-        userMenuLag = load("/user/UserMenuGUI.fxml", "UserMenu", SCENE_WIDTH, SCENE_HEIGHT);
-        userOverviewLag = load("/user/UserOverview.fxml", "UserOverview", SCENE_WIDTH, SCENE_HEIGHT);
-        profileLag = load("/user/Profile.fxml", "Profile", SCENE_WIDTH, SCENE_HEIGHT);
-        betsLag = load("/user/Bets.fxml", "Bets", SCENE_WIDTH, SCENE_HEIGHT);
-        movementsLag = load("/user/Movements.fxml", "Movements", SCENE_WIDTH, SCENE_HEIGHT);
+        userMenuLag = load("/user/UserMenuGUI.fxml", "user.UserMenuController", SCENE_WIDTH, SCENE_HEIGHT);
+        userOverviewLag = load("/user/UserOverview.fxml", "user.UserOverviewController", SCENE_WIDTH, SCENE_HEIGHT);
+        profileLag = load("/user/Profile.fxml", "user.ProfileController", SCENE_WIDTH, SCENE_HEIGHT);
+        betsLag = load("/user/Bets.fxml", "user.BetsController", SCENE_WIDTH, SCENE_HEIGHT);
+        movementsLag = load("/user/Movements.fxml", "user.MovementsController", SCENE_WIDTH, SCENE_HEIGHT);
     }
 
     /**
@@ -256,14 +229,15 @@ public class MainGUI {
      * @param window the window.
      */
     private void showScene(Window window) {
-        stage.setTitle(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString(window.getTitle()));
 
         // Do not show navbar in Welcome, Login, Register
-        if (Arrays.asList("Welcome", "Login", "Register").contains(window.getTitle()))
+        if (window.getController() instanceof WelcomeController ||
+            window.getController() instanceof LoginController ||
+            window.getController() instanceof RegisterController)
             mainWrapper.setTop(null);
         else {
             mainWrapper.setTop(navBarLag.getUi());
-            if (Arrays.asList("UserMenu", "AdminMenu").contains(window.getTitle())) {
+            if (window.getController() instanceof AdminMenuController || window.getController() instanceof UserMenuController) {
                 ((NavBarController) navBarLag.getController()).getUserBar().setVisible(false);
                 ((NavBarController) navBarLag.getController()).getUserBar().setManaged(false);
             } else {
@@ -332,8 +306,6 @@ public class MainGUI {
                 yield welcomeLag;
             case "UserMenu":
                 yield userMenuLag;
-            case "CreateForecast":
-                yield createForecastLag;
             case "AdminMenu":
                 yield adminMenuLag;
             default: // get the welcome window

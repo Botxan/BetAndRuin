@@ -10,6 +10,7 @@ import domain.Forecast;
 import domain.Question;
 import exceptions.EventFinished;
 import exceptions.QuestionAlreadyExist;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -17,6 +18,7 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.AccessibleAction;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -84,14 +86,19 @@ public class QuestionsController implements Controller {
     @FXML
     void initialize() {
         addQuestionBtn.setDisable(true);
-        initEventCB();
+        eventsCB.setDisable(true);
+        initEventsCB();
         initDatePicker();
         initQuestionsTable();
         initCreateQuestionDialog();
     }
 
-    private void initEventCB() {
-        // only show the text of the event in the combobox (without the id)
+    private void initEventsCB() {
+        // Initialize the observable list of events
+        events = FXCollections.observableArrayList();
+        eventsCB.setItems(events);
+
+        // Only display event description (without the id)
         Callback<ListView<Event>, ListCell<Event>> factory = lv -> new ListCell<>() {
             @Override
             protected void updateItem(Event item, boolean empty) {
@@ -102,25 +109,22 @@ public class QuestionsController implements Controller {
 
         eventsCB.setCellFactory(factory);
         eventsCB.setButtonCell(factory.call(null));
-    }
 
-    /**
-     * Loads the questions of the selected events in the table
-     */
-    @FXML
-    void loadQuestions() {
-        questions.clear();
-        Event selectedEvent = eventsCB.getSelectionModel().getSelectedItem();
-        if (selectedEvent != null) {
-            questions.addAll(selectedEvent.getQuestions());
+        // Load related question when an event is selected
+        eventsCB.valueProperty().addListener(actionEvent -> {
+            Event selectedEvent = eventsCB.getSelectionModel().getSelectedItem();
 
-            // Check date to allow creating questions
-            Date today = Calendar.getInstance().getTime();
-            addQuestionBtn.setDisable(today.compareTo(selectedEvent.getEventDate()) > 0);
-        }
+            if (selectedEvent != null) {
+                questions.setAll(businessLogic.getQuestions(eventsCB.getSelectionModel().getSelectedItem()));
+                // If selected date hasn't passed, enable button for creating question
+                Date today = Calendar.getInstance().getTime();
+                addQuestionBtn.setDisable(today.compareTo(selectedEvent.getEventDate()) > 0);
+            } else questions.clear();
+        });
     }
 
     private void initDatePicker() {
+        holidays.clear();
         setEventsPrePost(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue());
 
         // get a reference to datepicker inner content
@@ -138,7 +142,6 @@ public class QuestionsController implements Controller {
                 });
             });
         });
-
         datePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {
             @Override
             public DateCell call(DatePicker param) {
@@ -148,23 +151,22 @@ public class QuestionsController implements Controller {
                     super.updateItem(item, empty);
                     if (!empty && item != null)
                         if (holidays.contains(item))
-                            this.setStyle("-fx-background-color: pink");
+                            this.getStyleClass().add("holiday");
+                        else
+                            this.getStyleClass().remove("holiday");
                     }
                 };
             }
         });
 
-        // when a date is selected...
-        datePicker.setOnAction(actionEvent -> {
-            eventsCB.getItems().clear();
-
-            events = FXCollections.observableArrayList(new ArrayList<>());
+        datePicker.valueProperty().addListener((obs, oldVal, newVal) -> {
             events.setAll(businessLogic.getEvents(Dates.convertToDate(datePicker.getValue())));
-            eventsCB.setItems(events);
 
-            if (eventsCB.getItems().size() == 0)
+            if (events.isEmpty()) {
+                eventsCB.setDisable(true);
                 addQuestionBtn.setDisable(true);
-            else {
+            } else {
+                eventsCB.setDisable(false);
                 addQuestionBtn.setDisable(false);
                 // select first option
                 eventsCB.getSelectionModel().select(0);
@@ -185,12 +187,13 @@ public class QuestionsController implements Controller {
             return new SimpleStringProperty(f == null ? "" : f.getDescription());
         });
 
+        // Add column to access to associated forecasts
+        addForecastsColumn();
         // Add column with delete button
         addActionColumn();
 
         // Text field to search and filter
         searchField.textProperty().addListener(obs -> {
-            System.out.printf(String.valueOf(filteredQuestions.size()));
             String filter = searchField.getText().toLowerCase().trim();
             if (filter == null || filter.length() == 0) {
                 filteredQuestions.setPredicate(q -> true);
@@ -204,6 +207,51 @@ public class QuestionsController implements Controller {
         });
 
         questionsTbl.setItems(filteredQuestions);
+    }
+
+    private void addForecastsColumn() {
+        TableColumn<Question, Integer> forecastsCol = new TableColumn("FORECASTS");
+        forecastsCol.setMinWidth(100);
+        forecastsCol.setMaxWidth(100);
+        forecastsCol.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Integer>(cellData.getValue().getForecasts().size()));
+
+        Callback<TableColumn<Question, Integer>, TableCell<Question, Integer>> cellFactory = new Callback<TableColumn<Question, Integer>, TableCell<Question, Integer>>() {
+            @Override
+            public TableCell<Question, Integer> call(final TableColumn<Question, Integer> param) {
+                JFXButton btn = new JFXButton();
+                FontAwesomeIconView icon = new FontAwesomeIconView(FontAwesomeIcon.TABLE);
+                icon.setSize("24px");
+                icon.setFill(Color.web("#B3CF00"));
+                btn.setCursor(Cursor.HAND);
+                btn.setGraphic(icon);
+
+                final TableCell<Question, Integer> cell = new TableCell<Question, Integer>() {
+                    {
+                        btn.setOnAction((ActionEvent event) -> {
+                            ((ForecastsController) mainGUI.forecastsLag.getController()).selectQuestion(getTableView().getItems().get(getIndex()));
+                            ((AdminMenuController) mainGUI.adminMenuLag.getController()).displayForecasts();
+                        });
+                    }
+
+                    @Override
+                    public void updateItem(Integer item, boolean empty) {
+                        super.updateItem(item, empty);
+                        setText("");
+                        if (empty) {
+                            setGraphic(null);
+                        } else {
+                            setText(getTableView().getItems().get(getIndex()).getForecasts().size() + " ");
+                            setGraphic(btn);
+                        }
+                    }
+                };
+                return cell;
+            }
+        };
+
+        forecastsCol.setCellFactory(cellFactory);
+
+        questionsTbl.getColumns().add(forecastsCol);
     }
 
     /**
@@ -278,7 +326,7 @@ public class QuestionsController implements Controller {
      * Displays the dialog for creating a question.
      */
     @FXML
-    void showCreateEventDialog() {
+    void showCreateQuestionDialog() {
         createQuestionOverlay.setVisible(true);
         createQuestionPane.setVisible(true);
         createQuestionDialog.show();
@@ -324,7 +372,10 @@ public class QuestionsController implements Controller {
                     errorQuestionLbl.getStyleClass().setAll("lbl", "lbl-success");
                     errorQuestionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("QuestionCreated"));
                     questions.add(q);
-                    createQuestionDialog.close();
+
+                    notifyChanges();
+
+                    closeCreateQuestionDialog();
                 }
             } else {
                 errorQuestionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("FieldsCompulsory"));
@@ -348,10 +399,8 @@ public class QuestionsController implements Controller {
         // Remove the deleted question form the table
         questions.remove(q);
 
-        // Update also the money displayed in the navigation bar
-        ((NavBarController)mainGUI.navBarLag.getController()).updateWalletLabel();
+        notifyChanges();
     }
-
 
     /**
      * Marks the events for current, previous and next month.
@@ -378,10 +427,37 @@ public class QuestionsController implements Controller {
         }
     }
 
-    @Override
-    public void setMainApp(MainGUI mainGUI) {
-        this.mainGUI = mainGUI;
+    /**
+     * Requests data reload to affected windows
+     */
+    public void notifyChanges() {
+        // Notify to other windows the remove to refresh their content
+        ((EventsController)mainGUI.eventsLag.getController()).reloadData();
+        ((ForecastsController)mainGUI.forecastsLag.getController()).reloadData();
+
+        // Update also the money displayed in the navigation bar
+        ((NavBarController)mainGUI.navBarLag.getController()).updateWalletLabel();
     }
+
+    /**
+     * Updates the changes made in events, questions and forecasts in other windows
+     */
+    public void reloadData() {
+        if (events != null) events.clear();
+        if (questions != null) questions.clear();
+        initDatePicker();
+    }
+
+    /**
+     * Method used by events window to preselect an event
+     */
+    public void selectEvent(Event e) {
+        datePicker.setValue(Dates.convertToLocalDateViaInstant(e.getEventDate()));
+        eventsCB.getSelectionModel().select(e);
+    }
+
+    @Override
+    public void setMainApp(MainGUI mainGUI) {this.mainGUI = mainGUI;}
 
     @Override
     public void redraw() {}

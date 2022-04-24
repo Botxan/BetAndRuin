@@ -98,8 +98,14 @@ public interface BlFacade  {
 	 * @param fee fee of the forecast
 	 * @throws ForecastAlreadyExistException 
 	 */
-	@WebMethod public void addForecast(Question question, String result, double fee) throws ForecastAlreadyExistException;
-	
+	@WebMethod public Forecast createForecast(Question question, String result, double fee) throws ForecastAlreadyExistException;
+
+	/**
+	 * It removes the given question.
+	 * @param forecastID the forecast identification
+	 */
+	@WebMethod public void removeForecast(int forecastID);
+
 	/**
 	 * It registers a user into the database
 	 * @param username an instance of the username 

@@ -14,3 +14,7 @@
     -fx-font-weight: bold;
     -fx-cursor: hand;
 }
+
+.holiday {
+    -fx-background-color: pink;
+}

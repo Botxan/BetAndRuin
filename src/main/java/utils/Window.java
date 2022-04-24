@@ -11,7 +11,6 @@ import uicontrollers.Controller;
 public class Window {
     private int width;
     private int height;
-    private String title;
     private Controller controller;
     private Parent ui;
 
@@ -19,57 +18,30 @@ public class Window {
      * Constructor that initializes an empty window.
      */
     public Window() {
-        this("Untitled", MainGUI.SCENE_WIDTH, MainGUI.SCENE_HEIGHT, null, null);
-    }
-
-    /**
-     * Constructor that initializes an empty window with a title.
-     * @param title the title of the window.
-     */
-    public Window(String title) {
-        this(title, MainGUI.SCENE_WIDTH, MainGUI.SCENE_HEIGHT, null, null);
+        this(MainGUI.SCENE_WIDTH, MainGUI.SCENE_HEIGHT, null, null);
     }
 
     /**
      * Constructor that initializes a sized window without controller or UI.
-     * @param title the title of the window.
      * @param width the width of the window.
      * @param height the height of the window.
      */
-    public Window(String title, int width, int height) {
-        this(title, width, height, null, null);
+    public Window(int width, int height) {
+        this(width, height, null, null);
     }
 
     /**
      * Constructor that initializes a sized window with controller and UI.
-     * @param title the title of the window.
      * @param width the width of the window.
      * @param height the height of the window.
      * @param controller the controller of the window.
      * @param ui the UI of the window.
      */
-    public Window(String title, int width, int height, Controller controller, Parent ui) {
-        this.title = title;
+    public Window(int width, int height, Controller controller, Parent ui) {
         this.width = width;
         this.height = height;
         this.controller = controller;
         this.ui = ui;
-    }
-
-    /**
-     * Retrieves the title of the window.
-     * @return the title of the window.
-     */
-    public String getTitle() {
-        return title;
-    }
-
-    /**
-     * Sets the title of the window.
-     * @param title the title of the window.
-     */
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     /**

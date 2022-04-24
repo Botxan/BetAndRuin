@@ -216,5 +216,16 @@ public class Question {
 	public String toString(){
 		return question;
 	}
-	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Question other = (Question) obj;
+		return questionID == other.questionID;
+	}
 }
