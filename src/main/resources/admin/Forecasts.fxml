@@ -44,7 +44,7 @@
       <DatePicker fx:id="datePicker" layoutX="178.0" layoutY="45.0" prefHeight="25.0" prefWidth="120.0" AnchorPane.topAnchor="45.0" />
       <ComboBox fx:id="eventsCB" layoutX="313.0" layoutY="45.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.topAnchor="45.0" />
       <Label fx:id="selectQuestionLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="40.0" layoutY="50.0" prefHeight="21.0" prefWidth="129.0" style="-fx-font-size: 13px;" text="Select question" AnchorPane.topAnchor="47.0" />
-      <Pane fx:id="createForecastPane" layoutX="243.0" layoutY="245.0" prefHeight="229.0" prefWidth="461.0">
+      <Pane fx:id="createForecastPane" layoutX="8.0" layoutY="245.0" prefHeight="229.0" prefWidth="461.0">
          <children>
             <TextField fx:id="resultField" layoutX="150.0" layoutY="23.0" prefHeight="26.0" prefWidth="198.0" />
             <TextField fx:id="feeField" layoutX="151.0" layoutY="82.0" prefHeight="26.0" prefWidth="73.0" />
@@ -72,9 +72,35 @@
          </children>
       </Pane>
       <ComboBox fx:id="questionsCB" layoutX="535.0" layoutY="45.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.topAnchor="45.0" />
+      <Pane fx:id="publishResultPane" layoutX="486.0" layoutY="248.0" prefHeight="180.0" prefWidth="461.0">
+         <children>
+            <JFXButton fx:id="publishResultBtn" buttonType="RAISED" layoutX="235.0" layoutY="116.0" onAction="#publishResult" prefHeight="35.0" prefWidth="160.0" styleClass="aceituna-btn" text="Publish result" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <Label fx:id="markAsCorrectLbl" alignment="CENTER" contentDisplay="RIGHT" layoutX="63.0" layoutY="21.0" prefHeight="32.0" prefWidth="335.0" text="Mark as correct forecast and publish the result?" textAlignment="RIGHT">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="backBtn1" buttonType="RAISED" layoutX="67.0" layoutY="116.0" onAction="#closePublishResultDialog" prefHeight="35.0" prefWidth="160.0" styleClass="aceituna-btn" text="%Back" textFill="WHITE">
+               <cursor>
+                  <Cursor fx:constant="HAND" />
+               </cursor>
+            </JFXButton>
+            <Label fx:id="irreversibleLbl" alignment="CENTER" contentDisplay="RIGHT" layoutX="74.0" layoutY="53.0" prefHeight="32.0" prefWidth="335.0" text="This action is irreversible" textAlignment="RIGHT">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="cannotPublishLbl" layoutX="63.0" layoutY="90.0" prefHeight="17.0" prefWidth="335.0" />
+         </children>
+      </Pane>
    </children>
    <stylesheets>
       <URL value="@../css/betAndRuin.css" />
       <URL value="@../css/table.css" />
+      <URL value="@../css/forecasts.css" />
    </stylesheets>
 </AnchorPane>

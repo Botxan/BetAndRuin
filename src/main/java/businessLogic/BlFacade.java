@@ -302,10 +302,11 @@ public interface BlFacade  {
 	@WebMethod public void removeEvent(int eventID);
 
 	/**
-	 * It publishes the results of the events
-	 * @param event The event
+	 * It publishes the results of the given question.
+	 * @param qID The question identification to which belongs the result
+	 * @param fID the correct forecast identification (the result of the question)
 	 */
-	@WebMethod public void publishResults(Event event);
+	@WebMethod public void publishResult(int qID, int fID);
 
 	/**
 	 * It returns a list that contains all the movements that the user has done

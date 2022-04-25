@@ -88,6 +88,7 @@
 
                 // Event already passed
                 Event ev21 = new Event("Sevilla-Valladolid", UtilDate.newDate(year, month-1, 5), "Venezuela");
+                Event ev22 = new Event("Barcelona-Córdoba", UtilDate.newDate(year, month-1, 5), "Nigeria");
 
                 Question q1;
                 Question q2;
@@ -99,6 +100,7 @@
                 Question q7;
                 Question q8;
                 Question q9;
+                Question q10;
 
                 if (Locale.getDefault().equals(new Locale("es"))) {
                     q1 = ev1.addQuestion("¿Quién ganará el partido?", 1);
@@ -110,6 +112,7 @@
                     q7 = ev21.addQuestion("¿Quién ganará el partido?", 2);
                     q8 = ev21.addQuestion("¿Quién marcará el primero?", 2);
                     q9 = ev21.addQuestion("¿Habrá goles en tiempo de descuento?", 2);
+                    q10 = ev22.addQuestion("¿Quién ganará el partido?", 1);
                 } else if (Locale.getDefault().equals(new Locale("en"))) {
                     q1 = ev1.addQuestion("Who will win the match?", 1);
                     q2 = ev1.addQuestion("Who will score first?", 2);
@@ -120,6 +123,7 @@
                     q7 = ev21.addQuestion("Who will win the match?", 2);
                     q8 = ev21.addQuestion("Who will score first?", 2);
                     q9 = ev21.addQuestion("Will there be goals in extra time?", 2);
+                    q10 = ev22.addQuestion("Who will win the match?", 1);
                 } else {
                     q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1);
                     q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2);
@@ -130,6 +134,7 @@
                     q7 = ev21.addQuestion("Zeinek irabaziko du partidua?", 2);
                     q8 = ev21.addQuestion("Nork sartuko du gol lehenengo?", 2);
                     q9 = ev21.addQuestion("Luzapenean izango al dira golak?", 2);
+                    q10 = ev22.addQuestion("Zeinek irabaziko du partidua?", 1);
                 }
 
 
@@ -147,10 +152,15 @@
                 // For already passed event
                 Forecast f9 = q7.addForecast("Team1", 4);
                 Forecast f10 = q7.addForecast("Team2", 4);
+
                 Forecast f11 = q8.addForecast("Team1", 4);
                 Forecast f12 = q8.addForecast("Team2", 4);
+
                 Forecast f13 = q9.addForecast("Yes", 4);
                 Forecast f14 = q9.addForecast("No", 4);
+
+                Forecast f15 = q10.addForecast("Barcelona", 1.3);
+                Forecast f16 = q10.addForecast("Córdoba", 2.1);
 
                 // Create dummy user and admin
                 byte [] salt = BlFacadeImplementation.generateSalt();
@@ -281,6 +291,7 @@
                 db.persist(ev19);
                 db.persist(ev20);
                 db.persist(ev21);
+                db.persist(ev22);
 
                 db.persist(user1);
                 db.persist(admin1);
@@ -578,6 +589,45 @@
             return ev.doesQuestionExist(question);
         }
 
+        /**
+         * Marks the given forecast as the correct forecast for the given question.
+         * Users who won bets related to this question receive the corresponding amount for winning
+         * the bet (and transactions are registered).
+         * @param qID The question identification to which belongs the result
+         * @param fID the correct forecast identification (the result of the question)
+         */
+        public void publishResult(int qID, int fID) {
+            System.out.println(">> DataAccess: publishResult => qID = " + qID + " fID = " + fID);
+
+            // Find the questions and correct forecast in the db
+            Question q = db.find(Question.class, qID);
+            Forecast f = db.find(Forecast.class, fID);
+
+            db.getTransaction().begin();
+            q.setCorrectForecast(f);
+            db.getTransaction().commit();
+
+            // Get the correct bets
+            TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.userForecast=?1", Bet.class);
+            query.setParameter(1, f);
+
+            // Add to winners the corresponding amount (and register the transaction)
+            for (Bet b: query.getResultList()) {
+                Date today = Calendar.getInstance().getTime();
+                double wonAmount = b.getAmount() * b.getUserForecast().getFee();
+
+                // Find user in db
+                User u = db.find(User.class, b.getGambler());
+
+                db.getTransaction().begin();
+                // Add the amount to winner
+                u.depositMoneyIntoWallet(wonAmount);
+                // Register the transaction
+                u.getCard().addTransaction(0, "Won bet " + b.getBetID(), wonAmount, today);
+                db.getTransaction().commit();
+            }
+        }
+
 
         /* ---------- [*] Forecasts [*] --------------------------------------------------------------------------- */
 
@@ -782,7 +832,7 @@
             // Get all days of last month
             LocalDate startDate = Dates.convertToLocalDateViaInstant(monthAgo);
             LocalDate endDate = Dates.convertToLocalDateViaInstant(today);
-            long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+            long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate) + 1; // also today
             List<LocalDate> daysOfMonth = IntStream.iterate(0, i -> i + 1)
                     .limit(numOfDaysBetween)
                     .mapToObj(i -> startDate.plusDays(i))
@@ -831,7 +881,7 @@
             // Get all days of last month
             LocalDate startDate = Dates.convertToLocalDateViaInstant(monthAgo);
             LocalDate endDate = Dates.convertToLocalDateViaInstant(today);
-            long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+            long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate) + 1; // also today
             List<LocalDate> daysOfMonth = IntStream.iterate(0, i -> i + 1)
                     .limit(numOfDaysBetween)
                     .mapToObj(i -> startDate.plusDays(i))
@@ -876,7 +926,7 @@
             // Get all days of last month
             LocalDate startDate = Dates.convertToLocalDateViaInstant(monthAgo);
             LocalDate endDate = Dates.convertToLocalDateViaInstant(today);
-            long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+            long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate) + 1; // also today
             List<LocalDate> daysOfMonth = IntStream.iterate(0, i -> i + 1)
                     .limit(numOfDaysBetween)
                     .mapToObj(i -> startDate.plusDays(i))

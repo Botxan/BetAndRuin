@@ -110,6 +110,16 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
+	@Override
+	public void publishResult(int qID, int fID) {
+		dbManager.open(false);
+		dbManager.publishResult(qID, fID);
+		dbManager.close();
+
+		refreshUser();
+	}
+
+	@WebMethod
 	public Vector<Date> getEventsMonth(Date date) {
 		dbManager.open(false);
 		Vector<Date>  dates = dbManager.getEventsMonth(date);
@@ -489,11 +499,6 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.close();
 
 		refreshUser();
-	}
-
-	@Override
-	public void publishResults(Event event) {
-
 	}
 
 	@Override

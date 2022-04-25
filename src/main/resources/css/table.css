@@ -34,10 +34,6 @@
     -fx-border-size: 0;
 }
 
-.tbl .table-view:row-selection .table-row-cell:filled:hover {
-    -fx-background-color: #F4F6F6;
-}
-
 .tbl .table-row-cell:selected .text {
        -fx-fill: #000000;
 }

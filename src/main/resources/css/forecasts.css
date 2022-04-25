@@ -1,0 +1,17 @@
+/* Row hovered */
+.non-correct-forecast-tbl:row-selection .table-row-cell:filled:hover {
+    -fx-background-color: #D5F5E3 !important;
+}
+
+.non-correct-forecast-tbl .table-row-cell:selected {
+    -fx-background-color: #FCF3CF !important;
+}
+
+/* Row hovered */
+.non-correct-forecast-tbl .table-row-cell {
+    -fx-cursor: HAND;
+}
+
+.row-correct-forecast {
+    -fx-background-color: #82E0AA !important;
+}

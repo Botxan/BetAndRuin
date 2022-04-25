@@ -10,6 +10,7 @@ import domain.Forecast;
 import domain.Question;
 import exceptions.ForecastAlreadyExistException;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -30,6 +31,8 @@ import uicontrollers.Controller;
 import uicontrollers.NavBarController;
 import utils.Dates;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.*;
@@ -50,6 +53,8 @@ public class ForecastsController implements Controller {
     private ObservableList<Forecast> forecasts;
     private StackPane createForecastOverlay;
     private JFXDialog createForecastDialog;
+    private StackPane publishResultOverlay;
+    private JFXDialog publishResultDialog;
     private TableColumn<Forecast, Date> actionCol;
 
     @FXML private AnchorPane mainPane;
@@ -58,12 +63,18 @@ public class ForecastsController implements Controller {
     @FXML private DatePicker datePicker;
     @FXML private JFXButton addForecastBtn;
     @FXML private JFXButton backBtn;
+    @FXML private JFXButton backBtn1;
+    @FXML private JFXButton publishResultBtn;
     @FXML private JFXButton createForecastBtn;
-    @FXML private Label feeLbl;
     @FXML private Label createForecastStatusLbl;
+    @FXML private Label feeLbl;
+    @FXML private Label irreversibleLbl;
+    @FXML private Label markAsCorrectLbl;
+    @FXML private Label cannotPublishLbl;
     @FXML private Label resultLbl;
     @FXML private Label selectQuestionLbl;
     @FXML private Pane createForecastPane;
+    @FXML private Pane publishResultPane;
     @FXML private TableColumn<Forecast, String> resultCol;
     @FXML private TableColumn<Forecast, Double> feeCol;
     @FXML private TableColumn<Forecast, Integer> idCol;
@@ -91,6 +102,7 @@ public class ForecastsController implements Controller {
         initDatePicker();
         initForecastsTable();
         initCreateForecastDialog();
+        initPublishResultDialog();
     }
 
     /**
@@ -154,9 +166,15 @@ public class ForecastsController implements Controller {
         //  Load related forecasts when selecting a question
         questionsCB.valueProperty().addListener(actionEvent -> {
             Question selectedQuestion = questionsCB.getSelectionModel().getSelectedItem();
-            if (selectedQuestion != null)
+            forecastsTbl.getStyleClass().remove("non-correct-forecast-tbl");
+            if (selectedQuestion != null) {
                 forecasts.setAll(selectedQuestion.getForecasts());
+                // If a correct forecast can be set, then add some hovering styles to the table
+                if (selectedQuestion.getEvent().getEventDate().compareTo(Calendar.getInstance().getTime()) < 0 &&
+                selectedQuestion.getCorrectForecast() == null) forecastsTbl.getStyleClass().add("non-correct-forecast-tbl");
+            }
             else addForecastBtn.setDisable(true);
+
         });
     }
 
@@ -253,10 +271,35 @@ public class ForecastsController implements Controller {
         forecasts = FXCollections.observableArrayList();
         FilteredList<Forecast> filteredQuestions = new FilteredList<>(forecasts, f -> true);
 
+
+        // Custom row factory to highlight correct forecast
+        forecastsTbl.setRowFactory(new Callback<TableView<Forecast>, TableRow<Forecast>>() {
+            @Override
+            public TableRow<Forecast> call(TableView<Forecast> tableView) {
+                final TableRow<Forecast> row = new TableRow<Forecast>() {
+                    @Override
+                    protected void updateItem(Forecast f, boolean empty){
+                        super.updateItem(f, empty);
+                        getStyleClass().remove("row-correct-forecast");
+                        if (!empty && f != null) {
+                            Question selectedQuestion = questionsCB.getSelectionModel().getSelectedItem();
+                            if (selectedQuestion != null && f.equals(selectedQuestion.getCorrectForecast()))
+                                getStyleClass().add("row-correct-forecast");
+                        }
+                    }
+                };
+                return row;
+            }
+        });
+
+
         // Bind columns
         idCol.setCellValueFactory(new PropertyValueFactory<>("forecastID"));
+        idCol.setReorderable(false);
         resultCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        resultCol.setReorderable(false);
         feeCol.setCellValueFactory(new PropertyValueFactory<>("fee"));
+        feeCol.setReorderable(false);
 
         // Add column with delete button
         addActionColumn();
@@ -275,6 +318,14 @@ public class ForecastsController implements Controller {
         });
 
         forecastsTbl.setItems(filteredQuestions);
+
+        forecastsTbl.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            // Allow publishing a result only if
+            // there is no previously defined result for the selected question
+            if (questionsCB.getSelectionModel().getSelectedItem() != null &&
+                    questionsCB.getSelectionModel().getSelectedItem().getCorrectForecast() == null)
+                showPublishResultDialog();
+        });
     }
 
     /**
@@ -282,6 +333,7 @@ public class ForecastsController implements Controller {
      */
     private void addActionColumn() {
         actionCol = new TableColumn("");
+        actionCol.setReorderable(false);
         actionCol.setMinWidth(80);
         actionCol.setMaxWidth(80);
 
@@ -419,6 +471,83 @@ public class ForecastsController implements Controller {
     }
 
     /**
+     * Initializes the dialog for publishing the correct forecast.
+     */
+    void initPublishResultDialog() {
+        // Overlay to place the modal
+        publishResultOverlay = new StackPane();
+        publishResultOverlay.setPrefWidth(mainPane.getPrefWidth());
+        publishResultOverlay.setPrefHeight(mainPane.getPrefHeight());
+        mainPane.getChildren().add(publishResultOverlay);
+        publishResultOverlay.setVisible(false);
+        publishResultPane.setVisible(false);
+
+        publishResultDialog = new JFXDialog(publishResultOverlay, publishResultPane, JFXDialog.DialogTransition.CENTER);
+
+        publishResultDialog.setOnDialogClosed(e -> {
+            forecastsTbl.getSelectionModel().clearSelection();
+            publishResultOverlay.setVisible(false);
+            publishResultPane.setVisible(false);
+        });
+    }
+
+    void showPublishResultDialog() {
+        cannotPublishLbl.getStyleClass().clear();
+        cannotPublishLbl.setText("");
+        publishResultOverlay.setVisible(true);
+        publishResultPane.setVisible(true);
+        publishResultDialog.show();
+
+        Date today = Calendar.getInstance().getTime();
+        Date eventDate = eventsCB.getSelectionModel().getSelectedItem().getEventDate();
+        forecastsTbl.getSelectionModel().selectedIndexProperty();
+        if (eventDate.compareTo(today) > 0) {
+            publishResultBtn.setDisable(true);
+            // Date formatter for displaying the date
+            SimpleDateFormat sdf =  new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
+            try {
+                Date d = sdf.parse(eventDate.toString());
+                sdf.applyPattern("yyyy-MM-dd HH:mm:ss");
+                cannotPublishLbl.setText("The result cannot be set until " + sdf.format(d));
+                cannotPublishLbl.getStyleClass().addAll("lbl", "lbl-warning");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        } else {
+            publishResultBtn.setDisable(false);
+        }
+    }
+
+    /**
+     * Closes the dialog for publishing a forecast.
+     */
+    @FXML
+    void closePublishResultDialog() {
+        publishResultDialog.close();
+    }
+
+    /**
+     * Attempts to publish the correct result (the selected row/forecast)
+     * for the selected question
+     */
+    @FXML
+    void publishResult() {
+        businessLogic.publishResult(questionsCB.getSelectionModel().getSelectedItem().getQuestionID(),
+                    forecastsTbl.getSelectionModel().getSelectedItem().getForecastID());
+
+        // Reload the new data
+        Event selectedEvent = eventsCB.getSelectionModel().getSelectedItem();
+        Question selectedQuestion = questionsCB.getSelectionModel().getSelectedItem();
+        questions.clear();
+        forecasts.clear();
+        events.setAll(businessLogic.getEvents(Dates.convertToDate(datePicker.getValue())));
+        eventsCB.getSelectionModel().select(selectedEvent);
+        questionsCB.getSelectionModel().select(selectedQuestion);
+
+        publishResultDialog.close();
+    }
+
+    /**
      * Requests data reload to affected windows
      */
     public void notifyChanges() {
@@ -467,11 +596,15 @@ public class ForecastsController implements Controller {
         addForecastBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateForecast"));
         backBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Back"));
         createForecastBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateForecast"));
+        publishResultBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("PublishResult"));
+        backBtn1.setText(ResourceBundle.getBundle("Etiquetas").getString("Back"));
 
         // Labels
         selectQuestionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("SelectQuestion"));
         resultLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Result"));
         feeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee"));
+        markAsCorrectLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("MarkAsCorrectForecastAndPublish"));
+        irreversibleLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("MarkAsCorrectForecastAndPublish"));
 
         // Table
         forecastsTbl.setPlaceholder(new Label(ResourceBundle.getBundle("Etiquetas").getString("NoContentInTable")));
