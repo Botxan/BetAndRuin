@@ -16,13 +16,13 @@
 
 <AnchorPane fx:id="mainPane" prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.admin.EventsController">
    <children>
-      <TextField fx:id="searchField" layoutX="38.0" layoutY="45.0" prefHeight="25.0" prefWidth="198.0" promptText="Search..." styleClass="search-field" />
-      <JFXButton fx:id="addEventBtn" layoutX="904.0" layoutY="45.0" onAction="#showCreateEventDialog" prefHeight="25.0" prefWidth="106.0" styleClass="aceituna-btn" text="Add event">
+      <TextField fx:id="searchField" layoutX="38.0" layoutY="45.0" prefHeight="25.0" prefWidth="198.0" promptText="Search..." styleClass="search-field" AnchorPane.topAnchor="45.0" />
+      <JFXButton fx:id="addEventBtn" layoutX="890.0" layoutY="45.0" onAction="#showCreateEventDialog" prefHeight="25.0" prefWidth="120.0" styleClass="aceituna-btn" text="Add event" AnchorPane.topAnchor="45.0">
          <graphic>
             <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" size="14" />
          </graphic>
       </JFXButton>
-      <TableView fx:id="eventsTbl" layoutX="38.0" layoutY="89.0" prefHeight="470.0" prefWidth="975.0" styleClass="tbl" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="80.0">
+      <TableView fx:id="eventsTbl" layoutX="38.0" layoutY="89.0" prefHeight="470.0" prefWidth="975.0" styleClass="tbl" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="80.0">
          <columns>
             <TableColumn fx:id="idCol" prefWidth="75.0" text="ID" />
             <TableColumn fx:id="descriptionCol" prefWidth="75.0" text="DESCRIPTION" />
@@ -48,13 +48,13 @@
             <DatePicker fx:id="datePicker" layoutX="166.0" layoutY="99.0" prefHeight="25.0" prefWidth="300.0" />
             <Label fx:id="countryLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="48.0" layoutY="145.0" prefHeight="17.0" prefWidth="109.0" text="%Country" textAlignment="RIGHT" />
             <TextField fx:id="countryField" layoutX="166.0" layoutY="141.0" prefHeight="25.0" prefWidth="300.0" />
-            <JFXButton fx:id="createEventBtn" buttonType="RAISED" layoutX="284.0" layoutY="212.0" onAction="#createEvent" styleClass="aceituna-btn" stylesheets="@../css/betAndRuin.css" text="%CreateEvent" textFill="WHITE">
+            <JFXButton fx:id="createEventBtn" buttonType="RAISED" layoutX="286.0" layoutY="196.0" onAction="#createEvent" prefHeight="41.0" prefWidth="130.0" styleClass="aceituna-btn" stylesheets="@../css/betAndRuin.css" text="%CreateEvent" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
             <Label fx:id="resultLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="166.0" layoutY="179.0" prefHeight="17.0" prefWidth="300.0" textAlignment="CENTER" />
-            <JFXButton fx:id="backBtn" buttonType="RAISED" layoutX="212.0" layoutY="212.0" onAction="#closeCreateEventDialog" styleClass="aceituna-btn" stylesheets="@../css/betAndRuin.css" text="%Back" textFill="WHITE">
+            <JFXButton fx:id="backBtn" buttonType="RAISED" layoutX="137.0" layoutY="196.0" onAction="#closeCreateEventDialog" prefHeight="41.0" prefWidth="130.0" styleClass="aceituna-btn" stylesheets="@../css/betAndRuin.css" text="%Back" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

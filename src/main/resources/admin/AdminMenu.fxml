@@ -32,31 +32,32 @@
             </HBox>
             <VBox alignment="TOP_CENTER" prefHeight="685.0" prefWidth="227.0">
                <children>
-                  <VBox prefHeight="0.0" prefWidth="227.0">
+                  <VBox fx:id="sidenavBtns" prefHeight="0.0" prefWidth="227.0">
                      <children>
-                        <JFXButton fx:id="overviewBtn" onAction="#displayOverview" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text=" Overview">
+                        <JFXButton fx:id="overviewBtn" onAction="#displayOverview" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text="Overview">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="DASHBOARD" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="DASHBOARD" translateX="-10.0" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="eventsBtn" onAction="#displayEvents" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text=" Events">
+                        <JFXButton fx:id="eventsBtn" onAction="#displayEvents" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text="Events">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="CALENDAR_ALT" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="CALENDAR_ALT" translateX="-10.0" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="questionsBtn" onAction="#displayQuestions" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text=" Questions">
+                        <JFXButton fx:id="questionsBtn" onAction="#displayQuestions" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text="Questions">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="QUESTION_CIRCLE" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="QUESTION_CIRCLE" translateX="-10.0" />
                            </graphic>
                         </JFXButton>
-                        <JFXButton fx:id="forecastsBtn" onAction="#displayForecasts" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text=" Forecasts">
+                        <JFXButton fx:id="forecastsBtn" onAction="#displayForecasts" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text="Forecasts">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="PENCIL" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="PENCIL" translateX="-10.0" />
                            </graphic>
                         </JFXButton>
                      </children>
                   </VBox>
                   <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  <JFXButton fx:id="switchBtn" onAction="#switchToUser" prefHeight="25.0" prefWidth="376.0" styleClass="switch-btn" text="Switch to user mode" />
                   <JFXButton fx:id="logoutBtn" onAction="#logout" prefHeight="25.0" prefWidth="376.0" styleClass="logout-btn" text="Logout" />
                </children>
             </VBox>

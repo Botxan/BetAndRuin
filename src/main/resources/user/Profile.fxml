@@ -18,9 +18,9 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainPane" prefHeight="610.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.ProfileController">
+<AnchorPane fx:id="mainPane" prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.ProfileController">
    <children>
-      <Pane layoutX="14.0" layoutY="14.0" prefHeight="580.0" prefWidth="406.0" styleClass="card">
+      <Pane layoutX="14.0" layoutY="10.0" prefHeight="580.0" prefWidth="406.0" styleClass="card">
          <effect>
             <DropShadow blurType="GAUSSIAN" height="20.0" offsetY="5.0" radius="9.5" width="20.0">
                <color>
@@ -68,7 +68,7 @@
             <JFXButton fx:id="saveChangesBtn" layoutX="30.0" layoutY="518.0" onAction="#updateGeneralInformation" prefHeight="35.0" prefWidth="347.0" styleClass="aceituna-btn" text="SAVE CHANGES" />
          </children>
       </Pane>
-      <Pane fx:id="creditCardPane" layoutX="436.0" layoutY="14.0" prefHeight="333.0" prefWidth="603.0" styleClass="card">
+      <Pane fx:id="creditCardPane" layoutX="436.0" layoutY="10.0" prefHeight="333.0" prefWidth="603.0" styleClass="card">
          <effect>
             <DropShadow blurType="GAUSSIAN" height="20.0" offsetY="5.0" radius="9.5" width="20.0">
                <color>
@@ -111,7 +111,7 @@
             </Pane>
          </children>
       </Pane>
-      <Pane fx:id="accountPane" layoutX="436.0" layoutY="374.0" prefHeight="219.0" prefWidth="603.0" styleClass="card">
+      <Pane fx:id="accountPane" layoutX="436.0" layoutY="370.0" prefHeight="219.0" prefWidth="603.0" styleClass="card">
          <effect>
             <DropShadow blurType="GAUSSIAN" height="20.0" offsetY="5.0" radius="9.5" width="20.0">
                <color>

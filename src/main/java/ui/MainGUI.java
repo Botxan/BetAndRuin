@@ -147,9 +147,9 @@ public class MainGUI {
         } catch (UserNotFoundException e) {
             e.printStackTrace();
         }
-        loadLoggedWindows();
-        history.setCurrentWindow(adminMenuLag);
-        showScene(adminMenuLag);
+
+        history.setCurrentWindow(welcomeLag);
+        showScene(welcomeLag);
     }
 
     /**

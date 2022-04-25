@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.Color?>
 
-<AnchorPane prefHeight="610.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.BetsController">
+<AnchorPane prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.BetsController">
    <children>
       <TableView fx:id="betsTbl" layoutX="40.0" layoutY="134.0" prefHeight="470.0" prefWidth="975.0" styleClass="tbl" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" AnchorPane.topAnchor="80.0">
         <columns>
@@ -31,7 +31,7 @@
             </DropShadow>
          </effect>
       </TableView>
-      <TextField fx:id="searchField" layoutX="40.0" layoutY="48.0" prefHeight="25.0" prefWidth="198.0" promptText="Search..." styleClass="search-field" AnchorPane.topAnchor="40.0" />
+      <TextField fx:id="searchField" layoutX="40.0" layoutY="48.0" prefHeight="25.0" prefWidth="198.0" promptText="Search..." styleClass="search-field" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="40.0" />
       <Label fx:id="removeBetResultLbl" layoutX="249.0" layoutY="44.0" />
       <Label fx:id="countActiveBetsLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="1015.0" layoutY="44.0" prefHeight="17.0" prefWidth="275.0" AnchorPane.rightAnchor="40.0" />
    </children>

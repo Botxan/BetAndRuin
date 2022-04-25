@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import ui.MainGUI;
 import uicontrollers.Controller;
 import utils.Window;
@@ -35,7 +36,9 @@ public class UserMenuController implements Controller {
     @FXML private JFXButton profileBtn;
     @FXML private JFXButton betsBtn;
     @FXML private JFXButton myWalletBtn;
+    @FXML private JFXButton switchBtn;
     @FXML private JFXButton logoutBtn;
+    @FXML private VBox sidenavBtns;
 
     /**
      * Constructor for the UserMenuController.
@@ -102,10 +105,32 @@ public class UserMenuController implements Controller {
      * @param w the window to be displayed
      */
     private void switchToWindow(Window w) {
+        // Mark the selected button
+        sidenavBtns.getChildren().forEach(n -> n.getStyleClass().remove("selected"));
+        if (w.equals(mainGUI.userOverviewLag)) overviewBtn.getStyleClass().add("selected");
+        else if (w.equals(mainGUI.profileLag)) profileBtn.getStyleClass().add("selected");
+        else if (w.equals(mainGUI.betsLag)) betsBtn.getStyleClass().add("selected");
+        else if (w.equals(mainGUI.movementsLag)) myWalletBtn.getStyleClass().add("selected");
+
         content.getChildren().clear();
         currentWindow = w;
         w.getController().redraw();
         content.getChildren().add(w.getUi());
+    }
+
+    /**
+     * Displays the button to change to admin mode
+     */
+    public void enableSwitchToAdmin(boolean isVisible) {
+        switchBtn.setVisible(isVisible);
+    }
+
+    /**
+     * Switches the current window to administrator dashboard
+     */
+    @FXML
+    public void switchToAdmin() {
+        mainGUI.goForward("AdminMenu");
     }
 
     @Override
