@@ -4,13 +4,11 @@ import businessLogic.BlFacade;
 import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import ui.MainGUI;
 import uicontrollers.Controller;
 import utils.Window;
 
-import java.awt.*;
 import java.util.ResourceBundle;
 
 /**

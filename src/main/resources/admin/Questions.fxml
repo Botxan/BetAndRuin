@@ -42,9 +42,9 @@
             </DropShadow>
          </effect>
       </TableView>
-      <DatePicker fx:id="datePicker" layoutX="141.0" layoutY="45.0" />
+      <DatePicker fx:id="datePicker" layoutX="156.0" layoutY="45.0" />
       <ComboBox fx:id="eventsCB" layoutX="337.0" layoutY="45.0" prefHeight="25.0" prefWidth="229.0" />
-      <Label fx:id="selectEventLbl" layoutX="40.0" layoutY="47.0" prefHeight="21.0" prefWidth="94.0" style="-fx-font-size: 15px;" text="Select event" />
+      <Label fx:id="selectEventLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="40.0" layoutY="47.0" prefHeight="21.0" prefWidth="109.0" style="-fx-font-size: 13px;" text="Select event" />
       <Pane fx:id="createQuestionPane" layoutX="243.0" layoutY="245.0" prefHeight="206.0" prefWidth="461.0">
          <children>
             <TextField fx:id="questionField" layoutX="204.0" layoutY="24.0" prefHeight="26.0" prefWidth="198.0" />
@@ -66,7 +66,7 @@
             </Label>
             <Label fx:id="errorQuestionLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="205.0" layoutY="53.0" prefHeight="17.0" prefWidth="184.0" />
             <Label fx:id="errorMinimumBetLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="205.0" layoutY="112.0" prefHeight="17.0" prefWidth="184.0" />
-            <JFXButton buttonType="RAISED" layoutX="60.0" layoutY="144.0" onAction="#closeCreateQuestionDialog" prefHeight="35.0" prefWidth="160.0" styleClass="aceituna-btn" text="%Back" textFill="WHITE">
+            <JFXButton fx:id="backBtn" buttonType="RAISED" layoutX="60.0" layoutY="144.0" onAction="#closeCreateQuestionDialog" prefHeight="35.0" prefWidth="160.0" styleClass="aceituna-btn" text="%Back" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

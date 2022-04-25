@@ -5,16 +5,10 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import domain.Bet;
 import domain.Event;
-import domain.Question;
 import exceptions.EventAlreadyExistException;
-import javafx.application.Platform;
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.beans.property.SimpleListProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -54,11 +48,14 @@ public class EventsController implements Controller {
     private ObservableList<Event> events;
     private StackPane createEventOverlay;
     private JFXDialog createEventDialog;
+    private TableColumn<Event, Integer> questionsCol;
+    private TableColumn<Event, Date> actionCol;
 
     @FXML private AnchorPane mainPane;
     @FXML private DatePicker datePicker;
     @FXML private JFXButton createEventBtn;
-    @FXML private JFXButton showCreateEventDialog;
+    @FXML private JFXButton addEventBtn;
+    @FXML private JFXButton backBtn;
     @FXML private Label countryLbl;
     @FXML private Label eventDateLbl;
     @FXML private Label eventNameLbl;
@@ -139,7 +136,7 @@ public class EventsController implements Controller {
     }
 
     private void addQuestionsColumn() {
-        TableColumn<Event, Integer> questionsCol = new TableColumn("QUESTIONS");
+        questionsCol = new TableColumn("QUESTIONS");
         questionsCol.setMinWidth(100);
         questionsCol.setMaxWidth(100);
         questionsCol.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Integer>(cellData.getValue().getQuestions().size()));
@@ -187,7 +184,7 @@ public class EventsController implements Controller {
      * Adds the cell and button to delete event to each row
      */
     private void addActionColumn() {
-        TableColumn<Event, Date> actionCol = new TableColumn("");
+        actionCol = new TableColumn("");
         actionCol.setMinWidth(80);
         actionCol.setMaxWidth(80);
 
@@ -358,5 +355,27 @@ public class EventsController implements Controller {
     }
 
     @Override
-    public void redraw() {}
+    public void redraw() {
+        // Text fields
+        searchField.setPromptText(ResourceBundle.getBundle("Etiquetas").getString("Search") + "...");
+
+        // Table colums
+        descriptionCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Description").toUpperCase());
+        dateCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Date").toUpperCase());
+        countryCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Country").toUpperCase());
+        questionsCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Questions").toUpperCase());
+
+        // Buttons
+        addEventBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
+        backBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Back"));
+        createEventBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));
+
+        // Labels
+        eventNameLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("EventName"));
+        eventDateLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Date"));
+        countryLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Country"));
+
+        // Table
+        eventsTbl.setPlaceholder(new Label(ResourceBundle.getBundle("Etiquetas").getString("NoContentInTable")));
+    }
 }

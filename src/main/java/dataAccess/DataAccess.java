@@ -5,11 +5,18 @@
     import configuration.UtilDate;
     import domain.*;
     import exceptions.*;
+    import utils.Dates;
 
+    import javax.jws.WebMethod;
     import javax.persistence.*;
     import java.text.SimpleDateFormat;
+    import java.time.Duration;
+    import java.time.LocalDate;
+    import java.time.temporal.ChronoUnit;
     import java.time.temporal.TemporalQueries;
     import java.util.*;
+    import java.util.stream.Collectors;
+    import java.util.stream.IntStream;
 
     /**
      * This class implements the Data Access utility to the objectDb database
@@ -90,6 +97,8 @@
                 Question q6;
                 // For already passed event
                 Question q7;
+                Question q8;
+                Question q9;
 
                 if (Locale.getDefault().equals(new Locale("es"))) {
                     q1 = ev1.addQuestion("¿Quién ganará el partido?", 1);
@@ -99,6 +108,8 @@
                     q5 = ev17.addQuestion("¿Quién ganará el partido?", 1);
                     q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2);
                     q7 = ev21.addQuestion("¿Quién ganará el partido?", 2);
+                    q8 = ev21.addQuestion("¿Quién marcará el primero?", 2);
+                    q9 = ev21.addQuestion("¿Habrá goles en tiempo de descuento?", 2);
                 } else if (Locale.getDefault().equals(new Locale("en"))) {
                     q1 = ev1.addQuestion("Who will win the match?", 1);
                     q2 = ev1.addQuestion("Who will score first?", 2);
@@ -107,6 +118,8 @@
                     q5 = ev17.addQuestion("Who will win the match?", 1);
                     q6 = ev17.addQuestion("Will there be goals in the first half?", 2);
                     q7 = ev21.addQuestion("Who will win the match?", 2);
+                    q8 = ev21.addQuestion("Who will score first?", 2);
+                    q9 = ev21.addQuestion("Will there be goals in extra time?", 2);
                 } else {
                     q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1);
                     q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2);
@@ -115,6 +128,8 @@
                     q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1);
                     q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
                     q7 = ev21.addQuestion("Zeinek irabaziko du partidua?", 2);
+                    q8 = ev21.addQuestion("Nork sartuko du gol lehenengo?", 2);
+                    q9 = ev21.addQuestion("Luzapenean izango al dira golak?", 2);
                 }
 
 
@@ -132,6 +147,10 @@
                 // For already passed event
                 Forecast f9 = q7.addForecast("Team1", 4);
                 Forecast f10 = q7.addForecast("Team2", 4);
+                Forecast f11 = q8.addForecast("Team1", 4);
+                Forecast f12 = q8.addForecast("Team2", 4);
+                Forecast f13 = q9.addForecast("Yes", 4);
+                Forecast f14 = q9.addForecast("No", 4);
 
                 // Create dummy user and admin
                 byte [] salt = BlFacadeImplementation.generateSalt();
@@ -222,15 +241,24 @@
                 user1.addBet(12, f1);
                 user1.addBet(38, f1);
                 user1.addBet(2.8F, f2);
+
                 // Bet of already passed event
+                // Won bet
                 user1.addBet(3.5F, f9);
-                // Set the correct forecast
                 q7.setCorrectForecast(f9);
-                // Deposit corresponding money into user's wallet
-                user1.depositMoneyIntoWallet(f9.getFee() * 3.5F);
                 cal.set(2022, Calendar.APRIL, 21);
-                // Register the transaction
                 Transaction t21 = userCard.addTransaction(0, "Won Bet", f9.getFee() * 3.5F, cal.getTime());
+
+                // Miss bets
+                user1.addBet(10F, f11);
+                q8.setCorrectForecast(f12);
+                cal.set(2022, Calendar.APRIL, 21);
+                Transaction t22 = userCard.addTransaction(1, "Miss Bet", 10F, cal.getTime());
+
+                user1.addBet(5F, f13);
+                q9.setCorrectForecast(f14);
+                cal.set(2022, Calendar.APRIL, 21);
+                Transaction t23 = userCard.addTransaction(1, "Miss Bet", f9.getFee() * 5F, cal.getTime());
 
                 db.persist(ev1);
                 db.persist(ev2);
@@ -303,6 +331,17 @@
 
 
         /**
+         * Retrieves the number of events that have not passed yet.
+         * @return the number of upcoming events
+         */
+        public int getNumberOfUpcomingEvents() {
+            System.out.println(">> DataAccess: getNumberOfUpcomingEvents");
+            TypedQuery<Integer> q = db.createQuery("SELECT COUNT(e) FROM Event e WHERE e.eventDate > ?1", Integer.class);
+            q.setParameter(1, Calendar.getInstance().getTime());
+            return q.getSingleResult();
+        }
+
+        /**
          * Retrieves all the events stored in the database
          */
         public List<Event> getEvents() {
@@ -362,12 +401,23 @@
         }
 
         /**
+         * Returns the number of event whose date hasn't passed yet.
+         * @return the number of upcoming events
+         */
+        public long countUpcomingEvents() {
+            System.out.println(">> DataAccess: getUpcomingEvents");
+            TypedQuery<Long> q = db.createQuery("SELECT COUNT(e) FROM Event e WHERE e.eventDate > ?1", Long.class);
+            q.setParameter(1, Calendar.getInstance().getTime());
+            return q.getSingleResult();
+        }
+
+        /**
          * Returns from the db the latest n incoming events sorted by descending date.
          * @param n the number of event to retrieve
          * @return the incoming first n events
          */
         public List<Event> getUpcomingEvents(int n) {
-            System.out.println(">> DataAccess: getIncomingEvents => n = " + n);
+            System.out.println(">> DataAccess: getUpcomingEvents => n = " + n);
             Date today = Calendar.getInstance().getTime();
             TypedQuery<Event> q = db.createQuery("SELECT e FROM Event e WHERE e.eventDate > ?1 ORDER BY e.eventDate", Event.class);
             q.setParameter(1, today);
@@ -587,6 +637,15 @@
         /* ---------- [*] Bets [*] --------------------------------------------------------------------------- */
 
         /**
+         * Returns all the events whose correct forecast is not defined yet.
+         * @return all the active bets stored in the db
+         */
+        public List<Bet> getActiveBets() {
+            TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.userForecast.question.correctForecast IS NULL", Bet.class);
+            return q.getResultList();
+        }
+
+        /**
          * Persists a new bet for the given gambler, in the selected forecast.
          * @param betAmount Amount of money bet by the gambler.
          * @param forecast The forecast linked with the bet.
@@ -648,26 +707,30 @@
         }
 
         /**
-         * Returns all the active bets made by the given user.
+         * Returns all the active (have no correct forecast defined yet) bets made by the given user.
          * @param gambler the user who made the bet
          * @return all the active bets made by the given user
          */
         public List<Bet> getActiveBets(User gambler) {
+            System.out.println(">> DataAccess: getNumberOfActiveBets");
             User u = db.find(User.class, gambler.getUserID());
 
-            // Get today's date
-            Date today = Calendar.getInstance().getTime();
-
-            TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.gambler = ?1", Bet.class);
+            TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.gambler = ?1 AND b.userForecast.question.correctForecast IS NULL", Bet.class);
             q.setParameter(1, u);
 
-            List<Bet> activeBets = new ArrayList<Bet>();
-            Event e;
-            for (Bet b: q.getResultList()) {
-                e = b.getUserForecast().getQuestion().getEvent();
-                if (today.compareTo(e.getEventDate()) < 0) activeBets.add(b);
-            }
-            return activeBets;
+            return q.getResultList();
+        }
+
+        /**
+         * Retrieves the total number of active bets (this is,
+         * the ones that have no correct forecast defined yet)
+         * @return the number of active bets
+         */
+        public long countActiveBets() {
+            System.out.println(">> DataAccess: countActiveBets");
+
+            TypedQuery<Long> q = db.createQuery("SELECT COUNT(b) FROM Bet b WHERE b.userForecast.question.correctForecast IS NULL", Long.class);
+            return q.getSingleResult();
         }
 
         public void removeBet(Integer betID) {
@@ -688,20 +751,159 @@
         }
 
         /**
-         * Retrieves the total number of bets made by the given user, including the ones
-         * that have already passed.
-         * @param gambler the user who made the bet
-         * @return the total number of bets made by the user
+         * Retrieves the sum of the money bet in all the active bets.
+         * @return the sum of the money bet in all the active bets
          */
-        public long getTotalNumberOfBets(User gambler) {
-            TypedQuery<Long> q = db.createQuery("SELECT COUNT(b) FROM Bet b WHERE b.gambler = ?1", Long.class);
-            q.setParameter(1, gambler);
-            return q.getSingleResult();
+        public double getActiveMoney() {
+            // Get all the active bets
+            List<Bet> activeBets = getActiveBets();
+            return activeBets.stream().mapToDouble(b -> b.getAmount()).sum();
+        }
+
+        /**
+         * Returns the money bet by all users last month and have already a correct forecast
+         * Note: the date of the bet is not recorded. Instead, the date of the event is taken into account.
+         * So the criteria used to group the amounts is actually the event date
+         * @returns a map with days as keys and the sum of each day as value
+         */
+        public Map<LocalDate, Double> moneyBetPerDayLastMonth() {
+            // Dates between today and one month ago
+            Calendar cal = Calendar.getInstance();
+            Date today = cal.getTime();
+            cal.add(Calendar.MONTH, -1);
+            Date monthAgo = cal.getTime();
+
+            // Get all bets of last month
+            TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.userForecast.question.event.eventDate > ?1 and b.userForecast.question.event.eventDate < ?2", Bet.class);
+            q.setParameter(1, monthAgo);
+            q.setParameter(2, today);
+            List<Bet> bets = q.getResultList();
+
+            // Get all days of last month
+            LocalDate startDate = Dates.convertToLocalDateViaInstant(monthAgo);
+            LocalDate endDate = Dates.convertToLocalDateViaInstant(today);
+            long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+            List<LocalDate> daysOfMonth = IntStream.iterate(0, i -> i + 1)
+                    .limit(numOfDaysBetween)
+                    .mapToObj(i -> startDate.plusDays(i))
+                    .collect(Collectors.toList());
+
+            // Add all days to the final map
+            Map<LocalDate, Double> perDay = new TreeMap<LocalDate, Double>();
+            for (LocalDate ld: daysOfMonth) perDay.put(ld, 0D);
+
+            // Add all the money to each date
+            for (Bet b: bets) {
+                LocalDate eventDate = Dates.convertToLocalDateViaInstant(b.getUserForecast().getQuestion().getEvent().getEventDate());
+                perDay.put(eventDate, perDay.get(eventDate) + b.getAmount());
+            }
+
+            return perDay;
+        }
+
+        /**
+         * Returns the money won by users last month.
+         * Note: the date of the bet is not recorded, but the date of the event is recorded.
+         * So the criteria used to group the amounts is actually the event date.
+         * This means that there are some bets that have no correct forecast yet, so they are not taken
+         * into account in the result.
+         * @returns a map with days as keys and the sum of each day as value
+         */
+        public Map<LocalDate, Double> wonByUsersLastMonth() {
+            // Dates between today and one month ago
+            Calendar cal = Calendar.getInstance();
+            Date today = cal.getTime();
+            cal.add(Calendar.MONTH, -1);
+            Date monthAgo = cal.getTime();
+
+            // Get all bets of last month
+            TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.userForecast.question.event.eventDate > ?1 and b.userForecast.question.event.eventDate < ?2 and b.userForecast.question.correctForecast IS NOT NULL", Bet.class);
+            q.setParameter(1, monthAgo);
+            q.setParameter(2, today);
+            List<Bet> bets = q.getResultList();
+
+            // Filter won bets
+            List<Bet> wonBets = bets
+                    .stream()
+                    .filter(b -> b.getUserForecast().equals(b.getUserForecast().getQuestion().getCorrectForecast()))
+                    .toList();
+
+            // Get all days of last month
+            LocalDate startDate = Dates.convertToLocalDateViaInstant(monthAgo);
+            LocalDate endDate = Dates.convertToLocalDateViaInstant(today);
+            long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+            List<LocalDate> daysOfMonth = IntStream.iterate(0, i -> i + 1)
+                    .limit(numOfDaysBetween)
+                    .mapToObj(i -> startDate.plusDays(i))
+                    .collect(Collectors.toList());
+
+            // Add all days to the final map
+            Map<LocalDate, Double> perDay = new TreeMap<LocalDate, Double>();
+            for (LocalDate ld: daysOfMonth) perDay.put(ld, 0D);
+
+            // Add all the amount bet * forecast fee to the result
+            for (Bet b: wonBets) {
+                LocalDate eventDate = Dates.convertToLocalDateViaInstant(b.getUserForecast().getQuestion().getEvent().getEventDate());
+                perDay.put(eventDate, perDay.get(eventDate) + (b.getAmount() * b.getUserForecast().getFee()));
+            }
+
+            return perDay;
+        }
+
+        /**
+         * Returns the money won by BetAndRuin betting last month.
+         * @returns the money won by users betting last  month
+         */
+        public Map<LocalDate, Double> wonByBetAndRuinLastMonth() {
+            // Dates between today and one month ago
+            Calendar cal = Calendar.getInstance();
+            Date today = cal.getTime();
+            cal.add(Calendar.MONTH, -1);
+            Date monthAgo = cal.getTime();
+
+            // Get all bets of last month
+            TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.userForecast.question.event.eventDate > ?1 and b.userForecast.question.event.eventDate < ?2 and b.userForecast.question.correctForecast IS NOT NULL", Bet.class);
+            q.setParameter(1, monthAgo);
+            q.setParameter(2, today);
+            List<Bet> bets = q.getResultList();
+
+            // Filter lost bets
+            List<Bet> wonBets = bets
+                    .stream()
+                    .filter(b -> !b.getUserForecast().equals(b.getUserForecast().getQuestion().getCorrectForecast()))
+                    .toList();
+
+            // Get all days of last month
+            LocalDate startDate = Dates.convertToLocalDateViaInstant(monthAgo);
+            LocalDate endDate = Dates.convertToLocalDateViaInstant(today);
+            long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+            List<LocalDate> daysOfMonth = IntStream.iterate(0, i -> i + 1)
+                    .limit(numOfDaysBetween)
+                    .mapToObj(i -> startDate.plusDays(i))
+                    .collect(Collectors.toList());
+
+            // Add all days to the final map
+            Map<LocalDate, Double> perDay = new TreeMap<LocalDate, Double>();
+            for (LocalDate ld: daysOfMonth) perDay.put(ld, 0D);
+
+            // Add all the amount bet * forecast fee to the result
+            for (Bet b: wonBets) {
+                LocalDate eventDate = Dates.convertToLocalDateViaInstant(b.getUserForecast().getQuestion().getEvent().getEventDate());
+                perDay.put(eventDate, perDay.get(eventDate) + b.getAmount());
+            }
+
+            return perDay;
         }
 
 
         /* ---------- [*] User [*] --------------------------------------------------------------------------- */
 
+
+        public long getTotalNumberOfUsers() {
+            System.out.println(">> DataAccess: getTotalNumberOfUsers");
+            TypedQuery<Long> q = db.createQuery("SELECT COUNT(u) FROM User u", Long.class);
+            return q.getSingleResult();
+        }
 
         /**
          * It checks the login utility with a given username and password to grant access

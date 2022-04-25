@@ -5,13 +5,11 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
-import domain.Bet;
 import domain.Event;
 import domain.Forecast;
 import domain.Question;
 import exceptions.ForecastAlreadyExistException;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -52,6 +50,7 @@ public class ForecastsController implements Controller {
     private ObservableList<Forecast> forecasts;
     private StackPane createForecastOverlay;
     private JFXDialog createForecastDialog;
+    private TableColumn<Forecast, Date> actionCol;
 
     @FXML private AnchorPane mainPane;
     @FXML private ComboBox<Event> eventsCB;
@@ -65,7 +64,7 @@ public class ForecastsController implements Controller {
     @FXML private Label resultLbl;
     @FXML private Label selectQuestionLbl;
     @FXML private Pane createForecastPane;
-    @FXML private TableColumn<Forecast, String> descriptionCol;
+    @FXML private TableColumn<Forecast, String> resultCol;
     @FXML private TableColumn<Forecast, Double> feeCol;
     @FXML private TableColumn<Forecast, Integer> idCol;
     @FXML private TableView<Forecast> forecastsTbl;
@@ -256,7 +255,7 @@ public class ForecastsController implements Controller {
 
         // Bind columns
         idCol.setCellValueFactory(new PropertyValueFactory<>("forecastID"));
-        descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        resultCol.setCellValueFactory(new PropertyValueFactory<>("description"));
         feeCol.setCellValueFactory(new PropertyValueFactory<>("fee"));
 
         // Add column with delete button
@@ -282,7 +281,7 @@ public class ForecastsController implements Controller {
      * Adds the cell and button to delete forecast to each row
      */
     private void addActionColumn() {
-        TableColumn<Forecast, Date> actionCol = new TableColumn("");
+        actionCol = new TableColumn("");
         actionCol.setMinWidth(80);
         actionCol.setMaxWidth(80);
 
@@ -457,6 +456,24 @@ public class ForecastsController implements Controller {
 
     @Override
     public void redraw() {
+        // Text fields
+        searchField.setPromptText(ResourceBundle.getBundle("Etiquetas").getString("Search") + "...");
 
+        // Table columns
+        resultCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Result").toUpperCase());
+        feeCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee").toUpperCase());
+
+        // Buttons
+        addForecastBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateForecast"));
+        backBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Back"));
+        createForecastBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateForecast"));
+
+        // Labels
+        selectQuestionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("SelectQuestion"));
+        resultLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Result"));
+        feeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee"));
+
+        // Table
+        forecastsTbl.setPlaceholder(new Label(ResourceBundle.getBundle("Etiquetas").getString("NoContentInTable")));
     }
 }

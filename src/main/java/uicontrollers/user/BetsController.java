@@ -115,7 +115,7 @@ public class BetsController implements Controller {
             }
         });
 
-        bets.addAll(businessLogic.getActiveBets());
+        bets.addAll(businessLogic.getActiveBetsUser());
         betsTbl.setItems(filteredBets);
     }
 
@@ -198,7 +198,7 @@ public class BetsController implements Controller {
      * Updates the bet counter on the top right.
      */
     private void updateBetCounter() {
-        countActiveBetsLbl.setText(businessLogic.getActiveBets().size() + " " + ResourceBundle.getBundle("Etiquetas").getString("BetsActive").toLowerCase());
+        countActiveBetsLbl.setText(businessLogic.getActiveBetsUser().size() + " " + ResourceBundle.getBundle("Etiquetas").getString("BetsActive").toLowerCase());
     }
 
     @Override
@@ -209,7 +209,7 @@ public class BetsController implements Controller {
     @Override
     public void redraw() {
         bets.clear();
-        bets.addAll(businessLogic.getActiveBets());
+        bets.addAll(businessLogic.getActiveBetsUser());
 
         updateBetCounter();
 

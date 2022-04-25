@@ -134,7 +134,7 @@ public class UserOverviewController implements Controller {
         earnedIncomeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("EarnedIncome"));
 
         activeBetsText.setText(String.valueOf(businessLogic.getNumberOfActiveBets()));
-        totalBetsText.setText(String.valueOf(businessLogic.getTotalNumberOfBets()));
+        totalBetsText.setText(String.valueOf(businessLogic.getTotalNumberOfBetsUser()));
         wonBetsText.setText(String.valueOf(businessLogic.getNumberOfWonBets()));
         earnedIncomeText.setText(String.valueOf(businessLogic.getEarnedIncome()) + "€");
     }
@@ -143,9 +143,10 @@ public class UserOverviewController implements Controller {
      * Initializes the chart with wallet situation during the previous month
      */
     private void initRevenueChart() {
-        // Populate the chart
+        // Create the series
         XYChart.Series series = new XYChart.Series();
 
+        // Populate the chart
         Map<String, Double> walletMovementsLastMonth = businessLogic.getWalletMovementsLastMonth();
         for (String s: walletMovementsLastMonth.keySet())
             series.getData().add(new XYChart.Data(s, walletMovementsLastMonth.get(s)));

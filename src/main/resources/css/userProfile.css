@@ -36,13 +36,6 @@
     -fx-background-color: #E3E3E3;
 }
 
-.aceituna-btn {
-    -fx-background-color: -fx-green1;
-    -fx-text-fill: #ffffff;
-    -fx-font-weight: bold;
-    -fx-cursor: hand;
-}
-
 .red-btn {
     -fx-background-color: #dc3545;
     -fx-text-fill: #ffffff;

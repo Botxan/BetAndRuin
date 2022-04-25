@@ -5,6 +5,7 @@ import exceptions.*;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -71,6 +72,12 @@ public interface BlFacade  {
 	@WebMethod public List<Event> getEventsCountry(String country);
 
 	/**
+	 * Returns the number of event whose date hasn't passed yet.
+	 * @return the number of upcoming events
+	 */
+	@WebMethod public long countUpcomingEvents();
+
+	/**
 	 * Returns the latest n upcoming events sorted by ascending date.
 	 * @param n the number of event to retrieve
 	 * @return the incoming first n events
@@ -130,6 +137,12 @@ public interface BlFacade  {
 									Long cardNumber, Date expirationDate, Integer securityCode)
 			throws InvalidDateException, UnderageRegistrationException, IncorrectPSWConfirmException,
 			PswTooShortException, NoMatchingPatternException, UsernameAlreadyInDBException, CreditCardAlreadyExists;
+
+	/**
+	 * Retrieves the number of users registered in the application
+	 * @return the total number of users in the application
+	 */
+	@WebMethod public long getTotalNumberOfUsers();
 
 	/**
 	 * It returns the user if successfully logged
@@ -221,17 +234,51 @@ public interface BlFacade  {
 	 * Retrieves all the active bets placed by the current user.
 	 * @return all the bets placed by the current user
 	 */
-	@WebMethod public List<Bet> getActiveBets();
+	@WebMethod public List<Bet> getActiveBetsUser();
+
+	/**
+	 * Retrieves the total number of active bets (this is,
+	 * the ones that have no correct forecast defined yet)
+	 * @return the number of active bets
+	 */
+	@WebMethod public long countActiveBets();
+
+	/**
+	 * Retrieves the sum of the money bet in all the active bets.
+	 * @return the sum of the money bet in all the active bets
+	 */
+	@WebMethod public double getActiveMoney();
 
 	/**
 	 * Retrieves the number of bets placed by the user, including
 	 * the ones that have already passed
 	 * @return the total number of bets
 	 */
-	@WebMethod public int getTotalNumberOfBets();
+	@WebMethod public int getTotalNumberOfBetsUser();
 
 	/**
-	 * Retrieves the number of active bets placed by the user.
+	 * Returns the money bet by all users last month and have already a correct forecast
+	 * Note: the date of the bet is not recorded. Instead, the date of the event is taken into account.
+	 * So the criteria used to group the amounts is actually the event date
+	 * @returns a map with days as keys and the sum of each day as value
+	 */
+	@WebMethod public Map<LocalDate, Double> moneyBetPerDayLastMonth();
+
+
+	/**
+	 * Returns the money won by users betting last month.
+	 * @returns the money won by users betting last month
+	 */
+	@WebMethod public Map<LocalDate, Double> wonByUsersLastMonth();
+
+	/**
+	 * Returns the money won by BetAndRuin betting last month.
+	 * @returns the money won by users betting last onth
+	 */
+	@WebMethod public Map<LocalDate, Double> wonByBetAndRuinLastMonth();
+
+	/**
+	 * Retrieves the number of bets placed by the user that has no correct forecast defined yet.
 	 * The number of bets active bets
 	 */
 	@WebMethod public int getNumberOfActiveBets();

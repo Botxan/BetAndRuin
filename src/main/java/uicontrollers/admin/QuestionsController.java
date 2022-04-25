@@ -18,7 +18,6 @@ import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.AccessibleAction;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.*;
@@ -53,12 +52,15 @@ public class QuestionsController implements Controller {
     private ObservableList<Question> questions;
     private StackPane createQuestionOverlay;
     private JFXDialog createQuestionDialog;
+    private TableColumn<Question, Integer> forecastsCol;
+    private TableColumn<Question, Date> actionCol;
 
     @FXML private AnchorPane mainPane;
     @FXML private ComboBox<Event> eventsCB;
     @FXML private DatePicker datePicker;
     @FXML private JFXButton addQuestionBtn;
     @FXML private JFXButton createQuestionBtn;
+    @FXML private JFXButton backBtn;
     @FXML private Label errorMinimumBetLbl;
     @FXML private Label errorQuestionLbl;
     @FXML private Label minimumBetLbl;
@@ -210,7 +212,7 @@ public class QuestionsController implements Controller {
     }
 
     private void addForecastsColumn() {
-        TableColumn<Question, Integer> forecastsCol = new TableColumn("FORECASTS");
+        forecastsCol = new TableColumn("FORECASTS");
         forecastsCol.setMinWidth(100);
         forecastsCol.setMaxWidth(100);
         forecastsCol.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Integer>(cellData.getValue().getForecasts().size()));
@@ -258,7 +260,7 @@ public class QuestionsController implements Controller {
      * Adds the cell and button to delete question to each row
      */
     private void addActionColumn() {
-        TableColumn<Question, Date> actionCol = new TableColumn("");
+        actionCol = new TableColumn("");
         actionCol.setMinWidth(80);
         actionCol.setMaxWidth(80);
 
@@ -460,5 +462,27 @@ public class QuestionsController implements Controller {
     public void setMainApp(MainGUI mainGUI) {this.mainGUI = mainGUI;}
 
     @Override
-    public void redraw() {}
+    public void redraw() {
+        // Text fields
+        searchField.setPromptText(ResourceBundle.getBundle("Etiquetas").getString("Search") + "...");
+
+        // Table columns
+        descriptionCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Description").toUpperCase());
+        minBetCol.setText(ResourceBundle.getBundle("Etiquetas").getString("MinimumBet").toUpperCase());
+        correctForecastCol.setText(ResourceBundle.getBundle("Etiquetas").getString("CorrectForecast").toUpperCase());
+        forecastsCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Forecasts").toUpperCase());
+
+        // Buttons
+        addQuestionBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
+        backBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Back"));
+        createQuestionBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));
+
+        // Labels
+        selectEventLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("SelectEvent"));
+        questionLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Question"));
+        minimumBetLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("MinimumBet"));
+
+        // Table
+        questionsTbl.setPlaceholder(new Label(ResourceBundle.getBundle("Etiquetas").getString("NoContentInTable")));
+    }
 }

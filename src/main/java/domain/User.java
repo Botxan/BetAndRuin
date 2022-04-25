@@ -318,19 +318,14 @@ public class User {
 	}
 
 	/**
-	 * Getter for user active bets, this is, the ones whose event date hast passed yet.
-	 * @return user active bets
+	 * Getter for user active bets, this is, the ones that have no correct forecast
+	 * defined yet.
+	 * @return user's active bets
 	 */
 	public List<Bet> getActiveBets() {
-		List<Bet> activeBets = new ArrayList<>();
-		Date today = Calendar.getInstance().getTime();
-
-		for (Bet b: bets) {
-			Event e = b.getUserForecast().getQuestion().getEvent();
-			if (today.compareTo(e.getEventDate()) < 0) activeBets.add(b);
-		}
-
-		return activeBets;
+		return bets.stream()
+				.filter(b -> b.getUserForecast().getQuestion().getCorrectForecast() == null)
+				.toList();
 	}
 
 	/**
@@ -338,16 +333,10 @@ public class User {
 	 * @return bets won by the user
 	 */
 	public List<Bet> getWonBets() {
-		List<Bet> wonBets = new ArrayList<>();
-
-		for (Bet b: getAllBets()) {
-			Question e = b.getUserForecast().getQuestion();
-			Forecast correctForecast = e.getCorrectForecast();
-			if (correctForecast != null && correctForecast.equals(b.getUserForecast()))
-				wonBets.add(b);
-		}
-
-		return wonBets;
+		return bets.stream().filter(b -> {
+			Forecast cf = b.getUserForecast().getQuestion().getCorrectForecast();
+			return cf != null && cf.equals(b.getUserForecast());
+		}).toList();
 	}
 
 	/**

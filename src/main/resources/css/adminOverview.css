@@ -1,0 +1,24 @@
+.overview-card {
+    -fx-pref-width: 200px;
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 5px;
+}
+
+.card-icon-label {
+    -fx-background-color: rgba(179, 207, 0, .2);
+    -fx-background-radius: 50%;
+}
+
+.card-number {
+    -fx-font-size: 1.5em;
+    -fx-font-weight: bold;
+}
+
+.card-text {
+    -fx-text-fill: -fx-disabled-text;
+}
+
+.text-header {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+}

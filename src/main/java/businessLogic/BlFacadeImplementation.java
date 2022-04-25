@@ -17,6 +17,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -201,6 +202,15 @@ public class BlFacadeImplementation implements BlFacade {
 		currentUser = potentialUser;
 		return potentialUser;
 	}
+
+	@WebMethod
+	public long getTotalNumberOfUsers() {
+		dbManager.open(false);
+		long n = dbManager.getTotalNumberOfUsers();
+		dbManager.close();
+
+		return n;
+	}
 	
 	@WebMethod
 	public User getUserByUsername(String username) throws UserNotFoundException
@@ -370,7 +380,7 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
-	public List<Bet> getActiveBets() {
+	public List<Bet> getActiveBetsUser() {
 		dbManager.open(false);
 		List<Bet> bets = dbManager.getActiveBets(currentUser);
 		dbManager.close();
@@ -378,8 +388,57 @@ public class BlFacadeImplementation implements BlFacade {
 		return bets;
 	}
 
+	@Override
 	@WebMethod
-	public int getTotalNumberOfBets() {
+	public long countActiveBets() {
+		dbManager.open(false);
+		long n = dbManager.countActiveBets();
+		dbManager.close();
+
+		return n;
+	}
+
+	@Override
+	@WebMethod
+	public double getActiveMoney() {
+		dbManager.open(false);
+		double n = dbManager.getActiveMoney();
+		dbManager.close();
+
+		return n;
+	}
+
+	@Override
+	@WebMethod
+	public Map<LocalDate, Double> moneyBetPerDayLastMonth() {
+		dbManager.open(false);
+		Map<LocalDate, Double> moneyBetPerDayLastMonth = dbManager.moneyBetPerDayLastMonth();
+		dbManager.close();
+		return moneyBetPerDayLastMonth;
+	}
+
+	@Override
+	@WebMethod
+	public Map<LocalDate, Double> wonByUsersLastMonth() {
+		dbManager.open(false);
+		Map<LocalDate, Double> wonByUsers = dbManager.wonByUsersLastMonth();
+		dbManager.close();
+
+		return wonByUsers;
+	}
+
+	@Override
+	@WebMethod
+	public Map<LocalDate, Double> wonByBetAndRuinLastMonth() {
+		dbManager.open(false);
+		Map<LocalDate, Double> wonByBetAndRuin = dbManager.wonByBetAndRuinLastMonth();
+		dbManager.close();
+
+		return wonByBetAndRuin;
+	}
+
+	@WebMethod
+	public int getTotalNumberOfBetsUser() {
 		return currentUser.getAllBets().size();
 	}
 
@@ -401,6 +460,16 @@ public class BlFacadeImplementation implements BlFacade {
 			totalIncome += b.getAmount() * b.getUserForecast().getFee();
 
 		return totalIncome;
+	}
+
+	@Override
+	@WebMethod
+	public long countUpcomingEvents() {
+		dbManager.open(false);
+		long n = dbManager.countUpcomingEvents();
+		dbManager.close();
+
+		return n;
 	}
 
 	@Override

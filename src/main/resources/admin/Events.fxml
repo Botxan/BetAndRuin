@@ -17,7 +17,7 @@
 <AnchorPane fx:id="mainPane" prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.admin.EventsController">
    <children>
       <TextField fx:id="searchField" layoutX="38.0" layoutY="45.0" prefHeight="25.0" prefWidth="198.0" promptText="Search..." styleClass="search-field" />
-      <JFXButton fx:id="showCreateEventDialog" layoutX="904.0" layoutY="45.0" onAction="#showCreateEventDialog" prefHeight="25.0" prefWidth="106.0" styleClass="aceituna-btn" text="Add event">
+      <JFXButton fx:id="addEventBtn" layoutX="904.0" layoutY="45.0" onAction="#showCreateEventDialog" prefHeight="25.0" prefWidth="106.0" styleClass="aceituna-btn" text="Add event">
          <graphic>
             <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" size="14" />
          </graphic>
@@ -54,7 +54,7 @@
                </cursor>
             </JFXButton>
             <Label fx:id="resultLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="166.0" layoutY="179.0" prefHeight="17.0" prefWidth="300.0" textAlignment="CENTER" />
-            <JFXButton fx:id="createEventBtn1" buttonType="RAISED" layoutX="212.0" layoutY="212.0" onAction="#closeCreateEventDialog" styleClass="aceituna-btn" stylesheets="@../css/betAndRuin.css" text="%Back" textFill="WHITE">
+            <JFXButton fx:id="backBtn" buttonType="RAISED" layoutX="212.0" layoutY="212.0" onAction="#closeCreateEventDialog" styleClass="aceituna-btn" stylesheets="@../css/betAndRuin.css" text="%Back" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>

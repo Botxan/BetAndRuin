@@ -1,16 +1,118 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.text.Text?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.admin.AdminOverviewController">
+<AnchorPane prefHeight="600.0" prefWidth="1050.0" stylesheets="@../css/adminOverview.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.admin.AdminOverviewController">
    <children>
-      <Label layoutX="261.0" layoutY="273.0" text="Implement AdminOverview here">
-         <font>
-            <Font size="37.0" />
-         </font>
-      </Label>
+      <HBox layoutX="50.0" layoutY="48.0" prefHeight="85.0" prefWidth="950.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="40.0">
+         <children>
+            <Pane prefHeight="100.0" prefWidth="252.0" styleClass="overview-card">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="18.0" prefHeight="50.0" prefWidth="50.0" styleClass="card-icon-label" stylesheets="@../css/betAndRuin.css">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3cf00" glyphName="USERS" size="25" />
+                     </graphic>
+                  </Label>
+                  <Text fx:id="registeredUsersNumber" layoutX="89.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="12" wrappingWidth="87.060546875" />
+                  <Label fx:id="registeredUsersLbl" layoutX="89.0" layoutY="48.0" styleClass="card-text" text="Registered users" />
+               </children>
+               <effect>
+                  <DropShadow height="20.0" offsetY="5.0" radius="9.5" width="20.0">
+                     <color>
+                        <Color opacity="0.20000000298023224" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Pane>
+            <Region prefHeight="85.0" prefWidth="55.0" />
+            <Pane prefHeight="100.0" prefWidth="252.0" styleClass="overview-card">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="21.0" layoutY="18.0" prefHeight="50.0" prefWidth="50.0" styleClass="card-icon-label" stylesheets="@../css/betAndRuin.css">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3cf00" glyphName="LIST_UL" size="25" />
+                     </graphic>
+                  </Label>
+                  <Text fx:id="upcomingEventsNumber" layoutX="86.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="300" wrappingWidth="87.060546875" />
+                  <Label fx:id="upcomingEventsLbl" layoutX="86.0" layoutY="48.0" styleClass="card-text" text="Upcoming events" />
+               </children>
+               <effect>
+                  <DropShadow height="20.0" offsetY="5.0" radius="9.5" width="20.0">
+                     <color>
+                        <Color opacity="0.20000000298023224" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Pane>
+            <Region prefHeight="85.0" prefWidth="55.0" />
+            <Pane prefHeight="100.0" prefWidth="252.0" styleClass="overview-card">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="18.0" prefHeight="50.0" prefWidth="50.0" styleClass="card-icon-label" stylesheets="@../css/betAndRuin.css">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3cf00" glyphName="PENCIL" size="25" />
+                     </graphic>
+                  </Label>
+                  <Text fx:id="activeBetsNumber" layoutX="89.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="285" wrappingWidth="87.060546875" />
+                  <Label fx:id="activeBetsLbl" layoutX="89.0" layoutY="48.0" styleClass="card-text" text="Active bets" />
+               </children>
+               <effect>
+                  <DropShadow height="20.0" offsetY="5.0" radius="9.5" width="20.0">
+                     <color>
+                        <Color opacity="0.20000000298023224" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Pane>
+            <Region prefHeight="85.0" prefWidth="55.0" />
+            <Pane prefHeight="100.0" prefWidth="209.0" styleClass="overview-card">
+               <children>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="18.0" prefHeight="50.0" prefWidth="50.0" styleClass="card-icon-label" stylesheets="@../css/betAndRuin.css">
+                     <graphic>
+                        <FontAwesomeIconView fill="#b3cf00" glyphName="MONEY" size="25" />
+                     </graphic>
+                  </Label>
+                  <Text fx:id="totalMoneyInGameNumber" layoutX="89.0" layoutY="42.0" strokeType="OUTSIDE" strokeWidth="0.0" styleClass="card-number" text="285€" wrappingWidth="87.060546875" />
+                  <Label fx:id="totalMoneyInGameLbl" layoutX="89.0" layoutY="48.0" styleClass="card-text" text="Money at stake" />
+               </children>
+               <effect>
+                  <DropShadow height="20.0" offsetY="5.0" radius="9.5" width="20.0">
+                     <color>
+                        <Color opacity="0.20000000298023224" />
+                     </color>
+                  </DropShadow>
+               </effect>
+            </Pane>
+         </children>
+      </HBox>
+      <Pane layoutX="108.0" layoutY="193.0" prefHeight="396.0" prefWidth="950.0" styleClass="overview-card" AnchorPane.bottomAnchor="40.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0">
+         <children>
+            <BarChart fx:id="balanceChart" alternativeRowFillVisible="false" barGap="2.0" layoutX="28.0" layoutY="61.0" prefHeight="311.0" prefWidth="894.0" verticalGridLinesVisible="false">
+              <xAxis>
+                <CategoryAxis side="BOTTOM" />
+              </xAxis>
+              <yAxis>
+                <NumberAxis side="LEFT" />
+              </yAxis>
+            </BarChart>
+            <Label layoutX="28.0" layoutY="25.0" styleClass="text-header" text="Balance of income" />
+         </children>
+         <effect>
+            <DropShadow height="20.0" offsetY="5.0" radius="9.5" width="20.0">
+               <color>
+                  <Color opacity="0.20000000298023224" />
+               </color>
+            </DropShadow>
+         </effect>
+      </Pane>
    </children>
 </AnchorPane>
