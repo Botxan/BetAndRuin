@@ -18,8 +18,8 @@
 
 <AnchorPane fx:id="mainPane" prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.admin.ForecastsController">
    <children>
-      <TextField fx:id="searchField" layoutX="40.0" layoutY="87.0" prefHeight="25.0" prefWidth="970.0" promptText="Search..." styleClass="search-field" />
-      <JFXButton fx:id="addForecastBtn" layoutX="836.0" layoutY="48.0" onAction="#showCreateForecastDialog" prefHeight="25.0" prefWidth="174.0" styleClass="aceituna-btn" text="Add forecast">
+      <TextField fx:id="searchField" layoutX="40.0" layoutY="83.0" prefHeight="25.0" prefWidth="970.0" promptText="Search..." styleClass="search-field" />
+      <JFXButton fx:id="addForecastBtn" layoutX="890.0" layoutY="45.0" onAction="#showCreateForecastDialog" prefHeight="25.0" prefWidth="120.0" styleClass="aceituna-btn" text="Add forecast" AnchorPane.topAnchor="45.0">
          <graphic>
             <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" size="14" />
          </graphic>
@@ -41,24 +41,24 @@
             </DropShadow>
          </effect>
       </TableView>
-      <DatePicker fx:id="datePicker" layoutX="194.0" layoutY="48.0" prefHeight="25.0" prefWidth="120.0" />
-      <ComboBox fx:id="eventsCB" layoutX="329.0" layoutY="48.0" prefHeight="25.0" prefWidth="200.0" />
-      <Label fx:id="selectQuestionLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="40.0" layoutY="50.0" prefHeight="21.0" prefWidth="144.0" style="-fx-font-size: 13px;" text="Select question" />
+      <DatePicker fx:id="datePicker" layoutX="178.0" layoutY="45.0" prefHeight="25.0" prefWidth="120.0" AnchorPane.topAnchor="45.0" />
+      <ComboBox fx:id="eventsCB" layoutX="313.0" layoutY="45.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.topAnchor="45.0" />
+      <Label fx:id="selectQuestionLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="40.0" layoutY="50.0" prefHeight="21.0" prefWidth="129.0" style="-fx-font-size: 13px;" text="Select question" AnchorPane.topAnchor="47.0" />
       <Pane fx:id="createForecastPane" layoutX="243.0" layoutY="245.0" prefHeight="229.0" prefWidth="461.0">
          <children>
-            <TextField fx:id="resultField" layoutX="204.0" layoutY="24.0" prefHeight="26.0" prefWidth="198.0" />
-            <TextField fx:id="feeField" layoutX="205.0" layoutY="83.0" prefHeight="26.0" prefWidth="73.0" />
+            <TextField fx:id="resultField" layoutX="150.0" layoutY="23.0" prefHeight="26.0" prefWidth="198.0" />
+            <TextField fx:id="feeField" layoutX="151.0" layoutY="82.0" prefHeight="26.0" prefWidth="73.0" />
             <JFXButton fx:id="createForecastBtn" buttonType="RAISED" layoutX="241.0" layoutY="152.0" onAction="#createForecast" prefHeight="35.0" prefWidth="160.0" styleClass="aceituna-btn" text="%CreateForecast" textFill="WHITE">
                <cursor>
                   <Cursor fx:constant="HAND" />
                </cursor>
             </JFXButton>
-            <Label fx:id="feeLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="68.0" layoutY="86.0" prefHeight="20.0" prefWidth="129.0" text="%Fee" textAlignment="RIGHT">
+            <Label fx:id="feeLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="14.0" layoutY="85.0" prefHeight="20.0" prefWidth="129.0" text="%Fee" textAlignment="RIGHT">
                <font>
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="resultLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="68.0" layoutY="21.0" prefHeight="32.0" prefWidth="129.0" text="%Result" textAlignment="RIGHT">
+            <Label fx:id="resultLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="14.0" layoutY="20.0" prefHeight="32.0" prefWidth="129.0" text="%Result" textAlignment="RIGHT">
                <font>
                   <Font size="14.0" />
                </font>
@@ -71,7 +71,7 @@
             <Label fx:id="createForecastStatusLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="109.0" layoutY="123.0" prefHeight="17.0" prefWidth="244.0" />
          </children>
       </Pane>
-      <ComboBox fx:id="questionsCB" layoutX="551.0" layoutY="48.0" prefHeight="25.0" prefWidth="200.0" />
+      <ComboBox fx:id="questionsCB" layoutX="535.0" layoutY="45.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.topAnchor="45.0" />
    </children>
    <stylesheets>
       <URL value="@../css/betAndRuin.css" />

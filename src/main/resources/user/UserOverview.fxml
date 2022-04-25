@@ -14,9 +14,9 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane fx:id="main" prefHeight="610.0" prefWidth="1053.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.UserOverviewController">
+<AnchorPane fx:id="main" prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.UserOverviewController">
    <children>
-      <HBox layoutX="51.0" layoutY="55.0" prefHeight="100.0" prefWidth="952.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="55.0">
+      <HBox layoutX="51.0" layoutY="55.0" prefHeight="100.0" prefWidth="952.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
          <children>
             <Pane prefHeight="100.0" prefWidth="252.0" styleClass="overview-card">
                <children>
@@ -91,7 +91,7 @@
             </Pane>
          </children>
       </HBox>
-      <AnchorPane fx:id="upcomingEventsPane" layoutX="72.0" layoutY="217.0" prefHeight="343.0" prefWidth="332.0" styleClass="incoming-event-pane" AnchorPane.leftAnchor="50.0">
+      <AnchorPane fx:id="upcomingEventsPane" layoutX="72.0" layoutY="217.0" prefHeight="343.0" prefWidth="332.0" styleClass="incoming-event-pane" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="50.0">
          <effect>
             <DropShadow height="20.0" offsetY="5.0" radius="9.5" width="20.0">
                <color>
@@ -103,7 +103,7 @@
             <Label fx:id="upcomingEventsLbl" layoutX="20.0" layoutY="27.0" styleClass="incoming-events-header" text="Incoming Events" AnchorPane.leftAnchor="20.0" />
          </children>
       </AnchorPane>
-      <Pane layoutX="443.0" layoutY="217.0" prefHeight="343.0" prefWidth="566.0" styleClass="revenue-pane" AnchorPane.rightAnchor="50.0">
+      <Pane layoutX="443.0" layoutY="217.0" prefHeight="343.0" prefWidth="566.0" styleClass="revenue-pane" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="50.0">
          <children>
             <LineChart fx:id="revenueChart" horizontalGridLinesVisible="false" horizontalZeroLineVisible="false" layoutY="61.0" legendVisible="false" prefHeight="283.0" prefWidth="566.0" verticalGridLinesVisible="false" verticalZeroLineVisible="false">
               <xAxis>

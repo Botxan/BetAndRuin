@@ -9,7 +9,7 @@
 
 .sidebar-btn {
     -fx-alignment: center-left;
-    -fx-padding: 12px 30px;
+    -fx-padding: 12px 40px;
     -fx-background-radius: 0;
     -fx-cursor: hand;
 }
@@ -18,7 +18,7 @@
     -fx-background-color: rgba(179, 207, 0, .2);
 }
 
-.sidebar-btn:focused {
+.selected {
     -fx-background-color: -fx-green1;
 }
 
@@ -32,6 +32,14 @@
    -fx-padding: 12px 30px;
    -fx-background-color: #E74C3C;
    -fx-cursor: hand;
+}
+
+.switch-btn {
+   -fx-alignment: center;
+   -fx-background-radius: 0px;
+   -fx-padding: 12px 30px;
+   -fx-background-color: -fx-dark-blue-bg;
+   -fx-cursor: HAND;
 }
 
 .content {

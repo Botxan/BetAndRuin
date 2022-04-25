@@ -12,7 +12,7 @@
 <?import javafx.scene.paint.Color?>
 <?import javafx.scene.shape.Line?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="1055.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.MovementsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.MovementsController">
    <children>
       <Label fx:id="cardMoneyLbl" alignment="CENTER" layoutX="35.0" layoutY="33.0" prefHeight="17.0" prefWidth="300.0" styleClass="money" text="230,630.50€" />
       <Label fx:id="totalMoneyCardLbl" alignment="CENTER_RIGHT" layoutX="34.0" layoutY="76.0" prefHeight="17.0" prefWidth="190.0" styleClass="money-description" text="Total money in the " />
@@ -102,7 +102,7 @@
             </DropShadow>
          </effect>
       </AnchorPane>
-      <ScrollPane hbarPolicy="NEVER" layoutX="375.0" layoutY="41.0" prefHeight="528.0" prefWidth="650.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="41.0">
+      <ScrollPane hbarPolicy="NEVER" layoutX="375.0" layoutY="41.0" prefHeight="518.0" prefWidth="650.0" AnchorPane.bottomAnchor="41.0" AnchorPane.rightAnchor="25.0" AnchorPane.topAnchor="41.0">
         <content>
           <AnchorPane fx:id="movementsPane" prefHeight="0.0" prefWidth="635.0" styleClass="scroll-anchor-pane" />
         </content>

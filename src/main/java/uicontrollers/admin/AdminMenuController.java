@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import ui.MainGUI;
 import uicontrollers.Controller;
 import utils.Window;
@@ -29,6 +30,7 @@ public class AdminMenuController implements Controller {
     @FXML private JFXButton questionsBtn;
     @FXML private JFXButton forecastsBtn;
     @FXML private JFXButton logoutBtn;
+    @FXML private VBox sidenavBtns;
 
     /**
      * Constructor for the AdminMenuController.
@@ -86,6 +88,13 @@ public class AdminMenuController implements Controller {
      * @param w the window to be displayed
      */
     private void switchToWindow(Window w) {
+        // Mark the selected button
+        sidenavBtns.getChildren().forEach(n -> n.getStyleClass().remove("selected"));
+        if (w.equals(mainGUI.adminOverviewLag)) overviewBtn.getStyleClass().add("selected");
+        else if (w.equals(mainGUI.eventsLag)) eventsBtn.getStyleClass().add("selected");
+        else if (w.equals(mainGUI.questionsLag)) questionsBtn.getStyleClass().add("selected");
+        else if (w.equals(mainGUI.forecastsLag)) forecastsBtn.getStyleClass().add("selected");
+
         content.getChildren().clear();
         currentWindow = w;
         w.getController().redraw();
@@ -99,6 +108,14 @@ public class AdminMenuController implements Controller {
     void logout() {
         businessLogic.setCurrentUser(null);
         this.mainGUI.goForward("Login");
+    }
+
+    /**
+     * Switches the current window to user dashboard
+     */
+    @FXML
+    public void switchToUser() {
+        mainGUI.goForward("UserMenu");
     }
 
     @Override

@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="610.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.UserMenuController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.user.UserMenuController">
    <children>
       <VBox prefHeight="600.0" prefWidth="230.0" styleClass="sidebar" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -29,31 +29,32 @@
             </HBox>
             <VBox alignment="TOP_CENTER" prefHeight="685.0" prefWidth="227.0">
                <children>
-                  <VBox prefHeight="0.0" prefWidth="227.0">
+                  <VBox fx:id="sidenavBtns" prefHeight="0.0" prefWidth="227.0">
                      <children>
                         <JFXButton fx:id="overviewBtn" onAction="#displayOverview" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text=" Overview">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="DASHBOARD" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="DASHBOARD" translateX="-10.0" />
                            </graphic>
                         </JFXButton>
                         <JFXButton fx:id="profileBtn" onAction="#displayProfile" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text=" Profile">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="USER" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="USER" translateX="-10.0" />
                            </graphic>
                         </JFXButton>
                         <JFXButton fx:id="betsBtn" onAction="#displayBets" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text=" Bets">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="FUTBOL_ALT" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="FUTBOL_ALT" translateX="-10.0" />
                            </graphic>
                         </JFXButton>
                         <JFXButton fx:id="myWalletBtn" onAction="#displayMovements" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text="My Wallet">
                            <graphic>
-                              <FontAwesomeIconView fill="WHITE" glyphName="MONEY" />
+                              <FontAwesomeIconView fill="WHITE" glyphName="MONEY" translateX="-10.0" />
                            </graphic>
                         </JFXButton>
                      </children>
                   </VBox>
                   <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  <JFXButton fx:id="switchBtn" onAction="#switchToAdmin" prefHeight="25.0" prefWidth="376.0" styleClass="switch-btn" text="Switch to administrator mode" visible="false" />
                   <JFXButton fx:id="logoutBtn" onAction="#logout" prefHeight="25.0" prefWidth="376.0" styleClass="logout-btn" text="Logout" />
                </children>
             </VBox>
@@ -62,7 +63,7 @@
             <DropShadow blurType="GAUSSIAN" height="0.0" radius="4.75" />
          </effect>
       </VBox>
-      <Pane fx:id="content" layoutX="501.0" layoutY="52.0" prefHeight="610.0" prefWidth="1053.0" styleClass="content" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Pane fx:id="content" layoutX="501.0" layoutY="52.0" prefHeight="600.0" prefWidth="1050.0" styleClass="content" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="230.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
    <stylesheets>
       <URL value="@../css/betAndRuin.css" />

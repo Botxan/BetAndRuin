@@ -18,6 +18,7 @@ import javafx.scene.media.MediaView;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 import ui.MainGUI;
+import uicontrollers.user.UserMenuController;
 
 import java.io.File;
 import java.io.IOException;
@@ -176,10 +177,15 @@ public class LoginController implements Controller, Initializable {
             mainGUI.loadLoggedWindows();
 
             // Redirect user depending on the user mode
-            if (logedUser.getUserMode() == 1)
+            if (logedUser.getUserMode() == 1) {
                 mainGUI.goForward("UserMenu");
-            else if (logedUser.getUserMode() == 2)
+                // Enable button to switch to admin in user dashboard
+                ((UserMenuController) mainGUI.userMenuLag.getController()).enableSwitchToAdmin(false);
+            } else if (logedUser.getUserMode() == 2) {
                 mainGUI.goForward("AdminMenu");
+                // Enable button to switch to admin in user dashboard
+                ((UserMenuController) mainGUI.userMenuLag.getController()).enableSwitchToAdmin(true);
+            }
         } catch (UserNotFoundException e1) {
             usernameErrorText.setVisible(true);
         } catch (InvalidPasswordException e2) {
