@@ -91,7 +91,9 @@ public class EventsController implements Controller {
 
         // Bind columns
         idCol.setCellValueFactory(new PropertyValueFactory<>("eventID"));
+        idCol.setReorderable(false);
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("description"));
+        descriptionCol.setReorderable(false);
         dateCol.setCellValueFactory(cellData -> {
             // Date formatter for event date
             SimpleDateFormat sdf =  new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
@@ -103,7 +105,9 @@ public class EventsController implements Controller {
                 throw new RuntimeException(e);
             }
         });
+        dateCol.setReorderable(false);
         countryCol.setCellValueFactory(new PropertyValueFactory<>("country"));
+        countryCol.setReorderable(false);
 
         // Text field to search and filter
         searchField.textProperty().addListener(obs -> {
@@ -137,6 +141,7 @@ public class EventsController implements Controller {
 
     private void addQuestionsColumn() {
         questionsCol = new TableColumn("QUESTIONS");
+        questionsCol.setReorderable(false);
         questionsCol.setMinWidth(100);
         questionsCol.setMaxWidth(100);
         questionsCol.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Integer>(cellData.getValue().getQuestions().size()));
@@ -185,6 +190,7 @@ public class EventsController implements Controller {
      */
     private void addActionColumn() {
         actionCol = new TableColumn("");
+        actionCol.setReorderable(false);
         actionCol.setMinWidth(80);
         actionCol.setMaxWidth(80);
 

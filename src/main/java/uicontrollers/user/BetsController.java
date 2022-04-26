@@ -71,10 +71,15 @@ public class BetsController implements Controller {
 
         // Bind columns
         idCol.setCellValueFactory(new PropertyValueFactory<>("betID"));
+        idCol.setReorderable(false);
         amountCol.setCellValueFactory(new PropertyValueFactory<>("amount"));
+        amountCol.setReorderable(false);
         forecastCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUserForecast().getDescription()));
+        forecastCol.setReorderable(false);
         questionCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUserForecast().getQuestion().getQuestion()));
+        questionCol.setReorderable(false);
         eventCol.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getUserForecast().getQuestion().getEvent().getDescription()));
+        eventCol.setReorderable(false);
         dateCol.setCellValueFactory(cellData -> {
             // Date formatter for event date
             SimpleDateFormat sdf =  new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.US);
@@ -86,6 +91,7 @@ public class BetsController implements Controller {
                 throw new RuntimeException(e);
             }
         });
+        dateCol.setReorderable(false);
 
         // Action column
         addActionColumn();
@@ -124,6 +130,7 @@ public class BetsController implements Controller {
      */
     private void addActionColumn() {
         TableColumn<Bet, Void> actionCol = new TableColumn("");
+        actionCol.setReorderable(false);
         actionCol.setMinWidth(80);
         actionCol.setMaxWidth(80);
 

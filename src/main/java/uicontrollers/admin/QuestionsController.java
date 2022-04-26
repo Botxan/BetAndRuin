@@ -182,12 +182,16 @@ public class QuestionsController implements Controller {
 
         // Bind columns
         idCol.setCellValueFactory(new PropertyValueFactory<>("questionID"));
+        idCol.setReorderable(false);
         descriptionCol.setCellValueFactory(new PropertyValueFactory<>("question"));
+        descriptionCol.setReorderable(false);
         minBetCol.setCellValueFactory(new PropertyValueFactory<>("betMinimum"));
+        minBetCol.setReorderable(false);
         correctForecastCol.setCellValueFactory(cellData -> {
             Forecast f = cellData.getValue().getCorrectForecast();
             return new SimpleStringProperty(f == null ? "" : f.getDescription());
         });
+        correctForecastCol.setReorderable(false);
 
         // Add column to access to associated forecasts
         addForecastsColumn();
@@ -213,6 +217,7 @@ public class QuestionsController implements Controller {
 
     private void addForecastsColumn() {
         forecastsCol = new TableColumn("FORECASTS");
+        forecastsCol.setReorderable(false);
         forecastsCol.setMinWidth(100);
         forecastsCol.setMaxWidth(100);
         forecastsCol.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<Integer>(cellData.getValue().getForecasts().size()));
@@ -261,6 +266,7 @@ public class QuestionsController implements Controller {
      */
     private void addActionColumn() {
         actionCol = new TableColumn("");
+        actionCol.setReorderable(false);
         actionCol.setMinWidth(80);
         actionCol.setMaxWidth(80);
 
