@@ -605,8 +605,6 @@
 
             db.getTransaction().begin();
             q.setCorrectForecast(f);
-            db.getTransaction().commit();
-
             // Get the correct bets
             TypedQuery<Bet> query = db.createQuery("SELECT b FROM Bet b WHERE b.userForecast=?1", Bet.class);
             query.setParameter(1, f);
@@ -618,14 +616,12 @@
 
                 // Find user in db
                 User u = db.find(User.class, b.getGambler());
-
-                db.getTransaction().begin();
                 // Add the amount to winner
                 u.depositMoneyIntoWallet(wonAmount);
                 // Register the transaction
                 u.getCard().addTransaction(0, "Won bet " + b.getBetID(), wonAmount, today);
-                db.getTransaction().commit();
             }
+            db.getTransaction().commit();
         }
 
 
