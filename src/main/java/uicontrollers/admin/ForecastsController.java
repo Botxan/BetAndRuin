@@ -271,7 +271,6 @@ public class ForecastsController implements Controller {
         forecasts = FXCollections.observableArrayList();
         FilteredList<Forecast> filteredQuestions = new FilteredList<>(forecasts, f -> true);
 
-
         // Custom row factory to highlight correct forecast
         forecastsTbl.setRowFactory(new Callback<TableView<Forecast>, TableRow<Forecast>>() {
             @Override
@@ -291,7 +290,6 @@ public class ForecastsController implements Controller {
                 return row;
             }
         });
-
 
         // Bind columns
         idCol.setCellValueFactory(new PropertyValueFactory<>("forecastID"));
@@ -589,8 +587,8 @@ public class ForecastsController implements Controller {
         searchField.setPromptText(ResourceBundle.getBundle("Etiquetas").getString("Search") + "...");
 
         // Table columns
-        resultCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Result").toUpperCase());
-        feeCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee").toUpperCase());
+        resultCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Result"));
+        feeCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee"));
 
         // Buttons
         addForecastBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateForecast"));

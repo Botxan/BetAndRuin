@@ -54,6 +54,11 @@
                               <FontAwesomeIconView fill="WHITE" glyphName="PENCIL" translateX="-10.0" />
                            </graphic>
                         </JFXButton>
+                        <JFXButton fx:id="usersBtn" onAction="#displayUsers" prefHeight="25.0" prefWidth="295.0" styleClass="sidebar-btn" text="Users">
+                           <graphic>
+                              <FontAwesomeIconView fill="WHITE" glyphName="USERS" translateX="-10.0" />
+                           </graphic>
+                        </JFXButton>
                      </children>
                   </VBox>
                   <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />

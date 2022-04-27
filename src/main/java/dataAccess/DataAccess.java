@@ -165,12 +165,18 @@
                 // Create dummy user and admin
                 byte [] salt = BlFacadeImplementation.generateSalt();
                 byte[] password = BlFacadeImplementation.hashPassword("123123", salt);
-                User user1 = new User("user1", "Antonio", "Geremías Gonzalez", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
-                        "P. Sherman street Wallaby 42 Sydney", "betandruin22@gmail.com", password, salt, 1, 0);
-                User admin1 = new User("admin1", "adminFirstName", "adminLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"),
-                        "adminAddress", "admin@email.com", password, salt, 2, 0);
+                User user1 = new User("user1", "Antonio", "Geremías Gonzalez", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"), "P. Sherman street Wallaby 42 Sydney", "betandruin22@gmail.com", "1.jpeg", password, salt, 1, 0);
+                User admin1 = new User("admin1", "adminFirstName", "adminLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"), "adminAddress", "admin@email.com", "2.jpeg", password, salt, 2, 0);
+
+                // Some other dummy users
+                User anton = new User("anton", "Anton", "Kennedy Wagner", new SimpleDateFormat("yyyy-MM-dd").parse("1965-09-02"), "1736 Maxwell Street, Hartford, Connecticut", "antonBetNRuin@gmail.com", "3.jpg", password, salt, 1, 0);
+                User pavle = new User("pavle", "Pavle", "Miles Hardy", new SimpleDateFormat("yyyy-MM-dd").parse("1987-11-13"), "4209 Crummit Lane, Omaha, Nebraska", "pavleBetNRuin@gmail.com", "4.jpg", password, salt, 1, 0);
+                User boris = new User("boris", "Boris", "Peterson Mueller", new SimpleDateFormat("yyyy-MM-dd").parse("1977-04-01"), "4440 Simpson Square Socaldwell, Oklahoma", "borisBetNRuin@gmail.com", "5.jpg", password, salt, 1, 0);
+                User zlata = new User("zlata", "Zlata", "Munoz Sharma", new SimpleDateFormat("yyyy-MM-dd").parse("1976-04-23"), "3198 Honeysuckle Lane, Clinton, Washington", "zlataBetNRuin@gmail.com", "6.jpg", password, salt, 1, 0);
+                User arica = new User("arica", "Arica", "Daniel Mccarthy", new SimpleDateFormat("yyyy-MM-dd").parse("1991-10-17"), "52 Sumner Street, Gardena, California", "aricaBetNRuin@gmail.com", "7.jpg", password, salt, 1, 0);
 
                 // Create dummy credit cards (with 100€ for testing purposes)
+                // user card
                 Calendar cal = Calendar.getInstance();
                 cal.set(Calendar.YEAR, 2024);
                 cal.set(Calendar.MONTH, Calendar.FEBRUARY);
@@ -178,11 +184,48 @@
                 Card userCard = new Card(2285598963294470L, cal.getTime(), 822, 100.0, user1);
                 user1.setCard(userCard);
 
+                // admin card
                 cal.set(Calendar.YEAR, 2024);
                 cal.set(Calendar.MONTH, Calendar.AUGUST);
                 cal.set(Calendar.DAY_OF_MONTH, 12);
                 Card adminCard = new Card(9950451982447108L, cal.getTime(), 798, 100.0, admin1);
                 admin1.setCard(adminCard);
+
+                // anton card
+                cal.set(Calendar.YEAR, 2024);
+                cal.set(Calendar.MONTH, Calendar.DECEMBER);
+                cal.set(Calendar.DAY_OF_MONTH, 2);
+                Card antonCard = new Card(9950255982347108L, cal.getTime(), 133, 100.0, anton);
+                anton.setCard(antonCard);
+
+                // pavle card
+                cal.set(Calendar.YEAR, 2024);
+                cal.set(Calendar.MONTH, Calendar.FEBRUARY);
+                cal.set(Calendar.DAY_OF_MONTH, 27);
+                Card pavleCard = new Card(9958451982499908L, cal.getTime(), 912, 100.0, pavle);
+                pavle.setCard(pavleCard);
+
+                // boris card
+                cal.set(Calendar.YEAR, 2024);
+                cal.set(Calendar.MONTH, Calendar.JANUARY);
+                cal.set(Calendar.DAY_OF_MONTH, 10);
+                Card borisCard = new Card(9950121982417102L, cal.getTime(), 518, 100.0, boris);
+                boris.setCard(borisCard);
+
+                // zlata card
+                cal.set(Calendar.YEAR, 2024);
+                cal.set(Calendar.MONTH, Calendar.AUGUST);
+                cal.set(Calendar.DAY_OF_MONTH, 12);
+                Card zlataCard = new Card(9950451982447108L, cal.getTime(), 798, 100.0, zlata);
+                zlata.setCard(zlataCard);
+
+                // arica card
+                cal.set(Calendar.YEAR, 2024);
+                cal.set(Calendar.MONTH, Calendar.AUGUST);
+                cal.set(Calendar.DAY_OF_MONTH, 1);
+                Card aricaCard = new Card(3897445993431366L, cal.getTime(), 484, 100.0, arica);
+                arica.setCard(aricaCard);
+
 
                 // Create dummy transactions
                 user1.depositMoneyIntoWallet(12.5);
@@ -295,6 +338,11 @@
 
                 db.persist(user1);
                 db.persist(admin1);
+                db.persist(anton);
+                db.persist(pavle);
+                db.persist(boris);
+                db.persist(zlata);
+                db.persist(arica);
 
                 db.persist(userCard);
                 db.persist(adminCard);
@@ -945,6 +993,16 @@
         /* ---------- [*] User [*] --------------------------------------------------------------------------- */
 
 
+        public List<User> getUsers() {
+            System.out.printf(">> DataAccess: getUsers()");
+            TypedQuery<User> q = db.createQuery("SELECT u FROM User u", User.class);
+            return q.getResultList();
+        }
+
+        /**
+         * Counts the total number of users in the aplication
+         * @return number of users in the application
+         */
         public long getTotalNumberOfUsers() {
             System.out.println(">> DataAccess: getTotalNumberOfUsers");
             TypedQuery<Long> q = db.createQuery("SELECT COUNT(u) FROM User u", Long.class);
@@ -1104,6 +1162,21 @@
             db.getTransaction().commit();
 
             System.out.println("User deleted");
+        }
+
+        /**
+         * Bans the user with the given id, by changing its user mode to 3 (banned user)
+         */
+        public void banUser(Integer userID, String banReason) {
+            System.out.printf(">> BanUser");
+            User u = db.find(User.class, userID);
+
+            db.getTransaction().begin();
+            u.setUserMode(3);
+            u.setBanReason(banReason);
+            db.getTransaction().commit();
+
+            System.out.printf("User " + userID + " banned");
         }
 
         /**

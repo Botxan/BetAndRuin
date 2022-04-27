@@ -220,12 +220,12 @@ public class BetsController implements Controller {
 
         updateBetCounter();
 
-        betsTbl.setPlaceholder(new Label(ResourceBundle.getBundle("Etiquetas").getString("NoContentInTable").toUpperCase()));
-        amountCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Amount").toUpperCase());
-        forecastCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Forecast").toUpperCase());
-        questionCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Question").toUpperCase());
-        eventCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Event").toUpperCase());
-        dateCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Date").toUpperCase());
+        betsTbl.setPlaceholder(new Label(ResourceBundle.getBundle("Etiquetas").getString("NoContentInTable")));
+        amountCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Amount"));
+        forecastCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Forecast"));
+        questionCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Question"));
+        eventCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Event"));
+        dateCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Date"));
         searchField.setPromptText(ResourceBundle.getBundle("Etiquetas").getString("Search") + "...");
     }
 }

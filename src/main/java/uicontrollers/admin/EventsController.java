@@ -140,7 +140,7 @@ public class EventsController implements Controller {
     }
 
     private void addQuestionsColumn() {
-        questionsCol = new TableColumn("QUESTIONS");
+        questionsCol = new TableColumn(ResourceBundle.getBundle("Etiquetas").getString("Questions"));
         questionsCol.setReorderable(false);
         questionsCol.setMinWidth(100);
         questionsCol.setMaxWidth(100);
@@ -366,10 +366,10 @@ public class EventsController implements Controller {
         searchField.setPromptText(ResourceBundle.getBundle("Etiquetas").getString("Search") + "...");
 
         // Table colums
-        descriptionCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Description").toUpperCase());
-        dateCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Date").toUpperCase());
-        countryCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Country").toUpperCase());
-        questionsCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Questions").toUpperCase());
+        descriptionCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
+        dateCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Date"));
+        countryCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Country"));
+        questionsCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Questions"));
 
         // Buttons
         addEventBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateEvent"));

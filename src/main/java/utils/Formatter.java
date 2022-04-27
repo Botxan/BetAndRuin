@@ -39,6 +39,6 @@ public class Formatter {
      */
     public static String twoDecimals(double amount) {
         DecimalFormat formatter = new DecimalFormat("#,###.00");
-        return formatter.format(amount);
+        return amount == 0 ? "0.00" : formatter.format(amount);
     }
 }

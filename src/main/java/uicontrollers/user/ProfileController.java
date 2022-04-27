@@ -144,7 +144,7 @@ public class ProfileController implements Controller {
         Image avatarImg = new Image("file:src/main/resources/img/avatar/" + businessLogic.getCurrentUser().getAvatar());
         avatar.setImage(avatarImg);
 
-        Circle avatarClip = new Circle(60, 60, 60);
+        Circle avatarClip = new Circle(avatar.getFitWidth()/2, avatar.getFitHeight()/2, avatar.getFitWidth()/2);
         avatarClip.setFill(Color.BLUE);
         avatar.setClip(avatarClip);
     }

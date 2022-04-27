@@ -232,6 +232,25 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
+	@Override
+	public List<User> getUsers() {
+		dbManager.open(false);
+		List<User> users = dbManager.getUsers();
+		dbManager.close();
+		return users;
+	}
+
+	@WebMethod
+	@Override
+	public void banUser(Integer userID, String banReason) {
+		dbManager.open(false);
+		dbManager.banUser(userID, banReason);
+		dbManager.close();
+
+		refreshUser();
+	}
+
+	@WebMethod
 	public User getCurrentUser() {
 		return currentUser;
 	}
@@ -305,10 +324,10 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.initializeDB();
 		dbManager.close();
 
-		// Remove all user avatars
+		// Remove all user avatars except the ones used for testing
 		File avatarDir = new File("src/main/resources/img/avatar");
 		for(File file: avatarDir.listFiles())
-			if (!file.getName().equals("default.png"))
+			if (!Arrays.asList("default.png", "1.jpeg", "2.jpeg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg").contains(file.getName()))
 				file.delete();
 	}
 

@@ -32,7 +32,7 @@
             <Label fx:id="profileAvatarLbl" layoutX="28.0" layoutY="22.0" styleClass="section-header" text="Profile Avatar" />
             <BorderPane layoutX="30.0" layoutY="65.0" prefHeight="120.0" prefWidth="120.0">
                <center>
-                  <ImageView fx:id="avatar" fitHeight="120.0" fitWidth="221.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
+                  <ImageView fx:id="avatar" fitHeight="120.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true" BorderPane.alignment="CENTER">
                      <image>
                         <Image url="@../img/avatar/default.png" />
                      </image>

@@ -162,7 +162,7 @@ public class LoginController implements Controller, Initializable {
     }
 
     /**
-     * Logs the user to the system is the correct username and password are inserted. Then, it will redirect the user
+     * Logs the user to the system if the correct username and password are inserted (and user is not banned). Then, it will redirect the user
      * to the corresponding control panel.
      */
     @FXML
@@ -173,19 +173,29 @@ public class LoginController implements Controller, Initializable {
         try {
             User logedUser = businessLogic.login(usernameField.getText(), new String(passwordField.getText()));
 
-            // Load all the windows that require user authentication
-            mainGUI.loadLoggedWindows();
+            // Banned user!
+            if (logedUser.getUserMode() == 3) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION,
+                        ResourceBundle.getBundle("Etiquetas").getString("YourAccHasBeenSuspended") +
+                                "\n" + ResourceBundle.getBundle("Etiquetas").getString("Reason") +
+                                ": " + logedUser.getBanReason(), ButtonType.CLOSE);
+                alert.showAndWait();
+            } else {
+                // Load all the windows that require user authentication
+                mainGUI.loadLoggedWindows();
 
-            // Redirect user depending on the user mode
-            if (logedUser.getUserMode() == 1) {
-                mainGUI.goForward("UserMenu");
-                // Enable button to switch to admin in user dashboard
-                ((UserMenuController) mainGUI.userMenuLag.getController()).enableSwitchToAdmin(false);
-            } else if (logedUser.getUserMode() == 2) {
-                mainGUI.goForward("AdminMenu");
-                // Enable button to switch to admin in user dashboard
-                ((UserMenuController) mainGUI.userMenuLag.getController()).enableSwitchToAdmin(true);
+                // Redirect user depending on the user mode
+                if (logedUser.getUserMode() == 1) {
+                    mainGUI.goForward("UserMenu");
+                    // Enable button to switch to admin in user dashboard
+                    ((UserMenuController) mainGUI.userMenuLag.getController()).enableSwitchToAdmin(false);
+                } else if (logedUser.getUserMode() == 2) {
+                    mainGUI.goForward("AdminMenu");
+                    // Enable button to switch to admin in user dashboard
+                    ((UserMenuController) mainGUI.userMenuLag.getController()).enableSwitchToAdmin(true);
+                }
             }
+
         } catch (UserNotFoundException e1) {
             usernameErrorText.setVisible(true);
         } catch (InvalidPasswordException e2) {

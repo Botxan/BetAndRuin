@@ -163,6 +163,12 @@ public interface BlFacade  {
 	@WebMethod public User getUserByUsername(String username) throws UserNotFoundException;
 
 	/**
+	 * Returns a list with all the users of type 1 (normal user)
+	 * @return
+	 */
+	@WebMethod public List<User> getUsers();
+
+	/**
 	 * It returns the current user 
 	 * @return currentUser an instance of the current user 
 	 */
@@ -255,6 +261,13 @@ public interface BlFacade  {
 	 * @return the total number of bets
 	 */
 	@WebMethod public int getTotalNumberOfBetsUser();
+
+	/**
+	 * Bans the user with the given id, by changing its user mode to 3 (banned user).
+	 * @param userID user identification
+	 * @param banReason the reason behind user's ban
+	 */
+	@WebMethod public void banUser(Integer userID, String banReason);
 
 	/**
 	 * Returns the money bet by all users last month and have already a correct forecast

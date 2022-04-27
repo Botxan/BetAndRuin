@@ -32,7 +32,7 @@ public class MainGUI {
 
     public Window navBarLag, welcomeLag, loginLag, registerLag, browseEventsLag,
             userMenuLag, userOverviewLag, profileLag, betsLag, movementsLag,
-            adminMenuLag, adminOverviewLag, eventsLag, questionsLag, forecastsLag;
+            adminMenuLag, adminOverviewLag, eventsLag, questionsLag, forecastsLag, usersLag;
     private BlFacade businessLogic;
     private Stage stage;
     private Scene scene;
@@ -148,8 +148,9 @@ public class MainGUI {
             e.printStackTrace();
         }
 
-        history.setCurrentWindow(welcomeLag);
-        showScene(welcomeLag);
+        loadLoggedWindows();
+        history.setCurrentWindow(adminMenuLag);
+        showScene(adminMenuLag);
     }
 
     /**
@@ -164,6 +165,7 @@ public class MainGUI {
         eventsLag = load("/admin/Events.fxml", "admin.EventsController", SCENE_WIDTH, SCENE_HEIGHT);
         questionsLag = load("/admin/Questions.fxml", "admin.QuestionsController", SCENE_WIDTH, SCENE_HEIGHT);
         forecastsLag = load("/admin/Forecasts.fxml", "admin.ForecastsController", SCENE_WIDTH, SCENE_HEIGHT);
+        usersLag = load("/admin/Users.fxml", "admin.UsersController", SCENE_WIDTH, SCENE_HEIGHT);
 
         // User windows
         userMenuLag = load("/user/UserMenuGUI.fxml", "user.UserMenuController", SCENE_WIDTH, SCENE_HEIGHT);

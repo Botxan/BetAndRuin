@@ -29,6 +29,7 @@ public class User {
 	private byte[] salt; // salt used in password hashing
 	private Integer userMode; // 0 => guest, 1 => logged user, 2 => administrator
 	private Double wallet;
+	private String banReason;
 
 	@OneToOne(cascade = CascadeType.PERSIST)
 	private Card card;
@@ -358,7 +359,27 @@ public class User {
 		return bet;
 	}
 
+	/**
+	 * Removes a bet from the user
+	 * @param bet user's bet
+	 */
 	public void removeBet(Bet bet) {
 		bets.remove(bet);
+	}
+
+	/**
+	 * Getter for the ban reason.
+	 * @return ban reason
+	 */
+	public String getBanReason() {
+		return banReason;
+	}
+
+	/**
+	 * Setter for the ban reason.
+	 * @param banReason the ban reason
+	 */
+	public void setBanReason(String banReason) {
+		this.banReason = banReason;
 	}
 }

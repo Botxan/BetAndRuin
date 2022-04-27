@@ -15,6 +15,13 @@
     -fx-cursor: hand;
 }
 
+.danger-btn {
+    -fx-background-color: #dc3545;
+    -fx-text-fill: #ffffff;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
 .holiday {
     -fx-background-color: pink;
 }

@@ -29,6 +29,8 @@ public class AdminMenuController implements Controller {
     @FXML private JFXButton eventsBtn;
     @FXML private JFXButton questionsBtn;
     @FXML private JFXButton forecastsBtn;
+    @FXML private JFXButton usersBtn;
+    @FXML private JFXButton switchBtn;
     @FXML private JFXButton logoutBtn;
     @FXML private VBox sidenavBtns;
 
@@ -82,6 +84,14 @@ public class AdminMenuController implements Controller {
     }
 
     /**
+     * Displays users pane
+     */
+    @FXML
+    void displayUsers() {
+        switchToWindow(mainGUI.usersLag);
+    }
+
+    /**
      * Clears the current content and sets the given window as the
      * current content. Uses Controller.redraw() to refresh the content
      * of the given window.
@@ -94,6 +104,7 @@ public class AdminMenuController implements Controller {
         else if (w.equals(mainGUI.eventsLag)) eventsBtn.getStyleClass().add("selected");
         else if (w.equals(mainGUI.questionsLag)) questionsBtn.getStyleClass().add("selected");
         else if (w.equals(mainGUI.forecastsLag)) forecastsBtn.getStyleClass().add("selected");
+        else if (w.equals(mainGUI.usersLag)) usersBtn.getStyleClass().add("selected");
 
         content.getChildren().clear();
         currentWindow = w;
@@ -131,6 +142,8 @@ public class AdminMenuController implements Controller {
         eventsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Events"));
         questionsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Questions"));
         forecastsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Forecasts"));
+        usersBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Users"));
+        switchBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("SwitchToUserMode"));
         logoutBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Logout"));
     }
 }

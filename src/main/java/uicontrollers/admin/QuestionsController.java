@@ -216,7 +216,7 @@ public class QuestionsController implements Controller {
     }
 
     private void addForecastsColumn() {
-        forecastsCol = new TableColumn("FORECASTS");
+        forecastsCol = new TableColumn(ResourceBundle.getBundle("Etiquetas").getString("Forecasts"));
         forecastsCol.setReorderable(false);
         forecastsCol.setMinWidth(100);
         forecastsCol.setMaxWidth(100);
@@ -473,10 +473,10 @@ public class QuestionsController implements Controller {
         searchField.setPromptText(ResourceBundle.getBundle("Etiquetas").getString("Search") + "...");
 
         // Table columns
-        descriptionCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Description").toUpperCase());
-        minBetCol.setText(ResourceBundle.getBundle("Etiquetas").getString("MinimumBet").toUpperCase());
-        correctForecastCol.setText(ResourceBundle.getBundle("Etiquetas").getString("CorrectForecast").toUpperCase());
-        forecastsCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Forecasts").toUpperCase());
+        descriptionCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Description"));
+        minBetCol.setText(ResourceBundle.getBundle("Etiquetas").getString("MinimumBet"));
+        correctForecastCol.setText(ResourceBundle.getBundle("Etiquetas").getString("CorrectForecast"));
+        forecastsCol.setText(ResourceBundle.getBundle("Etiquetas").getString("Forecasts"));
 
         // Buttons
         addQuestionBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("CreateQuestion"));

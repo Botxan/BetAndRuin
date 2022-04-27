@@ -146,6 +146,7 @@ public class UserMenuController implements Controller {
         profileBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Profile"));
         betsBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Bets"));
         myWalletBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("MyWallet"));
+        switchBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("SwitchToAdminMode"));
         logoutBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Logout"));
     }
 }
