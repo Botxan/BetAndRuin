@@ -52,9 +52,17 @@ public class UserMenuController implements Controller {
     @FXML
     void initialize() {
         Platform.runLater(() -> {
-            overviewBtn.requestFocus();
             displayOverview();
         });
+    }
+
+    /**
+     * Redirects user to browse events window
+     */
+    @FXML
+    void goToBrowseEvents() {
+        mainGUI.goForward("BrowseEvents");
+        System.out.println("YEP");
     }
 
     /**
@@ -85,7 +93,7 @@ public class UserMenuController implements Controller {
      * Displays movements pane
      */
     @FXML
-    void displayMovements() {
+    public void displayMovements() {
         switchToWindow(mainGUI.movementsLag);
     }
 

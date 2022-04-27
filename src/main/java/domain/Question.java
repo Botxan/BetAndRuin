@@ -15,7 +15,7 @@ public class Question {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer questionID;
 	private String question; 
-	private float betMinimum;
+	private Double betMinimum;
 
 	@ManyToOne
 	private Event event;
@@ -40,7 +40,7 @@ public class Question {
 	 * @param betMinimum the minimum bet
 	 * @param event the associated event
 	 */
-	public Question(Integer questionID, String question, float betMinimum, Event event) {
+	public Question(Integer questionID, String question, Double betMinimum, Event event) {
 		super();
 		this.questionID = questionID;
 		this.question = question;
@@ -54,7 +54,7 @@ public class Question {
 	 * @param betMinimum the minimum bet
 	 * @param event the associated event
 	 */
-	public Question(String question, float betMinimum, Event event) {
+	public Question(String question, Double betMinimum, Event event) {
 		super();
 		this.question = question;
 		this.betMinimum=betMinimum;
@@ -103,7 +103,7 @@ public class Question {
 	 * 
 	 * @return the minimum bet
 	 */
-	public float getBetMinimum() {
+	public Double getBetMinimum() {
 		return betMinimum;
 	}
 
@@ -112,7 +112,7 @@ public class Question {
 	 * 
 	 * @param  betMinimum minimum amount to be set
 	 */
-	public void setBetMinimum(float betMinimum) {
+	public void setBetMinimum(Double betMinimum) {
 		this.betMinimum = betMinimum;
 	}
 
@@ -176,7 +176,7 @@ public class Question {
 	 * @param fee the fee of that forecast
 	 * @return the new forecast
 	 */
-	public Forecast addForecast(String result, double fee)  {
+	public Forecast addForecast(String result, Double fee)  {
 		Forecast f = new Forecast(result, fee, this);
 		forecasts.add(f);
 		return f;

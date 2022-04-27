@@ -129,10 +129,9 @@ public class Event {
 	 * Setter for the country where the event takes place.
 	 * @param country the country
 	 */
-	public void setCountr(String country) {
+	public void setCountry(String country) {
 		this.country = country;
 	}
-
 
 	@Override
 	public String toString(){
@@ -146,8 +145,8 @@ public class Event {
 	 * @param betMinimum of that question
 	 * @return Bet.
 	 */
-	public Question addQuestion(String question, float betMinimum)  {
-		Question q=new Question(question,betMinimum, this);
+	public Question addQuestion(String question, Double betMinimum)  {
+		Question q= new Question(question,betMinimum, this);
 		questions.add(q);
 		return q;
 	}

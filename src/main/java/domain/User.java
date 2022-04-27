@@ -56,7 +56,7 @@ public class User {
 	 * @param wallet user's money in the wallet
 	 */
 	public User(String username, String firstName, String lastName,
-			Date birthdate, String address, String email, byte[] password, byte[] salt, Integer userMode, double wallet) {
+			Date birthdate, String address, String email, byte[] password, byte[] salt, Integer userMode, Double wallet) {
 		this(username, firstName, lastName, birthdate, address, email, "default.png", password, salt, userMode, wallet);
 	}
 
@@ -74,7 +74,7 @@ public class User {
 	 * @param userMode user's userMode
 	 */
 	public User(String username, String firstName, String lastName,
-				Date birthdate, String address, String email, String avatar, byte[] password, byte[] salt, int userMode, double wallet) {
+				Date birthdate, String address, String email, String avatar, byte[] password, byte[] salt, Integer userMode, Double wallet) {
 		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -285,11 +285,11 @@ public class User {
 	 * Deposits the amount of money passed by parameter in the wallet of the user.
 	 * @param money the money to deposit in the wallet
 	 */
-	public void depositMoneyIntoWallet(double money) {
+	public void depositMoneyIntoWallet(Double money) {
 		wallet += money;
 	}
 
-	public void withdrawMoneyFromWallet(double money) throws NotEnoughMoneyException {
+	public void withdrawMoneyFromWallet(Double money) throws NotEnoughMoneyException {
 		if (wallet < money) throw new NotEnoughMoneyException();
 		wallet -= money;
 	}
@@ -353,7 +353,7 @@ public class User {
 	 * @param amount the amount of money bet
 	 * @param forecast the forecast to which the bet is done.
 	 */
-	public Bet addBet(float amount, Forecast forecast) {
+	public Bet addBet(Double amount, Forecast forecast) {
 		Bet bet = new Bet(amount, forecast, this);
 		bets.add(bet);
 		return bet;

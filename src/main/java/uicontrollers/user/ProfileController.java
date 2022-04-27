@@ -14,9 +14,7 @@ import javafx.animation.RotateTransition;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.*;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -34,6 +32,7 @@ import utils.Formatter;
 import utils.MailSender;
 import utils.CodeGenerator;
 
+import javax.mail.MessagingException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -484,7 +483,13 @@ public class ProfileController implements Controller {
         String username = businessLogic.getCurrentUser().getUsername();
         String email = businessLogic.getCurrentUser().getEmail();
         passwordResetCode = CodeGenerator.generate5DigitCode();
-        mailSender.sendPasswordResetEmail(username, email, passwordResetCode);
+        try {
+            mailSender.sendPasswordResetEmail(username, email, passwordResetCode);
+        } catch (MessagingException e) {
+            Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("Etiquetas").getString("ErrorSendingEmail") +
+                    ". " + ResourceBundle.getBundle("Etiquetas").getString("TryItAgainLater") , ButtonType.OK);
+            alert.showAndWait();
+        }
     }
 
     /**

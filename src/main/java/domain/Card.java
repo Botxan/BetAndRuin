@@ -113,7 +113,7 @@ public class Card {
      * Getter for the money in the card.
      * @return the money in the card
      */
-    public double getMoney() {
+    public Double getMoney() {
         return money;
     }
 
@@ -160,7 +160,7 @@ public class Card {
      * @param amount the amount of money used in the transaction
      * @return the transaction
      */
-    public Transaction addTransaction(int type, String description, double amount, Date date) {
+    public Transaction addTransaction(Integer type, String description, Double amount, Date date) {
         Transaction transaction = new Transaction(type, description, amount, date, this);
         transactions.add(transaction);
         return transaction;

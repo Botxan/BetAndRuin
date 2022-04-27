@@ -15,8 +15,10 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
+import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.skin.DatePickerSkin;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
@@ -30,10 +32,8 @@ import utils.Dates;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.ResourceBundle;
+import java.time.YearMonth;
+import java.util.*;
 
 /**
  * This class serves as a controller for the event section of administrator dashboard.css.
@@ -45,6 +45,7 @@ import java.util.ResourceBundle;
 public class EventsController implements Controller {
     private BlFacade businessLogic;
     private MainGUI mainGUI;
+    private List<LocalDate> holidays = new ArrayList<>();
     private ObservableList<Event> events;
     private StackPane createEventOverlay;
     private JFXDialog createEventDialog;
@@ -53,6 +54,7 @@ public class EventsController implements Controller {
 
     @FXML private AnchorPane mainPane;
     @FXML private DatePicker datePicker;
+    @FXML private DatePicker datePicker1;
     @FXML private JFXButton createEventBtn;
     @FXML private JFXButton addEventBtn;
     @FXML private JFXButton backBtn;
@@ -82,7 +84,73 @@ public class EventsController implements Controller {
     @FXML
     void initialize() {
         initEventsTable();
+        initDatePicker();
         initCreateEventDialog();
+    }
+
+    private void initDatePicker() {
+        holidays.clear();
+        setEventsPrePost(LocalDate.now().getYear(), LocalDate.now().getMonth().getValue());
+
+        // get a reference to datepicker inner content
+        // attach a listener to the  << and >> buttons
+        // mark events for the (prev, current, next) month and year shown
+        datePicker1.setOnMouseClicked(e -> {
+            DatePickerSkin skin = (DatePickerSkin) datePicker1.getSkin();
+            skin.getPopupContent().lookupAll(".button").forEach(node -> {
+                node.setOnMouseClicked(event -> {
+                    List<Node> labels = skin.getPopupContent().lookupAll(".label").stream().toList();
+                    String month = ((Label) (labels.get(0))).getText();
+                    String year = ((Label) (labels.get(1))).getText();
+                    YearMonth ym = Dates.getYearMonth(month + " " + year);
+                    setEventsPrePost(ym.getYear(), ym.getMonthValue());
+                });
+            });
+        });
+        datePicker1.setDayCellFactory(new Callback<DatePicker, DateCell>() {
+            @Override
+            public DateCell call(DatePicker param) {
+                return new DateCell() {
+                    @Override
+                    public void updateItem(LocalDate item, boolean empty) {
+                        super.updateItem(item, empty);
+                        if (!empty && item != null)
+                            if (holidays.contains(item))
+                                this.getStyleClass().add("holiday");
+                            else
+                                this.getStyleClass().remove("holiday");
+                    }
+                };
+            }
+        });
+
+        datePicker1.valueProperty().addListener((obs, oldVal, newVal) ->
+            events.setAll(businessLogic.getEvents(Dates.convertToDate(datePicker1.getValue()))));
+    }
+
+    /**
+     * Marks the events for current, previous and next month.
+     * @param year the year
+     * @param month the month
+     */
+    private void setEventsPrePost(int year, int month) {
+        LocalDate date = LocalDate.of(year, month, 1);
+        setEvents(date.getYear(), date.getMonth().getValue());
+        setEvents(date.plusMonths(1).getYear(), date.plusMonths(1).getMonth().getValue());
+        setEvents(date.plusMonths(-1).getYear(), date.plusMonths(-1).getMonth().getValue());
+    }
+
+    /**
+     * Fetches the days in which there are events.
+     * @param year the year
+     * @param month the month
+     */
+    private void setEvents(int year, int month) {
+        Date date = Dates.toDate(year, month);
+
+        for (Date day : businessLogic.getEventsMonth(date)) {
+            holidays.add(Dates.convertToLocalDateViaInstant(day));
+        }
     }
 
     private void initEventsTable() {

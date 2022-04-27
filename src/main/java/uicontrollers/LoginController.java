@@ -60,29 +60,6 @@ public class LoginController implements Controller, Initializable {
         businessLogic = bl;
     }
 
-    @Override
-    public void setMainApp(MainGUI mainGUI) {
-        this.mainGUI = mainGUI;
-    }
-
-    @Override
-    public void redraw() {
-        loginTitle.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Login"));
-        browseEventsButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("BrowseQuestions"));
-        registerButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Register"));
-        loginButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Login"));
-        usernameField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Username"));
-        passwordField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Password"));
-        usernameErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("IncorrectUser"));
-        passwordErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("IncorrectPassword"));
-        setLocale(Locale.getDefault());
-
-        Platform.runLater(() -> {
-            mainGUI.getHistory().clear();
-            ((NavBarController) mainGUI.navBarLag.getController()).enableHistoryBtns();
-        });
-    }
-
     /**
      * Changes the locale of the scene.
      * @param defaultLocale The current locale.
@@ -181,19 +158,23 @@ public class LoginController implements Controller, Initializable {
                                 ": " + logedUser.getBanReason(), ButtonType.CLOSE);
                 alert.showAndWait();
             } else {
-                // Load all the windows that require user authentication
-                mainGUI.loadLoggedWindows();
-
                 // Redirect user depending on the user mode
                 if (logedUser.getUserMode() == 1) {
+                    mainGUI.loadUserWindows();
                     mainGUI.goForward("UserMenu");
                     // Enable button to switch to admin in user dashboard
                     ((UserMenuController) mainGUI.userMenuLag.getController()).enableSwitchToAdmin(false);
                 } else if (logedUser.getUserMode() == 2) {
+                    mainGUI.loadAdminWindows();
+                    mainGUI.loadUserWindows();
                     mainGUI.goForward("AdminMenu");
                     // Enable button to switch to admin in user dashboard
                     ((UserMenuController) mainGUI.userMenuLag.getController()).enableSwitchToAdmin(true);
                 }
+
+                // Clear the labels
+                usernameField.clear();
+                passwordField.clear();
             }
 
         } catch (UserNotFoundException e1) {
@@ -235,5 +216,28 @@ public class LoginController implements Controller, Initializable {
     public void minimize()
     {
         mainGUI.getStage().setIconified(true);
+    }
+
+    @Override
+    public void setMainApp(MainGUI mainGUI) {
+        this.mainGUI = mainGUI;
+    }
+
+    @Override
+    public void redraw() {
+        loginTitle.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Login"));
+        browseEventsButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("BrowseQuestions"));
+        registerButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Register"));
+        loginButton.setText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Login"));
+        usernameField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Username"));
+        passwordField.setPromptText(ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("Password"));
+        usernameErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("IncorrectUser"));
+        passwordErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas", Locale.getDefault()).getString("IncorrectPassword"));
+        setLocale(Locale.getDefault());
+
+        Platform.runLater(() -> {
+            mainGUI.getHistory().clear();
+            ((NavBarController) mainGUI.navBarLag.getController()).enableHistoryBtns();
+        });
     }
 }

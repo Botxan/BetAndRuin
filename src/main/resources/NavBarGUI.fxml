@@ -109,7 +109,7 @@
          <children>
             <Button fx:id="depositMoneyBtn" mnemonicParsing="false" onAction="#goToDepositMoney" prefHeight="28.0" prefWidth="15.0" style="-fx-background-color: transparent; -fx-padding: 0;">
                <graphic>
-                  <FontAwesomeIconView fill="#b3cf00" glyphName="PLUS_CIRCLE" size="20" />
+                  <FontAwesomeIconView fill="#b3cf00" glyphName="PLUS_CIRCLE" onMouseClicked="#goToDepositMoney" size="20" />
                </graphic>
                <cursor>
                   <Cursor fx:constant="HAND" />
@@ -121,8 +121,7 @@
             <Label fx:id="walletLabel" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="60.0" style="-fx-font-weight: bold;" />
             <MenuButton fx:id="userBtn" mnemonicParsing="false" prefHeight="50.0" prefWidth="70.0" styleClass="userBtn">
               <items>
-                  <MenuItem fx:id="browseEventsItem" mnemonicParsing="false" onAction="#goToBrowseEvents" styleClass="userBtnItem" text="%BrowseEvents" />
-                  <MenuItem fx:id="depositMoneyItem" mnemonicParsing="false" onAction="#goToDepositMoney" styleClass="userBtnItem" text="%DepositMoney" />
+                  <MenuItem fx:id="dashboardItem" mnemonicParsing="false" onAction="#goToDashboard" styleClass="userBtnItem" text="%DepositMoney" />
                 <MenuItem fx:id="logoutItem" mnemonicParsing="false" onAction="#logout" styleClass="userBtnItem" text="%Logout" />
               </items>
                <graphic>

@@ -2,6 +2,7 @@ package uicontrollers.admin;
 
 import businessLogic.BlFacade;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -56,11 +57,11 @@ public class QuestionsController implements Controller {
     private TableColumn<Question, Date> actionCol;
 
     @FXML private AnchorPane mainPane;
-    @FXML private ComboBox<Event> eventsCB;
     @FXML private DatePicker datePicker;
     @FXML private JFXButton addQuestionBtn;
     @FXML private JFXButton createQuestionBtn;
     @FXML private JFXButton backBtn;
+    @FXML private JFXComboBox<Event> eventsCB;
     @FXML private Label errorMinimumBetLbl;
     @FXML private Label errorQuestionLbl;
     @FXML private Label minimumBetLbl;
@@ -364,13 +365,13 @@ public class QuestionsController implements Controller {
     void createQuestion() {
         Event event = eventsCB.getSelectionModel().getSelectedItem();
         String questionText = questionField.getText();
-        Float minBet;
+        Double minBet;
 
         try {
             errorQuestionLbl.getStyleClass().clear();
             errorMinimumBetLbl.getStyleClass().clear();
             if (questionText.length() > 0) {
-                minBet = Float.valueOf(minimumBetField.getText());
+                minBet = Double.valueOf(minimumBetField.getText());
 
                 if (minBet <= 0) {
                     errorMinimumBetLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("ErrorNumber"));

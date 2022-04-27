@@ -11,10 +11,10 @@ import java.util.Date;
 public class Transaction {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int transactionID;
-    private int type; // 0 => Deposit, 1 => Withdraw
+    private Integer transactionID;
+    private Integer type; // 0 => Deposit, 1 => Withdraw
     private String description;
-    private double amount;
+    private Double amount;
     private Date date;
 
     @OneToOne
@@ -30,7 +30,7 @@ public class Transaction {
      * @param type the type or transaction
      * @param amount the amount of money
      */
-    public Transaction(int type, String description, double amount, Date date, Card card) {
+    public Transaction(Integer type, String description, Double amount, Date date, Card card) {
         this.type = type;
         this.description = description;
         this.amount = amount;
@@ -42,7 +42,7 @@ public class Transaction {
      * Getter for transaction id.
      * @return transaction id
      */
-    public int getTransactionID() {
+    public Integer getTransactionID() {
         return transactionID;
     }
 
@@ -50,7 +50,7 @@ public class Transaction {
      * Setter for the transaction id.
      * @param transactionID the transaction id
      */
-    public void setTransactionID(int transactionID) {
+    public void setTransactionID(Integer transactionID) {
         this.transactionID = transactionID;
     }
 
@@ -58,7 +58,7 @@ public class Transaction {
      * Getter for the transaction type.
      * @return the transaction type
      */
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
@@ -66,7 +66,7 @@ public class Transaction {
      * Setter for the transaction type.
      * @param type the transaction type
      */
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -90,7 +90,7 @@ public class Transaction {
      * Getter for the amount of money.
      * @return the amount of money
      */
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -98,7 +98,7 @@ public class Transaction {
      * Setter for the amount of money used in the transaction.
      * @param amount amount of money used in the transaction
      */
-    public void setAmount(float amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

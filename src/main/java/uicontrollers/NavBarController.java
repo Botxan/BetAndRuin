@@ -15,6 +15,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import ui.MainGUI;
+import uicontrollers.user.UserMenuController;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -38,9 +39,8 @@ public class NavBarController implements Controller {
     @FXML private Button loginBtn;
     @FXML private Button registerBtn;
     @FXML private MenuButton userBtn;
-    @FXML private MenuItem depositMoneyItem;
+    @FXML private MenuItem dashboardItem;
     @FXML private MenuItem logoutItem;
-    @FXML private MenuItem browseEventsItem;
     @FXML private ImageView userBtnAvatar;
     @FXML private Label walletLabel;
     @FXML private Button depositMoneyBtn;
@@ -94,24 +94,6 @@ public class NavBarController implements Controller {
             stage.setX(e.getScreenX() - x);
             stage.setY(e.getScreenY() - y);
         }
-    }
-
-    /**
-     * Changes to Login window.
-     * @param event the action event.
-     */
-    @FXML
-    void showLogin(ActionEvent event) {
-        mainGUI.goForward("Login");
-    }
-
-    /**
-     * Changes to register window
-     * @param event the action event.
-     */
-    @FXML
-    void showRegister(ActionEvent event) {
-        mainGUI.goForward("Register");
     }
 
     /**
@@ -220,12 +202,18 @@ public class NavBarController implements Controller {
         mainGUI.goForward("Register");
     }
 
+    @FXML
+    void goToDashboard() {
+        mainGUI.goForward("UserMenu");
+    }
+
     /**
-     * Changes to deposit money window
+     * Changes to deposit money pane
      */
     @FXML
     void goToDepositMoney() {
-        mainGUI.goForward("DepositMoney");
+        mainGUI.goForward("UserMenu");
+        ((UserMenuController) mainGUI.getHistory().getCurrentWindow().getController()).displayMovements();
     }
 
     @FXML
@@ -255,6 +243,9 @@ public class NavBarController implements Controller {
             // Show login and register buttons
             showNode(loginBtn);
             showNode(registerBtn);
+            hideNode(depositMoneyBtn);
+            hideNode(userBtn);
+            hideNode(walletLabel);
         } else {
             // Show user info
             hideNode(loginBtn);
@@ -297,10 +288,6 @@ public class NavBarController implements Controller {
         node.setManaged(false);
     }
 
-    /**
-     * Setter for the mainGUI.
-     * @param mainGUI the mainGUI.
-     */
     @Override
     public void setMainApp(MainGUI mainGUI) {
         this.mainGUI = mainGUI;
@@ -312,8 +299,7 @@ public class NavBarController implements Controller {
         highlightLocaleBtn(Locale.getDefault().toString().toUpperCase());
         loginBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Login"));
         registerBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("Register"));
-        browseEventsItem.setText(ResourceBundle.getBundle("Etiquetas").getString("BrowseEvents"));
-        depositMoneyItem.setText(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney"));
+        dashboardItem.setText(ResourceBundle.getBundle("Etiquetas").getString("Dashboard"));
         logoutItem.setText(ResourceBundle.getBundle("Etiquetas").getString("Logout"));
     }
 }

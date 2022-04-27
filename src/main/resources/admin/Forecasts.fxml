@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView?>
 <?import java.net.URL?>
 <?import javafx.scene.Cursor?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
@@ -42,7 +42,6 @@
          </effect>
       </TableView>
       <DatePicker fx:id="datePicker" layoutX="178.0" layoutY="45.0" prefHeight="25.0" prefWidth="120.0" AnchorPane.topAnchor="45.0" />
-      <ComboBox fx:id="eventsCB" layoutX="313.0" layoutY="45.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.topAnchor="45.0" />
       <Label fx:id="selectQuestionLbl" alignment="CENTER_RIGHT" contentDisplay="RIGHT" layoutX="40.0" layoutY="50.0" prefHeight="21.0" prefWidth="129.0" style="-fx-font-size: 13px;" text="Select question" AnchorPane.topAnchor="47.0" />
       <Pane fx:id="createForecastPane" layoutX="8.0" layoutY="245.0" prefHeight="229.0" prefWidth="461.0">
          <children>
@@ -71,7 +70,6 @@
             <Label fx:id="createForecastStatusLbl" alignment="CENTER" contentDisplay="CENTER" layoutX="109.0" layoutY="123.0" prefHeight="17.0" prefWidth="244.0" />
          </children>
       </Pane>
-      <ComboBox fx:id="questionsCB" layoutX="535.0" layoutY="45.0" prefHeight="25.0" prefWidth="200.0" AnchorPane.topAnchor="45.0" />
       <Pane fx:id="publishResultPane" layoutX="486.0" layoutY="248.0" prefHeight="180.0" prefWidth="461.0">
          <children>
             <JFXButton fx:id="publishResultBtn" buttonType="RAISED" layoutX="235.0" layoutY="116.0" onAction="#publishResult" prefHeight="35.0" prefWidth="160.0" styleClass="aceituna-btn" text="Publish result" textFill="WHITE">
@@ -97,6 +95,8 @@
             <Label fx:id="cannotPublishLbl" layoutX="63.0" layoutY="90.0" prefHeight="17.0" prefWidth="335.0" />
          </children>
       </Pane>
+      <JFXComboBox fx:id="eventsCB" layoutX="313.0" layoutY="42.0" prefHeight="25.0" prefWidth="200.0" />
+      <JFXComboBox fx:id="questionsCB" layoutX="535.0" layoutY="42.0" prefHeight="25.0" prefWidth="200.0" />
    </children>
    <stylesheets>
       <URL value="@../css/betAndRuin.css" />

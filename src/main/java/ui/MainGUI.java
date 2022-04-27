@@ -141,16 +141,8 @@ public class MainGUI {
         setupScene();
         ResizeHelper.addResizeListener(this.stage);
 
-        // FIXME (testing admin menu) Change to welcomeLag after testing and remove loadLoggedWindows()
-        try {
-            businessLogic.setCurrentUser(businessLogic.getUserByUsername("admin1"));
-        } catch (UserNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        loadLoggedWindows();
-        history.setCurrentWindow(adminMenuLag);
-        showScene(adminMenuLag);
+        history.setCurrentWindow(welcomeLag);
+        showScene(welcomeLag);
     }
 
     /**
@@ -158,21 +150,26 @@ public class MainGUI {
      * current user's information available already when the window is loaded.
      * @throws IOException thrown if any fxml file is not found
      */
-    public void loadLoggedWindows() throws IOException {
-        // Admin windows
+    public void loadUserWindows() throws IOException {
+        userMenuLag = load("/user/UserMenuGUI.fxml", "user.UserMenuController", SCENE_WIDTH, SCENE_HEIGHT);
+        userOverviewLag = load("/user/UserOverview.fxml", "user.UserOverviewController", SCENE_WIDTH, SCENE_HEIGHT);
+        profileLag = load("/user/Profile.fxml", "user.ProfileController", SCENE_WIDTH, SCENE_HEIGHT);
+        betsLag = load("/user/Bets.fxml", "user.BetsController", SCENE_WIDTH, SCENE_HEIGHT);
+        movementsLag = load("/user/Movements.fxml", "user.MovementsController", SCENE_WIDTH, SCENE_HEIGHT);
+    }
+
+    /**
+     * Initializes windows that require admin authentication. This allows us to have
+     * current admin's information available already when the window is loaded.
+     * @throws IOException thrown if any fxml file is not found
+     */
+    public void loadAdminWindows() throws IOException {
         adminMenuLag = load("/admin/AdminMenu.fxml", "admin.AdminMenuController", SCENE_WIDTH, SCENE_HEIGHT);
         adminOverviewLag = load("/admin/AdminOverview.fxml", "admin.AdminOverviewController", SCENE_WIDTH, SCENE_HEIGHT);
         eventsLag = load("/admin/Events.fxml", "admin.EventsController", SCENE_WIDTH, SCENE_HEIGHT);
         questionsLag = load("/admin/Questions.fxml", "admin.QuestionsController", SCENE_WIDTH, SCENE_HEIGHT);
         forecastsLag = load("/admin/Forecasts.fxml", "admin.ForecastsController", SCENE_WIDTH, SCENE_HEIGHT);
         usersLag = load("/admin/Users.fxml", "admin.UsersController", SCENE_WIDTH, SCENE_HEIGHT);
-
-        // User windows
-        userMenuLag = load("/user/UserMenuGUI.fxml", "user.UserMenuController", SCENE_WIDTH, SCENE_HEIGHT);
-        userOverviewLag = load("/user/UserOverview.fxml", "user.UserOverviewController", SCENE_WIDTH, SCENE_HEIGHT);
-        profileLag = load("/user/Profile.fxml", "user.ProfileController", SCENE_WIDTH, SCENE_HEIGHT);
-        betsLag = load("/user/Bets.fxml", "user.BetsController", SCENE_WIDTH, SCENE_HEIGHT);
-        movementsLag = load("/user/Movements.fxml", "user.MovementsController", SCENE_WIDTH, SCENE_HEIGHT);
     }
 
     /**
@@ -277,6 +274,7 @@ public class MainGUI {
         ((NavBarController) navBarLag.getController()).enableHistoryBtns();
         if (nextWindow != null) showScene(nextWindow);
     }
+
     /**
      * Stores the current window in the history and displays
      * the window with the given title.

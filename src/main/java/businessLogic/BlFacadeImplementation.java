@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  */
 @WebService(endpointInterface = "businessLogic.BlFacade")
 public class BlFacadeImplementation implements BlFacade {
-	
+
 	DataAccess dbManager;
 	ConfigXML config = ConfigXML.getInstance();
 	// Regular Expression for checking email format:
@@ -136,7 +136,7 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
-	public Question createQuestion(Event event, String question, float betMinimum) throws EventFinished, QuestionAlreadyExist {
+	public Question createQuestion(Event event, String question, Double betMinimum) throws EventFinished, QuestionAlreadyExist {
 		if (new Date().compareTo(event.getEventDate()) > 0)
 			throw new EventFinished(ResourceBundle.getBundle("Etiquetas").getString("ErrorEventHasFinished"));
 
@@ -535,7 +535,7 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@Override
-	public void placeBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException, UserNotFoundException {
+	public void placeBet(Double betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException, UserNotFoundException {
 		dbManager.open(false);
 		dbManager.setBet(betAmount, forecast, gambler);
 		dbManager.close();

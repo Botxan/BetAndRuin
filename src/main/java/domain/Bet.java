@@ -9,8 +9,8 @@ import javax.persistence.*;
 public class Bet {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int betID;
-    private float amount;
+    private Integer betID;
+    private Double amount;
 
     @ManyToOne
     private Forecast userForecast;
@@ -30,7 +30,7 @@ public class Bet {
      * @param userForecast user's forecast
      * @param gambler the user
      */
-    public Bet(float amount, Forecast userForecast, User gambler) {
+    public Bet(Double amount, Forecast userForecast, User gambler) {
         this.amount = amount;
         this.userForecast = userForecast;
         this.gambler = gambler;
@@ -40,7 +40,7 @@ public class Bet {
      * Getter for the bet id.
      * @return bet id
      */
-    public int getBetID() {
+    public Integer getBetID() {
         return betID;
     }
 
@@ -56,7 +56,7 @@ public class Bet {
      * Getter for the amount bet.
      * @return the amount bet
      */
-    public float getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
@@ -64,7 +64,7 @@ public class Bet {
      * Setter for the amount bet.
      * @param amount amount bet
      */
-    public void setAmount(float amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

@@ -415,10 +415,10 @@ public class BrowseEventsController implements Controller {
 
     public void placeBet()
     {
-        float betPrice = 0F;
+        Double betPrice = 0D;
 
         try {
-            betPrice = Float.parseFloat(euroNumber.getText());
+            betPrice = Double.parseDouble(euroNumber.getText());
 
             if(forecastsTbl.getSelectionModel().getSelectedItem() == null) {
                 Alert alert = new Alert(Alert.AlertType.ERROR, ResourceBundle.getBundle("Etiquetas").getString("ErrorNoForecastSelected"), ButtonType.OK);

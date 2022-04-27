@@ -2,6 +2,7 @@ package uicontrollers.admin;
 
 import businessLogic.BlFacade;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDialog;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
@@ -58,14 +59,14 @@ public class ForecastsController implements Controller {
     private TableColumn<Forecast, Date> actionCol;
 
     @FXML private AnchorPane mainPane;
-    @FXML private ComboBox<Event> eventsCB;
-    @FXML private ComboBox<Question> questionsCB;
     @FXML private DatePicker datePicker;
     @FXML private JFXButton addForecastBtn;
     @FXML private JFXButton backBtn;
     @FXML private JFXButton backBtn1;
     @FXML private JFXButton publishResultBtn;
     @FXML private JFXButton createForecastBtn;
+    @FXML private JFXComboBox<Event> eventsCB;
+    @FXML private JFXComboBox<Question> questionsCB;
     @FXML private Label createForecastStatusLbl;
     @FXML private Label feeLbl;
     @FXML private Label irreversibleLbl;

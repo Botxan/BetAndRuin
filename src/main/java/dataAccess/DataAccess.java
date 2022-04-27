@@ -103,61 +103,61 @@
                 Question q10;
 
                 if (Locale.getDefault().equals(new Locale("es"))) {
-                    q1 = ev1.addQuestion("¿Quién ganará el partido?", 1);
-                    q2 = ev1.addQuestion("¿Quién meterá el primer gol?", 2);
-                    q3 = ev11.addQuestion("¿Quién ganará el partido?", 1);
-                    q4 = ev11.addQuestion("¿Cuántos goles se marcarán?", 2);
-                    q5 = ev17.addQuestion("¿Quién ganará el partido?", 1);
-                    q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2);
-                    q7 = ev21.addQuestion("¿Quién ganará el partido?", 2);
-                    q8 = ev21.addQuestion("¿Quién marcará el primero?", 2);
-                    q9 = ev21.addQuestion("¿Habrá goles en tiempo de descuento?", 2);
-                    q10 = ev22.addQuestion("¿Quién ganará el partido?", 1);
+                    q1 = ev1.addQuestion("¿Quién ganará el partido?", 1D);
+                    q2 = ev1.addQuestion("¿Quién meterá el primer gol?", 2D);
+                    q3 = ev11.addQuestion("¿Quién ganará el partido?", 1D);
+                    q4 = ev11.addQuestion("¿Cuántos goles se marcarán?", 2D);
+                    q5 = ev17.addQuestion("¿Quién ganará el partido?", 1D);
+                    q6 = ev17.addQuestion("¿Habrá goles en la primera parte?", 2D);
+                    q7 = ev21.addQuestion("¿Quién ganará el partido?", 2D);
+                    q8 = ev21.addQuestion("¿Quién marcará el primero?", 2D);
+                    q9 = ev21.addQuestion("¿Habrá goles en tiempo de descuento?", 2D);
+                    q10 = ev22.addQuestion("¿Quién ganará el partido?", 1D);
                 } else if (Locale.getDefault().equals(new Locale("en"))) {
-                    q1 = ev1.addQuestion("Who will win the match?", 1);
-                    q2 = ev1.addQuestion("Who will score first?", 2);
-                    q3 = ev11.addQuestion("Who will win the match?", 1);
-                    q4 = ev11.addQuestion("How many goals will be scored in the match?", 2);
-                    q5 = ev17.addQuestion("Who will win the match?", 1);
-                    q6 = ev17.addQuestion("Will there be goals in the first half?", 2);
-                    q7 = ev21.addQuestion("Who will win the match?", 2);
-                    q8 = ev21.addQuestion("Who will score first?", 2);
-                    q9 = ev21.addQuestion("Will there be goals in extra time?", 2);
-                    q10 = ev22.addQuestion("Who will win the match?", 1);
+                    q1 = ev1.addQuestion("Who will win the match?", 1D);
+                    q2 = ev1.addQuestion("Who will score first?", 2D);
+                    q3 = ev11.addQuestion("Who will win the match?", 1D);
+                    q4 = ev11.addQuestion("How many goals will be scored in the match?", 2D);
+                    q5 = ev17.addQuestion("Who will win the match?", 1D);
+                    q6 = ev17.addQuestion("Will there be goals in the first half?", 2D);
+                    q7 = ev21.addQuestion("Who will win the match?", 2D);
+                    q8 = ev21.addQuestion("Who will score first?", 2D);
+                    q9 = ev21.addQuestion("Will there be goals in extra time?", 2D);
+                    q10 = ev22.addQuestion("Who will win the match?", 1D);
                 } else {
-                    q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1);
-                    q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2);
-                    q3 = ev11.addQuestion("Zeinek irabaziko du partidua?", 1);
-                    q4 = ev11.addQuestion("Zenbat gol sartuko dira?", 2);
-                    q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1);
-                    q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2);
-                    q7 = ev21.addQuestion("Zeinek irabaziko du partidua?", 2);
-                    q8 = ev21.addQuestion("Nork sartuko du gol lehenengo?", 2);
-                    q9 = ev21.addQuestion("Luzapenean izango al dira golak?", 2);
-                    q10 = ev22.addQuestion("Zeinek irabaziko du partidua?", 1);
+                    q1 = ev1.addQuestion("Zeinek irabaziko du partidua?", 1D);
+                    q2 = ev1.addQuestion("Zeinek sartuko du lehenengo gola?", 2D);
+                    q3 = ev11.addQuestion("Zeinek irabaziko du partidua?", 1D);
+                    q4 = ev11.addQuestion("Zenbat gol sartuko dira?", 2D);
+                    q5 = ev17.addQuestion("Zeinek irabaziko du partidua?", 1D);
+                    q6 = ev17.addQuestion("Golak sartuko dira lehenengo zatian?", 2D);
+                    q7 = ev21.addQuestion("Zeinek irabaziko du partidua?", 2D);
+                    q8 = ev21.addQuestion("Nork sartuko du gol lehenengo?", 2D);
+                    q9 = ev21.addQuestion("Luzapenean izango al dira golak?", 2D);
+                    q10 = ev22.addQuestion("Zeinek irabaziko du partidua?", 1D);
                 }
 
 
                 // Create dummy forecasts
-                Forecast f1 = q3.addForecast("Team1", 2);
+                Forecast f1 = q3.addForecast("Team1", 2D);
                 Forecast f2 = q3.addForecast("Team2", 2.4);
                 Forecast f3 = q3.addForecast("Tie", 1.6);
-                Forecast f4 = q3.addForecast("No goals", 4);
+                Forecast f4 = q3.addForecast("No goals", 4D);
 
-                Forecast f5 = q4.addForecast("Team1", 1);
-                Forecast f6 = q4.addForecast("Team2", 2);
-                Forecast f7 = q4.addForecast("Tie", 2);
+                Forecast f5 = q4.addForecast("Team1", 1D);
+                Forecast f6 = q4.addForecast("Team2", 2D);
+                Forecast f7 = q4.addForecast("Tie", 2D);
                 Forecast f8 = q4.addForecast("No goals", 3.1);
 
                 // For already passed event
-                Forecast f9 = q7.addForecast("Team1", 4);
-                Forecast f10 = q7.addForecast("Team2", 4);
+                Forecast f9 = q7.addForecast("Team1", 4D);
+                Forecast f10 = q7.addForecast("Team2", 4D);
 
-                Forecast f11 = q8.addForecast("Team1", 4);
-                Forecast f12 = q8.addForecast("Team2", 4);
+                Forecast f11 = q8.addForecast("Team1", 4D);
+                Forecast f12 = q8.addForecast("Team2", 4D);
 
-                Forecast f13 = q9.addForecast("Yes", 4);
-                Forecast f14 = q9.addForecast("No", 4);
+                Forecast f13 = q9.addForecast("Yes", 4D);
+                Forecast f14 = q9.addForecast("No", 4D);
 
                 Forecast f15 = q10.addForecast("Barcelona", 1.3);
                 Forecast f16 = q10.addForecast("Córdoba", 2.1);
@@ -165,15 +165,15 @@
                 // Create dummy user and admin
                 byte [] salt = BlFacadeImplementation.generateSalt();
                 byte[] password = BlFacadeImplementation.hashPassword("123123", salt);
-                User user1 = new User("user1", "Antonio", "Geremías Gonzalez", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"), "P. Sherman street Wallaby 42 Sydney", "betandruin22@gmail.com", "1.jpeg", password, salt, 1, 0);
-                User admin1 = new User("admin1", "adminFirstName", "adminLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"), "adminAddress", "admin@email.com", "2.jpeg", password, salt, 2, 0);
+                User user1 = new User("user1", "Antonio", "Geremías Gonzalez", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"), "P. Sherman street Wallaby 42 Sydney", "betandruin22@gmail.com", "1.jpeg", password, salt, 1, 0D);
+                User admin1 = new User("admin1", "adminFirstName", "adminLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"), "adminAddress", "admin@email.com", "2.jpeg", password, salt, 2, 0D);
 
                 // Some other dummy users
-                User anton = new User("anton", "Anton", "Kennedy Wagner", new SimpleDateFormat("yyyy-MM-dd").parse("1965-09-02"), "1736 Maxwell Street, Hartford, Connecticut", "antonBetNRuin@gmail.com", "3.jpg", password, salt, 1, 0);
-                User pavle = new User("pavle", "Pavle", "Miles Hardy", new SimpleDateFormat("yyyy-MM-dd").parse("1987-11-13"), "4209 Crummit Lane, Omaha, Nebraska", "pavleBetNRuin@gmail.com", "4.jpg", password, salt, 1, 0);
-                User boris = new User("boris", "Boris", "Peterson Mueller", new SimpleDateFormat("yyyy-MM-dd").parse("1977-04-01"), "4440 Simpson Square Socaldwell, Oklahoma", "borisBetNRuin@gmail.com", "5.jpg", password, salt, 1, 0);
-                User zlata = new User("zlata", "Zlata", "Munoz Sharma", new SimpleDateFormat("yyyy-MM-dd").parse("1976-04-23"), "3198 Honeysuckle Lane, Clinton, Washington", "zlataBetNRuin@gmail.com", "6.jpg", password, salt, 1, 0);
-                User arica = new User("arica", "Arica", "Daniel Mccarthy", new SimpleDateFormat("yyyy-MM-dd").parse("1991-10-17"), "52 Sumner Street, Gardena, California", "aricaBetNRuin@gmail.com", "7.jpg", password, salt, 1, 0);
+                User anton = new User("anton", "Anton", "Kennedy Wagner", new SimpleDateFormat("yyyy-MM-dd").parse("1965-09-02"), "1736 Maxwell Street, Hartford, Connecticut", "antonBetNRuin@gmail.com", "3.jpg", password, salt, 1, 0D);
+                User pavle = new User("pavle", "Pavle", "Miles Hardy", new SimpleDateFormat("yyyy-MM-dd").parse("1987-11-13"), "4209 Crummit Lane, Omaha, Nebraska", "pavleBetNRuin@gmail.com", "4.jpg", password, salt, 1, 0D);
+                User boris = new User("boris", "Boris", "Peterson Mueller", new SimpleDateFormat("yyyy-MM-dd").parse("1977-04-01"), "4440 Simpson Square Socaldwell, Oklahoma", "borisBetNRuin@gmail.com", "5.jpg", password, salt, 1, 0D);
+                User zlata = new User("zlata", "Zlata", "Munoz Sharma", new SimpleDateFormat("yyyy-MM-dd").parse("1976-04-23"), "3198 Honeysuckle Lane, Clinton, Washington", "zlataBetNRuin@gmail.com", "6.jpg", password, salt, 1, 0D);
+                User arica = new User("arica", "Arica", "Daniel Mccarthy", new SimpleDateFormat("yyyy-MM-dd").parse("1991-10-17"), "52 Sumner Street, Gardena, California", "aricaBetNRuin@gmail.com", "7.jpg", password, salt, 1, 0D);
 
                 // Create dummy credit cards (with 100€ for testing purposes)
                 // user card
@@ -228,87 +228,87 @@
 
 
                 // Create dummy transactions
-                user1.depositMoneyIntoWallet(12.5);
+                user1.depositMoneyIntoWallet(12.5D);
                 cal.set(2022, Calendar.MARCH, 6);
                 Transaction t1 = userCard.addTransaction(0, "Deposit to BetAndRuin", 12.5, cal.getTime());
-                user1.depositMoneyIntoWallet(5);
+                user1.depositMoneyIntoWallet(5D);
                 cal.set(2022, Calendar.MARCH, 6);
-                Transaction t2 = userCard.addTransaction(0, "Deposit to BetAndRuin", 5, cal.getTime());
-                user1.depositMoneyIntoWallet(48.5);
+                Transaction t2 = userCard.addTransaction(0, "Deposit to BetAndRuin", 5D, cal.getTime());
+                user1.depositMoneyIntoWallet(48.5D);
                 cal.set(2022, Calendar.MARCH, 21);
                 Transaction t3 = userCard.addTransaction(0, "Deposit to BetAndRuin", 48.5, cal.getTime());
-                user1.withdrawMoneyFromWallet(20);
+                user1.withdrawMoneyFromWallet(20D);
                 cal.set(2022, Calendar.APRIL, 2);
-                Transaction t4 = userCard.addTransaction(1, "Withdraw from BetAndRuin", 20, cal.getTime());
-                user1.depositMoneyIntoWallet(54);
+                Transaction t4 = userCard.addTransaction(1, "Withdraw from BetAndRuin", 20D, cal.getTime());
+                user1.depositMoneyIntoWallet(54D);
                 cal.set(2022, Calendar.APRIL, 3);
-                Transaction t5 = userCard.addTransaction(0, "Deposit to BetAndRuin", 54, cal.getTime());
-                user1.depositMoneyIntoWallet(10);
+                Transaction t5 = userCard.addTransaction(0, "Deposit to BetAndRuin", 54D, cal.getTime());
+                user1.depositMoneyIntoWallet(10D);
                 cal.set(2022, Calendar.APRIL, 3);
-                Transaction t6 = userCard.addTransaction(0, "Deposit to BetAndRuin", 10, cal.getTime());
-                user1.depositMoneyIntoWallet(20);
+                Transaction t6 = userCard.addTransaction(0, "Deposit to BetAndRuin", 10D, cal.getTime());
+                user1.depositMoneyIntoWallet(20D);
                 cal.set(2022, Calendar.APRIL, 4);
-                Transaction t7 = userCard.addTransaction(0, "Deposit to BetAndRuin", 20, cal.getTime());
-                user1.depositMoneyIntoWallet(20);
+                Transaction t7 = userCard.addTransaction(0, "Deposit to BetAndRuin", 20D, cal.getTime());
+                user1.depositMoneyIntoWallet(20D);
                 cal.set(2022, Calendar.APRIL, 5);
-                Transaction t8 = userCard.addTransaction(0, "Deposit to BetAndRuin", 20, cal.getTime());
-                user1.depositMoneyIntoWallet(5);
+                Transaction t8 = userCard.addTransaction(0, "Deposit to BetAndRuin", 20D, cal.getTime());
+                user1.depositMoneyIntoWallet(5D);
                 cal.set(2022, Calendar.APRIL, 8);
-                Transaction t9 = userCard.addTransaction(0, "Deposit to BetAndRuin", 5, cal.getTime());
-                user1.depositMoneyIntoWallet(20);
+                Transaction t9 = userCard.addTransaction(0, "Deposit to BetAndRuin", 5D, cal.getTime());
+                user1.depositMoneyIntoWallet(20D);
                 cal.set(2022, Calendar.APRIL, 8);
-                Transaction t10 = userCard.addTransaction(0, "Deposit to BetAndRuin", 20, cal.getTime());
-                user1.withdrawMoneyFromWallet(30);
+                Transaction t10 = userCard.addTransaction(0, "Deposit to BetAndRuin", 20D, cal.getTime());
+                user1.withdrawMoneyFromWallet(30D);
                 cal.set(2022, Calendar.APRIL, 12);
-                Transaction t11 = userCard.addTransaction(1, "Withdraw from BetAndRuin", 30, cal.getTime());
-                user1.depositMoneyIntoWallet(15);
+                Transaction t11 = userCard.addTransaction(1, "Withdraw from BetAndRuin", 30D, cal.getTime());
+                user1.depositMoneyIntoWallet(15D);
                 cal.set(2022, Calendar.APRIL, 12);
-                Transaction t12 = userCard.addTransaction(0, "Deposit to BetAndRuin", 15, cal.getTime());
-                user1.depositMoneyIntoWallet(5);
+                Transaction t12 = userCard.addTransaction(0, "Deposit to BetAndRuin", 15D, cal.getTime());
+                user1.depositMoneyIntoWallet(5D);
                 cal.set(2022, Calendar.APRIL, 13);
-                Transaction t13 = userCard.addTransaction(0, "Deposit to BetAndRuin", 5, cal.getTime());
-                user1.withdrawMoneyFromWallet(50);
+                Transaction t13 = userCard.addTransaction(0, "Deposit to BetAndRuin", 5D, cal.getTime());
+                user1.withdrawMoneyFromWallet(50D);
                 cal.set(2022, Calendar.APRIL, 16);
-                Transaction t14 = userCard.addTransaction(1, "Withdraw from BetAndRuin", 50, cal.getTime());
-                user1.depositMoneyIntoWallet(33);
+                Transaction t14 = userCard.addTransaction(1, "Withdraw from BetAndRuin", 50D, cal.getTime());
+                user1.depositMoneyIntoWallet(33D);
                 cal.set(2022, Calendar.APRIL, 16);
-                Transaction t15 = userCard.addTransaction(0, "Deposit to BetAndRuin", 33, cal.getTime());
-                user1.depositMoneyIntoWallet(20);
+                Transaction t15 = userCard.addTransaction(0, "Deposit to BetAndRuin", 33D, cal.getTime());
+                user1.depositMoneyIntoWallet(20D);
                 cal.set(2022, Calendar.APRIL, 16);
-                Transaction t16 = userCard.addTransaction(0, "Deposit to BetAndRuin", 20, cal.getTime());
-                user1.depositMoneyIntoWallet(10);
+                Transaction t16 = userCard.addTransaction(0, "Deposit to BetAndRuin", 20D, cal.getTime());
+                user1.depositMoneyIntoWallet(10D);
                 cal.set(2022, Calendar.APRIL, 16);
-                Transaction t17 = userCard.addTransaction(0, "Deposit to BetAndRuin", 10, cal.getTime());
-                user1.depositMoneyIntoWallet(5);
+                Transaction t17 = userCard.addTransaction(0, "Deposit to BetAndRuin", 10D, cal.getTime());
+                user1.depositMoneyIntoWallet(5D);
                 cal.set(2022, Calendar.APRIL, 17);
-                Transaction t18 = userCard.addTransaction(0, "Deposit to BetAndRuin", 5, cal.getTime());
-                user1.withdrawMoneyFromWallet(20);
+                Transaction t18 = userCard.addTransaction(0, "Deposit to BetAndRuin", 5D, cal.getTime());
+                user1.withdrawMoneyFromWallet(20D);
                 cal.set(2022, Calendar.APRIL, 19);
-                Transaction t19 = userCard.addTransaction(1, "Withdraw from BetAndRuin", 20, cal.getTime());
-                user1.depositMoneyIntoWallet(54);
+                Transaction t19 = userCard.addTransaction(1, "Withdraw from BetAndRuin", 20D, cal.getTime());
+                user1.depositMoneyIntoWallet(54D);
                 cal.set(2022, Calendar.APRIL, 20);
-                Transaction t20 = userCard.addTransaction(0, "Deposit to BetAndRuin", 54, cal.getTime());
+                Transaction t20 = userCard.addTransaction(0, "Deposit to BetAndRuin", 54D, cal.getTime());
 
                 // Create dummy bets for testing purposes
-                user1.addBet(80, f1);
-                user1.addBet(12, f1);
-                user1.addBet(38, f1);
-                user1.addBet(2.8F, f2);
+                user1.addBet(80D, f1);
+                user1.addBet(12D, f1);
+                user1.addBet(38D, f1);
+                user1.addBet(2.8D, f2);
 
                 // Bet of already passed event
                 // Won bet
-                user1.addBet(3.5F, f9);
+                user1.addBet(3.5D, f9);
                 q7.setCorrectForecast(f9);
                 cal.set(2022, Calendar.APRIL, 21);
                 Transaction t21 = userCard.addTransaction(0, "Won Bet", f9.getFee() * 3.5F, cal.getTime());
 
                 // Miss bets
-                user1.addBet(10F, f11);
+                user1.addBet(10D, f11);
                 q8.setCorrectForecast(f12);
                 cal.set(2022, Calendar.APRIL, 21);
-                Transaction t22 = userCard.addTransaction(1, "Miss Bet", 10F, cal.getTime());
+                Transaction t22 = userCard.addTransaction(1, "Miss Bet", 10D, cal.getTime());
 
-                user1.addBet(5F, f13);
+                user1.addBet(5D, f13);
                 q9.setCorrectForecast(f14);
                 cal.set(2022, Calendar.APRIL, 21);
                 Transaction t23 = userCard.addTransaction(1, "Miss Bet", f9.getFee() * 5F, cal.getTime());
@@ -565,7 +565,7 @@
          * @return it returns the question created, null or an exception
          * @throws QuestionAlreadyExist the same question already exists for the event
          */
-        public Question createQuestion(Event event, String question, float betMinimum)
+        public Question createQuestion(Event event, String question, Double betMinimum)
                 throws QuestionAlreadyExist {
             System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " +
                     question + " minimum bet = " + betMinimum);
@@ -750,7 +750,7 @@
          * @throws LiquidityLackException Thrown when gambler bets not having enough liquidity access to account for it.
          * @throws MinBetException Exception for when user inserts less fee than required.
          */
-        public void setBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException, UserNotFoundException
+        public void setBet(Double betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException, UserNotFoundException
         {
             // Check if user exists
             User user = db.find(User.class, gambler.getUserID());
@@ -830,7 +830,7 @@
         public void removeBet(Integer betID) {
             Bet bet = db.find(Bet.class, betID);
             User user = db.find(User.class, bet.getGambler());
-            float amountToRefund = bet.getAmount();
+            Double amountToRefund = bet.getAmount();
 
             db.getTransaction().begin();
             // Delete the bet
@@ -1048,7 +1048,7 @@
                 db.getTransaction().begin();
                 // Create the user
                 User newUser = new User(username, firstName, lastName,
-                        birthdate, address, email, hashedPassword, salt, 1, 0);
+                        birthdate, address, email, hashedPassword, salt, 1, 0D);
                 // Create the card (with 100€, for testing purposes)
                 newUser.setCard(new Card(cardNumber, expirationDate, securityCode, 100.0, newUser));
                 db.persist(newUser);

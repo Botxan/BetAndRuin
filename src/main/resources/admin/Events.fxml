@@ -16,7 +16,7 @@
 
 <AnchorPane fx:id="mainPane" prefHeight="600.0" prefWidth="1050.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="uicontrollers.admin.EventsController">
    <children>
-      <TextField fx:id="searchField" layoutX="38.0" layoutY="45.0" prefHeight="25.0" prefWidth="198.0" promptText="Search..." styleClass="search-field" AnchorPane.topAnchor="45.0" />
+      <TextField fx:id="searchField" layoutX="680.0" layoutY="45.0" prefHeight="25.0" prefWidth="198.0" promptText="Search..." styleClass="search-field" AnchorPane.topAnchor="45.0" />
       <JFXButton fx:id="addEventBtn" layoutX="890.0" layoutY="45.0" onAction="#showCreateEventDialog" prefHeight="25.0" prefWidth="120.0" styleClass="aceituna-btn" text="Add event" AnchorPane.topAnchor="45.0">
          <graphic>
             <FontAwesomeIconView fill="WHITE" glyphName="PLUS_CIRCLE" size="14" />
@@ -61,6 +61,7 @@
             </JFXButton>
          </children>
       </Pane>
+      <DatePicker fx:id="datePicker1" layoutX="40.0" layoutY="45.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="45.0" />
    </children>
    <stylesheets>
       <URL value="@../css/betAndRuin.css" />

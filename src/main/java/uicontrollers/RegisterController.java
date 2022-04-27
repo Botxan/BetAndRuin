@@ -316,7 +316,7 @@ public class RegisterController implements Controller, Initializable {
                             cardNumber, expirationDate, securityCode);
 
                     // Load user menu
-                    mainGUI.loadLoggedWindows();
+                    mainGUI.loadUserWindows();
                     mainGUI.goForward("UserMenu");
                 } catch (NoMatchingPatternException e5) {
                     errorLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("InvalidEmail"));

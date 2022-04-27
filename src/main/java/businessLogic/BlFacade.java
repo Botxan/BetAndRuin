@@ -95,7 +95,7 @@ public interface BlFacade  {
  	 * @throws QuestionAlreadyExist if the same question already exists for the event
 	 */
 	@WebMethod
-	public Question createQuestion(Event event, String question, float betMinimum) 
+	public Question createQuestion(Event event, String question, Double betMinimum)
 			throws EventFinished, QuestionAlreadyExist;
 	
 	/**
@@ -339,7 +339,7 @@ public interface BlFacade  {
 	 * @throws LiquidityLackException Thrown when gambler bets not having enough liquidity access to account for it.
 	 * @throws MinBetException Exception for when user inserts less fee than required.
 	 */
-	public void placeBet(float betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException, UserNotFoundException;
+	public void placeBet(Double betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException, UserNotFoundException;
 
 	/**
 	 * Removes the bet with the given id
