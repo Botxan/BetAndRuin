@@ -7,13 +7,10 @@
     import exceptions.*;
     import utils.Dates;
 
-    import javax.jws.WebMethod;
     import javax.persistence.*;
     import java.text.SimpleDateFormat;
-    import java.time.Duration;
     import java.time.LocalDate;
     import java.time.temporal.ChronoUnit;
-    import java.time.temporal.TemporalQueries;
     import java.util.*;
     import java.util.stream.Collectors;
     import java.util.stream.IntStream;
@@ -36,8 +33,8 @@
          * @param initializeMode boolean value to initialize de database
          */
         public DataAccess(boolean initializeMode)  {
-            System.out.println("Creating DataAccess instance => isDatabaseLocal: " +
-                    config.isDataAccessLocal() + " getDatabBaseOpenMode: " + config.getDataBaseOpenMode());
+            // System.out.println("Creating DataAccess instance => isDatabaseLocal: " +
+            //        config.isDataAccessLocal() + " getDatabBaseOpenMode: " + config.getDataBaseOpenMode());
             open(initializeMode);
         }
 
@@ -348,7 +345,7 @@
                 db.persist(adminCard);
 
                 db.getTransaction().commit();
-                System.out.println("The database has been initialized");
+                // System.out.println("The database has been initialized");
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -361,13 +358,13 @@
          */
         public void open(boolean initializeMode){
 
-            System.out.println("Opening DataAccess instance => isDatabaseLocal: " +
-                    config.isDataAccessLocal() + " getDatabBaseOpenMode: " + config.getDataBaseOpenMode());
+            // System.out.println("Opening DataAccess instance => isDatabaseLocal: " +
+            //        config.isDataAccessLocal() + " getDatabBaseOpenMode: " + config.getDataBaseOpenMode());
 
             String fileName = config.getDataBaseFilename();
             if (initializeMode) {
                 fileName = fileName + ";drop";
-                System.out.println("Deleting the DataBase");
+                // System.out.println("Deleting the DataBase");
             }
 
             if (config.isDataAccessLocal()) {
@@ -394,7 +391,7 @@
          * @return the number of upcoming events
          */
         public int getNumberOfUpcomingEvents() {
-            System.out.println(">> DataAccess: getNumberOfUpcomingEvents");
+            // System.out.println(">> DataAccess: getNumberOfUpcomingEvents");
             TypedQuery<Integer> q = db.createQuery("SELECT COUNT(e) FROM Event e WHERE e.eventDate > ?1", Integer.class);
             q.setParameter(1, Calendar.getInstance().getTime());
             return q.getSingleResult();
@@ -404,7 +401,7 @@
          * Retrieves all the events stored in the database
          */
         public List<Event> getEvents() {
-            System.out.println(">> DataAccess: getEvents");
+            // System.out.println(">> DataAccess: getEvents");
             TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev", Event.class);
             return query.getResultList();
         }
@@ -415,7 +412,7 @@
          * @return collection of events
          */
         public List<Event> getEvents(Date date) {
-            System.out.println(">> DataAccess: getEvents => date = " + date);
+            // System.out.println(">> DataAccess: getEvents => date = " + date);
             TypedQuery<Event> q = db.createQuery("SELECT ev FROM Event ev WHERE ev.eventDate=?1",
                     Event.class);
             q.setParameter(1, date);
@@ -428,7 +425,7 @@
          * @return collection of dates
          */
         public Vector<Date> getEventsMonth(Date date) {
-            System.out.println(">> DataAccess: getEventsMonth");
+            // System.out.println(">> DataAccess: getEventsMonth");
             Vector<Date> res = new Vector<Date>();
 
             Date firstDayMonthDate= UtilDate.firstDayMonth(date);
@@ -441,7 +438,7 @@
             query.setParameter(2, lastDayMonthDate);
             List<Date> dates = query.getResultList();
             for (Date d:dates){
-                System.out.println(d.toString());
+                // System.out.println(d.toString());
                 res.add(d);
             }
             return res;
@@ -453,7 +450,7 @@
          * @return all the events taking place in the given country
          */
         public List<Event> getEventsCountry(String country) {
-            System.out.println(">> DataAccess: getEventsCountry");
+            // System.out.println(">> DataAccess: getEventsCountry");
             TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.country=?1", Event.class);
             query.setParameter(1, country);
             return query.getResultList();
@@ -464,7 +461,7 @@
          * @return the number of upcoming events
          */
         public long countUpcomingEvents() {
-            System.out.println(">> DataAccess: getUpcomingEvents");
+            // System.out.println(">> DataAccess: getUpcomingEvents");
             TypedQuery<Long> q = db.createQuery("SELECT COUNT(e) FROM Event e WHERE e.eventDate > ?1", Long.class);
             q.setParameter(1, Calendar.getInstance().getTime());
             return q.getSingleResult();
@@ -476,13 +473,13 @@
          * @return the incoming first n events
          */
         public List<Event> getUpcomingEvents(int n) {
-            System.out.println(">> DataAccess: getUpcomingEvents => n = " + n);
+            // System.out.println(">> DataAccess: getUpcomingEvents => n = " + n);
             Date today = Calendar.getInstance().getTime();
             TypedQuery<Event> q = db.createQuery("SELECT e FROM Event e WHERE e.eventDate > ?1 ORDER BY e.eventDate", Event.class);
             q.setParameter(1, today);
             q.setMaxResults(n);
             List<Event> evs = q.getResultList();
-            System.out.println(evs.size() + " events retrieved");
+            // System.out.println(evs.size() + " events retrieved");
             return evs;
         }
 
@@ -494,7 +491,7 @@
          * @throws EventAlreadyExistException if the event already exists
          */
         public Event createEvent(String description, Date date, String country) throws EventAlreadyExistException {
-            System.out.println(">> DataAccess: createEvent => description = " + description + " date = " + date);
+            // System.out.println(">> DataAccess: createEvent => description = " + description + " date = " + date);
 
             // Check if the event exist
             TypedQuery<Event> query = db.createQuery("SELECT ev FROM Event ev WHERE ev.description=?1 AND ev.country=?2", Event.class);
@@ -528,7 +525,7 @@
          * @param eventID the id of the event to be removed
          */
         public void removeEvent(Integer eventID) {
-            System.out.println(">> DataAccess: removeEvent => eventID = " + eventID);
+            // System.out.println(">> DataAccess: removeEvent => eventID = " + eventID);
             Event e = db.find(Event.class, eventID);
 
             // Remove all bets related to this event
@@ -547,10 +544,10 @@
             // (Optional) Count the number of questions, forecasts and bets removed
             int countQ = e.getQuestions().size();
             int countF = e.getQuestions().stream().mapToInt(q -> q.getForecasts().size()).sum();
-            System.out.println("Event removed");
-            System.out.println("Questions removed: " + countQ);
-            System.out.println("Forecasts removed: " + countF);
-            System.out.println("Bets removed: " + associatedBets.size());
+            // System.out.println("Event removed");
+            // System.out.println("Questions removed: " + countQ);
+            // System.out.println("Forecasts removed: " + countF);
+            // System.out.println("Bets removed: " + associatedBets.size());
         }
 
 
@@ -567,8 +564,8 @@
          */
         public Question createQuestion(Event event, String question, Double betMinimum)
                 throws QuestionAlreadyExist {
-            System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " +
-                    question + " minimum bet = " + betMinimum);
+            // System.out.println(">> DataAccess: createQuestion=> event = " + event + " question = " +
+            //        question + " minimum bet = " + betMinimum);
 
             Event ev = db.find(Event.class, event.getEventID());
 
@@ -600,7 +597,7 @@
          * @param questionID the id of the question to be removed
          */
         public void removeQuestion(int questionID) {
-            System.out.println(">> DataAccess: removeQuestion => questionID = " + questionID);
+            // System.out.println(">> DataAccess: removeQuestion => questionID = " + questionID);
             Question q = db.find(Question.class, questionID);
             Event e = db.find(Event.class, q.getEvent());
 
@@ -620,9 +617,9 @@
 
             // (Optional) Count the number of forecasts and bets removed
             int countF = q.getForecasts().size();
-            System.out.println("Question removed");
-            System.out.println("Forecasts removed: " + countF);
-            System.out.println("Bets removed: " + associatedBets.size());
+            // System.out.println("Question removed");
+            // System.out.println("Forecasts removed: " + countF);
+            // System.out.println("Bets removed: " + associatedBets.size());
         }
 
         /**
@@ -632,7 +629,7 @@
          * @return true if the question exist
          */
         public boolean existQuestion(Event event, String question) {
-            System.out.println(">> DataAccess: existQuestion => event = " + event + " question = " + question);
+            // System.out.println(">> DataAccess: existQuestion => event = " + event + " question = " + question);
             Event ev = db.find(Event.class, event.getEventID());
             return ev.doesQuestionExist(question);
         }
@@ -645,7 +642,7 @@
          * @param fID the correct forecast identification (the result of the question)
          */
         public void publishResult(int qID, int fID) {
-            System.out.println(">> DataAccess: publishResult => qID = " + qID + " fID = " + fID);
+            // System.out.println(">> DataAccess: publishResult => qID = " + qID + " fID = " + fID);
 
             // Find the questions and correct forecast in the db
             Question q = db.find(Question.class, qID);
@@ -684,7 +681,7 @@
          * @throws ForecastAlreadyExistException if the forecast already exists
          */
         public Forecast addForecast(Question question, String result, double fee) throws ForecastAlreadyExistException {
-            System.out.println(">> DataAccess: addForecast => question = " + question + " result = " + result + " fee = " + fee);
+            // System.out.println(">> DataAccess: addForecast => question = " + question + " result = " + result + " fee = " + fee);
 
             // Check if the forecast already exist
             Question q = db.find(Question.class, question.getQuestionID());
@@ -706,7 +703,7 @@
          * @param forecastID the forecast identification
          */
         public void removeForecast(int forecastID) {
-            System.out.println(">> DataAccess: removeForecast => questionID = " + forecastID);
+            // System.out.println(">> DataAccess: removeForecast => questionID = " + forecastID);
             Forecast f = db.find(Forecast.class, forecastID);
             Question q = db.find(Question.class, f.getQuestion());
 
@@ -723,8 +720,8 @@
             db.getTransaction().commit();
 
             // (Optional) Count the number of bets removed
-            System.out.println("Forecast removed");
-            System.out.println("Bets removed: " + associatedBets.size());
+            // System.out.println("Forecast removed");
+            // System.out.println("Bets removed: " + associatedBets.size());
         }
 
 
@@ -778,7 +775,7 @@
             user.getCard().addTransaction(1, "Bet placed", betAmount, cal.getTime());
             db.persist(user);
             db.getTransaction().commit();
-            System.out.println("Bet has been saved.");
+            // System.out.println("Bet has been saved.");
         }
 
         /**
@@ -806,7 +803,7 @@
          * @return all the active bets made by the given user
          */
         public List<Bet> getActiveBets(User gambler) {
-            System.out.println(">> DataAccess: getNumberOfActiveBets");
+            // System.out.println(">> DataAccess: getNumberOfActiveBets");
             User u = db.find(User.class, gambler.getUserID());
 
             TypedQuery<Bet> q = db.createQuery("SELECT b FROM Bet b WHERE b.gambler = ?1 AND b.userForecast.question.correctForecast IS NULL", Bet.class);
@@ -821,7 +818,7 @@
          * @return the number of active bets
          */
         public long countActiveBets() {
-            System.out.println(">> DataAccess: countActiveBets");
+            // System.out.println(">> DataAccess: countActiveBets");
 
             TypedQuery<Long> q = db.createQuery("SELECT COUNT(b) FROM Bet b WHERE b.userForecast.question.correctForecast IS NULL", Long.class);
             return q.getSingleResult();
@@ -994,7 +991,7 @@
 
 
         public List<User> getUsers() {
-            System.out.printf(">> DataAccess: getUsers()");
+            // System.out.println(">> DataAccess: getUsers()");
             TypedQuery<User> q = db.createQuery("SELECT u FROM User u", User.class);
             return q.getResultList();
         }
@@ -1004,7 +1001,7 @@
          * @return number of users in the application
          */
         public long getTotalNumberOfUsers() {
-            System.out.println(">> DataAccess: getTotalNumberOfUsers");
+            // System.out.println(">> DataAccess: getTotalNumberOfUsers");
             TypedQuery<Long> q = db.createQuery("SELECT COUNT(u) FROM User u", Long.class);
             return q.getSingleResult();
         }
@@ -1016,7 +1013,7 @@
          * @return access granted or not!
          */
         public boolean checkLogin(String username, String password) {
-            System.out.println(">> DataAccess: checkLogin => username = " + username + " password = " + password);
+            // System.out.println(">> DataAccess: checkLogin => username = " + username + " password = " + password);
 
             TypedQuery<User> query = db.createQuery("SELECT user FROM User user WHERE user.username=?1 AND user.password=?2", User.class);
             query.setParameter(1, username);
@@ -1038,10 +1035,10 @@
          * @param salt salt used in password hashing
          */
         public User register(String username, String firstName, String lastName, String address, String email, byte[] hashedPassword, Date birthdate, byte[] salt, Long cardNumber, Date expirationDate, Integer securityCode) throws CreditCardAlreadyExists {
-            System.out.println(">> DataAccess: register => username = " + username + " firstName = " +
-                    firstName + " lastName = " + lastName + " address = " + address + " email = " + email +
-                    " hashedPassword = " + hashedPassword + " birthdate = " + birthdate + " salt = " + salt +
-                    " cardNumber = " + cardNumber + " expirationDate = " + expirationDate + " securityCode = " + securityCode);
+            // System.out.println(">> DataAccess: register => username = " + username + " firstName = " +
+            //        firstName + " lastName = " + lastName + " address = " + address + " email = " + email +
+            //        " hashedPassword = " + hashedPassword + " birthdate = " + birthdate + " salt = " + salt +
+            //        " cardNumber = " + cardNumber + " expirationDate = " + expirationDate + " securityCode = " + securityCode);
 
             Card creditCard = db.find(Card.class , cardNumber);
             if(creditCard == null){
@@ -1053,7 +1050,7 @@
                 newUser.setCard(new Card(cardNumber, expirationDate, securityCode, 100.0, newUser));
                 db.persist(newUser);
                 db.getTransaction().commit();
-                System.out.println(newUser + " has been saved");
+                // System.out.println(newUser + " has been saved");
 
                 return newUser;
             }else{
@@ -1082,7 +1079,7 @@
          */
         public User getUser(String username) throws UserNotFoundException
         {
-            System.out.println(">> DataAccess: getUser => username = " + username);
+            // System.out.println(">> DataAccess: getUser => username = " + username);
 
             TypedQuery<User> u = db.createQuery("SELECT u FROM User u WHERE u.username=?1", User.class);
             u.setParameter(1, username);
@@ -1100,8 +1097,8 @@
          * @param address user's address
          */
         public void updateUserData(int userId, String username, String email, String firstName, String lastName, String address) {
-            System.out.println(">> DataAccess: updateUserData => username = " + username + " email = " + email
-                    + " firstName = " + firstName + " lastName = " + lastName + " address = " + address);
+            // System.out.println(">> DataAccess: updateUserData => username = " + username + " email = " + email
+            //        + " firstName = " + firstName + " lastName = " + lastName + " address = " + address);
             User user = db.find(User.class, 1);
 
             db.getTransaction().begin();
@@ -1113,7 +1110,7 @@
             db.persist(user);
             db.getTransaction().commit();
 
-            System.out.println("User data updated");
+            // System.out.println("User data updated");
         }
 
         /**
@@ -1122,7 +1119,7 @@
          * @param user the user to which update the avatar
          */
         public void updateAvatar(String avatar, User user) {
-            System.out.println(">> DataAccess: updateAvatar => avatar = " + avatar + " user = " + user);
+            // System.out.println(">> DataAccess: updateAvatar => avatar = " + avatar + " user = " + user);
             User u = db.find(User.class, user.getUserID());
 
             db.getTransaction().begin();
@@ -1130,14 +1127,14 @@
             db.persist(u);
             db.getTransaction().commit();
 
-            System.out.println("Avatar updated");
+            // System.out.println("Avatar updated");
         }
 
         /**
          * Updates the password of the given user
          */
         public void updatePassword(byte[] newPwd, byte[] newSalt, User user) {
-            System.out.println(">> DataAccess: updatePassword");
+            // System.out.println(">> DataAccess: updatePassword");
             User u = db.find(User.class, user.getUserID());
 
             db.getTransaction().begin();
@@ -1146,7 +1143,7 @@
             db.persist(u);
             db.getTransaction().commit();
 
-            System.out.println("Password and salt updated");
+            // System.out.println("Password and salt updated");
         }
 
         /**
@@ -1154,21 +1151,21 @@
          * @param user the user to be deleted
          */
         public void deleteUser(User user) {
-            System.out.println(">> DataAccess: deleteUser => user = " + user);
+            // System.out.println(">> DataAccess: deleteUser => user = " + user);
             User u = db.find(User.class, user.getUserID());
 
             db.getTransaction().begin();
             db.remove(u);
             db.getTransaction().commit();
 
-            System.out.println("User deleted");
+            // System.out.println("User deleted");
         }
 
         /**
          * Bans the user with the given id, by changing its user mode to 3 (banned user)
          */
         public void banUser(Integer userID, String banReason) {
-            System.out.printf(">> BanUser");
+            // System.out.println(">> BanUser");
             User u = db.find(User.class, userID);
 
             db.getTransaction().begin();
@@ -1176,7 +1173,7 @@
             u.setBanReason(banReason);
             db.getTransaction().commit();
 
-            System.out.printf("User " + userID + " banned");
+            // System.out.println("User " + userID + " banned");
         }
 
         /**
@@ -1186,7 +1183,7 @@
          */
         public boolean isUserInDB(String username)
         {
-            System.out.println(">> DataAccess: isUserInDB => username = " + username);
+            // System.out.println(">> DataAccess: isUserInDB => username = " + username);
 
             TypedQuery<User> u = db.createQuery("SELECT u FROM User u WHERE u.username=?1", User.class);
             u.setParameter(1, username);

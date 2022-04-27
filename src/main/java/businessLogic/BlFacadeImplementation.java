@@ -10,7 +10,6 @@ import utils.Dates;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import java.io.File;
-import java.lang.reflect.Array;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -43,7 +42,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * Constructor that instantiates the BIFacadeImplementation class
 	 */
 	public BlFacadeImplementation()  {		
-		System.out.println("Creating BlFacadeImplementation instance");
+		// system.out.println("Creating BlFacadeImplementation instance");
 		boolean initialize = config.getDataBaseOpenMode().equals("initialize");
 		dbManager = new DataAccess(initialize);
 		currentUser = null;
@@ -55,7 +54,7 @@ public class BlFacadeImplementation implements BlFacade {
 	 * @param dam an instance of data access 
 	 */
 	public BlFacadeImplementation(DataAccess dam)  {
-		System.out.println("Creating BlFacadeImplementation instance with DataAccess parameter");
+		// system.out.println("Creating BlFacadeImplementation instance with DataAccess parameter");
 		if (config.getDataBaseOpenMode().equals("initialize")) {
 			dam.open(true);
 			dam.initializeDB();
@@ -541,7 +540,6 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.close();
 
 		refreshUser();
-		System.out.println("Users current wallet: " + currentUser.getWallet());
 	}
 
 	/**

@@ -22,9 +22,16 @@ import java.util.ResourceBundle;
 public class AdminOverviewController implements Controller {
     private BlFacade businessLogic;
     private MainGUI mainGUI;
+
+    // Revenue chart axis
     private XYChart.Series moneyPlayedSeries;
     private XYChart.Series wonByUsersSeries;
     private XYChart.Series wonByBetAndRuinSeries;
+
+    // Revenue chart data
+    private Map<LocalDate, Double> moneyPlayed;
+    private Map<LocalDate, Double> wonByUsers;
+    private Map<LocalDate, Double> wonByByAndRuin;
 
     @FXML private BarChart<String, Double> balanceChart;
     @FXML private Label activeBetsLbl;
@@ -80,21 +87,28 @@ public class AdminOverviewController implements Controller {
         wonByBetAndRuinSeries = new XYChart.Series();
         wonByBetAndRuinSeries.setName(ResourceBundle.getBundle("Etiquetas").getString("EarnedByBetAndRuin"));
 
+        addDataToRevenueChart();
+        // Add series to bar chart
+        balanceChart.getData().addAll(moneyPlayedSeries, wonByUsersSeries, wonByBetAndRuinSeries);
+    }
+
+    private void addDataToRevenueChart() {
+        moneyPlayedSeries.getData().clear();
+        wonByBetAndRuinSeries.getData().clear();
+        wonByBetAndRuinSeries.getData().clear();
+
         // Add the data to series
-        Map<LocalDate, Double> moneyPlayed = businessLogic.moneyBetPerDayLastMonth();
+        moneyPlayed = businessLogic.moneyBetPerDayLastMonth();
         for (LocalDate d: moneyPlayed.keySet())
             moneyPlayedSeries.getData().add(new XYChart.Data(d.toString(), moneyPlayed.get(d)));
 
-        Map<LocalDate, Double> wonByUsers = businessLogic.wonByUsersLastMonth();
+        wonByUsers = businessLogic.wonByUsersLastMonth();
         for (LocalDate d: wonByUsers.keySet())
             wonByUsersSeries.getData().add(new XYChart.Data(d.toString(), wonByUsers.get(d)));
 
-        Map<LocalDate, Double> wonByByAndRuin = businessLogic.wonByBetAndRuinLastMonth();
+        wonByByAndRuin = businessLogic.wonByBetAndRuinLastMonth();
         for (LocalDate d: wonByByAndRuin.keySet())
             wonByBetAndRuinSeries.getData().add(new XYChart.Data(d.toString(), wonByByAndRuin.get(d)));
-
-        // Add series to bar chart
-        balanceChart.getData().addAll(moneyPlayedSeries, wonByUsersSeries, wonByBetAndRuinSeries);
     }
 
     @Override
@@ -104,6 +118,12 @@ public class AdminOverviewController implements Controller {
 
     @Override
     public void redraw() {
+        // Refresh top panes
+        initTopPanes();
+
+        // Refresh revenue chart
+        addDataToRevenueChart();
+
         // Labels
         registeredUsersLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("RegisteredUsers"));
         upcomingEventsLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("UpcomingEvents"));
