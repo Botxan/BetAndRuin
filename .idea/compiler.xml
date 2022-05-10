@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="USE_RELEASE_OPTION" value="false" />
     <annotationProcessing>
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -10,8 +11,10 @@
         <module name="betandruin2022" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="BetAndRuin22" target="17.0.2" />
-    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="BetAndRuin22" options="--add-exports java.desktop/com.apple.eawt=ALL-UNNAMED" />
+    </option>
   </component>
 </project>

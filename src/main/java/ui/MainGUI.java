@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import org.apache.commons.lang3.SystemUtils;
 import org.kordamp.bootstrapfx.BootstrapFX;
 import uicontrollers.*;
 import uicontrollers.admin.*;
@@ -20,11 +21,15 @@ import uicontrollers.user.*;
 import utils.History;
 import utils.Window;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Locale;
 import java.util.ResourceBundle;
+
+import static com.sun.javafx.scene.control.skin.Utils.getResource;
 
 public class MainGUI {
 
@@ -116,7 +121,14 @@ public class MainGUI {
     public void init(Stage stage) throws IOException {
         this.stage = stage;
         this.stage.initStyle(StageStyle.UNDECORATED);
-        this.stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/favicon.png")));
+        if(SystemUtils.IS_OS_MAC){
+            URL iconURL = this.getClass().getResource("/icon/favicon.png");
+            java.awt.Image image = new ImageIcon(iconURL).getImage();
+            com.apple.eawt.Application.getApplication().setDockIconImage(image);
+        }else{
+            this.stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/favicon.png")));
+        }
+
 
         // TODO Not supported in JavaFX, will test it in 3rd iteration
         // set icon for mac os (and other systems which do support this method)
