@@ -11,6 +11,10 @@ public class Competition {
     public String plan;
     public Season currentSeason;
 
+    public Competition() {
+
+    }
+
     public class Area {
 
         private int id;

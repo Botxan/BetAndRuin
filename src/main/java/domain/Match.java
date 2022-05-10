@@ -1,10 +1,16 @@
 package domain;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
-
+@Entity
 public class Match {
-
+    @Id
+    @GeneratedValue(strategy= GenerationType.IDENTITY)
     public Integer id;
+    public Competition competition;
     public Date utcDate;
     public String status;
     public Team homeTeam;
@@ -24,6 +30,10 @@ public class Match {
                 ", matchday=" + matchday +
                 '}';
     }
+
+    public Competition getCompetition(){return competition;}
+
+    public void setCompetition(Competition c){competition = c;}
 
     public Integer getId() {
         return id;

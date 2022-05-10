@@ -60,32 +60,39 @@
                 int year = today.get(Calendar.YEAR);
                 if (month == 12) { month = 0; year += 1;}
 
-                Event ev1 = new Event("Atlético-Athletic", UtilDate.newDate(year, month, 17), "Spain");
-                Event ev2 = new Event("Eibar-Barcelona", UtilDate.newDate(year, month, 17), "Spain");
-                Event ev3 = new Event("Getafe-Celta", UtilDate.newDate(year, month, 17), "Spain");
-                Event ev4 = new Event("Alavés-Deportivo", UtilDate.newDate(year, month, 17), "France");
-                Event ev5 = new Event("Español-Villareal", UtilDate.newDate(year, month, 17), "France");
-                Event ev6 = new Event("Las Palmas-Sevilla", UtilDate.newDate(year, month, 17), "France");
-                Event ev7 = new Event("Malaga-Valencia", UtilDate.newDate(year, month, 17), "Madagascar");
-                Event ev8 = new Event("Girona-Leganés", UtilDate.newDate(year, month, 17), "Madagascar");
-                Event ev9 = new Event("Real Sociedad-Levante", UtilDate.newDate(year, month, 17), "Jamaica");
-                Event ev10 = new Event( "Betis-Real Madrid", UtilDate.newDate(year, month, 17), "Jamaica");
+                Competition dummyCompetition = new Competition();
+                dummyCompetition.setId(-1);
 
-                Event ev11 = new Event("Atletico-Athletic", UtilDate.newDate(year, month, 1), "Belgium");
-                Event ev12 = new Event("Eibar-Barcelona", UtilDate.newDate(year, month, 1), "Belgium");
-                Event ev13 = new Event("Getafe-Celta", UtilDate.newDate(year, month, 1), "Belgium");
-                Event ev14 = new Event("Alavés-Deportivo", UtilDate.newDate(year, month, 1), "Japan");
-                Event ev15 = new Event("Español-Villareal", UtilDate.newDate(year, month, 1), "Japan");
-                Event ev16 = new Event("Las Palmas-Sevilla", UtilDate.newDate(year, month, 1), "South Korea");
+                Match dummyMatch = new Match();
+                dummyMatch.setId(-1);
+                dummyMatch.setCompetition(dummyCompetition);
 
-                Event ev17 = new Event("Málaga-Valencia", UtilDate.newDate(year, month + 1, 28), "Chile");
-                Event ev18 = new Event("Girona-Leganés", UtilDate.newDate(year, month + 1, 28), "Chile");
-                Event ev19 = new Event("Real Sociedad-Levante", UtilDate.newDate(year, month + 1, 28), "Poland");
-                Event ev20 = new Event("Betis-Real Madrid", UtilDate.newDate(year, month + 1, 28), "Poland");
+                Event ev1 = new Event("Atlético-Athletic", UtilDate.newDate(year, month, 17), "Spain", dummyMatch);
+                Event ev2 = new Event("Eibar-Barcelona", UtilDate.newDate(year, month, 17), "Spain", dummyMatch);
+                Event ev3 = new Event("Getafe-Celta", UtilDate.newDate(year, month, 17), "Spain", dummyMatch);
+                Event ev4 = new Event("Alavés-Deportivo", UtilDate.newDate(year, month, 17), "France", dummyMatch);
+                Event ev5 = new Event("Español-Villareal", UtilDate.newDate(year, month, 17), "France", dummyMatch);
+                Event ev6 = new Event("Las Palmas-Sevilla", UtilDate.newDate(year, month, 17), "France", dummyMatch);
+                Event ev7 = new Event("Malaga-Valencia", UtilDate.newDate(year, month, 17), "Madagascar", dummyMatch);
+                Event ev8 = new Event("Girona-Leganés", UtilDate.newDate(year, month, 17), "Madagascar", dummyMatch);
+                Event ev9 = new Event("Real Sociedad-Levante", UtilDate.newDate(year, month, 17), "Jamaica", dummyMatch);
+                Event ev10 = new Event( "Betis-Real Madrid", UtilDate.newDate(year, month, 17), "Jamaica", dummyMatch);
+
+                Event ev11 = new Event("Atletico-Athletic", UtilDate.newDate(year, month, 1), "Belgium", dummyMatch);
+                Event ev12 = new Event("Eibar-Barcelona", UtilDate.newDate(year, month, 1), "Belgium", dummyMatch);
+                Event ev13 = new Event("Getafe-Celta", UtilDate.newDate(year, month, 1), "Belgium", dummyMatch);
+                Event ev14 = new Event("Alavés-Deportivo", UtilDate.newDate(year, month, 1), "Japan", dummyMatch);
+                Event ev15 = new Event("Español-Villareal", UtilDate.newDate(year, month, 1), "Japan", dummyMatch);
+                Event ev16 = new Event("Las Palmas-Sevilla", UtilDate.newDate(year, month, 1), "South Korea", dummyMatch);
+
+                Event ev17 = new Event("Málaga-Valencia", UtilDate.newDate(year, month + 1, 28), "Chile", dummyMatch);
+                Event ev18 = new Event("Girona-Leganés", UtilDate.newDate(year, month + 1, 28), "Chile", dummyMatch);
+                Event ev19 = new Event("Real Sociedad-Levante", UtilDate.newDate(year, month + 1, 28), "Poland", dummyMatch);
+                Event ev20 = new Event("Betis-Real Madrid", UtilDate.newDate(year, month + 1, 28), "Poland", dummyMatch);
 
                 // Event already passed
-                Event ev21 = new Event("Sevilla-Valladolid", UtilDate.newDate(year, month-1, 5), "Venezuela");
-                Event ev22 = new Event("Barcelona-Córdoba", UtilDate.newDate(year, month-1, 5), "Nigeria");
+                Event ev21 = new Event("Sevilla-Valladolid", UtilDate.newDate(year, month-1, 5), "Venezuela", dummyMatch);
+                Event ev22 = new Event("Barcelona-Córdoba", UtilDate.newDate(year, month-1, 5), "Nigeria", dummyMatch);
 
                 Question q1;
                 Question q2;
@@ -490,7 +497,7 @@
          * @return it returns an event
          * @throws EventAlreadyExistException if the event already exists
          */
-        public Event createEvent(String description, Date date, String country) throws EventAlreadyExistException {
+        public Event createEvent(String description, Date date, String country, Match match) throws EventAlreadyExistException {
             // System.out.println(">> DataAccess: createEvent => description = " + description + " date = " + date);
 
             // Check if the event exist
@@ -513,7 +520,7 @@
 
             // Store the new event in the database
             db.getTransaction().begin();
-            Event event = new Event(description, date, country);
+            Event event = new Event(description, date, country, match);
             db.persist(event);
             db.getTransaction().commit();
 

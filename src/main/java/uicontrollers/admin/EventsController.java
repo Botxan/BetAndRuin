@@ -389,7 +389,7 @@ public class EventsController implements Controller {
             }
             else {
                 try {
-                    Event e = businessLogic.createEvent(eventName, eventDate, country);
+                    Event e = businessLogic.createEvent(eventName, eventDate, country,  null);
                     resultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("EventAddedSuccessfully"));
                     resultLabel.getStyleClass().addAll("lbl", "lbl-success");
                     events.add(0, e);

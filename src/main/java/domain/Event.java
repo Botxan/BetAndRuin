@@ -18,6 +18,7 @@ public class Event {
 	private String description; 
 	private Date eventDate;
 	private String country;
+	private Match match;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Question> questions = new ArrayList<Question>();
@@ -34,12 +35,14 @@ public class Event {
 	 * @param eventNumber an instance of event number
 	 * @param description an instance of description
 	 * @param eventDate an instance of event date
+	 * @param match match played in the event
 	 */
-	public Event(Integer eventNumber, String description, Date eventDate, String country) {
+	public Event(Integer eventNumber, String description, Date eventDate, String country, Match match) {
 		this.eventID = eventNumber;
 		this.description = description;
 		this.eventDate = eventDate;
 		this.country = country;
+		this.match = match;
 	}
 
 	/**
@@ -47,10 +50,11 @@ public class Event {
 	 * @param description an instance of description
 	 * @param eventDate an instance of event date
 	 */
-	public Event(String description, Date eventDate, String country) {
+	public Event(String description, Date eventDate, String country, Match match) {
 		this.description = description;
 		this.eventDate = eventDate;
 		this.country = country;
+		this.match = match;
 	}
 
 	/**
@@ -132,6 +136,18 @@ public class Event {
 	public void setCountry(String country) {
 		this.country = country;
 	}
+
+	/**
+	 * Setter for the match corresponding to the event.
+	 * @param match Match played in the event.
+	 */
+	public void setMatch(Match match){this.match = match;}
+
+	/**
+	 * Getter for the match of the event.
+	 * @return Match played in the event.
+	 */
+	public Match getMatch(){return match;}
 
 	@Override
 	public String toString(){
