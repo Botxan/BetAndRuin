@@ -366,8 +366,9 @@
         public void updateDB()
         {
             List<Competition> competitions = mg.getCompetitions();
-            for(Competition c : competitions)
+            for(Competition c : competitions) {
                 db.persist(c);
+            }
         }
 
         /**
@@ -508,6 +509,17 @@
         public List<Competition> getCompetitions(){
             TypedQuery<Competition> query = db.createQuery("SELECT c FROM Competition c", Competition.class);
             return query.getResultList();
+        }
+
+        /**
+         * Returns all the competitions for the given country.
+         * @param country Country where to get the respective competitions from.
+         * @return The competitions held in the given country.
+         */
+        public List<Competition> getCompetitions(String country){
+            TypedQuery<Competition> q = db.createQuery("SELECT c FROM Competition c WHERE c.area.name = ?1", Competition.class);
+            q.setParameter(1, country);
+            return q.getResultList();
         }
 
         /**

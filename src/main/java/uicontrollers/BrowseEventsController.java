@@ -453,6 +453,7 @@ public class BrowseEventsController implements Controller {
      */
     public void betPanel()
     {
+        System.out.println(businessLogic.getCompetitions("Spain"));
         registerErrorText.setText("");
         if(questionsTbl.getSelectionModel().getSelectedItem() == null)
             registerErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas").getString("SelectQuestion"));

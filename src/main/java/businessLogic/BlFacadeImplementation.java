@@ -591,4 +591,12 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.close();
 		return result;
 	}
+
+	@WebMethod
+	public List<Competition> getCompetitions(String country){
+		dbManager.open(false);
+		List<Competition> result = dbManager.getCompetitions(country);
+		dbManager.close();
+		return result;
+	}
 }

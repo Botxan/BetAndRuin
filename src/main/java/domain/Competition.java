@@ -1,9 +1,6 @@
 package domain;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Class for representing each competition where the matches to bet take place on.
@@ -13,6 +10,8 @@ public class Competition {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     public int id;
+    @OneToOne  (cascade = CascadeType.PERSIST)
+    public Area area;
     public String name;
     public String code;
     public String emblemUrl;
@@ -82,6 +81,7 @@ public class Competition {
     public String toString() {
         return "Competition{" +
                 "id=" + id +
+                ", area='" + area.name + '\'' +
                 ", name='" + name + '\'' +
                 ", code='" + code + '\'' +
                 ", emblemUrl='" + emblemUrl + '\'' +

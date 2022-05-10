@@ -348,5 +348,16 @@ public interface BlFacade  {
 	 */
 	@WebMethod public void removeBet(Bet bet);
 
+	/**
+	 * Getter for all the competitions of all countries.
+	 * @return All the competitions of all countries.
+	 */
 	@WebMethod public List<Competition> getCompetitions();
+
+	/**
+	 * Returns all the competitions for the given country.
+	 * @param country Country where to get the respective competitions from.
+	 * @return The competitions held in the given country.
+	 */
+	@WebMethod List<Competition> getCompetitions(String country);
 }
