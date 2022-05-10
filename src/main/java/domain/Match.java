@@ -4,13 +4,13 @@ import java.util.Date;
 
 public class Match {
 
-    private Integer id;
-    private Date utcDate;
-    private String status;
-    private Team homeTeam;
-    private Team awayTeam;
-    private Score score;
-    private Integer matchday;
+    public Integer id;
+    public Date utcDate;
+    public String status;
+    public Team homeTeam;
+    public Team awayTeam;
+    public Score score;
+    public Integer matchday;
 
     @Override
     public String toString() {

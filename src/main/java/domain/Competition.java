@@ -3,13 +3,13 @@ import javafx.scene.image.Image;
 
 public class Competition {
 
-    private int id;
-    private Area area;
-    private String name;
-    private String code;
-    private String emblemUrl;
-    private String plan;
-    private Season currentSeason;
+    public int id;
+    public Area area;
+    public String name;
+    public String code;
+    public String emblemUrl;
+    public String plan;
+    public Season currentSeason;
 
     public class Area {
 
