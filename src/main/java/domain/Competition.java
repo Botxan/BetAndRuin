@@ -29,6 +29,10 @@ public class Competition {
         this.id = id;
     }
 
+    public Area getArea(){return area;}
+
+    public void setArea(Area area){this.area = area;}
+
     public String getName() {
         return name;
     }

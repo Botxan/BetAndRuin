@@ -42,7 +42,7 @@ public class Manager {
 
     private List<Competition> setCompetitions(){
         String body = this.request("competitions");
-        System.out.println(body);
+        //System.out.println(body);
 
         Gson gson = new Gson();
         JsonObject jsonObject;
@@ -60,14 +60,17 @@ public class Manager {
     //Only use once.
     public List<Match> getMatches(int competitionID){
         String body = this.request("competitions/"+ competitionID + "/matches");
+        //System.out.println(body);
 
         Gson gson = new Gson();
         JsonObject jsonObject;
 
         jsonObject = gson.fromJson(body, JsonObject.class);
-        Type matchListType = new TypeToken<ArrayList<Match>>(){}.getType();
-        List<Match> matches = gson.fromJson((jsonObject.get("matches")), matchListType);
-        return matches;
+        Type matchListType = new TypeToken<ArrayList<Match>>() {
+        }.getType();
+        List<Match> result = gson.fromJson((jsonObject.get("matches")), matchListType);
+
+        return result;
     }
 
     //Only use once. Integer = teamID, Team = team object.

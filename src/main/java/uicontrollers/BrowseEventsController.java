@@ -2,6 +2,7 @@ package uicontrollers;
 
 import businessLogic.BlFacade;
 import com.jfoenix.controls.JFXSlider;
+import dataAccess.Manager;
 import domain.Event;
 import domain.Forecast;
 import domain.Question;
@@ -453,7 +454,6 @@ public class BrowseEventsController implements Controller {
      */
     public void betPanel()
     {
-        System.out.println(businessLogic.getCompetitions("Spain"));
         registerErrorText.setText("");
         if(questionsTbl.getSelectionModel().getSelectedItem() == null)
             registerErrorText.setText("*" + ResourceBundle.getBundle("Etiquetas").getString("SelectQuestion"));
