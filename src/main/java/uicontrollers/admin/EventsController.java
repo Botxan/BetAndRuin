@@ -6,6 +6,7 @@ import com.jfoenix.controls.JFXDialog;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIcon;
 import de.jensd.fx.glyphs.fontawesome.FontAwesomeIconView;
 import domain.Event;
+import domain.Match;
 import exceptions.EventAlreadyExistException;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleStringProperty;
@@ -389,7 +390,9 @@ public class EventsController implements Controller {
             }
             else {
                 try {
-                    Event e = businessLogic.createEvent(eventName, eventDate, country,  null);
+                    Match dummyMatch = new Match();
+                    dummyMatch.setId(-1);
+                    Event e = businessLogic.createEvent(eventName, eventDate, country,  dummyMatch);
                     resultLabel.setText(ResourceBundle.getBundle("Etiquetas").getString("EventAddedSuccessfully"));
                     resultLabel.getStyleClass().addAll("lbl", "lbl-success");
                     events.add(0, e);

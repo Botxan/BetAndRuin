@@ -582,4 +582,13 @@ public class BlFacadeImplementation implements BlFacade {
 			e.printStackTrace();
 		}
 	}
+
+	@WebMethod
+	public List<Competition> getCompetitions()
+	{
+		dbManager.open(false);
+		List<Competition> result = dbManager.getCompetitions();
+		dbManager.close();
+		return result;
+	}
 }

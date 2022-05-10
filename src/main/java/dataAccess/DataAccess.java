@@ -25,6 +25,7 @@
 
         protected EntityManager  db;
         protected EntityManagerFactory emf;
+        protected Manager mg = new Manager();
 
         ConfigXML config = ConfigXML.getInstance();
 
@@ -350,13 +351,23 @@
 
                 db.persist(userCard);
                 db.persist(adminCard);
-
+                updateDB();
                 db.getTransaction().commit();
                 // System.out.println("The database has been initialized");
             }
             catch (Exception e){
                 e.printStackTrace();
             }
+        }
+
+        /**
+         * Updates the data base using the api.football-data.org
+         */
+        public void updateDB()
+        {
+            List<Competition> competitions = mg.getCompetitions();
+            for(Competition c : competitions)
+                db.persist(c);
         }
 
         /**
@@ -488,6 +499,15 @@
             List<Event> evs = q.getResultList();
             // System.out.println(evs.size() + " events retrieved");
             return evs;
+        }
+
+        /**
+         * Returns all the competitions for all the countries.
+         * @return All the competitions for all the countries.
+         */
+        public List<Competition> getCompetitions(){
+            TypedQuery<Competition> query = db.createQuery("SELECT c FROM Competition c", Competition.class);
+            return query.getResultList();
         }
 
         /**

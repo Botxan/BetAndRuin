@@ -347,4 +347,6 @@ public interface BlFacade  {
 	 * @param bet the bet.
 	 */
 	@WebMethod public void removeBet(Bet bet);
+
+	@WebMethod public List<Competition> getCompetitions();
 }
