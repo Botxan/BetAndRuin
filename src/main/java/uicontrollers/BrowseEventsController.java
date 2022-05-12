@@ -2,6 +2,7 @@ package uicontrollers;
 
 import businessLogic.BlFacade;
 import com.jfoenix.controls.JFXSlider;
+import dataAccess.Manager;
 import domain.Event;
 import domain.Forecast;
 import domain.Question;

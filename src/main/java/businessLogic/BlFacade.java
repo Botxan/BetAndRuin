@@ -24,11 +24,12 @@ public interface BlFacade  {
 	 * @param name an instance of the event name
 	 * @param date an instance of the date of the event
 	 * @param country the country where the event takes place
+	 * @param match Match that is going to be played in the event.
 	 * @return it returns a new event 
 	 * @throws EventAlreadyExistException if the exception already exist in the database.
 	 */
 	@WebMethod
-	public Event createEvent(String name, Date date, String country) throws EventAlreadyExistException;
+	public Event createEvent(String name, Date date, String country, Match match) throws EventAlreadyExistException;
 
 	/**
 	 * It retrieves all events.
@@ -346,4 +347,17 @@ public interface BlFacade  {
 	 * @param bet the bet.
 	 */
 	@WebMethod public void removeBet(Bet bet);
+
+	/**
+	 * Getter for all the competitions of all countries.
+	 * @return All the competitions of all countries.
+	 */
+	@WebMethod public List<Competition> getCompetitions();
+
+	/**
+	 * Returns all the competitions for the given country.
+	 * @param country Country where to get the respective competitions from.
+	 * @return The competitions held in the given country.
+	 */
+	@WebMethod List<Competition> getCompetitions(String country);
 }
