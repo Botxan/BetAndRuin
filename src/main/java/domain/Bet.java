@@ -1,21 +1,29 @@
 package domain;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
+import java.io.Serializable;
 
 /**
  * This class represents a bet done by a single user.
  */
 @Entity
-public class Bet {
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Bet implements Serializable {
+    @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @XmlID
     private Integer betID;
     private Double amount;
 
     @ManyToOne
+    @XmlIDREF
     private Forecast userForecast;
 
     @ManyToOne
+    @XmlIDREF
     private User gambler;
 
     /**
@@ -98,5 +106,15 @@ public class Bet {
      */
     public void setGambler(User gambler) {
         this.gambler = gambler;
+    }
+
+    @Override
+    public String toString() {
+        return "Bet{" +
+                "betID=" + betID +
+                ", amount=" + amount +
+                ", userForecast=" + userForecast +
+                ", gambler=" + gambler +
+                '}';
     }
 }

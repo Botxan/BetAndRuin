@@ -1,6 +1,11 @@
 package domain;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,14 +15,17 @@ import java.util.List;
  * @author Josefinators team
  */
 @Entity
-public class Question {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Question implements Serializable {
 	 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@XmlID
 	private Integer questionID;
 	private String question; 
 	private Double betMinimum;
 
 	@ManyToOne
+	@XmlIDREF
 	private Event event;
 
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -213,11 +221,6 @@ public class Question {
 	}
 
 	@Override
-	public String toString(){
-		return question;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -227,5 +230,17 @@ public class Question {
 			return false;
 		Question other = (Question) obj;
 		return questionID == other.questionID;
+	}
+
+	@Override
+	public String toString() {
+		return "Question{" +
+				"questionID=" + questionID +
+				", question='" + question + '\'' +
+				", betMinimum=" + betMinimum +
+				", event=" + event +
+				", forecasts=" + forecasts +
+				", correctForecast=" + correctForecast +
+				'}';
 	}
 }

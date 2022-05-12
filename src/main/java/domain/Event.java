@@ -1,6 +1,10 @@
 package domain;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlID;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -11,9 +15,11 @@ import java.util.List;
  * @author Josefinators team
  */
 @Entity
-public class Event {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Event implements Serializable {
 
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@XmlID
 	private Integer eventID;
 	private String description; 
 	private Date eventDate;
@@ -133,11 +139,6 @@ public class Event {
 		this.country = country;
 	}
 
-	@Override
-	public String toString(){
-		return description;
-	}
-
 	/**
 	 * This method creates a bet with a question, minimum bet ammount and percentual profit.
 	 * 
@@ -183,5 +184,16 @@ public class Event {
 			return false;
 		Event other = (Event) obj;
 		return eventID == other.eventID;
+	}
+
+	@Override
+	public String toString() {
+		return "Event{" +
+				"eventID=" + eventID +
+				", description='" + description + '\'' +
+				", eventDate=" + eventDate +
+				", country='" + country + '\'' +
+				", questions=" + questions +
+				'}';
 	}
 }

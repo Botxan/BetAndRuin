@@ -1,6 +1,11 @@
 package domain;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,13 +14,16 @@ import java.util.List;
  * @author Josefinators team
  */
 @Entity
-public class Forecast {
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Forecast implements Serializable {
 	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@XmlID
 	private Integer forecastID;
 	private String description;
 	private Double fee;
 
 	@ManyToOne
+	@XmlIDREF
 	private Question question;
 
 	/**
@@ -110,5 +118,15 @@ public class Forecast {
 		Forecast f = (Forecast) o;
 
 		return forecastID == f.getForecastID();
+	}
+
+	@Override
+	public String toString() {
+		return "Forecast{" +
+				"forecastID=" + forecastID +
+				", description='" + description + '\'' +
+				", fee=" + fee +
+				", question=" + question +
+				'}';
 	}
 }

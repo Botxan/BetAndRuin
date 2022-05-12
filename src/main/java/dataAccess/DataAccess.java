@@ -8,6 +8,8 @@
     import utils.Dates;
 
     import javax.persistence.*;
+    import java.nio.file.Files;
+    import java.nio.file.Paths;
     import java.text.SimpleDateFormat;
     import java.time.LocalDate;
     import java.time.temporal.ChronoUnit;
@@ -358,13 +360,21 @@
          */
         public void open(boolean initializeMode){
 
-            // System.out.println("Opening DataAccess instance => isDatabaseLocal: " +
-            //        config.isDataAccessLocal() + " getDatabBaseOpenMode: " + config.getDataBaseOpenMode());
+            System.out.println("Opening DataAccess instance => isDatabaseLocal: " +
+                    config.isDataAccessLocal() + " getDatabBaseOpenMode: " + config.getDataBaseOpenMode());
 
             String fileName = config.getDataBaseFilename();
+
+            if (Files.exists(Paths.get(System.getProperty("user.home") + "/config/" + fileName))) {
+                System.out.println("Opening db from user.home");
+                fileName = System.getProperty("user.home") + "/config/" + fileName;
+                System.out.println("The file name is: " + fileName);
+            }
+            System.setProperty("objectdb.home", System.getProperty("user.home") + "/config"); // new $objectdb
+
             if (initializeMode) {
                 fileName = fileName + ";drop";
-                // System.out.println("Deleting the DataBase");
+                System.out.println("Deleting the DataBase");
             }
 
             if (config.isDataAccessLocal()) {

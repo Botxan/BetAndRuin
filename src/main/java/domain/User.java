@@ -3,10 +3,11 @@ package domain;
 import exceptions.NotEnoughMoneyException;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlID;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * Represents a user that will be stored in the database.
@@ -14,9 +15,10 @@ import java.util.List;
  * @author Josefinators team
  */
 @Entity
-public class User {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+@XmlAccessorType(XmlAccessType.FIELD)
+public class User implements Serializable {
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	@XmlID
 	private Integer userID;
 	private String username;
 	private String firstName;
@@ -381,5 +383,26 @@ public class User {
 	 */
 	public void setBanReason(String banReason) {
 		this.banReason = banReason;
+	}
+
+	@Override
+	public String toString() {
+		return "User{" +
+				"userID=" + userID +
+				", username='" + username + '\'' +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", birthdate=" + birthdate +
+				", address='" + address + '\'' +
+				", email='" + email + '\'' +
+				", avatar='" + avatar + '\'' +
+				", password=" + Arrays.toString(password) +
+				", salt=" + Arrays.toString(salt) +
+				", userMode=" + userMode +
+				", wallet=" + wallet +
+				", banReason='" + banReason + '\'' +
+				", card=" + card +
+				", bets=" + bets +
+				'}';
 	}
 }
