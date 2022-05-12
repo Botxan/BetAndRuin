@@ -3,6 +3,8 @@
 	<groupId>SoftwareEngineering</groupId>
 	<artifactId>BetAndRuin22</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
 	<repositories>
 		<repository>
 			<id>objectdb</id>
@@ -14,11 +16,10 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<javafx.version>18</javafx.version>
+		<client.version>1.0.0</client.version>
 		<javafx.maven.plugin.version>0.0.8</javafx.maven.plugin.version>
-
-		<maven.compiler.source>18</maven.compiler.source>
-		<maven.compiler.target>18</maven.compiler.target>
-
+		<exec.maven.plugin.version>1.6.0</exec.maven.plugin.version>
+		<java.version>17</java.version>
 	</properties>
 
 	<dependencies>
