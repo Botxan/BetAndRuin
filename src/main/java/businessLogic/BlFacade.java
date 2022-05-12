@@ -340,6 +340,7 @@ public interface BlFacade  {
 	 * @throws LiquidityLackException Thrown when gambler bets not having enough liquidity access to account for it.
 	 * @throws MinBetException Exception for when user inserts less fee than required.
 	 */
+	@WebMethod
 	public void placeBet(Double betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException, UserNotFoundException;
 
 	/**

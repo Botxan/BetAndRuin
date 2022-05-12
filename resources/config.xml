@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-  <businessLogic local="true">
+  <businessLogic local="false">
 	<businessLogicNode>0.0.0.0</businessLogicNode>
-	<businessLogicPort>1099</businessLogicPort>
+	<businessLogicPort>8080</businessLogicPort>
 	<businessLogicName>Bets</businessLogicName>
   </businessLogic>
   <dataAccess local="true">

@@ -1,6 +1,11 @@
 package domain;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -8,9 +13,10 @@ import java.util.Date;
  * @author Josefinators team
  */
 @Entity
-public class Transaction {
-    @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Transaction implements Serializable {
+    @Id @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @XmlID
     private Integer transactionID;
     private Integer type; // 0 => Deposit, 1 => Withdraw
     private String description;
@@ -18,6 +24,7 @@ public class Transaction {
     private Date date;
 
     @OneToOne
+    @XmlIDREF
     private Card card;
 
     /**
@@ -131,5 +138,17 @@ public class Transaction {
      */
     public void setCard(Card card) {
         this.card = card;
+    }
+
+    @Override
+    public String toString() {
+        return "Transaction{" +
+                "transactionID=" + transactionID +
+                ", type=" + type +
+                ", description='" + description + '\'' +
+                ", amount=" + amount +
+                ", date=" + date +
+                ", card=" + card +
+                '}';
     }
 }

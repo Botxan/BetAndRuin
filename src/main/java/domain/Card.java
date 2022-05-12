@@ -3,6 +3,11 @@ package domain;
 import exceptions.NotEnoughMoneyException;
 
 import javax.persistence.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlID;
+import javax.xml.bind.annotation.XmlIDREF;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,14 +17,17 @@ import java.util.List;
  * @author Josefinators team
  */
 @Entity
-public class Card {
-    @Id
+@XmlAccessorType(XmlAccessType.FIELD)
+public class Card implements Serializable {
+    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @XmlID
     private Long cardNumber;
     private Date expirationDate;
     private Integer securityCode;
     private Double money;
 
     @OneToOne
+    @XmlIDREF
     private User owner;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
@@ -164,5 +172,17 @@ public class Card {
         Transaction transaction = new Transaction(type, description, amount, date, this);
         transactions.add(transaction);
         return transaction;
+    }
+
+    @Override
+    public String toString() {
+        return "Card{" +
+                "cardNumber=" + cardNumber +
+                ", expirationDate=" + expirationDate +
+                ", securityCode=" + securityCode +
+                ", money=" + money +
+                ", owner=" + owner +
+                ", transactions=" + transactions +
+                '}';
     }
 }

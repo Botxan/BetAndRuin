@@ -72,7 +72,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return event;
 	}
 
-	@Override
 	@WebMethod
 	public List<Event> getEvents() {
 		dbManager.open(false);
@@ -109,7 +108,6 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
-	@Override
 	public void publishResult(int qID, int fID) {
 		dbManager.open(false);
 		dbManager.publishResult(qID, fID);
@@ -156,7 +154,6 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
-	@Override
 	public void removeForecast(int forecastID) {
 		dbManager.open(false);
 		dbManager.removeForecast(forecastID);
@@ -231,7 +228,6 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
-	@Override
 	public List<User> getUsers() {
 		dbManager.open(false);
 		List<User> users = dbManager.getUsers();
@@ -240,7 +236,6 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
-	@Override
 	public void banUser(Integer userID, String banReason) {
 		dbManager.open(false);
 		dbManager.banUser(userID, banReason);
@@ -356,7 +351,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return t;
 	}
 
-	@Override
 	@WebMethod
 	public Map<String, Double> getWalletMovementsLastMonth() {
 		Calendar cal = Calendar.getInstance();
@@ -416,7 +410,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return bets;
 	}
 
-	@Override
 	@WebMethod
 	public long countActiveBets() {
 		dbManager.open(false);
@@ -426,7 +419,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return n;
 	}
 
-	@Override
 	@WebMethod
 	public double getActiveMoney() {
 		dbManager.open(false);
@@ -436,7 +428,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return n;
 	}
 
-	@Override
 	@WebMethod
 	public Map<LocalDate, Double> moneyBetPerDayLastMonth() {
 		dbManager.open(false);
@@ -445,7 +436,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return moneyBetPerDayLastMonth;
 	}
 
-	@Override
 	@WebMethod
 	public Map<LocalDate, Double> wonByUsersLastMonth() {
 		dbManager.open(false);
@@ -455,7 +445,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return wonByUsers;
 	}
 
-	@Override
 	@WebMethod
 	public Map<LocalDate, Double> wonByBetAndRuinLastMonth() {
 		dbManager.open(false);
@@ -490,7 +479,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return totalIncome;
 	}
 
-	@Override
 	@WebMethod
 	public long countUpcomingEvents() {
 		dbManager.open(false);
@@ -500,7 +488,6 @@ public class BlFacadeImplementation implements BlFacade {
 		return n;
 	}
 
-	@Override
 	@WebMethod
 	public List<Event> getUpcomingEvents(int n) {
 		dbManager.open(false);
@@ -510,7 +497,7 @@ public class BlFacadeImplementation implements BlFacade {
 		return evs;
 	}
 
-	@Override
+	@WebMethod
 	public void removeEvent(int eventID) {
 		dbManager.open(false);
 		dbManager.removeEvent(eventID);
@@ -519,12 +506,12 @@ public class BlFacadeImplementation implements BlFacade {
 		refreshUser();
 	}
 
-	@Override
+	@WebMethod
 	public List<Transaction> showMovements(User user) {
 		return null;
 	}
 
-	@Override
+	@WebMethod
 	public void removeBet(Bet bet) {
 		dbManager.open(false);
 		dbManager.removeBet(bet.getBetID());
@@ -533,7 +520,7 @@ public class BlFacadeImplementation implements BlFacade {
 		refreshUser();
 	}
 
-	@Override
+	@WebMethod
 	public void placeBet(Double betAmount, Forecast forecast, User gambler) throws BetAlreadyExistsException, LateBetException, LiquidityLackException, MinBetException, UserNotFoundException {
 		dbManager.open(false);
 		dbManager.setBet(betAmount, forecast, gambler);
@@ -570,10 +557,10 @@ public class BlFacadeImplementation implements BlFacade {
 		return salt;
 	}
 
-	// FIXME temporal function to retrieve updated information of the current user from db
 	/**
 	 * Retrieves the updated information of the current user.
 	 */
+	@WebMethod
 	public void refreshUser () {
 		dbManager.open(false);
 		try {
