@@ -57,20 +57,38 @@ public class Manager {
         return competitions;
     }
 
-    //Only use once.
+    public List<Match> getMatches(){
+        String body = this.request("/matches");
+        List<Match> matches = null;
+        if(body != null)
+            if(!body.isEmpty()) {
+                System.out.println(body);
+                Gson gson = new Gson();
+                JsonObject jsonObject;
+
+                jsonObject = gson.fromJson(body, JsonObject.class);
+                Type matchListType = new TypeToken<ArrayList<Match>>() {
+                }.getType();
+                matches = gson.fromJson((jsonObject.get("matches")), matchListType);
+            }
+        return matches;
+    }
+
     public List<Match> getMatches(int competitionID){
         String body = this.request("competitions/"+ competitionID + "/matches");
-        //System.out.println(body);
+        List<Match> matches = null;
+        if(body != null)
+            if(!body.isEmpty()) {
+                System.out.println(body);
+                Gson gson = new Gson();
+                JsonObject jsonObject;
 
-        Gson gson = new Gson();
-        JsonObject jsonObject;
-
-        jsonObject = gson.fromJson(body, JsonObject.class);
-        Type matchListType = new TypeToken<ArrayList<Match>>() {
-        }.getType();
-        List<Match> result = gson.fromJson((jsonObject.get("matches")), matchListType);
-
-        return result;
+                jsonObject = gson.fromJson(body, JsonObject.class);
+                Type matchListType = new TypeToken<ArrayList<Match>>() {
+                }.getType();
+                matches = gson.fromJson((jsonObject.get("matches")), matchListType);
+            }
+        return matches;
     }
 
     //Only use once. Integer = teamID, Team = team object.

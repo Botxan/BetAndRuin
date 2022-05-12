@@ -369,20 +369,23 @@
             List<Match> matches;
 
             for(Competition c : competitions) {
+                System.out.println(c);
                 db.persist(c);
-                matches = mg.getMatches(c.getId());
-                for (Match m : matches) {
-                    Event ev = new Event(m.getHomeTeam().getName() + '-' + m.getAwayTeam().getName(), m.getUtcDate(), c.getArea().getName(), m);
-                    Question q1 = ev.addQuestion(ResourceBundle.getBundle("Etiquetas").getString("WinnerQuestion"), 1D);
-                    Question q2 = ev.addQuestion(ResourceBundle.getBundle("Etiquetas").getString("TieQuestion"), 2D);
-                    Forecast f1 = q1.addForecast(m.getHomeTeam().getName(), 2D);
-                    Forecast f2 = q1.addForecast(m.getAwayTeam().getName(), 2.4);
-                    Forecast f3 = q2.addForecast(ResourceBundle.getBundle("Etiquetas").getString("No"), 1D);
-                    Forecast f4 = q2.addForecast(ResourceBundle.getBundle("Etiquetas").getString("Yes"), 2D);
-                    db.persist(ev);
+            }
+                matches = mg.getMatches();
+                if(matches != null) {
+                    for (Match m : matches) {
+                        Event ev = new Event(m.getHomeTeam().getName() + '-' + m.getAwayTeam().getName(), m.getUtcDate(), m.getCompetition().getArea().getName(), m);
+                        Question q1 = ev.addQuestion(ResourceBundle.getBundle("Etiquetas").getString("WinnerQuestion"), 1D);
+                        Question q2 = ev.addQuestion(ResourceBundle.getBundle("Etiquetas").getString("TieQuestion"), 2D);
+                        Forecast f1 = q1.addForecast(m.getHomeTeam().getName(), 2D);
+                        Forecast f2 = q1.addForecast(m.getAwayTeam().getName(), 2.4);
+                        Forecast f3 = q2.addForecast(ResourceBundle.getBundle("Etiquetas").getString("No"), 1D);
+                        Forecast f4 = q2.addForecast(ResourceBundle.getBundle("Etiquetas").getString("Yes"), 2D);
+                        db.persist(ev);
+                    }
                 }
             }
-        }
 
         /**
          * It opens the database
@@ -448,6 +451,21 @@
             TypedQuery<Event> q = db.createQuery("SELECT ev FROM Event ev WHERE ev.eventDate=?1",
                     Event.class);
             q.setParameter(1, date);
+            return q.getResultList();
+        }
+
+        /**
+         * It retrieves from the database the events of a given date and competition
+         * @param date an instance of date
+         * @param competitionID competition in which the events are held at
+         * @return collection of events
+         */
+        public List<Event> getEvents(Date date, int competitionID) {
+            // System.out.println(">> DataAccess: getEvents => date = " + date);
+            TypedQuery<Event> q = db.createQuery("SELECT ev FROM Event ev WHERE ev.eventDate=?1 AND ev.match.competition.id=?2",
+                    Event.class);
+            q.setParameter(1, date);
+            q.setParameter(2, competitionID);
             return q.getResultList();
         }
 
