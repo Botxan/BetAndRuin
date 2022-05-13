@@ -36,8 +36,11 @@ import javax.mail.MessagingException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Calendar;
 import java.util.ResourceBundle;
 
@@ -141,7 +144,8 @@ public class ProfileController implements Controller {
     private void initializeAvatar() {
         // Load user's avatar
         //Image avatarImg = new Image("file:src/main/resources/img/avatar/" + businessLogic.getCurrentUser().getAvatar());
-        //avatar.setImage(avatarImg);
+        Image avatarImg = new Image(System.getProperty("user.home") + "/config/avatar/" + businessLogic.getCurrentUser().getAvatar());
+        avatar.setImage(avatarImg);
 
         Circle avatarClip = new Circle(avatar.getFitWidth()/2, avatar.getFitHeight()/2, avatar.getFitWidth()/2);
         avatarClip.setFill(Color.BLUE);
@@ -152,7 +156,7 @@ public class ProfileController implements Controller {
      * Opens the file chooser and attempts to upload the avatar
      */
     @FXML
-    void uploadAvatar() {
+    void uploadAvatar() throws URISyntaxException {
         FileChooser fc = new FileChooser();
         FileChooser.ExtensionFilter ext = new FileChooser.ExtensionFilter("*.jpg, *.jpeg, *.png","*.jpg", "*.JPG", "*.jpeg", "*.JPEG", "*.png", "*.PNG");
         fc.getExtensionFilters().add(ext);
@@ -165,10 +169,10 @@ public class ProfileController implements Controller {
      * Attempts to remove the current avatar of the user and displays the default one.
      */
     @FXML
-    void removeAvatar() {
+    void removeAvatar() throws URISyntaxException {
         //File f = new File("file:src/main/resources/img/avatar/default.png");
-
-        //updateAvatar(f);
+        File f = Paths.get(System.getProperty("user.home") + "/config/avatar/default.png").toFile();
+        updateAvatar(f);
     }
 
     /**
@@ -176,24 +180,25 @@ public class ProfileController implements Controller {
      * storing the new one.
      * @param f new avatar file
      */
-    private void updateAvatar(File f) {
+    private void updateAvatar(File f) throws URISyntaxException {
         String extension = f.getName().substring(f.getName().lastIndexOf("."));
         String oldAvatarFileName = businessLogic.getCurrentUser().getAvatar();
 
         // Remove old avatar if exists
         if (!oldAvatarFileName.equals("default.png")) {
             //File oldAvatar = new File("src/main/resources/img/avatar/" + oldAvatarFileName);
-            //if (oldAvatar.exists()) oldAvatar.delete();
+            File oldAvatar = Paths.get(System.getProperty("user.home") + "/config/avatar/" + businessLogic.getCurrentUser().getAvatar()).toFile();
+            if (oldAvatar.exists()) oldAvatar.delete();
         }
-    /*
+
         // Store the new avatar only if it is not the default (i.e. when not removing avatar)
         if (!f.getName().equals("default.png")) {
             try {
-                Files.copy(new FileInputStream(f), Path.of("src/main/resources/img/avatar/" + businessLogic.getCurrentUser().getUserID() + extension));
+                Files.copy(new FileInputStream(f), Paths.get(System.getProperty("user.home") + "/config/avatar/" + businessLogic.getCurrentUser().getUserID().toString() + extension));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }*/
+        }
 
         businessLogic.updateAvatar(extension);
 

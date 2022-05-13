@@ -204,6 +204,7 @@ public class MovementsController implements Controller {
      * @param t the transaction to be displayed
      */
     private void addNewTransactionPane(Transaction t) {
+
         // Create the pane for the transaction
         Pane entry = new Pane();
         entry.setPrefWidth(movementsPane.getPrefWidth() - 5);
@@ -259,13 +260,15 @@ public class MovementsController implements Controller {
         // Add type label
         Label type = new Label();
         type.getStyleClass().add("type-lbl");
+
         if (t.getType() == 0) {
             type.setText(ResourceBundle.getBundle("Etiquetas").getString("Deposit"));
             type.getStyleClass().add("deposit-lbl");
         } else {
-            type.setText(ResourceBundle.getBundle("ETiquetas").getString("Withdraw"));
+            type.setText(ResourceBundle.getBundle("Etiquetas").getString("Withdraw"));
             type.getStyleClass().add("withdraw-lbl");
         }
+
         type.setAlignment(Pos.CENTER);
         type.setLayoutY(20);
         type.setLayoutX(520);
@@ -353,7 +356,7 @@ public class MovementsController implements Controller {
     @Override
     public void redraw() {
         updateMoneyLabels();
-        initMovementsPane();
+        //initMovementsPane();
         updateMoneyLabels();
 
         confirmDepositMoneyBtn.setText(ResourceBundle.getBundle("Etiquetas").getString("DepositMoney"));
