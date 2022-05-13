@@ -25,7 +25,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: DMG file
-          path: rklaim/target/installer/*.dmg
+          path: betandruin2022/target/installer/*.dmg
       - name: Upload PKG
         uses: actions/upload-artifact@v2
         with:
