@@ -1,5 +1,6 @@
 package businessLogic;
 
+import com.google.gson.internal.bind.util.ISO8601Utils;
 import configuration.ConfigXML;
 import configuration.UtilDate;
 import dataAccess.DataAccess;
@@ -9,8 +10,13 @@ import utils.Dates;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Paths;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -319,10 +325,30 @@ public class BlFacadeImplementation implements BlFacade {
 		dbManager.close();
 
 		// Remove all user avatars except the ones used for testing
-		File avatarDir = new File("src/main/resources/img/avatar");
-		for(File file: avatarDir.listFiles())
-			if (!Arrays.asList("default.png", "1.jpeg", "2.jpeg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg").contains(file.getName()))
-				file.delete();
+
+		final InputStream avatarDir = getClass().getResourceAsStream("/img/avatar");
+		final InputStreamReader isr = new InputStreamReader(avatarDir, StandardCharsets.UTF_8);
+		final BufferedReader br = new BufferedReader(isr);
+		// this only works inside intellij, while developing
+		// File avatarDir = new File("src/main/resources/img/avatar");
+		// https://stackoverflow.com/questions/26185137/spring-boot-resource-not-found-when-using-executeable-jar/39818817#39818817
+
+		//for(File file: avatarDir.listFiles())
+		//	if (!Arrays.asList("default.png", "1.jpeg", "2.jpeg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg").contains(file.getName()))
+		//		file.delete();
+
+		System.out.println("Printing avatar paths...");
+		br.lines()
+				.filter(name -> !Arrays.asList("default.png", "1.jpeg", "2.jpeg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg").contains(name))
+				.map(name -> "/img/avatar/" + name)
+				.map(path -> getClass().getResource(path))
+				.forEach(resource -> {
+					try {
+						Paths.get(resource.toURI()).toFile().delete();
+					} catch (URISyntaxException e) {
+						e.printStackTrace();
+					}
+				});
 	}
 
 	@WebMethod

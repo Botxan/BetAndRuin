@@ -62,13 +62,15 @@ public class Manager {
         List<Match> matches = null;
         if(body != null)
             if(!body.isEmpty()) {
-                System.out.println(body);
+                //System.out.println(body);
                 Gson gson = new Gson();
                 JsonObject jsonObject;
 
                 jsonObject = gson.fromJson(body, JsonObject.class);
                 Type matchListType = new TypeToken<ArrayList<Match>>() {
                 }.getType();
+
+
                 matches = gson.fromJson((jsonObject.get("matches")), matchListType);
             }
         return matches;
@@ -79,7 +81,7 @@ public class Manager {
         List<Match> matches = null;
         if(body != null)
             if(!body.isEmpty()) {
-                System.out.println(body);
+                //System.out.println(body);
                 Gson gson = new Gson();
                 JsonObject jsonObject;
 
@@ -96,7 +98,7 @@ public class Manager {
     {
         HashMap<Integer, Team> result = new HashMap<Integer, Team>();
         String body = this.request("/competitions/" +competitionID + "/teams");
-        System.out.println(body);
+        //System.out.println(body);
 
         Gson gson = new Gson();
         JsonObject jsonObject;
@@ -116,7 +118,7 @@ public class Manager {
         /*List<Match> matches = manager.getMatches(2014);
         System.out.println(matches.get(0).utcDate);
         System.out.println(matches.get(0).homeTeam.id);*/
-        System.out.println(manager.getTeams(2014));
+        //System.out.println(manager.getTeams(2014));
     }
 }
 

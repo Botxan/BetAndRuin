@@ -83,7 +83,7 @@ public class MailSender {
 
         // Second part
         messageBodyPart = new MimeBodyPart();
-        DataSource fds = new FileDataSource("src/main/resources/img/final_logo.png");
+        DataSource fds = new FileDataSource(getClass().getResource("/img/final_logo.png").toString());
         messageBodyPart.setDataHandler(new DataHandler(fds));
         messageBodyPart.setHeader("Content-ID", "<image>");
         multipart.addBodyPart(messageBodyPart);

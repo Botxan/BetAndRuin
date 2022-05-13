@@ -84,6 +84,7 @@ public class UsersController implements Controller {
         FilteredList<User> filteredUsers = new FilteredList<>(users, u -> true);
 
         // Bind columns
+        /*
         avatarCol.setCellValueFactory(u -> {
             Image avatarImg = new Image("file:src/main/resources/img/avatar/" + u.getValue().getAvatar());
             ImageView imgView = new ImageView(avatarImg);
@@ -93,6 +94,7 @@ public class UsersController implements Controller {
             imgView.setClip(avatarClip);
             return new SimpleObjectProperty<>(imgView);
         });
+        */
         avatarCol.setReorderable(false);
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
         usernameCol.setReorderable(false);

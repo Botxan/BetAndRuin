@@ -168,8 +168,10 @@ public class RegisterController implements Controller, Initializable {
         creditCardPanel.setVisible(false);
         errorLbl.setEditable(false);
 
-        file = new File("./src/main/resources/video/LoginUIVideo.mp4");
-        media = new Media(file.toURI().toString());
+        // Won't work in JAR
+        //file = new File("./src/main/resources/video/LoginUIVideo.mp4");
+        /*
+        media = new Media(getClass().getResource("/video/LoginUIVideo.mp4").toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
         mediaPlayer.setOnEndOfMedia(new Runnable() {
@@ -182,6 +184,7 @@ public class RegisterController implements Controller, Initializable {
         mediaView.fitHeightProperty().bind(mediaViewPane.heightProperty());
         mediaView.fitWidthProperty().set(mediaView.getFitHeight() * 16/9);
         mediaPlayer.setVolume(0);
+         */
 
         addCreditCardNumberFormatter();
     }

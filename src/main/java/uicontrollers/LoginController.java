@@ -84,11 +84,13 @@ public class LoginController implements Controller, Initializable {
 
         redraw();
 
-        file = new File("./src/main/resources/video/LoginUIVideo.mp4");
+        // Won't work when creating JAR
+        //file = new File("./src/main/resources/video/LoginUIVideo.mp4");
 
         usernameErrorText.setVisible(false);
         passwordErrorText.setVisible(false);
-        media = new Media(file.toURI().toString());
+        /*
+        media = new Media(getClass().getResource("/video/LoginUIVideo.mp4").toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
         mediaPlayer.setOnEndOfMedia(new Runnable() {
@@ -101,6 +103,7 @@ public class LoginController implements Controller, Initializable {
         mediaView.fitHeightProperty().bind(mediaViewPane.heightProperty());
         mediaView.fitWidthProperty().set(mediaView.getFitHeight() * 16/9);
         mediaPlayer.setVolume(0);
+         */
     }
 
     /**

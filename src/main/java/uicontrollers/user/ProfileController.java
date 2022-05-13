@@ -140,8 +140,8 @@ public class ProfileController implements Controller {
      */
     private void initializeAvatar() {
         // Load user's avatar
-        Image avatarImg = new Image("file:src/main/resources/img/avatar/" + businessLogic.getCurrentUser().getAvatar());
-        avatar.setImage(avatarImg);
+        //Image avatarImg = new Image("file:src/main/resources/img/avatar/" + businessLogic.getCurrentUser().getAvatar());
+        //avatar.setImage(avatarImg);
 
         Circle avatarClip = new Circle(avatar.getFitWidth()/2, avatar.getFitHeight()/2, avatar.getFitWidth()/2);
         avatarClip.setFill(Color.BLUE);
@@ -166,8 +166,9 @@ public class ProfileController implements Controller {
      */
     @FXML
     void removeAvatar() {
-        File f = new File("file:src/main/resources/img/avatar/default.png");
-        updateAvatar(f);
+        //File f = new File("file:src/main/resources/img/avatar/default.png");
+
+        //updateAvatar(f);
     }
 
     /**
@@ -181,10 +182,10 @@ public class ProfileController implements Controller {
 
         // Remove old avatar if exists
         if (!oldAvatarFileName.equals("default.png")) {
-            File oldAvatar = new File("src/main/resources/img/avatar/" + oldAvatarFileName);
-            if (oldAvatar.exists()) oldAvatar.delete();
+            //File oldAvatar = new File("src/main/resources/img/avatar/" + oldAvatarFileName);
+            //if (oldAvatar.exists()) oldAvatar.delete();
         }
-
+    /*
         // Store the new avatar only if it is not the default (i.e. when not removing avatar)
         if (!f.getName().equals("default.png")) {
             try {
@@ -192,7 +193,7 @@ public class ProfileController implements Controller {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        }*/
 
         businessLogic.updateAvatar(extension);
 

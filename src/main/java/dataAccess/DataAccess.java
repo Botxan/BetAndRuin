@@ -371,7 +371,7 @@
             List<Match> matches;
 
             for(Competition c : competitions) {
-                System.out.println(c);
+                //System.out.println(c);
                 db.persist(c);
             }
                 matches = mg.getMatches();
@@ -400,7 +400,7 @@
 
             String fileName = config.getDataBaseFilename();
 
-            if (Files.exists(Paths.get(System.getProperty("user.home") + "/config/" + fileName))) {
+            if (Files.exists(Paths.get(System.getProperty("user.home") + "/config/"))) {
                 System.out.println("Opening db from user.home");
                 fileName = System.getProperty("user.home") + "/config/" + fileName;
                 System.out.println("The file name is: " + fileName);
