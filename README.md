@@ -112,7 +112,8 @@ Compulsory
 - [x] Sequence diagrams:
   * [Login](https://github.com/Botxan/betandruin2022/blob/main/doc/Sprint_2_UML.mdj)
   * [Register](https://github.com/Botxan/betandruin2022/blob/main/doc/Sprint_2_UML.mdj)
-  
+
+
 Optional/Extras
   - [x] [Custom navigation bar](https://github.com/Botxan/betandruin2022/tree/NavBar). We have removed the default top bar and designed a bar with a more modern look and more utilities, such has [two-way navigation](https://github.com/Botxan/betandruin2022/commit/1efa6e26d555c15238084a5f0b7f6263a12016af) and [dynamic language changer](https://github.com/Botxan/betandruin2022/commit/6ce2f1cdd99e52a736dd69f638d7ab567bd0bcbe). Also, the new bar has a nested sub-bar that will show the [buttons to login and register](https://github.com/Botxan/betandruin2022/commit/d636dc7f84ba6a0b59729c35304358a1ff62c57f) if the user is not logged in, and [user's avatar[^avatar] as well and a dropdown menu](https://github.com/Botxan/betandruin2022/commit/69e34eea5df37cc5061974202b5924bfc02e0649) with several utilities if the user is authenticated.
   - [x] [Earth globe event searcher](https://github.com/Botxan/betandruin2022/commit/d3f92d8fcbd6c676b0938510d1ef93f1d68eccba). Although it is part of Browse Events GUI redesign, we believe that the new function to search for events is remarkable. The user can now select events by country by clicking on the earth globe on the left side of the interface. Similarly, if the user selects an event from the events table, the ball will automatically rotate to the country where the event takes place.
@@ -138,14 +139,16 @@ For this latest iteration, we have tried to improve the user and administrator e
 To do this, we have separated the application in terms of a gambler, an administrator and a common area for both of them and anonymous users, the portal for betting and viewing events.
 
 **List of tasks carried out during iteration:**
+
 Compulsory
 - [x] [Class diagram](https://github.com/Botxan/betandruin2022/commit/77366d4798071671c4d9d7d4b9efbc2a8d8e5128)
 - [x] [Sequence diagram for Publish Results use case](https://github.com/Botxan/betandruin2022/commit/77366d4798071671c4d9d7d4b9efbc2a8d8e5128)
 - [x] Use cases:
   * [Show money movements](https://github.com/Botxan/betandruin2022/commit/b2dacb239165df7556763b068a2bf9862e29160a)
   * [Publish results and update balances](https://github.com/Botxan/betandruin2022/commit/42cfacdf4acdc78f2d3f54090bbad9bcd143ac0d)
-  * [Remove events: remove questions, forecast and bet refunds in cascade] (https://github.com/Botxan/betandruin2022/commit/e8664ffbe86555b9d644bbaf15137322d63bd827)
+  * [Remove events: remove questions, forecast and bet refunds in cascade](https://github.com/Botxan/betandruin2022/commit/e8664ffbe86555b9d644bbaf15137322d63bd827)
 - [x] [Updated domain model and event flows](https://github.com/Botxan/betandruin2022/commit/77366d4798071671c4d9d7d4b9efbc2a8d8e5128)
+
 
 Optional/Extras
 - [x] Use cases (admin)
@@ -175,6 +178,5 @@ The administrator can now manage events, quotas and forecasts in a much simpler 
 - [x] Email
   * [Email code sender for password change authorization](https://github.com/Botxan/betandruin2022/commit/91cc87d27283bbb50171d08a434e6beaa48ce5b7). If the user wants to change his/her password, he/she will receive a 5-digit code in his/her personal e-mail that must be entered in the application to authorize the operation. As an extra, the email is customized with some HTML and CSs, and since it is multipart, the end user can download our logo.
 
-- [x] [Builds](https://github.com/Botxan/betandruin2022/commit/a34b8220a81194cef9845a93a76b4b1f5dc3bc58). We have generated installers for Windows, MacOS and Linux. You can find them here.
-
----
+- [x] Installers
+  * [Builds](https://github.com/Botxan/betandruin2022/commit/a34b8220a81194cef9845a93a76b4b1f5dc3bc58). We have generated installers for Windows, MacOS and Linux. You can find them here.
