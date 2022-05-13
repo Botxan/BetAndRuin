@@ -172,8 +172,8 @@
                 // Create dummy user and admin
                 byte [] salt = BlFacadeImplementation.generateSalt();
                 byte[] password = BlFacadeImplementation.hashPassword("123123", salt);
-                User user1 = new User("user1", "Antonio", "Geremías Gonzalez", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"), "P. Sherman street Wallaby 42 Sydney", "betandruin22@gmail.com", "1.jpeg", password, salt, 1, 0D);
-                User admin1 = new User("admin1", "adminFirstName", "adminLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"), "adminAddress", "admin@email.com", "2.jpeg", password, salt, 2, 0D);
+                User user1 = new User("user1", "Antonio", "Geremías Gonzalez", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"), "P. Sherman street Wallaby 42 Sydney", "betandruin22@gmail.com", "1.jpg", password, salt, 1, 0D);
+                User admin1 = new User("admin1", "adminFirstName", "adminLastName", new SimpleDateFormat("yyyy-MM-dd").parse("1980-02-02"), "adminAddress", "admin@email.com", "2.jpg", password, salt, 2, 0D);
 
                 // Some other dummy users
                 User anton = new User("anton", "Anton", "Kennedy Wagner", new SimpleDateFormat("yyyy-MM-dd").parse("1965-09-02"), "1736 Maxwell Street, Hartford, Connecticut", "antonBetNRuin@gmail.com", "3.jpg", password, salt, 1, 0D);

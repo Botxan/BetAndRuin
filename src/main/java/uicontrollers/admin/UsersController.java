@@ -32,6 +32,8 @@ import ui.MainGUI;
 import uicontrollers.Controller;
 import utils.Formatter;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -84,9 +86,11 @@ public class UsersController implements Controller {
         FilteredList<User> filteredUsers = new FilteredList<>(users, u -> true);
 
         // Bind columns
-        /*
         avatarCol.setCellValueFactory(u -> {
             Image avatarImg = new Image("file:src/main/resources/img/avatar/" + u.getValue().getAvatar());
+            //Image avatarImg = new Image(getClass().getResource("/img/avatar/") + u.getValue().getAvatar());
+            if (avatarImg == null) System.out.println("Image " + getClass().getResource("/img/avatar/") + u.getValue().getAvatar()  + "not found!!!");
+            System.out.println("Looking for: " + getClass().getResource("/img/avatar/") + u.getValue().getAvatar());
             ImageView imgView = new ImageView(avatarImg);
             imgView.setFitWidth(40);
             imgView.setFitHeight(40);
@@ -94,7 +98,7 @@ public class UsersController implements Controller {
             imgView.setClip(avatarClip);
             return new SimpleObjectProperty<>(imgView);
         });
-        */
+
         avatarCol.setReorderable(false);
         usernameCol.setCellValueFactory(new PropertyValueFactory<>("username"));
         usernameCol.setReorderable(false);

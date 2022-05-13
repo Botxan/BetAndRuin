@@ -89,7 +89,7 @@ public class LoginController implements Controller, Initializable {
 
         usernameErrorText.setVisible(false);
         passwordErrorText.setVisible(false);
-        /*
+
         media = new Media(getClass().getResource("/video/LoginUIVideo.mp4").toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
@@ -103,7 +103,7 @@ public class LoginController implements Controller, Initializable {
         mediaView.fitHeightProperty().bind(mediaViewPane.heightProperty());
         mediaView.fitWidthProperty().set(mediaView.getFitHeight() * 16/9);
         mediaPlayer.setVolume(0);
-         */
+
     }
 
     /**

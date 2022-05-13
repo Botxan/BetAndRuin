@@ -104,7 +104,7 @@ public class WelcomeController implements Controller, Initializable {
 
         // Won't work on JAR
         //file = new File("./src/main/resources/video/LoginUIVideo.mp4");
-/*
+
         media = new Media(getClass().getResource("/video/LoginUIVideo.mp4").toString());
         mediaPlayer = new MediaPlayer(media);
         mediaPlayer.play();
@@ -118,7 +118,7 @@ public class WelcomeController implements Controller, Initializable {
         mediaView.fitHeightProperty().bind(mediaViewPane.heightProperty());
         mediaView.fitWidthProperty().set(mediaView.getFitHeight() * 16/9);
         mediaPlayer.setVolume(0);
-        */
+
 
         redraw();
     }

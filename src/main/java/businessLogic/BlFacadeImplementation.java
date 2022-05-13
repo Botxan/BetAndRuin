@@ -334,12 +334,12 @@ public class BlFacadeImplementation implements BlFacade {
 		// https://stackoverflow.com/questions/26185137/spring-boot-resource-not-found-when-using-executeable-jar/39818817#39818817
 
 		//for(File file: avatarDir.listFiles())
-		//	if (!Arrays.asList("default.png", "1.jpeg", "2.jpeg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg").contains(file.getName()))
+		//	if (!Arrays.asList("default.png", "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg").contains(file.getName()))
 		//		file.delete();
 
 		System.out.println("Printing avatar paths...");
 		br.lines()
-				.filter(name -> !Arrays.asList("default.png", "1.jpeg", "2.jpeg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg").contains(name))
+				.filter(name -> !Arrays.asList("default.png", "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg").contains(name))
 				.map(name -> "/img/avatar/" + name)
 				.map(path -> getClass().getResource(path))
 				.forEach(resource -> {
