@@ -6,14 +6,12 @@ import configuration.UtilDate;
 import dataAccess.DataAccess;
 import domain.*;
 import exceptions.*;
+import org.apache.commons.io.FileUtils;
 import utils.Dates;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
@@ -283,9 +281,9 @@ public class BlFacadeImplementation implements BlFacade {
 	}
 
 	@WebMethod
-	public void updateAvatar(String avatarExtension) {
+	public void updateAvatar(String fileName) {
 		dbManager.open(false);
-		dbManager.updateAvatar(currentUser.getUserID() + avatarExtension, currentUser);
+		dbManager.updateAvatar(fileName, currentUser);
 		dbManager.close();
 
 		refreshUser();
@@ -337,7 +335,6 @@ public class BlFacadeImplementation implements BlFacade {
 		//	if (!Arrays.asList("default.png", "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg").contains(file.getName()))
 		//		file.delete();
 
-		System.out.println("Printing avatar paths...");
 		br.lines()
 				.filter(name -> !Arrays.asList("default.png", "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg").contains(name))
 				.map(name -> "/img/avatar/" + name)
@@ -349,6 +346,18 @@ public class BlFacadeImplementation implements BlFacade {
 						e.printStackTrace();
 					}
 				});
+
+
+		if (System.getProperty("user.home") != null) {
+			try {
+				File src = Paths.get(System.getProperty("user.home") + "/config/avatar").toFile();
+				System.out.println("Superpath: " + src);
+				FileUtils.cleanDirectory(src);
+				FileUtils.copyDirectory(Paths.get(System.getProperty("user.home") + "/config/readonly/avatar").toFile(), src);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	@WebMethod

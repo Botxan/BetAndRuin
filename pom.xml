@@ -147,6 +147,14 @@
 			<artifactId>batik-transcoder</artifactId>
 			<version>1.13</version>
 		</dependency>
+
+		<!-- Apache commons -->
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

@@ -188,9 +188,9 @@ public interface BlFacade  {
 
 	/**
 	 * Updates user's avatar.
-	 * @param avatarExtension the extension of the avatar file name
+	 * @param fileName the avatar fileName
 	 */
-	@WebMethod public void updateAvatar(String avatarExtension);
+	@WebMethod public void updateAvatar(String fileName);
 
 	/**
 	 * Upates user's password.

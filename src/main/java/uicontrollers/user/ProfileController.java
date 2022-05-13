@@ -192,15 +192,15 @@ public class ProfileController implements Controller {
         }
 
         // Store the new avatar only if it is not the default (i.e. when not removing avatar)
-        if (!f.getName().equals("default.png")) {
+        if (f.getName().equals("default.png")) businessLogic.updateAvatar("default.png");
+        else {
             try {
                 Files.copy(new FileInputStream(f), Paths.get(System.getProperty("user.home") + "/config/avatar/" + businessLogic.getCurrentUser().getUserID().toString() + extension));
+                businessLogic.updateAvatar(businessLogic.getCurrentUser().getUserID() + extension);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-
-        businessLogic.updateAvatar(extension);
 
         // Display the new avatar
         Image newAvatar = new Image(String.valueOf(f));
