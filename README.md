@@ -82,7 +82,7 @@ Optional/Extras
 ### 2<sup>nd</sup> Iteration. Migration to JavaFX and more use cases
  <p float="left">
   <img width="200" src="https://user-images.githubusercontent.com/33251573/163243866-fa74e9d0-9b2a-48f4-b23e-82016f70d0cc.gif">
-  <img width="400" src="https://user-images.githubusercontent.com/33251573/163243824-a9462083-2456-4d87-976a-9a02c8dd15f8.gif">
+  <img width="436" src="https://user-images.githubusercontent.com/33251573/163243824-a9462083-2456-4d87-976a-9a02c8dd15f8.gif">
   <img width="800" src="https://user-images.githubusercontent.com/33251573/163265724-1c8e3fb7-35dd-43ed-9ba2-1618eed147ec.gif">
  </p> 
  
