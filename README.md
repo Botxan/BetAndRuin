@@ -18,10 +18,11 @@
 
 ## Instalation
 ### Prerequisites
-- In order to fetch football matches, you have to register in an external Rest API like [this one](https://www.football-data.org/), and use the token provided by the API.
+- In order to fetch football matches, you have to register in an external Rest API like [this one](https://www.football-data.org/), and use the token provided by the API. Then, add your token to a new TOKEN environment variable.
 - Copy the config file located in the root of the repository to your user.home directory. Otherwise you may have problems connecting to the database and fetching some avatar images.
+- Set environment variables for the email (EMAIL) and password (PASS_EMAIL) used by the MailSender class. If you are using Gmail, remember to activate the "Access to less secure applications" option, otherwise the MailSender class will not be able to send emails.
 
-You can download the latest version [here]().
+You can download the latest version [here](https://github.com/Botxan/betandruin2022/releases/tag/untagged-92f68868d8f4db575729).
 
 
 ---
@@ -179,4 +180,4 @@ The administrator can now manage events, quotas and forecasts in a much simpler 
   * [Email code sender for password change authorization](https://github.com/Botxan/betandruin2022/commit/91cc87d27283bbb50171d08a434e6beaa48ce5b7). If the user wants to change his/her password, he/she will receive a 5-digit code in his/her personal e-mail that must be entered in the application to authorize the operation. As an extra, the email is customized with some HTML and CSs, and since it is multipart, the end user can download our logo.
 
 - [x] Installers
-  * [Builds](https://github.com/Botxan/betandruin2022/commit/a34b8220a81194cef9845a93a76b4b1f5dc3bc58). We have generated installers for Windows, MacOS and Linux. You can find them here.
+  * [Builds](https://github.com/Botxan/betandruin2022/commit/a34b8220a81194cef9845a93a76b4b1f5dc3bc58). We have generated installers for Windows, MacOS and Linux with the help of GitHub Actions. You can find them [here](https://github.com/Botxan/betandruin2022/actions).

@@ -5,5 +5,7 @@ domain
 exceptions
 ui
 uicontrollers
+uicontrollers.admin
+uicontrollers.user
 utils
 utils.skin
