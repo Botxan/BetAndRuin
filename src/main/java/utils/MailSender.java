@@ -22,7 +22,7 @@ public class MailSender {
      * Constructor. Setups the mail server.
      */
     public MailSender() {
-        from = "betandruin22@gmail.com";
+        from = System.getenv("EMAIL");
         host = "smtp.gmail.com";
         // Get system properties
         Properties properties = System.getProperties();
@@ -35,12 +35,12 @@ public class MailSender {
         // Get the Session object.// and pass username and password
         session = Session.getInstance(properties, new javax.mail.Authenticator() {
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication("betandruin22@gmail.com", "ruinandbet22");
+                return new PasswordAuthentication(System.getenv("EMAIL"), System.getenv("EMAIL_PASS"));
             }
         });
 
         // Used to debug SMTP issues
-        // session.setDebug(true);
+        session.setDebug(true);
     }
 
     /**
@@ -65,7 +65,7 @@ public class MailSender {
 
         // First part
         BodyPart messageBodyPart = new MimeBodyPart();
-        String htmlText = "<div style=\"margin: 0 auto; width: 500px; padding: 20px; background-color: #ffffff; border: 1px solid #EBEDEF; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif\">\n" +
+        String htmlText = "<div style=\"margin: 0 auto; width: 500px; padding: 20px; background-color: #F4F6F6; border: 1px solid #EBEDEF; font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif\">\n" +
                 "        <h1 style=\"font-weight: 100;\">Hello " + username + ",</h1>\n" +
                 "        <p style=\"font-weight: bold;\">A request has been received to change the password for your BetAndRuin account.</p>\n" +
                 "        <p>You code is: <b>" + code + "</b>.</p>\n" +
@@ -83,8 +83,10 @@ public class MailSender {
 
         // Second part
         messageBodyPart = new MimeBodyPart();
-        DataSource fds = new FileDataSource(getClass().getResource("/img/final_logo.png").toString());
+        String logoFilePath = getClass().getResource("/img/final_logo.png").toString();
+        DataSource fds = new FileDataSource(logoFilePath.substring(5));
         messageBodyPart.setDataHandler(new DataHandler(fds));
+        messageBodyPart.setFileName("BetAndRuin logo");
         messageBodyPart.setHeader("Content-ID", "<image>");
         multipart.addBodyPart(messageBodyPart);
 

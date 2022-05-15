@@ -241,6 +241,7 @@ public class LoginController implements Controller, Initializable {
         Platform.runLater(() -> {
             mainGUI.getHistory().clear();
             ((NavBarController) mainGUI.navBarLag.getController()).enableHistoryBtns();
+
         });
     }
 }

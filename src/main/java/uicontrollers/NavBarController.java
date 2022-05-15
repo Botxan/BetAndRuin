@@ -226,8 +226,10 @@ public class NavBarController implements Controller {
      */
     @FXML
     void logout() {
+
         businessLogic.setCurrentUser(null);
         mainGUI.goForward("Login");
+
     }
 
     /**
@@ -256,7 +258,8 @@ public class NavBarController implements Controller {
             updateWalletLabel();
 
             String avatar = currentUser.getAvatar();
-            userBtnAvatar.setImage(new Image(getClass().getResource("/img/avatar/") + avatar));
+            // userBtnAvatar.setImage(new Image(getClass().getResource("/img/avatar/") + avatar));
+            userBtnAvatar.setImage(new Image(System.getProperty("user.home") + "/config/avatar/" + avatar));
         }
     }
 

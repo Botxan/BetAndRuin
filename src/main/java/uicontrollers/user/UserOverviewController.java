@@ -80,6 +80,7 @@ public class UserOverviewController implements Controller {
         // Event description
         Label evLbl = new Label(e.getDescription());
         evLbl.getStyleClass().add("event-description");
+        evLbl.setMaxWidth(200);
         evLbl.setLayoutX(21);
         evLbl.setLayoutY(10);
 
@@ -143,6 +144,7 @@ public class UserOverviewController implements Controller {
      * Initializes the chart with wallet situation during the previous month
      */
     private void initRevenueChart() {
+        revenueChart.getData().clear();
         // Create the series
         XYChart.Series series = new XYChart.Series();
 

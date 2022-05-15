@@ -7,6 +7,8 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlID;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
 
 /**
@@ -288,7 +290,9 @@ public class User implements Serializable {
 	 * @param money the money to deposit in the wallet
 	 */
 	public void depositMoneyIntoWallet(Double money) {
-		wallet += money;
+		BigDecimal amount = new BigDecimal(money);
+		amount.setScale(2, RoundingMode.DOWN);
+		wallet += amount.doubleValue();
 	}
 
 	public void withdrawMoneyFromWallet(Double money) throws NotEnoughMoneyException {

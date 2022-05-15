@@ -603,7 +603,7 @@ public class ForecastsController implements Controller {
         resultLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Result"));
         feeLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("Fee"));
         markAsCorrectLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("MarkAsCorrectForecastAndPublish"));
-        irreversibleLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("MarkAsCorrectForecastAndPublish"));
+        irreversibleLbl.setText(ResourceBundle.getBundle("Etiquetas").getString("IrreversibleAction"));
 
         // Table
         forecastsTbl.setPlaceholder(new Label(ResourceBundle.getBundle("Etiquetas").getString("NoContentInTable")));

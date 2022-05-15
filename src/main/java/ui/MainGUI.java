@@ -233,7 +233,7 @@ public class MainGUI {
         if (window.getController() instanceof WelcomeController ||
             window.getController() instanceof LoginController ||
             window.getController() instanceof RegisterController)
-            mainWrapper.setTop(null);
+            Platform.runLater(() -> mainWrapper.setTop(null));
         else {
             mainWrapper.setTop(navBarLag.getUi());
             if (window.getController() instanceof AdminMenuController || window.getController() instanceof UserMenuController) {
@@ -285,7 +285,6 @@ public class MainGUI {
         Window newWindow = getWindow(title);
         // Move to the requested window and store the old one
         history.moveToWindow(newWindow);
-
         ((NavBarController) navBarLag.getController()).enableHistoryBtns();
         showScene(newWindow);
     }

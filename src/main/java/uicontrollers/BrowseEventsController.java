@@ -44,6 +44,7 @@ import utils.skin.MyDatePickerSkin;
 import org.apache.poi.ss.usermodel.Row;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
@@ -471,8 +472,9 @@ public class BrowseEventsController implements Controller {
         Float currentPrice = Float.parseFloat(euroNumber.getText());
         if (forecastsTbl.getSelectionModel().getSelectedItem() != null) {
             currentPrice += 0.50F;
-            euroNumber.setText(String.valueOf(currentPrice));
-            gainNumber.setText(String.valueOf(currentPrice * forecastsTbl.getSelectionModel().getSelectedItem().getFee()));
+            BigDecimal bd = new BigDecimal(currentPrice);
+            euroNumber.setText(Formatter.twoDecimals(currentPrice));
+            gainNumber.setText(Formatter.twoDecimals(currentPrice * forecastsTbl.getSelectionModel().getSelectedItem().getFee()));
         }
     }
 
@@ -482,8 +484,8 @@ public class BrowseEventsController implements Controller {
         if (forecastsTbl.getSelectionModel().getSelectedItem() != null) {
             if(currentPrice - 0.5 >= forecastsTbl.getSelectionModel().getSelectedItem().getFee())
                 currentPrice -= 0.50F;
-            euroNumber.setText(String.valueOf(currentPrice));
-            gainNumber.setText(String.valueOf(currentPrice * forecastsTbl.getSelectionModel().getSelectedItem().getFee()));
+            euroNumber.setText(Formatter.twoDecimals(currentPrice));
+            gainNumber.setText(Formatter.twoDecimals(currentPrice * forecastsTbl.getSelectionModel().getSelectedItem().getFee()));
         }
     }
 
