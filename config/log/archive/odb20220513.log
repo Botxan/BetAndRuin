@@ -9658,3 +9658,371 @@ New type java.util.ArrayList<domain.Transaction>
 [2022-05-13 18:24:06 #30 type.registry] 
 New type java.util.ArrayList<domain.Forecast>
 
+------------------------------------------------------------------------------------------------------------------------
+
+[2022-05-13 18:36:01 #1 store] 
+Database 'C:\Users\Oihan\config\db\bets.temp' is opened by 15572@DESKTOP-RFR36DB
+
+[2022-05-13 18:36:01 #2 store] 
+Configuration path: ?
+
+[2022-05-13 18:36:01 #3 type.registry] 
+New type domain.Event
+
+[2022-05-13 18:36:01 #4 type] 
+Type domain.Event is not enhanced.
+
+[2022-05-13 18:36:01 #5 type.registry] 
+New type domain.Question
+
+[2022-05-13 18:36:01 #6 type.registry] 
+New type domain.Match
+
+[2022-05-13 18:36:01 #7 type] 
+Type domain.Question is not enhanced.
+
+[2022-05-13 18:36:01 #8 type.registry] 
+New type domain.Forecast
+
+[2022-05-13 18:36:01 #9 type] 
+Type domain.Match is not enhanced.
+
+[2022-05-13 18:36:01 #10 type.registry] 
+New type domain.Match$Score
+
+[2022-05-13 18:36:01 #11 type.registry] 
+New type domain.Team
+
+[2022-05-13 18:36:01 #12 type.registry] 
+New type domain.Competition
+
+[2022-05-13 18:36:01 #13 type] 
+Type domain.Forecast is not enhanced.
+
+[2022-05-13 18:36:01 #14 type] 
+Type domain.Competition is not enhanced.
+
+[2022-05-13 18:36:01 #15 type.registry] 
+New type domain.Area
+
+[2022-05-13 18:36:01 #16 type] 
+Type domain.Area is not enhanced.
+
+[2022-05-13 18:36:01 #17 type.registry] 
+New type domain.User
+
+[2022-05-13 18:36:01 #18 type] 
+Type domain.User is not enhanced.
+
+[2022-05-13 18:36:01 #19 type.registry] 
+New type domain.Bet
+
+[2022-05-13 18:36:01 #20 type.registry] 
+New type domain.Card
+
+[2022-05-13 18:36:01 #21 type.registry] 
+New type byte[]
+
+[2022-05-13 18:36:01 #22 type] 
+Type domain.Bet is not enhanced.
+
+[2022-05-13 18:36:01 #23 type] 
+Type domain.Card is not enhanced.
+
+[2022-05-13 18:36:01 #24 type.registry] 
+New type domain.Transaction
+
+[2022-05-13 18:36:01 #25 type] 
+Type domain.Transaction is not enhanced.
+
+[2022-05-13 18:36:04 #26 type.registry] 
+New type java.util.ArrayList<java.lang.Object>
+
+[2022-05-13 18:36:04 #27 type.registry] 
+New type java.util.ArrayList<domain.Question>
+
+[2022-05-13 18:36:04 #28 type.registry] 
+New type java.util.ArrayList<domain.Bet>
+
+[2022-05-13 18:36:04 #29 type.registry] 
+New type java.util.ArrayList<domain.Transaction>
+
+[2022-05-13 18:36:04 #30 type.registry] 
+New type java.util.ArrayList<domain.Forecast>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2022-05-13 22:43:44 #1 store] 
+Database 'C:\Users\Oihan\config\db\bets.temp' is opened by 21096@DESKTOP-RFR36DB
+
+[2022-05-13 22:43:44 #2 store] 
+Configuration path: ?
+
+[2022-05-13 22:43:44 #3 type.registry] 
+New type domain.Event
+
+[2022-05-13 22:43:44 #4 type] 
+Type domain.Event is not enhanced.
+
+[2022-05-13 22:43:44 #5 type.registry] 
+New type domain.Question
+
+[2022-05-13 22:43:44 #6 type.registry] 
+New type domain.Match
+
+[2022-05-13 22:43:44 #7 type] 
+Type domain.Question is not enhanced.
+
+[2022-05-13 22:43:44 #8 type.registry] 
+New type domain.Forecast
+
+[2022-05-13 22:43:44 #9 type] 
+Type domain.Match is not enhanced.
+
+[2022-05-13 22:43:44 #10 type.registry] 
+New type domain.Match$Score
+
+[2022-05-13 22:43:44 #11 type.registry] 
+New type domain.Team
+
+[2022-05-13 22:43:44 #12 type.registry] 
+New type domain.Competition
+
+[2022-05-13 22:43:44 #13 type] 
+Type domain.Forecast is not enhanced.
+
+[2022-05-13 22:43:44 #14 type] 
+Type domain.Competition is not enhanced.
+
+[2022-05-13 22:43:44 #15 type.registry] 
+New type domain.Area
+
+[2022-05-13 22:43:44 #16 type] 
+Type domain.Area is not enhanced.
+
+[2022-05-13 22:43:44 #17 type.registry] 
+New type domain.User
+
+[2022-05-13 22:43:44 #18 type] 
+Type domain.User is not enhanced.
+
+[2022-05-13 22:43:44 #19 type.registry] 
+New type domain.Bet
+
+[2022-05-13 22:43:44 #20 type.registry] 
+New type domain.Card
+
+[2022-05-13 22:43:44 #21 type.registry] 
+New type byte[]
+
+[2022-05-13 22:43:44 #22 type] 
+Type domain.Bet is not enhanced.
+
+[2022-05-13 22:43:44 #23 type] 
+Type domain.Card is not enhanced.
+
+[2022-05-13 22:43:44 #24 type.registry] 
+New type domain.Transaction
+
+[2022-05-13 22:43:44 #25 type] 
+Type domain.Transaction is not enhanced.
+
+[2022-05-13 22:43:46 #26 type.registry] 
+New type java.util.ArrayList<java.lang.Object>
+
+[2022-05-13 22:43:46 #27 type.registry] 
+New type java.util.ArrayList<domain.Question>
+
+[2022-05-13 22:43:46 #28 type.registry] 
+New type java.util.ArrayList<domain.Bet>
+
+[2022-05-13 22:43:46 #29 type.registry] 
+New type java.util.ArrayList<domain.Transaction>
+
+[2022-05-13 22:43:46 #30 type.registry] 
+New type java.util.ArrayList<domain.Forecast>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2022-05-13 23:33:27 #1 store] 
+Database 'C:\Users\Oihan\config\db\bets.temp' is opened by 23536@DESKTOP-RFR36DB
+
+[2022-05-13 23:33:27 #2 store] 
+Configuration path: ?
+
+[2022-05-13 23:33:27 #3 type.registry] 
+New type domain.Event
+
+[2022-05-13 23:33:27 #4 type] 
+Type domain.Event is not enhanced.
+
+[2022-05-13 23:33:27 #5 type.registry] 
+New type domain.Question
+
+[2022-05-13 23:33:27 #6 type.registry] 
+New type domain.Match
+
+[2022-05-13 23:33:27 #7 type] 
+Type domain.Question is not enhanced.
+
+[2022-05-13 23:33:27 #8 type.registry] 
+New type domain.Forecast
+
+[2022-05-13 23:33:27 #9 type] 
+Type domain.Match is not enhanced.
+
+[2022-05-13 23:33:27 #10 type.registry] 
+New type domain.Match$Score
+
+[2022-05-13 23:33:27 #11 type.registry] 
+New type domain.Team
+
+[2022-05-13 23:33:27 #12 type.registry] 
+New type domain.Competition
+
+[2022-05-13 23:33:27 #13 type] 
+Type domain.Forecast is not enhanced.
+
+[2022-05-13 23:33:27 #14 type] 
+Type domain.Competition is not enhanced.
+
+[2022-05-13 23:33:27 #15 type.registry] 
+New type domain.Area
+
+[2022-05-13 23:33:27 #16 type] 
+Type domain.Area is not enhanced.
+
+[2022-05-13 23:33:27 #17 type.registry] 
+New type domain.User
+
+[2022-05-13 23:33:27 #18 type] 
+Type domain.User is not enhanced.
+
+[2022-05-13 23:33:27 #19 type.registry] 
+New type domain.Bet
+
+[2022-05-13 23:33:27 #20 type.registry] 
+New type domain.Card
+
+[2022-05-13 23:33:27 #21 type.registry] 
+New type byte[]
+
+[2022-05-13 23:33:27 #22 type] 
+Type domain.Bet is not enhanced.
+
+[2022-05-13 23:33:27 #23 type] 
+Type domain.Card is not enhanced.
+
+[2022-05-13 23:33:27 #24 type.registry] 
+New type domain.Transaction
+
+[2022-05-13 23:33:27 #25 type] 
+Type domain.Transaction is not enhanced.
+
+[2022-05-13 23:33:29 #26 type.registry] 
+New type java.util.ArrayList<java.lang.Object>
+
+[2022-05-13 23:33:29 #27 type.registry] 
+New type java.util.ArrayList<domain.Question>
+
+[2022-05-13 23:33:29 #28 type.registry] 
+New type java.util.ArrayList<domain.Bet>
+
+[2022-05-13 23:33:29 #29 type.registry] 
+New type java.util.ArrayList<domain.Transaction>
+
+[2022-05-13 23:33:29 #30 type.registry] 
+New type java.util.ArrayList<domain.Forecast>
+
+------------------------------------------------------------------------------------------------------------------------
+
+[2022-05-13 23:34:43 #1 store] 
+Database 'C:\Users\Oihan\config\db\bets.temp' is opened by 6568@DESKTOP-RFR36DB
+
+[2022-05-13 23:34:43 #2 store] 
+Configuration path: ?
+
+[2022-05-13 23:34:43 #3 type.registry] 
+New type domain.Event
+
+[2022-05-13 23:34:43 #4 type] 
+Type domain.Event is not enhanced.
+
+[2022-05-13 23:34:43 #5 type.registry] 
+New type domain.Question
+
+[2022-05-13 23:34:43 #6 type.registry] 
+New type domain.Match
+
+[2022-05-13 23:34:43 #7 type] 
+Type domain.Question is not enhanced.
+
+[2022-05-13 23:34:43 #8 type.registry] 
+New type domain.Forecast
+
+[2022-05-13 23:34:43 #9 type] 
+Type domain.Match is not enhanced.
+
+[2022-05-13 23:34:43 #10 type.registry] 
+New type domain.Match$Score
+
+[2022-05-13 23:34:43 #11 type.registry] 
+New type domain.Team
+
+[2022-05-13 23:34:43 #12 type.registry] 
+New type domain.Competition
+
+[2022-05-13 23:34:43 #13 type] 
+Type domain.Forecast is not enhanced.
+
+[2022-05-13 23:34:43 #14 type] 
+Type domain.Competition is not enhanced.
+
+[2022-05-13 23:34:43 #15 type.registry] 
+New type domain.Area
+
+[2022-05-13 23:34:43 #16 type] 
+Type domain.Area is not enhanced.
+
+[2022-05-13 23:34:43 #17 type.registry] 
+New type domain.User
+
+[2022-05-13 23:34:43 #18 type] 
+Type domain.User is not enhanced.
+
+[2022-05-13 23:34:43 #19 type.registry] 
+New type domain.Bet
+
+[2022-05-13 23:34:43 #20 type.registry] 
+New type domain.Card
+
+[2022-05-13 23:34:43 #21 type.registry] 
+New type byte[]
+
+[2022-05-13 23:34:43 #22 type] 
+Type domain.Bet is not enhanced.
+
+[2022-05-13 23:34:43 #23 type] 
+Type domain.Card is not enhanced.
+
+[2022-05-13 23:34:43 #24 type.registry] 
+New type domain.Transaction
+
+[2022-05-13 23:34:43 #25 type] 
+Type domain.Transaction is not enhanced.
+
+[2022-05-13 23:34:44 #26 type.registry] 
+New type java.util.ArrayList<java.lang.Object>
+
+[2022-05-13 23:34:44 #27 type.registry] 
+New type java.util.ArrayList<domain.Question>
+
+[2022-05-13 23:34:44 #28 type.registry] 
+New type java.util.ArrayList<domain.Bet>
+
+[2022-05-13 23:34:44 #29 type.registry] 
+New type java.util.ArrayList<domain.Transaction>
+
+[2022-05-13 23:34:44 #30 type.registry] 
+New type java.util.ArrayList<domain.Forecast>
+
