@@ -109,14 +109,14 @@
       <Line endX="38.0" fill="WHITE" layoutX="1088.0" layoutY="132.0" startX="-27.3333740234375" startY="1.52587890625E-5" stroke="#757575" strokeWidth="0.5" />
       <Line endX="30.00006103515625" endY="3.0517578125E-5" layoutX="908.0" layoutY="309.0" startX="-39.33331298828125" stroke="#757575" strokeWidth="0.5" />
       <Line endX="38.0" fill="WHITE" layoutX="1110.0" layoutY="309.0" startX="-34.666748046875" startY="3.0517578125E-5" stroke="#757575" strokeWidth="0.5" />
-      <Pane fx:id="placeBetPane" layoutX="778.0" layoutY="-4.0" prefHeight="559.0" prefWidth="508.0" style="-fx-background-color: rgba(92, 92, 92, 0.95);" visible="false">
+      <Pane fx:id="placeBetPane" layoutX="778.0" layoutY="-4.0" prefHeight="559.0" prefWidth="508.0" style="-fx-background-color: rgba(92, 92, 92, 0.95);">
          <children>
             <AnchorPane layoutX="11.0" layoutY="355.0" prefHeight="40.0" prefWidth="457.0" style="-fx-background-color: #ededed; -fx-background-radius: 20;">
                <children>
                   <Text fx:id="youCouldWinText" layoutX="257.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="%YouCouldWin" />
                   <FontAwesomeIconView fill="#a4a4a4" glyphName="EURO" layoutX="418.0" layoutY="38.0" size="25" wrappingWidth="13.747528076171875" />
                   <FontAwesomeIconView fill="#b3cf00" glyphName="EURO" layoutX="149.0" layoutY="44.0" size="40" wrappingWidth="13.747528076171875" />
-                  <Text fx:id="euroNumber" fill="#b3cf00" layoutX="50.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00" textAlignment="RIGHT">
+                  <Text fx:id="euroNumber" fill="#b3cf00" layoutX="12.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00" textAlignment="RIGHT" wrappingWidth="130.0">
                      <font>
                         <Font name="System Bold" size="46.0" />
                      </font>
@@ -131,7 +131,7 @@
                         <FontAwesomeIconView glyphName="MINUS" />
                      </graphic>
                   </Button>
-                  <Text fx:id="gainNumber" fill="#6b6b6b" layoutX="370.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00" textAlignment="RIGHT">
+                  <Text fx:id="gainNumber" fill="#6b6b6b" layoutX="345.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0.00" textAlignment="RIGHT" wrappingWidth="70.0">
                      <font>
                         <Font name="System Bold" size="22.0" />
                      </font>

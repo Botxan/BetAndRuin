@@ -4,6 +4,7 @@ import businessLogic.BlFacade;
 import domain.User;
 import exceptions.UserNotFoundException;
 import javafx.application.Platform;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -20,6 +21,7 @@ import uicontrollers.user.*;
 import utils.History;
 import utils.Window;
 
+import java.awt.*;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
@@ -116,13 +118,20 @@ public class MainGUI {
     public void init(Stage stage) throws IOException {
         this.stage = stage;
         this.stage.initStyle(StageStyle.UNDECORATED);
-        this.stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/favicon.png")));
 
-        // TODO Not supported in JavaFX, will test it in 3rd iteration
-        // set icon for mac os (and other systems which do support this method)
-        // final Taskbar taskbar = Taskbar.getTaskbar();
-        // BufferedImage img = ImageIO.read(getClass().getResourceAsStream("/icon/favicon.png"));
-        // taskbar.setIconImage(img);
+        //this is new since JDK 9
+        final Taskbar taskbar = Taskbar.getTaskbar();
+
+        try {
+            //set icon for mac os (and other systems which do support this method)
+            taskbar.setIconImage(SwingFXUtils.fromFXImage(  new Image(getClass().getResource("/icon/favicon.png").toExternalForm()) , null));
+        } catch (final UnsupportedOperationException e) {
+            System.out.println("The os does not support: 'taskbar.setIconImage'");
+        } catch (final SecurityException e) {
+            System.out.println("There was a security exception for: 'taskbar.setIconImage'");
+        }
+
+        this.stage.getIcons().add(new Image(getClass().getResourceAsStream("/icon/favicon.png")));
 
         navBarLag = load("/NavBarGUI.fxml", "NavBarController",  SCENE_WIDTH, SCENE_HEIGHT);
         welcomeLag = load("/WelcomeGUI.fxml", "WelcomeController", 350, 500);

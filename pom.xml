@@ -155,6 +155,12 @@
 			<version>2.11.0</version>
 		</dependency>
 
+		<!-- SwingFX utils -->
+		<dependency>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-swing</artifactId>
+			<version>17.0.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
