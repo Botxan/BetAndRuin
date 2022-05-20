@@ -144,7 +144,7 @@ public class ProfileController implements Controller {
     private void initializeAvatar() {
         // Load user's avatar
         //Image avatarImg = new Image("file:src/main/resources/img/avatar/" + businessLogic.getCurrentUser().getAvatar());
-        Image avatarImg = new Image(System.getProperty("user.home") + "/config/avatar/" + businessLogic.getCurrentUser().getAvatar());
+        Image avatarImg = new Image("file://" + System.getProperty("user.home") + "/config/avatar/" + businessLogic.getCurrentUser().getAvatar());
         avatar.setImage(avatarImg);
 
         Circle avatarClip = new Circle(avatar.getFitWidth()/2, avatar.getFitHeight()/2, avatar.getFitWidth()/2);
